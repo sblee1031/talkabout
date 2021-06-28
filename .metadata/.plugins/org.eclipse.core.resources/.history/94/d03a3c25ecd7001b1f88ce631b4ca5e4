@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="ta_front">
+        <property name="context-root" value="ta_front"/>
+        <property name="java-output-path" value="/ta_front/build/classes"/>
+    </wb-module>
+</project-modules>
