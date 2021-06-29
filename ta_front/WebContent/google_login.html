@@ -41,6 +41,7 @@
       //처음 실행하는 함수
       function init() {
         gapi.load('auth2', function () {
+        $('div.signup').hide();
           gapi.auth2.init();
           options = new gapi.auth2.SigninOptionsBuilder();
           options.setPrompt('select_account');
@@ -64,8 +65,7 @@
       function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
         console.log(profile);
-        console.log(profile.Nt);
-        
+        if(profile.LS != null){
         var url = '../ta_back/login';
         //서버로 AJAX 요청, 응답
 		 $.ajax({
@@ -77,12 +77,15 @@
           	},
           success: function (responseData) {
             console.log(responseData);
+            $('div.signup').show();
           },
           error: function (xhr) {
             alert(xhr.status);
           }
         });
-        
+        }else{
+        	alert('소셜 로그인 정보가 없습니다.');
+        }
         /* console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
         console.log('Name: ' + profile.getName());
         console.log('Given Name: ' + profile.getGivenName());
@@ -113,6 +116,7 @@
       async
       defer
     ></script>
+>
     <hr />
     <h4>구글로그인 정보</h4>
     <div class="google_info"></div>
@@ -124,9 +128,7 @@
       <a id="kakao-login-btn"></a>
       <button class="api-btn" onclick="unlinkApp()">앱 탈퇴하기</button>
     </div>
-    <h4>카카오 로그인 정보</h4>
-    <div id="result" style="width: 100%; overflow: visible"></div>
-    <script type="text/javascript">
+         <script type="text/javascript">
       function unlinkApp() {
         Kakao.API.request({
           url: '/v1/user/unlink',
@@ -147,11 +149,15 @@
       Kakao.Auth.createLoginButton({
         container: '#kakao-login-btn',
         success: function (authObj) {
+        	$('div.signup').show();
           Kakao.API.request({
             url: '/v2/user/me',
             success: function (result) {
-              $('#result').append(result);
+             // $('#result').append(result);
               console.log('result : ' + JSON.stringify(result));
+              
+              $('#email').val(result.kakao_account.email);
+              $('#sex').val(result.kakao_account.gender);
               
               var url = '../ta_back/login';
               //서버로 AJAX 요청, 응답
@@ -228,5 +234,18 @@
         },
       });
     </script>
+    <h4>카카오 로그인 정보</h4>
+    <div id="result" style="width: 100%; overflow: visible"></div>
+   
+   	<div class="signup">
+   	<ol>
+   	<li><label>이메일<input type="text" id ="email"></label></li>
+   	<li><label>닉네임<input type="text" id ="nickname"></label></li>
+   	<li><label>생년월일<input type="text" id ="birthday"></label></li>
+   	<li><label>성별<input type="text" id ="sex"></label></li>
+   	<li><button type="submit">회원 가입</button></li>
+   	</ol>
+   	</div>
+    
   </body>
 </html>
