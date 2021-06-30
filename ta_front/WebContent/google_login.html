@@ -66,6 +66,9 @@
         var profile = googleUser.getBasicProfile();
         console.log(profile);
         if(profile.LS != null){
+        	$('div.signup').show();
+        	 $('#email').val(profile.Nt);
+             //$('#sex').val(result.kakao_account.gender);
         var url = '../ta_back/login';
         //서버로 AJAX 요청, 응답
 		 $.ajax({
@@ -77,7 +80,8 @@
           	},
           success: function (responseData) {
             console.log(responseData);
-            $('div.signup').show();
+            
+            
           },
           error: function (xhr) {
             alert(xhr.status);
