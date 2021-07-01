@@ -1,22 +1,24 @@
 package com.talkabout.dto;
 
+import java.util.Date;
+
 public class battle_result {
-private String member_no;
+private int member_no;
 private String deb_like;
-private String deb_no;
+private int deb_no;
 private String com_writer;
 private String com_contents;
-private String discuss_time;
-private String discuss_start_date;
+private int discuss_time;
+private Date discuss_start_date;
 private String discuss_topic;
 public battle_result() {
 	super();
 	// TODO Auto-generated constructor stub
 }
-public String getMember_no() {
+public int getMember_no() {
 	return member_no;
 }
-public void setMember_no(String member_no) {
+public void setMember_no(int member_no) {
 	this.member_no = member_no;
 }
 public String getDeb_like() {
@@ -25,10 +27,10 @@ public String getDeb_like() {
 public void setDeb_like(String deb_like) {
 	this.deb_like = deb_like;
 }
-public String getDeb_no() {
+public int getDeb_no() {
 	return deb_no;
 }
-public void setDeb_no(String deb_no) {
+public void setDeb_no(int deb_no) {
 	this.deb_no = deb_no;
 }
 public String getCom_writer() {
@@ -43,16 +45,16 @@ public String getCom_contents() {
 public void setCom_contents(String com_contents) {
 	this.com_contents = com_contents;
 }
-public String getDiscuss_time() {
+public int getDiscuss_time() {
 	return discuss_time;
 }
-public void setDiscuss_time(String discuss_time) {
+public void setDiscuss_time(int discuss_time) {
 	this.discuss_time = discuss_time;
 }
-public String getDiscuss_start_date() {
+public Date getDiscuss_start_date() {
 	return discuss_start_date;
 }
-public void setDiscuss_start_date(String discuss_start_date) {
+public void setDiscuss_start_date(Date discuss_start_date) {
 	this.discuss_start_date = discuss_start_date;
 }
 public String getDiscuss_topic() {
@@ -61,8 +63,8 @@ public String getDiscuss_topic() {
 public void setDiscuss_topic(String discuss_topic) {
 	this.discuss_topic = discuss_topic;
 }
-public battle_result(String member_no, String deb_like, String deb_no, String com_writer, String com_contents,
-		String discuss_time, String discuss_start_date, String discuss_topic) {
+public battle_result(int member_no, String deb_like, int deb_no, String com_writer, String com_contents,
+		int discuss_time, Date discuss_start_date, String discuss_topic) {
 	super();
 	this.member_no = member_no;
 	this.deb_like = deb_like;
@@ -73,7 +75,7 @@ public battle_result(String member_no, String deb_like, String deb_no, String co
 	this.discuss_start_date = discuss_start_date;
 	this.discuss_topic = discuss_topic;
 }
-public battle_result(String member_no, String discuss_time, String discuss_start_date, String discuss_topic) {
+public battle_result(int member_no, int discuss_time, Date discuss_start_date, String discuss_topic) {
 	super();
 	this.member_no = member_no;
 	this.discuss_time = discuss_time;
