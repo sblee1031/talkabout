@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package com.day.dto;
+=======
+package com.talkabout.dto;
+>>>>>>> 5500205aa2729dc897e6f159d29008d88730535e
 
 public class BoardLike {
 	private Board boardlike_no; //자유게시판 좋아요(게시글 번호 참조)
