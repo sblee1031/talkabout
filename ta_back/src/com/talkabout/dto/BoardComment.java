@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package com.day.dto;
+=======
+package com.talkabout.dto;
+>>>>>>> 5500205aa2729dc897e6f159d29008d88730535e
 
 import java.util.Date;
 
