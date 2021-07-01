@@ -63,7 +63,7 @@ public class LoginDAOOracle implements LoginDAO{
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				//행의 컬럼값 얻기
-				int member_no = rs.getInt("member_no");
+				String member_no = rs.getString("member_no");
 				String member_nickName = rs.getString("member_nickName");
 				String member_gender = rs.getString("member_gender");
 				String member_email = rs.getString("member_email");
