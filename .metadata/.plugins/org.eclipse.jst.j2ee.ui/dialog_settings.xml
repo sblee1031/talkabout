@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<list key="J2EE_IMPORT_null">
+		<item value="C:\Users\bfr2r\OneDrive\문서\카카오톡 받은 파일\ta_front.war"/>
+		<item value="C:\Users\bfr2r\OneDrive\문서\카카오톡 받은 파일\ta_back.war"/>
+	</list>
 	<list key="MRU_RUNTIME_STORE">
 		<item value="NULL_RUNTIME"/>
 	</list>
