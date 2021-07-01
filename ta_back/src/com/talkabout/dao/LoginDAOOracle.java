@@ -11,7 +11,7 @@ import com.talkabout.sql.MyConnection;
 
 public class LoginDAOOracle implements LoginDAO{
 
-	
+	//커밋 
 	public LoginDAOOracle() throws Exception {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		System.out.println("JDBC 드라이버 로드 성공");
