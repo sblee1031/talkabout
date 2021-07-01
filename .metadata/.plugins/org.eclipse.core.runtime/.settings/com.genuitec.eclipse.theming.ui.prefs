@@ -3,7 +3,12 @@ approved.defs.file.last.changed.time=1624986146000
 configurationInstallLocation=/C\:/TK/utility/eclipse/
 eclipse.preferences.version=1
 iconcolormode=primary
+<<<<<<< HEAD
 last.download.attempt.time=1625106475715
 lastConfiguration=1625106468419
+=======
+last.download.attempt.time=1625071210217
+lastConfiguration=1625071203306
+>>>>>>> master
 newinstall=true
 workbench.theme=Dark Gray
