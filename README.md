@@ -5,8 +5,10 @@
 [링크](https://www.erdcloud.com/d/YYWimyRYK7asSbXMN)  
 
 ## 210702
-### 1. NoticeComment DTO(com\talkabout\dto\NoticeComment.java) 수정
+### 1. NoticeComment DTO 수정
 ```java
+// com\talkabout\dto\NoticeComment.java
+
 // 수정 전
 private Board com_board; // com_board.board_no
 
