@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import com.talkabout.dao.MemberDAO;
 import com.talkabout.dto.Member;
+import com.talkabout.exception.FindException;
 
 public class MemberService {
 	private MemberDAO dao;
@@ -13,9 +14,8 @@ public class MemberService {
 	private MemberService() {
 		Properties env = new Properties();
 		try {
-			//env.load(new FileInputStream("classes.prop"));
 			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("loginDAO");
+			String className = env.getProperty("memberDAO");
 			Class c = Class.forName(className);
 			dao = (MemberDAO)c.newInstance();
 		} catch (Exception e) {
@@ -28,8 +28,15 @@ public class MemberService {
 		}
 		return service;
 	}
-	public void signUp(Member l) {
-		dao.signUp(l);
+	
+	public void signUp(Member m) {
+		dao.createMember(m);
 	}
+	public Member memberCheck(String social_no) throws FindException {
+		return dao.selectByNo(social_no);
+		
+	}
+	
+
 
 }

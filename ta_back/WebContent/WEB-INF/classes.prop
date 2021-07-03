@@ -1,2 +1,2 @@
 #classes.prop
-loginDAO=com.talkabout.dao.LoginDAOOracle
+memberDAO=com.talkabout.dao.MemberDAOOracle

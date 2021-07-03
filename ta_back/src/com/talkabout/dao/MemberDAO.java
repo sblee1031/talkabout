@@ -9,18 +9,21 @@ public interface MemberDAO {
 	 * @param Member 
 	 * @throws AddException
 	 */
-	void signUp(Member c) ;
+	void createMember(Member m) ;
 	/**
 	 * 
 	 * @param id
 	 * @return
 	 * @throws FindException
 	 */
-	Member selectById(int member_no) throws FindException;
+	Member selectByNo(String social_no) throws FindException;
 	/**
 	 * 
 	 * @param c
 	 * @throws ModifyException
 	 */
-	void update(Member c) ;
+	void updateMember(Member m) ;
+	
+	void deleteMember(Member no);
+	
 }
