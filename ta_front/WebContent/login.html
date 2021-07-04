@@ -9,28 +9,6 @@
     />
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  </head>
-  <body>
-    <div id="memberinfo" style="text-align: center; display: none">
-      <h1>
-        <p id="member_nickname"></p>
-      </h1>
-      <button class="logout" type="button">로그아웃</button>
-    </div>
-    <hr />
-    <div style="text: center; margin-block: inherit">
-      <li id="GgCustomLogin" style="list-style-type:none;">
-        <a href="javascript:void(0)">
-          <div id="my-signin2"></div>
-          <!-- <span>Login with GooglWe</span> -->
-        </a>
-        </li>
-        <br>
-        <a id="kakao-login-btn"></a>
-        <!-- <button class="api-btn" onclick="unlinkApp()">앱 탈퇴하기</button> -->
-      
-      <br />
-    </div>
     <script>
       function renderButton() {
         gapi.signin2.render("my-signin2", {
@@ -42,7 +20,6 @@
         });
       }
     </script>
-
     <script
       src="https://apis.google.com/js/platform.js?onload=renderButton"
       async
@@ -50,6 +27,63 @@
     ></script>
     <script>
       //처음 실행하는 함수
+      function logined(responseData) {
+        //console.log(responseData);
+       $("div.signup").hide();
+        $("#memberinfo").show();
+        $("#login_thumb_img").attr("src", responseData.member.member_thumb);
+        $("#member_nickname").html(
+          responseData.member.member_nickName + " 님 반갑습니다."
+        );
+        $("#social").hide();
+        //location.href = "./login.html";
+        $("#memberinfo").on("click", "a.myinfo", function () {
+          var data = responseData.member;
+          console.log(data);
+          $("#myinfodiv").show();
+          $("#myemail").text(data.member_email);
+          $("#mynickname").val(data.member_nickName);
+          $("#mysocial_type").text(data.member_social_type);
+          $("#mybirthday").val(data.member_birth);
+          $("#mygender").text(data.member_gender);
+          //$("#mysocial_no").val(data.member);
+          //$("#thumb").val(profile.DJ);
+          $("#mythumb_img").attr("src", data.member_thumb);
+        });
+      }
+      function myinfo() {
+        $("#myinfodiv").show();
+        var url = "../ta_back/login";
+        $.ajax({
+          url: url,
+          method: "post",
+          data: data,
+          //dataType: "json",
+          success: function (responseData) {
+            console.log(responseData);
+            $("div.signup").hide();
+            $("#memberinfo").hide();
+            $("#social").show();
+          },
+        });
+      }
+      $("body").on("click", "button.logout", function () {
+        console.log("로그아웃");
+        $("#myinfodiv").hide();
+        var data;
+        var url = "../ta_back/logout";
+        $.ajax({
+          url: url,
+          method: "post",
+          data: data,
+          //dataType: "json",
+          success: function (responseData) {
+            $("div.signup").hide();
+            $("#memberinfo").hide();
+            $("#social").show();
+          },
+        });
+      });
       function init() {
         gapi.load("auth2", function () {
           //$('div.signup').hide();
@@ -100,12 +134,7 @@
               $("#thumb").val(profile.DJ);
               $("#thumb_img").attr("src", profile.DJ);
             } else if (responseData.usercheck == "member") {
-              //console.log(responseData.member.member_nickName);
-              $("#memberinfo").show();
-              $("#member_nickname").text(
-                responseData.member.member_nickName + " 님 반갑습니다."
-              );
-              //location.href = "./login.html";
+              logined(responseData);
             }
           },
           error: function (xhr) {
@@ -117,14 +146,185 @@
         console.log(t);
       }
     </script>
-
-    <script
+  	    <script
       src="https://apis.google.com/js/platform.js?onload=init"
       async
       defer
     ></script>
 
-    <script type="text/javascript">
+
+  </head>
+  <body>
+         
+  
+      <!-- 소셜계정 선택 시작 -->
+    <div id="social" style="text: center; margin-block: inherit">
+      <li id="GgCustomLogin" style="list-style-type: none">
+        <a href="javascript:void(0)">
+          <p id="my-signin2"></p>
+          <!-- <span>Login with GooglWe</span> -->
+        </a>
+      </li>
+      <br />
+      <a id="kakao-login-btn"></a>
+      <!-- <button class="api-btn" onclick="unlinkApp()">앱 탈퇴하기</button> -->
+      <br />
+    </div>
+    
+        <!-- 소셜계정 선택 끝 -->
+         <!-- 로고인 완료 화면 시작 -->
+    <div id="memberinfo" style="text-align: center; display: none">
+      <ul>
+        <li style="list-style-type: none">
+          <img
+            style="width: 30px"
+            id="login_thumb_img"
+            src=""
+            alt="mythumbnail"
+          />
+          <span id="member_nickname" style="font-size: 20pt"></span>
+        </li>
+      </ul>
+      <a class="myinfo" href="#">마이페이지</a>
+      <button class="logout" type="button">로그아웃</button>
+          <hr />
+    </div>
+
+    <!-- 로고인 완료 화면 끝 -->
+    <!-- 마이페이지 끝 -->
+    <div id="myinfodiv">
+      <h1>마이페이지</h1>
+     <!-- <form> --> 
+      <ul>
+        <li>
+          <label
+            >소셜 타입 : <a
+              type="text"
+              id="mysocial_type"
+             
+              
+          ></a></label>
+        </li>
+        <li>
+          <label
+            >이메일 : <a type="text" id="myemail" name="myemail" readonly
+          ></a></label>
+        </li>
+        <li>
+          <label
+            >닉네임 : <input
+              type="text"
+              id="mynickname"
+              name="mynickname"
+              required
+         / ></label>
+        </li>
+        <li>
+          <label
+            >출생년월 : <input
+              type="month"
+              id="mybirthday"
+              name="mybirthday"
+              max="9999-12"
+              readonly
+          /></label>
+        </li>
+        <li>
+          성별 : <label
+            ><a
+              type="radio"
+              id="mygender"
+              name="mygender"
+              value=""
+              checked /></a></label
+          >
+        </li>
+        <li>
+          썸네일 이미지
+          <input
+            type="text"
+            id="mythumb"
+            name="mythumb"
+            alt="mythumbname"
+            hidden
+          /><br />
+          <img style="width: 300px" id="mythumb_img" src="" />
+        </li>
+          <button class="update" type="submit">정보변경</button
+          ><button class="leave" type="submit">탈퇴하기</button>
+      </ul>
+      <!-- </form> --> 
+    </div>
+    <!-- 마이페이지 끝 -->
+
+    <!-- 회원가입 화면 시작 -->
+    <div class="signup" style="display: none">
+      <form
+        id="signupfrom"
+        name="signupfrom"
+        method="post"
+        action="../ta_back/signup"
+      >
+        <ol>
+          <li>
+            <label
+              >소셜 타입<input
+                type="text"
+                id="social_type"
+                name="social_type"
+                readonly
+            /></label>
+            <input type="text" id="social_no" name="social_no" hidden />
+          </li>
+          <li>
+            <label
+              >이메일<input type="text" id="email" name="email" readonly
+            /></label>
+          </li>
+          <li>
+            <label
+              >닉네임<input
+                type="text"
+                id="nickname"
+                name="nickname"
+                required
+            /></label>
+          </li>
+          <li>
+            <label
+              >생년월일<input
+                type="month"
+                id="birthday"
+                name="birthday"
+                required
+            /></label>
+          </li>
+          <li>
+            성별<label
+              ><input
+                type="radio"
+                name="gender"
+                value="남자"
+                checked
+              />남자</label
+            ><label
+              ><input type="radio" name="gender" value="여자" />여자</label
+            >
+          </li>
+          <li>
+            썸네일 이미지
+            <input type="text" id="thumb" name="thumb" hidden /><br />
+            <img style="width: 300px" id="thumb_img" src="" alt="thumbnail" />
+          </li>
+          <li><button class="sign" type="submit">회원 가입</button></li>
+        </ol>
+      </form>
+    </div>
+    <!-- 회원가입 화면 끝 -->
+    
+    
+
+ <script type="text/javascript">
       function unlinkApp() {
         Kakao.API.request({
           url: "/v1/user/unlink",
@@ -137,26 +337,16 @@
         });
       }
     </script>
-    <script type="text/javascript">
+      <script type="text/javascript">
       Kakao.init("cef4a19442da922d3333aab48432a47a");
       console.log("카카오 클라이언트 연결 : " + Kakao.isInitialized());
+/*       var kakaobtn = document.querySelector("a.kakao");
+      console.log("btn "+kakaobtn);
+      $(document).on("load","#kakao-login-btn",function(){
+          console.log("온함수 ");
+      }); */
       $("div.signup").hide();
-
-      $("body").on("click", "button.logout", function () {
-        console.log("로그아웃");
-        var data;
-        var url = "../ta_back/logout";
-        $.ajax({
-          url: url,
-          method: "post",
-          data: data,
-          //dataType: "json",
-          success: function (responseData) {
-            $("div.signup").hide();
-            $("#memberinfo").hide();
-          },
-        });
-      });
+      $("#myinfodiv").hide();
 
       $("body").on("click", "button.sign", function () {
         //폼 태그 전송 ajax
@@ -172,6 +362,7 @@
           nickname == null ||
           nickname.val() == ""
         ) {
+        	alert('')
           //console.log("빈값있음");
         } else if (
           typeof birthday == "undefined" ||
@@ -187,20 +378,9 @@
             success: function (responseData) {
               //console.log(responseData);
               if (responseData.usercheck == "non_member") {
-                // console.log(responseData.usercheck);
-                // $("div.signup").show();
-                // $("#email").val(profile.Nt);
-                // $("#social_type").val("구글");
-                // $("#social_no").val(profile.LS);
-                // $("#thumb").val(profile.DJ);
-                // $("#thumb_img").attr("src", profile.DJ);
+          			alert('잘못된 접근입니다.');
               } else if (responseData.usercheck == "member") {
-                //console.log(responseData.member.member_nickName);
-                $("#memberinfo").show();
-                $("div.signup").hide();
-                $("#member_nickname").text(
-                  responseData.member.member_nickName + " 님 반갑습니다."
-                );
+                logined(responseData);
               }
             },
             error: function (xhr) {
@@ -209,7 +389,7 @@
           });
         return false;
       });
-
+      
       Kakao.Auth.createLoginButton({
         container: "#kakao-login-btn",
         success: function (authObj) {
@@ -244,11 +424,7 @@
                       result.kakao_account.profile.profile_image_url
                     );
                   } else if (responseData.usercheck == "member") {
-                    $("#memberinfo").show();
-                    $("#member_nickname").text(
-                      responseData.member.member_nickName + " 님 반갑습니다."
-                    );
-                    //location.href = "./index.html";
+                    logined(responseData);
                   }
                 },
                 error: function (xhr) {
@@ -269,68 +445,8 @@
         },
       });
     </script>
+    
 
-    <div class="signup" style="display: none">
-      <form
-        id="signupfrom"
-        name="signupfrom"
-        method="post"
-        action="../ta_back/signup"
-      >
-        <ol>
-          <li>
-            <label
-              >소셜 타입<input
-                type="text"
-                id="social_type"
-                name="social_type"
-                readonly
-            /></label>
-            <input type="text" id="social_no" name="social_no" hidden />
-          </li>
-          <li>
-            <label
-              >이메일<input type="text" id="email" name="email" readonly
-            /></label>
-          </li>
-          <li>
-            <label
-              >닉네임<input
-                type="text"
-                id="nickname"
-                name="nickname"
-                required="required"
-            /></label>
-          </li>
-          <li>
-            <label
-              >생년월일<input
-                type="text"
-                id="birthday"
-                name="birthday"
-                required="required"
-            /></label>
-          </li>
-          <li>
-            성별<label
-              ><input
-                type="radio"
-                name="gender"
-                value="남자"
-                checked
-              />남자</label
-            ><label
-              ><input type="radio" name="gender" value="여자" />여자</label
-            >
-          </li>
-          <li>
-            썸네일 이미지
-            <input type="text" id="thumb" name="thumb" hidden /><br />
-            <img style="width: 300px" id="thumb_img" src="" />
-          </li>
-          <li><button class="sign" type="submit">회원 가입</button></li>
-        </ol>
-      </form>
-    </div>
+
   </body>
 </html>
