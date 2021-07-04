@@ -16,3 +16,6 @@ private Board com_board; // com_board.board_no
 private Notice com_notice; // com_notice.notice_no
 ```
 ### 2. ERD 수정
+
+## 210704
+### 1. DAO 구현
