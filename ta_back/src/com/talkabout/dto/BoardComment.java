@@ -18,6 +18,10 @@ public class BoardComment {
 	private int com_mem; // com_mem.member_no
 	private int com_board; // com_board.board_no
 	
+	public BoardComment() {
+		super();
+	}	
+	
 	public BoardComment(int com_no, int com_board, Date com_date, String com_contents, int com_mem) {
 		super();
 		this.com_no = com_no;

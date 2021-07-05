@@ -27,6 +27,13 @@ public interface BoardCommentDAO {
 	public List<BoardComment> selectAll() throws FindException;
 	
 	/**
+	 * 내 댓글 수정시 사용
+	 * @param com_no
+	 * @return
+	 * @throws FindException
+	 */
+	public BoardComment selectByComNo (int com_no) throws FindException;
+	/**
 	 * 댓글 작성
 	 * @param BC
 	 * @throws AddException
