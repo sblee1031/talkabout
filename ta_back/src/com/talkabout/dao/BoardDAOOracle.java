@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.talkabout.dto.Board;
 import com.talkabout.dto.BoardLike;
+import com.talkabout.dto.Member;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.DeleteException;
 import com.talkabout.exception.FindException;
@@ -364,7 +365,19 @@ public class BoardDAOOracle implements BoardDAO{
 //			e.printStackTrace();
 //		}
 //		System.out.println(b.getBoard_type());
-		dao.deleteByBoardNo(3);
+//		dao.deleteByBoardNo(3);
+		
+		//-------
+		Board board =  dao.selectByBoardNo(1);
+		System.out.println(board.getBoard_mem());
+		System.out.println(board.getBoard_title());
+		System.out.println(board.getBoard_contents());
+		System.out.println("board_mem : "+board.getBoard_mem());
+		System.out.println("===================");
+		MemberDAOOracle memberdao = new MemberDAOOracle();
+		Member member = memberdao.selectById(board.getBoard_mem());
+		System.out.println("작성자 닉 : " +member.getMember_nickName());
+		System.out.println("작성자 메일 : " +member.getMember_email());
 	}
 	
 }
