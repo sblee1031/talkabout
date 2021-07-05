@@ -66,7 +66,6 @@ public class MemberDAOOracle implements MemberDAO{
 			pstmt = con.prepareStatement(selectById);
 			pstmt.setInt(1, no);
 			rs = pstmt.executeQuery();
-			
 			while(rs.next()) {
 				//행의 컬럼값 얻기
 				int member_no = rs.getInt("member_no");

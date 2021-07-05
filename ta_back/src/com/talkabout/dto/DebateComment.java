@@ -13,12 +13,12 @@ public class DebateComment {
 	 * com_mem : 회원번호 (FK, Member 테이블 참조) 
 	 */
 	private int com_no;
-	private Debate com_deb; // com_deb.debate_no
+	private int com_deb; // com_deb.debate_no
 	private String com_contents;
 	private Date com_date;
-	private Member com_mem; // com_mem.member_no
+	private int com_mem; // com_mem.member_no
 	
-	public DebateComment(int com_no, Debate com_deb, String com_contents, Date com_date, Member com_mem) {
+	public DebateComment(int com_no, int com_deb, String com_contents, Date com_date, int com_mem) {
 		super();
 		this.com_no = com_no;
 		this.com_deb = com_deb;
@@ -35,11 +35,11 @@ public class DebateComment {
 		this.com_no = com_no;
 	}
 
-	public Debate getCom_deb() {
+	public int getCom_deb() {
 		return com_deb;
 	}
 
-	public void setCom_deb(Debate com_deb) {
+	public void setCom_deb(int com_deb) {
 		this.com_deb = com_deb;
 	}
 
@@ -59,11 +59,11 @@ public class DebateComment {
 		this.com_date = com_date;
 	}
 
-	public Member getCom_mem() {
+	public int getCom_mem() {
 		return com_mem;
 	}
 
-	public void setCom_mem(Member com_mem) {
+	public void setCom_mem(int com_mem) {
 		this.com_mem = com_mem;
 	}
 	

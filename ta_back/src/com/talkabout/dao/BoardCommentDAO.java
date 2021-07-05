@@ -17,7 +17,7 @@ public interface BoardCommentDAO {
 	 * @return List<BoardComment> 
 	 * @throws FindException
 	 */
-	public List<BoardComment> myBoardComSearch(int Board_no, int com_mem) throws FindException;
+	public List<BoardComment> myBoardComSearch(int com_board, int com_mem) throws FindException;
 	
 	/**
 	 * 댓글 리스트 보기
