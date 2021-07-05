@@ -19,3 +19,8 @@ private Notice com_notice; // com_notice.notice_no
 
 ## 210704
 ### 1. DAO 구현
+
+## 210705
+### 1. MemberDTO member_able 변수 추가(탈퇴확인 변수)
+- 1 : 활동회원(Default)
+- 2 : 탈퇴회원
