@@ -161,6 +161,35 @@ public class BoardDAOOracle implements BoardDAO{
 		}
 	}
 
+//	@Override
+//	public void insert(Board b) throws AddException {
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//
+//		try {
+//			con = MyConnection.getConnection();
+//		} catch (SQLException e) {
+//			throw new AddException(e.getMessage());
+//			//DB연결에 문제발생시 예외처리
+//		}
+//		String InsertSQL = "INSERT INTO BOARD VALUES (BOARD_SEQ.NEXTVAL, ?, ?, ?, sysdate, ?, ?)";
+//		
+//		try {
+//			pstmt = con.prepareStatement(InsertSQL);
+//			pstmt.setString(1, b.getBoard_type());
+//			pstmt.setString(2, b.getBoard_title());
+//			pstmt.setString(3, b.getBoard_contents());
+//			pstmt.setInt(4, b.getBoard_views());
+//			pstmt.setInt(5, b.getBoard_mem());
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			//DB연결 해제
+//			MyConnection.close(con, pstmt, null);
+//			
+//		}
+//	}
+	
 	@Override
 	public void insert(Board binfo) throws AddException {
 		Connection con = null;
@@ -185,27 +214,23 @@ public class BoardDAOOracle implements BoardDAO{
 			MyConnection.close(con, null, null);
 		}
 	} 
-	/**
-	 * 게시글 작성
-	 * @param con DB연결객체
-	 * @param binfo 게시글 정보
-	 * @throws AddException
-	 */
+	
 	private void insertInfo(Connection con, Board binfo) throws AddException{
 		//SQL송신
 		PreparedStatement pstmt = null;
-		String insertInfoSQL = "INSERT INTO BOARD (BOARD_SEQ_NEXTVAL, board_type, board_title, board_contents, board_date, board_mem) VALUES(5, ?, ?, ?, sysdate, 1)";
+		String insertInfoSQL = "INSERT INTO BOARD VALUES(BOARD_SEQ.NEXTVAL, ?, ?, ?, sysdate, ?, ?)";
 		try {
 			pstmt = con.prepareStatement(insertInfoSQL);
-//			pstmt.setInt(1, binfo.getBoard_no());
+			pstmt.setInt(1, binfo.getBoard_no());
 			pstmt.setString(1, binfo.getBoard_type());
 			pstmt.setString(2, binfo.getBoard_title());
 			pstmt.setString(3, binfo.getBoard_contents());
-//			pstmt.setInt(4, x);
+			pstmt.setInt(4, binfo.getBoard_views());
+			pstmt.setInt(5, binfo.getBoard_mem());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new AddException("주문기본추가실패:" + e.getMessage());
+			throw new AddException("게시글추가 실패:" + e.getMessage());
 		}finally {
 			MyConnection.close(null, pstmt, null);
 		}	
@@ -310,21 +335,13 @@ public class BoardDAOOracle implements BoardDAO{
 		}
 	}
 
-	@Override
-	public void insert(BoardLike BL) throws AddException {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void deleteByBlNo(int BoardLike_no) throws DeleteException {
-		// TODO Auto-generated method stub
-		
-	}
 	
 
 	public static void main(String[] args) throws Exception {
 		BoardDAOOracle dao = new BoardDAOOracle();
+
+		//게시글 리스트
 //		List<Board> list = new ArrayList<>();
 //		try {
 //			list = dao.selectAll();
@@ -340,11 +357,14 @@ public class BoardDAOOracle implements BoardDAO{
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+		
+		//게시글 검색
 //		String type = "board_title";
 //		String contents = "궁시렁";
+//		String type = "board_type";
+//		String contents = "스포츠";
 //		List<Board> list = new ArrayList<>();
 //		list = dao.boardSearch(type, contents);
-//		
 //		for (Board board : list) {
 //			System.out.print(board.getBoard_no() + " ");
 //			System.out.print(board.getBoard_type()+ " ");
@@ -353,7 +373,24 @@ public class BoardDAOOracle implements BoardDAO{
 //			System.out.print(board.getBoard_contents() + "//	");
 //			
 //		}
-	
+		
+		//게시글 상세
+//		Board board = dao.selectByBoardNo(2);
+//		System.out.println(board.getBoard_no() + " ");
+//		System.out.println(board.getBoard_type() + " ");
+//		System.out.println(board.getBoard_title()+ " ");
+//		System.out.println(board.getBoard_date() + " ");
+//		System.out.println(board.getBoard_contents() + " ");
+		
+		
+		//insert
+		Board b = new Board();
+		b.setBoard_type("코딩");
+		b.setBoard_title("웹사이트");
+		b.setBoard_contents("프론트는 언제 만드냐?");
+		b.setBoard_views(100);
+		b.setBoard_mem(3);
+		dao.insert(b);
 //		Board board =  dao.selectByBoardNo(1);
 //		System.out.println(board.getBoard_mem());
 //		System.out.println(board.getBoard_title());
@@ -365,12 +402,12 @@ public class BoardDAOOracle implements BoardDAO{
 //		System.out.println("작성자 닉 : " +member.getMember_nickName());
 //		System.out.println("작성자 메일 : " +member.getMember_email());
 		//dao.deleteByBoardNo(4);
-		Board board = new Board();
-		board.setBoard_no(4);
-		board.setBoard_type("바뀐타입 ");
-		board.setBoard_title("바뀐타이틀");
-		board.setBoard_contents("바뀐내용");
-		dao.update(board);
+//		Board board = new Board();
+//		board.setBoard_no(4);
+//		board.setBoard_type("바뀐타입 ");
+//		board.setBoard_title("바뀐타이틀");
+//		board.setBoard_contents("바뀐내용");
+//		dao.update(board);
 	}
 	
 }

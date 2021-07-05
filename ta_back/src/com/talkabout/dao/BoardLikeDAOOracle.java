@@ -18,39 +18,60 @@ public class BoardLikeDAOOracle implements BoardLikeDAO{
 	}
 
 	@Override
-	public int insertLike(int boardLike_no, int boardLike_board, int boardLike_mem) throws AddException {
+	public void insert (BoardLike BL) throws AddException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		try {
 			con = MyConnection.getConnection();
-			con.setAutoCommit(false);//자동커밋 해제
 		}catch(SQLException e) {
-			e.printStackTrace();
 			throw new AddException(e.getMessage());
 			//DB연결에 문제발생시 예외처리
 		}
-		String insertSQL = "INSERT INTO BOARDLIKE VALUES (?,?,?)";
+		String insertSQL = "INSERT INTO BOARDLIKE VALUES (BL_SEQ.NEXTVAL,?,?)";
 		
 		try {
 			pstmt = con.prepareStatement(insertSQL);
-			pstmt.setInt(1, boardLike_no);
-			pstmt.setInt(2, boardLike_board);
-			pstmt.setInt(3, boardLike_mem);
-			return pstmt.executeUpdate();
+			pstmt.setInt(1, BL.getboardLike_board());
+			pstmt.setInt(2, BL.getboardLike_mem());
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-				MyConnection.close(con, pstmt, rs);
+				MyConnection.close(con, pstmt, null);
 		}
-		return -1;
 		
 	}
 
 	@Override
 	public void deleteByBoardLikeNo(int boardlike_no) throws DeleteException {
-		// TODO Auto-generated method stub
+		//DB연결
+		Connection con = null;
+		try {
+			con=MyConnection.getConnection();
+		} catch (SQLException e) {
+			throw new DeleteException(e.getMessage());
+			//DB연결에 문제발생시 예외처리
+		}
+		PreparedStatement pstmt = null;
+		String deleteSQL = "DELETE BOARDLIKE WHERE boardlike_no = ?";
+		try {
+			pstmt= con.prepareStatement(deleteSQL);
+			pstmt.setInt(1, boardlike_no);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, null);
+		}
+	}
+	public static void main(String[] args) throws Exception {
+		BoardLikeDAOOracle dao = new BoardLikeDAOOracle();
+//		dao.deleteByBoardLikeNo(5);
 		
+		//insert
+		BoardLike bl = new BoardLike();
+		bl.setboardLike_board(1);
+		bl.setboardLike_mem(3);
+		dao.insert(bl);
 	}
 }

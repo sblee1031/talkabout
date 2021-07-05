@@ -14,9 +14,12 @@ public class BoardLike {
 	private int boardLike_board; // boardLike_board.board_no
 	private int boardLike_mem; // boardLike_mem.member_no 
 	
-	public BoardLike(int boardLike_no, int boardLike_board, int boardLike_mem) {
+	public BoardLike() {
 		super();
-		this.boardLike_no = boardLike_no;
+	}
+	public BoardLike( int boardLike_board, int boardLike_mem) {
+		super();
+		
 		this.boardLike_board = boardLike_board;
 		this.boardLike_mem = boardLike_mem;
 	}

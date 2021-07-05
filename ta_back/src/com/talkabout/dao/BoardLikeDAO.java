@@ -11,7 +11,7 @@ public interface BoardLikeDAO {
 	 * @param blike
 	 * @throws AddException
 	 */
-	int insertLike (int boardLike_no, int boardLike_board, int boardLike_mem) throws AddException;
+	void insert (BoardLike BL) throws AddException;
 	
 	/**
 	 * 좋아요 삭제

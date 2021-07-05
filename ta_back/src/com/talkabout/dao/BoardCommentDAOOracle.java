@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.tomcat.dbcp.dbcp2.SQLExceptionList;
+
 import com.talkabout.dto.Board;
 import com.talkabout.dto.BoardComment;
 import com.talkabout.exception.AddException;
@@ -158,103 +160,126 @@ public class BoardCommentDAOOracle implements BoardCommentDAO{
 	}
 
 	@Override
-	public void insert(BoardComment bc) throws AddException {
+	public void insert(BoardComment bcinfo) throws AddException {
 		Connection con = null;
 		try {
-		con = MyConnection.getConnection();
+			con = MyConnection.getConnection();
+			con.setAutoCommit(false); //자동커밋
 		}catch(SQLException e) {
+			e.printStackTrace();
 			throw new AddException(e.getMessage());
 			//DB연결에 문제발생시 예외처리
 		}
-		String InsertSQL = "INSERT INTO boardcomment VALUES (BC_SEQ.NEXTVAL, com_board =>?, sysdate, ?, com_mem=>?)";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		try {
-			pstmt = con.prepareStatement(InsertSQL);
-			
-			pstmt.setString(1, bc.getCom_contents());
-//			pstmt.setInt(2, bc.getCom_mem());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
+			insertInfo(con, bcinfo);
+			con.commit(); //커밋
+		} catch (Exception e) {
+			try {
+				con.rollback(); //롤백
+			} catch (SQLException e1) {
+			} 
+			throw new AddException(e.getMessage());
+		}finally {
 			//DB연결 해제
-			MyConnection.close(con, pstmt, rs);
+			MyConnection.close(con, null, null);
 		}
-		
 	}
+	
+	private void insertInfo(Connection con, BoardComment bcinfo) throws AddException {
+		//SQL송신
+		PreparedStatement pstmt = null;
+		String insertInfoSQL = "INSERT INTO BOARDCOMMENT VALUES (BC_SEQ.NEXTVAL, ?, sysdate, ?, ?)";
+		try {
+			pstmt = con.prepareStatement(insertInfoSQL);
+			pstmt.setInt(1, bcinfo.getCom_board());
+			pstmt.setString(2, bcinfo.getCom_contents());
+			pstmt.setInt(3, bcinfo.getCom_mem());
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AddException("댓글 추가 실패" + e.getMessage());
+		} finally {
+			MyConnection.close(null, pstmt, null);
+		}
+	}
+		
+	
+
+
 
 	@Override
 	public void update(BoardComment bc) throws ModifyException {
 		//DB연결
-				Connection con = null;
-				PreparedStatement pstmt = null;
-				try {
-					con = MyConnection.getConnection();
-				}catch(SQLException e) {
-					e.printStackTrace();
-					//DB연결에 문제발생시 예외처리
-				}
-				String updateSQL = "UPDATE BOARDCOMMENT SET "; // com_contetns;
-				String updateSQL1 = "WHERE com_no = ?";
-				
-				BoardCommentDAOOracle dao;
-				BoardComment dbBoardComment = null;
-				try {
-					dao = new BoardCommentDAOOracle();
-					dbBoardComment = dao.selectByComNo(bc.getCom_no());
-				}catch (Exception e) {
-					e.printStackTrace();
-				}
-				boolean flag = false; //변경할 값이 있는 경우 true
-				
-				String Com_contents = bc.getCom_contents();
-				if(Com_contents != null && !Com_contents.equals("") && !Com_contents.contentEquals(dbBoardComment.getCom_contents())) {
-					updateSQL += "com_contents = '" + Com_contents + "'";
-					flag = true;
-				}
-				if(!flag) {
-					throw new ModifyException("수정할 내용이 없습니다");
-				}
-					try {
-						pstmt = con.prepareStatement(updateSQL + updateSQL1);
-						pstmt.setInt(1, bc.getCom_no());
-						pstmt.executeUpdate();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					} finally {
-						MyConnection.close(con, pstmt, null);
-				}
-				
-			}
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			e.printStackTrace();
+			//DB연결에 문제발생시 예외처리
+		}
+		String updateSQL = "UPDATE BOARDCOMMENT SET "; // com_contetns;
+		String updateSQL1 = "WHERE com_no = ?";
+		
+		BoardCommentDAOOracle dao;
+		BoardComment dbBoardComment = null;
+		try {
+			dao = new BoardCommentDAOOracle();
+			dbBoardComment = dao.selectByComNo(bc.getCom_no());
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		boolean flag = false; //변경할 값이 있는 경우 true
+		
+		String Com_contents = bc.getCom_contents();
+		if(Com_contents != null && !Com_contents.equals("") && !Com_contents.contentEquals(dbBoardComment.getCom_contents())) {
+			updateSQL += "com_contents = '" + Com_contents + "'";
+			flag = true;
+		}
+		if(!flag) {
+			throw new ModifyException("수정할 내용이 없습니다");
+		}
+			try {
+				pstmt = con.prepareStatement(updateSQL + updateSQL1);
+				pstmt.setInt(1, bc.getCom_no());
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				MyConnection.close(con, pstmt, null);
+		}
+		
+	}
 		
 	
 
 	@Override
 	public void deleteByNo(int com_no) throws DeleteException {
 		//DB연결
-				Connection con = null;
-				try {
-					con = MyConnection.getConnection();
-					}catch(SQLException e) {
-						throw new DeleteException(e.getMessage());
-						//DB연결에 문제발생시 예외처리
-					}
-				PreparedStatement pstmt = null;
-				String deleteSQL = "DELETE BOARDCOMMENT where com_no = ?";
-				try {
-					pstmt = con.prepareStatement(deleteSQL);
-					pstmt.setInt(1, com_no);
-					if(pstmt.executeLargeUpdate()==1) {
-						System.out.println("댓글을 성공적으로 삭제했습니다.");
-					}else {
-						System.out.println("댓글 삭제에 실패했습니다.");
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					MyConnection.close(con, pstmt, null);
-				}
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+			}catch(SQLException e) {
+				throw new DeleteException(e.getMessage());
+				//DB연결에 문제발생시 예외처리
+			}
+		PreparedStatement pstmt = null;
+		String deleteSQL = "DELETE BOARDCOMMENT WHERE com_no = ?";
+		try {
+			pstmt = con.prepareStatement(deleteSQL);
+			pstmt.setInt(1, com_no);
+			pstmt.executeUpdate();
+//			if() {
+//				System.out.println("댓글을 성공적으로 삭제했습니다.");
+//			}else {
+//				System.out.println("댓글 삭제에 실패했습니다.");
+//			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, null);
+		}
 		
 	}
 	public static void main(String[] args) throws Exception {
@@ -268,10 +293,19 @@ public class BoardCommentDAOOracle implements BoardCommentDAO{
 //		System.out.println(boardcomment.getCom_mem());
 		
 		
-		BoardComment boardcomment = new BoardComment();
-		boardcomment.setCom_no(1);
-		boardcomment.setCom_contents("바껴라 좀");
-		dao.update(boardcomment);
+		
+//		BoardComment boardcomment = new BoardComment();
+//		boardcomment.setCom_no(1);
+//		boardcomment.setCom_contents("바껴라 좀");
+//		dao.update(boardcomment);
+//		dao.deleteByNo(6);
+		
+		BoardComment bc = new BoardComment();
+		bc.setCom_board(2);
+		bc.setCom_contents("왜 안되요?");
+		bc.setCom_mem(2);
+		dao.insert(bc);
+		
 	}
 }
 
