@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.talkabout.dto.DebateComment;
-import com.talkabout.dto.DebateLike;
 import com.talkabout.dto.Member;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.DeleteException;
@@ -165,7 +164,34 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 		}
 		return dc;
 	}
-
+	@Override
+	public void deleteByAdmin(int com_no) throws DeleteException {
+		// TODO Auto-generated method stub
+		Connection con = null;
+	      try {
+	      con = MyConnection.getConnection();
+	      }catch(SQLException e) {
+	         throw new  DeleteException(e.getMessage());
+	         //DB연결에 문제발생시 예외처리
+	      }
+	      String DeleteSQL = "Delete FROM DebateComment where com_no=?  ";
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      try {
+	         pstmt = con.prepareStatement( DeleteSQL);
+	         
+	         pstmt.setInt(1, com_no);
+//	         pstmt.setInt(2, bc.getCom_mem());
+	         pstmt.executeQuery();
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      } finally {
+	         //DB연결 해제
+	         MyConnection.close(con, pstmt, rs);
+	      }
+		
+	}
 	
 	
 	public static void main(String []args) throws AddException, ModifyException, FindException {
@@ -215,32 +241,5 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 //		dao.delete(2);
 //	}
 
-	@Override
-	public void deleteByAdmin(int com_no) throws DeleteException {
-		// TODO Auto-generated method stub
-		Connection con = null;
-	      try {
-	      con = MyConnection.getConnection();
-	      }catch(SQLException e) {
-	         throw new  DeleteException(e.getMessage());
-	         //DB연결에 문제발생시 예외처리
-	      }
-	      String DeleteSQL = "Delete FROM DebateComment where com_no=?  ";
-	      PreparedStatement pstmt = null;
-	      ResultSet rs = null;
-	      try {
-	         pstmt = con.prepareStatement( DeleteSQL);
-	         
-	         pstmt.setInt(1, com_no);
-//	         pstmt.setInt(2, bc.getCom_mem());
-	         pstmt.executeQuery();
-	      } catch (SQLException e) {
-	         // TODO Auto-generated catch block
-	         e.printStackTrace();
-	      } finally {
-	         //DB연결 해제
-	         MyConnection.close(con, pstmt, rs);
-	      }
-		
-	}
+	
 }
