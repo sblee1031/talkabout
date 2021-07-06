@@ -177,8 +177,8 @@ public class MemberDAOOracle implements MemberDAO{
 			pstmt.setString(1, m.getMember_nickName());
 			rs = pstmt.executeQuery();
 			result = rs.next();
-			System.out.println("rs : "+ rs.getString(1));
-			System.out.println("rs : "+ result);
+//			System.out.println("rs : "+ rs.getString(1));
+//			System.out.println("rs : "+ result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
@@ -223,7 +223,7 @@ public class MemberDAOOracle implements MemberDAO{
 		MemberDAOOracle lo= new MemberDAOOracle();
 		Member m = new Member();
 		m.setMember_social_type("구글");
-		m.setMember_social_no("248572");
+		m.setMember_social_no("24844572");
 		m.setMember_nickName("바부");
 		m.setMember_gender("남자");
 		m.setMember_email("sdf@nsdf.com");
@@ -266,15 +266,16 @@ public class MemberDAOOracle implements MemberDAO{
 //		}
 //		
 //		
-//		try {
-//			MemberDAOOracle lo1 = new MemberDAOOracle();
-//			Member l =lo1.selectByNo(2);
-//			System.out.println(l.getMember_no());
-//			System.out.println(l.getMember_nickName());
-//			System.out.println(l.getMember_email());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+
+		try {
+			MemberDAOOracle lo1 = new MemberDAOOracle();
+			Member l =lo1.selectByNo(3);
+			System.out.println(l.getMember_no());
+			System.out.println(l.getMember_nickName());
+			System.out.println(l.getMember_email());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 
 		

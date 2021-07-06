@@ -91,7 +91,7 @@
               id="mynickname"
               name="mynickname"
               required
-         / ><div class="chkNick">닉네임 중복</div></label>
+         / ><span class="chkNick" >  닉네임 중복</span></label>
         </li>
         <li>
           <label
@@ -124,8 +124,8 @@
           /><br />
           <img style="width: 300px" id="mythumb_img" src="" />
         </li>
-          <button class="update" type="submit">정보변경</button
-          ><button class="leave" type="submit">탈퇴하기</button>
+          <button class="update" onclick="changeNick()">정보변경</button
+          ><button class="leave" onclick="leave()">탈퇴하기</button>
       </ul>
       <!-- </form> --> 
     </div>
@@ -276,23 +276,77 @@
          $("#mythumb_img").attr("src", data.member_thumb);
        },
      });
-
    }
-   $('#mynickname').on('keydown', function(e) {
-	    console.log('11키 입력'+ e.keyCode);
+   var nickBoolean; //닉네임 중복여부 저장 변수
+   $('#mynickname').on('keyup', function(e) {
 	    var data = $('#mynickname').val();
-	    console.log(data);
+	    var chkhtml = $('span.chkNick');
 	    var url = '../ta_back/nickname';
 	     $.ajax({
 	         url: url,
 	         method: "post",
 	         data: {nickName: data},
-	         success: function (resposeData) {
-	          console.log(responseData);
+	         success: function (reseponse) {
+	          //console.log(reseponse);
+	          nickBoolean = reseponse.chkNick;
+	          if(reseponse.chkNick==false){
+	        	  chkhtml.text('사용 가능한 닉네임');
+	        	  chkhtml.css('color','blue');
+	          }else if(reseponse.chkNick==true){
+	        	  chkhtml.text('사용 불가능 닉네임');
+	        	  chkhtml.css('color','red');
+	          }
 	         },
 	       });
 	});
 
+   function changeNick() {
+	   var data = userdata.member;
+	    var url = '../ta_back/nickname';
+	    var inputNick = $("#mynickname").val();
+	    if(data.member_nickName == inputNick)	{
+	    	alert('변경 사항이 없습니다.');
+	    }else if(data.member_nickName != inputNick && nickBoolean==false){
+	     $.ajax({
+	         url: url,
+	         method: "post",
+	         data: {nickUpdate : true, changeNick: inputNick},
+	         success: function (reseponse) {
+	        	 alert('변경완료');
+	        	 window.location.href = "../ta_front/login.html";
+	         },
+	       });
+	    }
+   }
+   function leave(){
+	   var data = userdata.member;
+	    var url = '../ta_back/leavemember';
+	    if(confirm("정말 탈퇴 하시겠습니까?")==true){
+		     $.ajax({
+		         url: url,
+		         method: "post",
+		         data: {chkLeave : true, leaveNo: data.member_no},
+		         success: function (reseponse) {
+		        	 window.location.href = "../ta_front/login.html";
+		         },
+		       });
+	    }
+/* 	    if(data.member_nickName == inputNick)	{
+	    	alert('변경 사항이 없습니다.');
+	    }else if(data.member_nickName != inputNick && nickBoolean==false){
+	     $.ajax({
+	         url: url,
+	         method: "post",
+	         data: {nickUpdate : true, changeNick: inputNick},
+	         success: function (reseponse) {
+	        	
+	        	 window.location.href = "../ta_front/login.html";
+	         },
+	       });
+	    } */
+	    
+   }
+   
    
    // $("#memberinfo").on("click", "button.logout", function () {
    //   console.log("로그아웃");
@@ -405,7 +459,7 @@
         var $data = $("#signupfrom").serialize();
         var url = "../ta_back/signup";
         var data = $data;
-        console.log(data);
+        //console.log(data);
         var nickname = $("#nickname");
         var birthday = $("#birthday");
         //console.log(nickname.val());
@@ -463,7 +517,6 @@
                   thumb: result.kakao_account.profile.profile_image_url,
                 } /*id=id1&pwd=p1*/,
                 success: function (data) {
-                  //console.log(responseData);
                   if (data.usercheck == "non_member") {
                     $("div.signup").show();
                     $("#email").val(result.kakao_account.email);
