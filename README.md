@@ -40,4 +40,3 @@ private int debate_no;
 // 수정 후
 private int detail_no; 
 ```
-  -  -> 
