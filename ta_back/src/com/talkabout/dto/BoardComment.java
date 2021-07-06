@@ -15,6 +15,7 @@ public class BoardComment {
 	private int com_no;
 	private Date com_date;
 	private String com_contents;
+<<<<<<< HEAD
 	private Member com_mem; // com_mem.member_no
 	private Board com_board; // com_board.board_no
 	
@@ -25,6 +26,23 @@ public class BoardComment {
 		this.com_contents = com_contents;
 		this.com_mem = com_mem;
 		this.com_board = com_board;
+=======
+	private int com_mem; // com_mem.member_no
+	private int com_board; // com_board.board_no
+	
+	public BoardComment() {
+		super();
+	}	
+	
+	public BoardComment(int com_no, int com_board, Date com_date, String com_contents, int com_mem) {
+		super();
+		this.com_no = com_no;
+		this.com_board = com_board;
+		this.com_date = com_date;
+		this.com_contents = com_contents;
+		this.com_mem = com_mem;
+		
+>>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
 	}
 
 	public int getCom_no() {
@@ -51,6 +69,7 @@ public class BoardComment {
 		this.com_contents = com_contents;
 	}
 
+<<<<<<< HEAD
 	public Member getCom_mem() {
 		return com_mem;
 	}
@@ -64,6 +83,21 @@ public class BoardComment {
 	}
 
 	public void setCom_board(Board com_board) {
+=======
+	public int getCom_mem() {
+		return com_mem;
+	}
+
+	public void setCom_mem(int com_mem) {
+		this.com_mem = com_mem;
+	}
+
+	public int getCom_board() {
+		return com_board;
+	}
+
+	public void setCom_board(int com_board) {
+>>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
 		this.com_board = com_board;
 	}
 	

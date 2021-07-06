@@ -17,6 +17,7 @@ public class DebateComment {
 	private String com_contents;
 	private Date com_date;
 	private int com_mem; // com_mem.member_no
+<<<<<<< HEAD
 	String com_admin;
 	
 	
@@ -33,6 +34,9 @@ public class DebateComment {
 		// TODO Auto-generated constructor stub
 	}
 
+=======
+	
+>>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
 	public DebateComment(int com_no, int com_deb, String com_contents, Date com_date, int com_mem) {
 		super();
 		this.com_no = com_no;
@@ -41,6 +45,7 @@ public class DebateComment {
 		this.com_date = com_date;
 		this.com_mem = com_mem;
 	}
+<<<<<<< HEAD
 	public DebateComment(int com_no, int com_deb, String com_contents, Date com_date, String com_admin) {
 		super();
 		this.com_no = com_no;
@@ -49,6 +54,8 @@ public class DebateComment {
 		this.com_date = com_date;
 		this.com_admin = com_admin;
 	}
+=======
+>>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
 
 	public int getCom_no() {
 		return com_no;
@@ -89,6 +96,7 @@ public class DebateComment {
 	public void setCom_mem(int com_mem) {
 		this.com_mem = com_mem;
 	}
+<<<<<<< HEAD
 
 	@Override
 	public String toString() {
@@ -96,5 +104,7 @@ public class DebateComment {
 				+ ", com_date=" + com_date + ", com_mem=" + com_mem + "]";
 	}
 	
+=======
+>>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
 	
 }
