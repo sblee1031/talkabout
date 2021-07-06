@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ta_back/build/classes/com/talkabout/dao/LoginDAO.class
 ta_back/build/classes/com/talkabout/dao/LoginDAOOracle.class
 ta_back/build/classes/com/talkabout/dto/Login.class
@@ -134,3 +135,34 @@ ta_front/.metadata/.plugins/org.eclipse.tm.terminal.view.ui/.executables/data.pr
 ta_front/.metadata/.plugins/org.eclipse.ui.intro/introstate
 ta_front/.metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml
 ta_back/.classpath
+=======
+.metadata/.plugins/com.genuitec.eclipse.monitor/myeclipse-usage.properties
+.metadata/.plugins/org.eclipse.core.resources/6.snap
+.metadata/.plugins/org.eclipse.core.resources/.history/5c/801b3a8b1dda001b1e94c35675a5b5bc
+.metadata/.plugins/org.eclipse.core.resources/.projects/Servers/.markers.snap
+.metadata/.plugins/org.eclipse.core.resources/.projects/Servers/.syncinfo.snap
+.metadata/.plugins/org.eclipse.core.resources/.projects/ta_back/.markers.snap
+.metadata/.plugins/org.eclipse.core.resources/.projects/ta_back/.syncinfo.snap
+.metadata/.plugins/org.eclipse.core.resources/.projects/ta_front/.markers.snap
+.metadata/.plugins/org.eclipse.core.resources/.projects/ta_front/.syncinfo.snap
+.metadata/.plugins/org.eclipse.core.resources/.root/.markers.snap
+.metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
+.metadata/.plugins/org.eclipse.wst.validation/dep.index
+ta_back/build/classes/com/talkabout/dto/Audience.class
+ta_back/build/classes/com/talkabout/dto/Battle_detail.class
+ta_back/build/classes/com/talkabout/dto/battle_result.class
+ta_back/build/classes/com/talkabout/dto/BattleDetail.class
+ta_back/build/classes/com/talkabout/dto/BattleResult.class
+ta_back/build/classes/com/talkabout/dto/Board.class
+ta_back/build/classes/com/talkabout/dto/BoardComment.class
+ta_back/build/classes/com/talkabout/dto/BoardLike.class
+>>>>>>> 47a5604c3b02d26bacbed5adcdcbacc04f5998f2
+ta_back/build/classes/com/talkabout/dao/DebateDAO.class
+ta_back/build/classes/com/talkabout/dao/DebateRecruitDAOOracle.class
+ta_back/build/classes/com/talkabout/exception/AddException.class
+ta_back/build/classes/com/talkabout/exception/ModifyException.class
+ta_back/build/classes/com/talkabout/exception/RemoveException.class
+ta_back/build/classes/com/talkabout/servlet/NickNameServlet.class
+ta_front/.classpath
+ta_front/.settings/org.eclipse.jdt.core.prefs
+ta_front/.settings/org.eclipse.wst.common.project.facet.core.xml
