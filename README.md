@@ -3,7 +3,7 @@
 ### 1. DTO 1차 제작
 ### 2. ERD 2차 제작
 [링크](https://www.erdcloud.com/d/YYWimyRYK7asSbXMN)  
-##
+___
 
 ## 210702
 ### 1. NoticeComment DTO 수정
@@ -17,7 +17,7 @@ private Board com_board; // com_board.board_no
 private Notice com_notice; // com_notice.notice_no
 ```
 ### 2. ERD 수정
-##
+___
 
 ## 210704
 ### 1. DAO 구현
@@ -28,4 +28,7 @@ private Notice com_notice; // com_notice.notice_no
 - MemberDTO 수정
 - ERD 수정
 - 세팅 SQL구문 수정
-##
+___
+# Todo
+1. DebateDetail DTO 수정
+  - debate_no -> detail_no
