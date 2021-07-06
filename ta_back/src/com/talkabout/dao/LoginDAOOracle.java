@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.talkabout.dto.Login;
+import com.talkabout.dto.Member;
 import com.talkabout.exception.FindException;
 import com.talkabout.sql.MyConnection;
 
@@ -18,7 +19,7 @@ public class LoginDAOOracle implements LoginDAO{
 		return;
 	}
 
-	public void signUp(Login l) {
+	public void signUp(Member l) {
 		//DB연결
 		Connection con = null;
 		try {
@@ -31,7 +32,7 @@ public class LoginDAOOracle implements LoginDAO{
 		ResultSet rs = null;
 		try {
 			pstmt = con.prepareStatement(InsertSQL);
-			pstmt.setString(1, l.getMember_no());
+			pstmt.setLong(1, l.getMember_no());
 			pstmt.setString(2, l.getMember_email());
 			pstmt.setString(3, l.getMember_thumb());
 			pstmt.executeQuery();
@@ -45,7 +46,7 @@ public class LoginDAOOracle implements LoginDAO{
 		
 	}
 
-	public Login selectById(int no) throws FindException {//member_no로 회원정보가져오기
+	public Member selectById(int no) throws FindException {//member_no로 회원정보가져오기
 		//DB연결
 		Connection con = null;
 		try {
@@ -69,7 +70,7 @@ public class LoginDAOOracle implements LoginDAO{
 				String member_email = rs.getString("member_email");
 				String member_thumb = rs.getString("member_thumb");
 				String member_birth = rs.getString("member_birth");
-				l = new Login(member_no, member_nickName, member_gender, member_email,member_thumb,member_birth); //DB값 읽어와 DTO에 담기
+				l = new Member (member_no, member_nickName, member_gender, member_email,member_thumb,member_birth); //DB값 읽어와 DTO에 담기
 			}
 			if(l == null) {
 				throw new FindException("조회된 id가 없습니다.");

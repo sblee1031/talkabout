@@ -69,12 +69,14 @@ public class MemberDAOOracle implements MemberDAO{
 			while(rs.next()) {
 				//행의 컬럼값 얻기
 				int member_no = rs.getInt("member_no");
+				String member_social_type = rs.getString("member_social_type");
+				String member_social_no = rs.getString("member_social_no");
 				String member_nickName = rs.getString("member_nickName");
 				String member_gender = rs.getString("member_gender");
 				String member_email = rs.getString("member_email");
 				String member_thumb = rs.getString("member_thumb");
 				String member_birth = rs.getString("member_birth");
-				//l = new Login(member_no, member_nickName, member_gender, member_email,member_thumb,member_birth); //DB값 읽어와 DTO에 담기
+				l = new Member(member_no,member_social_type,member_social_no, member_nickName, member_gender, member_email,member_thumb,member_birth); //DB값 읽어와 DTO에 담기
 			}
 			if(l == null) {
 				throw new FindException("조회된 id가 없습니다.");
