@@ -20,15 +20,21 @@ private Notice com_notice; // com_notice.notice_no
 ___
 
 ## 210704
-### 1. DAO 구현
+- DAO 구현
+___
 
 ## 210705
-### 1. Member 테이블 member_able 변수 추가(탈퇴확인 변수)
-- 1 : 활동회원(Default) / 2 : 탈퇴회원
+- Member 테이블 member_able 변수 추가(탈퇴확인 변수)
+  - 1 : 활동회원(Default) / 2 : 탈퇴회원
 - MemberDTO 수정
 - ERD 수정
 - 세팅 SQL구문 수정
 ___
+
+## 210706
+- 
+___
+
 # Todo
 1. DebateDetail DTO 수정
 ```java
@@ -40,3 +46,5 @@ private int debate_no;
 // 수정 후
 private int detail_no; 
 ```
+2. 메인 페이지 제작
+3. Service, DAO 구현 마무리
