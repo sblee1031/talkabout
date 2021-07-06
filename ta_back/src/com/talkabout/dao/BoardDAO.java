@@ -48,6 +48,13 @@ public interface BoardDAO {
 	void update(Board binfo) throws ModifyException;
 	
 	/**
+	 * 게시글 조회수 카운트
+	 * @param Board_no
+	 * @throws ModifyException
+	 */
+	void updateCount(int Board_no) throws ModifyException;
+	
+	/**
 	 * 게시글 삭제
 	 * @param Board_no
 	 * @throws DeleteException

@@ -49,4 +49,7 @@ public class BoardService {
 	public void deleteByBoardNo(int Board_no) throws DeleteException{
 		dao.deleteByBoardNo(Board_no);
 	}
+	public void updateCount(int Board_no) throws ModifyException{
+		dao.updateCount(Board_no);
+	}
 }

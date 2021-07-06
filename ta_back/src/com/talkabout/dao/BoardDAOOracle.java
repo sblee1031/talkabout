@@ -25,7 +25,6 @@ public class BoardDAOOracle implements BoardDAO{
 		System.out.println("JDBC 드라이버 로드 성공");
 	}
 
-	
 	public List<Board> boardSearch(String type, String contents) throws FindException {
 		//DB연결
 		Connection con = null;
@@ -35,13 +34,13 @@ public class BoardDAOOracle implements BoardDAO{
 			throw new FindException(e.getMessage());
 			//DB연결에 문제발생시 예외처리
 		}
-		String selectByTypeSQL = "SELECT*FROM BOARD WHERE +" +type +" = ? ORDER BY board_no ASC";
+		String selectByTypeSQL = "SELECT*FROM BOARD WHERE +" +type +" LIKE ? ORDER BY board_no ASC";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Board> list_search = new ArrayList<> ();
 		try {
 			pstmt = con.prepareStatement(selectByTypeSQL);
-			pstmt.setString(1, contents);
+			pstmt.setString(1, "%"+contents+"%");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				//행의 컬럼값 얻기
@@ -161,35 +160,6 @@ public class BoardDAOOracle implements BoardDAO{
 		}
 	}
 
-//	@Override
-//	public void insert(Board b) throws AddException {
-//		Connection con = null;
-//		PreparedStatement pstmt = null;
-//
-//		try {
-//			con = MyConnection.getConnection();
-//		} catch (SQLException e) {
-//			throw new AddException(e.getMessage());
-//			//DB연결에 문제발생시 예외처리
-//		}
-//		String InsertSQL = "INSERT INTO BOARD VALUES (BOARD_SEQ.NEXTVAL, ?, ?, ?, sysdate, ?, ?)";
-//		
-//		try {
-//			pstmt = con.prepareStatement(InsertSQL);
-//			pstmt.setString(1, b.getBoard_type());
-//			pstmt.setString(2, b.getBoard_title());
-//			pstmt.setString(3, b.getBoard_contents());
-//			pstmt.setInt(4, b.getBoard_views());
-//			pstmt.setInt(5, b.getBoard_mem());
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			//DB연결 해제
-//			MyConnection.close(con, pstmt, null);
-//			
-//		}
-//	}
-	
 	@Override
 	public void insert(Board binfo) throws AddException {
 		Connection con = null;
@@ -218,15 +188,14 @@ public class BoardDAOOracle implements BoardDAO{
 	private void insertInfo(Connection con, Board binfo) throws AddException{
 		//SQL송신
 		PreparedStatement pstmt = null;
-		String insertInfoSQL = "INSERT INTO BOARD VALUES(BOARD_SEQ.NEXTVAL, ?, ?, ?, sysdate, ?, ?)";
+		String insertInfoSQL = "INSERT INTO BOARD VALUES(BOARD_SEQ.NEXTVAL, ?, ?, ?, sysdate, 0, ?)";
 		try {
 			pstmt = con.prepareStatement(insertInfoSQL);
 			pstmt.setInt(1, binfo.getBoard_no());
 			pstmt.setString(1, binfo.getBoard_type());
 			pstmt.setString(2, binfo.getBoard_title());
 			pstmt.setString(3, binfo.getBoard_contents());
-			pstmt.setInt(4, binfo.getBoard_views());
-			pstmt.setInt(5, binfo.getBoard_mem());
+			pstmt.setInt(4, binfo.getBoard_mem());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -236,8 +205,6 @@ public class BoardDAOOracle implements BoardDAO{
 		}	
 	}
 
-	
-	//질문
 	@Override
 	public void update(Board binfo) throws ModifyException {
 		Connection con = null;
@@ -304,8 +271,47 @@ public class BoardDAOOracle implements BoardDAO{
 		}
 		
 	}
+	
+	//조회수
+	@Override
+	public void updateCount(int Board_no) throws ModifyException {
+		//DB연결
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		try {
+			con = MyConnection.getConnection();
+			}catch(SQLException e) {
+				throw new ModifyException(e.getMessage());
+				//DB연결에 문제발생시 예외처리
+			}
+		
+		
+		try {
+			String getReadCountSql = "select board_views from board where board_no = ?";
+			pstmt = con.prepareStatement(getReadCountSql);
+			pstmt.setInt(1, Board_no);
+			rs = pstmt.executeQuery();
+			if(rs.next() ) {
+				count = rs.getInt(1);
+				count++;
+			}
+			String sql = "UPDATE BOARD SET board_views = ? WHERE board_no = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, count);
+			pstmt.setInt(2, Board_no);
+			pstmt.executeUpdate();
+			
 
-	//자식 객체 때문에 board_no로 지우면 안지워짐;; 찾아봤지만... 이해가 안됨...
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+	}
+
 	@Override
 	public void deleteByBoardNo(int Board_no) throws DeleteException {
 		//DB연결
@@ -335,9 +341,6 @@ public class BoardDAOOracle implements BoardDAO{
 		}
 	}
 
-
-	
-
 	public static void main(String[] args) throws Exception {
 		BoardDAOOracle dao = new BoardDAOOracle();
 
@@ -358,21 +361,21 @@ public class BoardDAOOracle implements BoardDAO{
 //			e.printStackTrace();
 //		}
 		
-		//게시글 검색
+//		게시글 검색
 //		String type = "board_title";
 //		String contents = "궁시렁";
-//		String type = "board_type";
-//		String contents = "스포츠";
-//		List<Board> list = new ArrayList<>();
-//		list = dao.boardSearch(type, contents);
-//		for (Board board : list) {
-//			System.out.print(board.getBoard_no() + " ");
-//			System.out.print(board.getBoard_type()+ " ");
-//			System.out.print(board.getBoard_title()+ " ");
-//			System.out.print(board.getBoard_date()+ " ");
-//			System.out.print(board.getBoard_contents() + "//	");
-//			
-//		}
+		String type = "board_type";
+		String contents = "코딩";
+		List<Board> list = new ArrayList<>();
+		list = dao.boardSearch(type, contents);
+		for (Board board : list) {
+			System.out.print(board.getBoard_no() + " ");
+			System.out.print(board.getBoard_type()+ " ");
+			System.out.print(board.getBoard_title()+ " ");
+			System.out.print(board.getBoard_date()+ " ");
+			System.out.print(board.getBoard_contents() + "//	");
+			
+		}
 		
 		//게시글 상세
 //		Board board = dao.selectByBoardNo(2);
@@ -383,14 +386,13 @@ public class BoardDAOOracle implements BoardDAO{
 //		System.out.println(board.getBoard_contents() + " ");
 		
 		
-		//insert
-		Board b = new Board();
-		b.setBoard_type("코딩");
-		b.setBoard_title("웹사이트");
-		b.setBoard_contents("프론트는 언제 만드냐?");
-		b.setBoard_views(100);
-		b.setBoard_mem(3);
-		dao.insert(b);
+//		//insert
+//		Board b = new Board();
+//		b.setBoard_type("코딩");
+//		b.setBoard_title("웹사이트");
+//		b.setBoard_contents("프론트는 언제 만드냐?");
+//		b.setBoard_mem(3);
+//		dao.insert(b);
 //		Board board =  dao.selectByBoardNo(1);
 //		System.out.println(board.getBoard_mem());
 //		System.out.println(board.getBoard_title());
@@ -408,6 +410,12 @@ public class BoardDAOOracle implements BoardDAO{
 //		board.setBoard_title("바뀐타이틀");
 //		board.setBoard_contents("바뀐내용");
 //		dao.update(board);
+		
+		//조회수
+//		dao.updateCount(19);
 	}
+
+
+
 	
 }
