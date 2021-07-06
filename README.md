@@ -36,7 +36,7 @@ ___
 ___
 
 # Todo
-1. DebateDetail DTO 수정
+- DebateDetail DTO 수정
 ```java
 // com\talkabout\dto\DebateDetail.java
 
@@ -46,5 +46,5 @@ private int debate_no;
 // 수정 후
 private int detail_no; 
 ```
-2. 메인 페이지 제작
-3. Service, DAO 구현 마무리
+- 메인 페이지 제작
+- Service, DAO 구현 마무리
