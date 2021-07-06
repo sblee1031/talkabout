@@ -1,12 +1,12 @@
 # 작업내역
 ## 210701
-### 1. DTO 1차 제작
-### 2. ERD 2차 제작
+- DTO 1차 제작
+- ERD 2차 제작
 [링크](https://www.erdcloud.com/d/YYWimyRYK7asSbXMN)  
 ___
 
 ## 210702
-### 1. NoticeComment DTO 수정
+- NoticeComment DTO 수정
 ```java
 // com\talkabout\dto\NoticeComment.java
 
@@ -16,7 +16,7 @@ private Board com_board; // com_board.board_no
 // 수정 후
 private Notice com_notice; // com_notice.notice_no
 ```
-### 2. ERD 수정
+- ERD 수정
 ___
 
 ## 210704
@@ -31,4 +31,13 @@ ___
 ___
 # Todo
 1. DebateDetail DTO 수정
-  - debate_no -> detail_no
+```java
+// com\talkabout\dto\DebateDetail.java
+
+// 수정 전
+private int debate_no;
+
+// 수정 후
+private int detail_no; 
+```
+  -  -> 
