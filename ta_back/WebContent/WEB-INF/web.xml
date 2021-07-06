@@ -43,4 +43,14 @@
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/logout</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>NickNameServlet</display-name>
+    <servlet-name>NickNameServlet</servlet-name>
+    <servlet-class>com.talkabout.servlet.NickNameServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NickNameServlet</servlet-name>
+    <url-pattern>/nickname</url-pattern>
+  </servlet-mapping>
 </web-app>

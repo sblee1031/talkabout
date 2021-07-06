@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.talkabout.dto.Member;
+import com.talkabout.exception.AddException;
 import com.talkabout.exception.FindException;
 import com.talkabout.service.MemberService;
 
@@ -21,7 +22,9 @@ public class SignUpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("signupServlet");
+		HttpSession session = request.getSession();
+		
+		
 		request.setCharacterEncoding("utf-8");
 		String social_type = request.getParameter("social_type");
 		String social_no = request.getParameter("social_no");
@@ -31,7 +34,6 @@ public class SignUpServlet extends HttpServlet {
 		String thumb = request.getParameter("thumb");
 		String gender = request.getParameter("gender");
 
-		System.out.println(social_type +" / "+social_no+" / "+email + " / "+ nickname+" / " +birthday+ " / "+ gender+" / " + thumb);
 		
 		Member newM = new Member(social_type, social_no, nickname,
 				gender, email, thumb, birthday);
@@ -40,12 +42,13 @@ public class SignUpServlet extends HttpServlet {
 		MemberService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		MemberService service;
 		service = MemberService.getInstance();
-		service.signUp(newM);
+		try {
+			service.signUp(newM);
+		} catch (AddException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		System.out.println("회원 가입 성공");
-		
-		HttpSession session = request.getSession();
-		session.removeAttribute("logininfo");
 		Map<String, Object> map = new HashMap<>();
 		ObjectMapper mapper;
 		mapper = new ObjectMapper();
@@ -69,6 +72,9 @@ public class SignUpServlet extends HttpServlet {
 		response.setContentType("application/json;charset=utf-8"); //응답형식지정
 		PrintWriter out = response.getWriter();
 		out.print(jsonStr);
+		
+		System.out.println("회원 가입 성공");
+		System.out.println("정보 : "+social_type +" / "+social_no+" / "+email + " / "+ nickname+" / " +birthday+ " / "+ gender+" / " + thumb);
 		
 	}
 

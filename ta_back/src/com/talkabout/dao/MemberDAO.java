@@ -1,6 +1,7 @@
 package com.talkabout.dao;
 
 import com.talkabout.dto.Member;
+import com.talkabout.exception.AddException;
 import com.talkabout.exception.FindException;
 
 public interface MemberDAO {
@@ -9,7 +10,7 @@ public interface MemberDAO {
 	 * @param Member 
 	 * @throws AddException
 	 */
-	void createMember(Member m) ;
+	void createMember(Member m) throws AddException ;
 	/**
 	 * 
 	 * @param id
@@ -17,13 +18,17 @@ public interface MemberDAO {
 	 * @throws FindException
 	 */
 	Member selectByNo(String social_no) throws FindException;
+	
+	Member selectByNo(int member_no) throws FindException;
 	/**
 	 * 
 	 * @param c
 	 * @throws ModifyException
 	 */
-	void updateMember(Member m) ;
+	void updateMember(Member m) throws FindException;
 	
-	void deleteMember(Member no);
+	Boolean selectNick(Member m) throws FindException;
+	
+	void deleteMember(Member m)throws FindException;
 	
 }

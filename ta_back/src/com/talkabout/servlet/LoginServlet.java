@@ -22,11 +22,12 @@ public class LoginServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		HttpSession session = request.getSession();
+		//session.invalidate(); //세션제거
+		
 		ServletContext sc = getServletContext();		
 		MemberService.envProp = sc.getRealPath(sc.getInitParameter("env"));
-		HttpSession session = request.getSession();
-		session.removeAttribute("usercheck");
+		//session.removeAttribute("usercheck");
 		
 		request.setCharacterEncoding("utf-8");
 		String social_no = request.getParameter("social_no");
@@ -41,9 +42,9 @@ public class LoginServlet extends HttpServlet {
 		Map<String, Object> map = new HashMap<>();
 		String usercheck;
 		
-		Member logininfo;
+		Member m = null;
 		try {
-			Member m = service.memberCheck(social_no);
+			 m = service.memberCheck(social_no);
 			if(m == null) {
 				map.put("usercheck", "non_member");
 			}else {
@@ -51,7 +52,6 @@ public class LoginServlet extends HttpServlet {
 				map.put("usercheck", "member");
 				map.put("member", m);
 			}
-			
 		} catch (FindException e) {
 			e.printStackTrace();
 		}
@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet {
 		response.setContentType("application/json;charset=utf-8"); //응답형식지정
 		PrintWriter out = response.getWriter();
 		out.print(jsonStr);
-	
+		
 	}
 
 }

@@ -22,7 +22,7 @@ public class Debate {
 	 */
 	
 	private int debate_no;
-	private Member debate_writer; // debate_writer.member_no
+	private int debate_writer; // debate_writer.member_no
 	private String debate_topic;
 	private Date debate_date;
 	private int debate_time;
@@ -38,7 +38,7 @@ public class Debate {
 		DebateLike 테이블에 행이 추가될 때마다 Debate 테이블의 좋아요 수도 1씩 증가 
 	 */
 	
-	public Debate(int debate_no, Member debate_writer, String debate_topic, Date debate_date, int debate_time,
+	public Debate(int debate_no, int debate_writer, String debate_topic, Date debate_date, int debate_time,
 			String debate_status, Date debate_startDate, Date debate_endDate, List<DebateDetail> detail_list,
 			List<DebateComment> comment_list, List<DebateLike> like_list, List<Audience> audience_list) {
 		super();
@@ -64,11 +64,11 @@ public class Debate {
 		this.debate_no = debate_no;
 	}
 
-	public Member getDebate_writer() {
+	public int getDebate_writer() {
 		return debate_writer;
 	}
 
-	public void setDebate_writer(Member debate_writer) {
+	public void setDebate_writer(int debate_writer) {
 		this.debate_writer = debate_writer;
 	}
 
