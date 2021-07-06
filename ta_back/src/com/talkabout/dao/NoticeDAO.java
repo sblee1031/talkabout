@@ -24,4 +24,6 @@ public interface NoticeDAO {
 	//게시글 수정(어드민)
 	void deleteByNoticeNo(int Notice_no) throws DeleteException;
 	//게시글 삭제(어드민)
+	void updateCount(int Notice_no) throws ModifyException;
+	//게시글 조회수
 }

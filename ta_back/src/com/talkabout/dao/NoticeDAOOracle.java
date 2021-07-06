@@ -145,6 +145,7 @@ public class NoticeDAOOracle {
 	            //Notice n = new Notice(notice_no, notice_type, notice_title,
 	            //         notice_contents, notice_date, notice_views, notice_admin);
 	            //list_search.add(n);
+	            
 	         }
 	         if(list_search.size() == 0) {
 	            throw new FindException("공지 없음");
@@ -306,6 +307,44 @@ public class NoticeDAOOracle {
 	
 	
 	
+	//게시글 조회수
+	public void updateCount(int Notice_no) throws ModifyException {
+	      //DB연결
+	      Connection con = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      int count = 0;
+	      try {
+	         con = MyConnection.getConnection();
+	         }catch(SQLException e) {
+	            throw new ModifyException(e.getMessage());
+	            //DB연결에 문제발생시 예외처리
+	         }
+	      
+	      
+	      try {
+	         String getReadCountSql = "select notice_views from notice where notice_no = ?";
+	         pstmt = con.prepareStatement(getReadCountSql);
+	         pstmt.setInt(1, Notice_no);
+	         rs = pstmt.executeQuery();
+	         if(rs.next() ) {
+	            count = rs.getInt(1);
+	            count++;
+	         }
+	         String sql = "UPDATE NOTICE SET notice_views = ? WHERE notice_no = ?";
+	         pstmt = con.prepareStatement(sql);
+	         pstmt.setInt(1, count);
+	         pstmt.setInt(2, Notice_no);
+	         pstmt.executeUpdate();
+	         
+
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      }finally {
+	         MyConnection.close(con, pstmt, rs);
+	      }
+	   }
 	
 	
 	
