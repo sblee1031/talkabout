@@ -48,7 +48,7 @@ public class LoginServlet extends HttpServlet {
 			if(m == null) {
 				map.put("usercheck", "non_member");
 			}else {
-				session.setAttribute("logininfo", m);
+				session.setAttribute("logininfo", m);//로그인 계정 정보가 담긴 세션
 				map.put("usercheck", "member");
 				map.put("member", m);
 			}

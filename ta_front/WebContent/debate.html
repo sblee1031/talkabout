@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>토론모집</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+      span#deb_status {
+        font-size: 30pt;
+        border: 1px black solid;
+        margin-right: 5%;
+      }
+      div #deb_status {
+        text-align: center;
+      }
+
+      button#btnSearch,
+      select[name="search"],
+      input[name="searchInput"] {
+        font-size: 15px;
+      }
+      select[name="search"] {
+        margin-left: 50%;
+      }
+      div#searchPart {
+        margin-top: 10%;
+      }
+      button#write {
+        font-size: 20px;
+        margin-left: 10%;
+      }
+      div#debateList {
+        text-align: center;
+      }
+      span#debateList {
+        font-size: 20pt;
+
+        margin-right: 5%;
+      }
+      div#debateContent {
+        font-size: 20pt;
+        margin-right: 5%;
+        text-align: center;
+      }
+      table#debateList {
+        width: 100%;
+        text-align: center;
+        border: 1px solid black;
+      }
+      tr#tablehead {
+        font-size: 20px;
+      }
+      div#debateWrite {
+        text-align: center;
+        margin: 20px;
+        line-height: 300%;
+      }
+    </style>
+    <script>
+      $(function () {
+        var url = "../ta_back/debate";
+        $.ajax({
+          url: url,
+          method: "get",
+          data: {},
+          success: function (resposeData) {
+            console.log(resposeData);
+            var lists = resposeData.debatelist;
+            var mlists = resposeData.memberinfo;
+            var listsize = lists.length;
+            var divtext = "";
+            var trContent = $("#debateList");
+            var trDebates = "";
+            $(lists).each(function (list_i, list) {
+              trDebates += "<tr>";
+              trDebates += '<td class="debate_no">' + list.debate_no + "</td>";
+              trDebates +=
+                '<td class="debate_topic">' + list.debate_topic + "</td>";
+              trDebates +=
+                '<td class="debate_writer">' +
+                mlists[list_i].member_nickName +
+                "</td>";
+              trDebates +=
+                '<td class="debate_date">' + list.debate_date + "</td>";
+              trDebates +=
+                '<td class="debate_time">' + list.debate_time + "</td>";
+              trDebates +=
+                '<td class="debate_status">' + list.debate_status + "</td>";
+              trDebates += "</tr>";
+            });
+            trContent.append(trDebates);
+          },
+        });
+
+        function getCurrentDate() {
+          //현재시간 구하는 함수
+          var date = new Date();
+          var year = date.getFullYear().toString();
+          var month = date.getMonth() + 1;
+          month = month < 10 ? "0" + month.toString() : month.toString();
+          var day = date.getDate();
+          day = day < 10 ? "0" + day.toString() : day.toString();
+          var hour = date.getHours();
+          hour = hour < 10 ? "0" + hour.toString() : hour.toString();
+          if (Number.parseInt(hour) + 1 == 24) {
+            hour = "00";
+          }
+          var minites = date.getMinutes();
+          minites =
+            minites < 10 ? "0" + minites.toString() : minites.toString();
+          var t;
+
+          return year + "-" + month + "-" + day + "T" + hour + ":" + minites; // 현재시간보다 1시간 추가 ,최소 시작시간은 한시간 뒤부터 가능.
+        }
+        var date = getCurrentDate();
+        $("#inputDebate_date").val(date);
+        $("#inputDebate_date").attr("min", date);
+      });
+      function saveDebate() {
+        var topic = $("#inputDebate_topic").val();
+        var discuss1 = $("#inputDiscuss1").val();
+        var discuss2 = $("#inputDiscuss2").val();
+        var indate = $("#inputDebate_date").val();
+        var time = $("#selectDebate_time").val();
+        if (typeof topic == "undefined" || topic == null || topic == "") {
+          alert("토론주제를 입력해주세요.");
+        } else if (
+          typeof discuss1 == "undefined" ||
+          discuss1 == null ||
+          discuss1 == ""
+        ) {
+          alert("주장1을 입력해주세요.");
+        } else if (
+          typeof discuss2 == "undefined" ||
+          discuss2 == null ||
+          discuss2 == ""
+        ) {
+          alert("주장2를 입력해주세요.");
+        }
+
+        var url = "../ta_back/debatesave";
+        var method = 'debatesave';
+        $.ajax({
+          url: url,
+          method: "post",
+          data: {
+        	 method: method,
+            debate_topic: topic,
+            discuss1: discuss1,
+            discuss2: discuss2,
+            debate_date: indate,
+            debate_time: time,
+          },
+          success: function (resposeData) {
+            window.location.href = "../ta_front/debate.html";
+          },
+        });
+      }
+
+      function btnDiscuss1() {
+        console.log("1번버튼");
+        var url = "../ta_back/debatesave";
+        var method = 'btnDiscuss1';
+        $.ajax({
+          url: url,
+          method: "post",
+          data: {
+        	 method: method,
+            discuss1: discuss1,
+          },
+          success: function (resposeData) {
+            window.location.href = "../ta_front/debate.html";
+          },
+        });
+      }
+      function btnDiscuss2() {
+        console.log("2번버튼");
+        var url = "../ta_back/debatesave";
+        var method = 'btnDiscuss2';
+        $.ajax({
+          url: url,
+          method: "post",
+          data: {
+        	 method: method,
+            debate_topic: topic,
+            discuss1: discuss1,
+            discuss2: discuss2,
+            debate_date: indate,
+            debate_time: time,
+          },
+          success: function (resposeData) {
+            window.location.href = "../ta_front/debate.html";
+          },
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="deb_status">
+        <span id="deb_status">제안</span>
+        <span id="deb_status">토론자 모집</span>
+        <span id="deb_status">관리자 승인 대기</span>
+        <span id="deb_status">토론 예정</span>
+        <hr />
+      </div>
+      <div id="searchPart">
+        <button id="write">글쓰기</button>
+        <select id="search" name="search">
+          <option>제목</option>
+          <option>내용</option>
+          <option>작성자</option>
+        </select>
+        <input name="searchInput" placeholder="검색할 내용을 입력해주세요." />
+        <button id="btnSearch">검색</button>
+        <hr />
+      </div>
+      <table id="debateList">
+        <tr id="tablehead">
+          <th>토론 번호</th>
+          <th style="width: 50%">토론 제목</th>
+          <th>토론 작성자</th>
+          <th>토론 작성시간</th>
+          <th>토론 시간</th>
+          <th>진행 상태</th>
+        </tr>
+        <tr id="debateContents"></tr>
+      </table>
+      <!--글쓰기 div 시작-->
+      <div id="debateWrite">
+        <label>토론 주제 : <input type="text" id="inputDebate_topic" /></label
+        ><br />
+        <label>토론 주장1 : <input type="text" id="inputDiscuss1" /></label>
+        <label>토론 주장2 : <input type="text" id="inputDiscuss2" /></label
+        ><br />
+        <label
+          >토론자1 :
+          <button type="text" id="btnDiscussor1" onclick="btnDiscuss1()">
+            토론자 참여하기
+          </button></label
+        >
+        <label
+          >토론자2 :
+          <button type="text" id="btnDiscussor2" onclick="btnDiscuss2()">
+            토론자 참여하기
+          </button></label
+        >
+        <label
+          >토론일자<input type="datetime-local" id="inputDebate_date" value=""
+        /></label>
+        <label
+          >토론제한시간
+          <select id="selectDebate_time" name="selectDebate_time">
+            <option value="30">30분</option>
+            <option value="60">60분</option>
+            <option value="120">120분</option>
+          </select>
+        </label>
+        <br />
+        <button id="btnSaveDebate" onclick="saveDebate()">저장하기</button>
+      </div>
+    </div>
+  </body>
+</html>

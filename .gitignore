@@ -166,3 +166,16 @@ ta_back/build/classes/com/talkabout/servlet/NickNameServlet.class
 ta_front/.classpath
 ta_front/.settings/org.eclipse.jdt.core.prefs
 ta_front/.settings/org.eclipse.wst.common.project.facet.core.xml
+ta_back/build/classes/com/talkabout/dao/BoardCommentDAO.class
+ta_back/build/classes/com/talkabout/dao/BoardCommentDAOOracle.class
+ta_back/build/classes/com/talkabout/dao/BoardDAO.class
+ta_back/build/classes/com/talkabout/dao/BoardDAOOracle.class
+ta_back/build/classes/com/talkabout/dao/DebateDAOOracle.class
+ta_back/build/classes/com/talkabout/dao/DebateDetailDAO.class
+ta_back/build/classes/com/talkabout/dao/DebateDetailDAOOracle.class
+ta_back/build/classes/com/talkabout/exception/DeleteException.class
+ta_back/build/classes/com/talkabout/service/DebateDetailService.class
+ta_back/build/classes/com/talkabout/service/DebateService.class
+ta_back/build/classes/com/talkabout/servlet/DebateSaveServlet.class
+ta_back/build/classes/com/talkabout/servlet/DebateServelt.class
+ta_back/build/classes/com/talkabout/servlet/LeaveMemberService.class

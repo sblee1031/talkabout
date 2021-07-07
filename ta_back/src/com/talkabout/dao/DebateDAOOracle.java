@@ -4,15 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.Member;
-import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
 import com.talkabout.sql.MyConnection;
 
@@ -108,7 +105,8 @@ public class DebateDAOOracle implements DebateDAO {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				String InsertSQL = "INSERT INTO debate(debate_no, debate_writer, debate_topic, debate_date, debate_time) VALUES (DEB_SEQ.nextval,?,?,?,?)";
+				String InsertSQL = "INSERT INTO debate(debate_no, debate_writer, debate_topic, debate_date, debate_time) VALUES (DEB_SEQ.nextval,?,?,"
+						+ "To_Date('"+deb.getDebate_date()+"','yyyy-mm-dd hh24:mi') ,?)";
 				String seqSQL = "SELECT DEB_SEQ.CURRVAL AS debate FROM DUAL";
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
@@ -116,8 +114,7 @@ public class DebateDAOOracle implements DebateDAO {
 					pstmt = con.prepareStatement(InsertSQL);
 					pstmt.setInt(1, deb.getDebate_writer());
 					pstmt.setString(2, deb.getDebate_topic());
-					pstmt.setString(3, deb.getDebate_date());
-					pstmt.setInt(4, deb.getDebate_time());
+					pstmt.setInt(3, deb.getDebate_time());
 					int result = pstmt.executeUpdate();
 //					System.out.println("result : "+ result);
 					
@@ -251,10 +248,40 @@ public class DebateDAOOracle implements DebateDAO {
 		// detail쪽 작성
 		
 	}
+	@Override
+	public void updateDiscussor(Debate deb_no, DebateDetail dd, Member m) {// 토론자 등록
+		//DB연결
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String updateStatus = "UPDATE debatedetail SET discussor = ? WHERE detail_deb = ? and discuss = ?";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		//Member l = null;
+		try {
+			pstmt = con.prepareStatement(updateStatus);
+			pstmt.setInt(1, m.getMember_no());
+			pstmt.setInt(2, deb_no.getDebate_no());
+			pstmt.setString(3, dd.getDiscuss());
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}finally{
+			//DB연결 해제
+			MyConnection.close(con, pstmt, rs);
+		}
+		
+	}
 
 	@Override
 	public void deleteDebate(Debate deb_no) {
-		
 		//DB연결
 				Connection con = null;
 				try {
@@ -283,16 +310,27 @@ public class DebateDAOOracle implements DebateDAO {
 	}
 	
 	public static void main(String[] args) {
+		
 		DebateDAOOracle dao = new DebateDAOOracle();
 		
-		Debate db = dao.selectByNo(1);
-//		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-//		String time = sf.format(db);
+//		Debate deb_no = new Debate();
+//		deb_no.setDebate_no(2);
+//		DebateDetail dd = new DebateDetail();
+//		dd.setDiscuss("삼성");
+//		Member m = new Member();
+//		m.setMember_no(2);
+//		dao.updateDiscussor(deb_no, dd, m);
 		
-		System.out.println(db.getDebate_date());
-		System.out.println(db.getDebate_no());
-		System.out.println(db.getDebate_topic());
-		System.out.println(db.getDebate_time());
+		
+//		Debate d = new Debate();
+//		d.setDebate_no(6);
+//		dao.deleteDebate(d);
+		
+//		Debate db = dao.selectByNo(1);
+//		System.out.println(db.getDebate_date());
+//		System.out.println(db.getDebate_no());
+//		System.out.println(db.getDebate_topic());
+//		System.out.println(db.getDebate_time());
 //		System.out.println(time);
 		
 		//전체 수정
@@ -346,4 +384,6 @@ public class DebateDAOOracle implements DebateDAO {
 //		}
 //		System.out.println(dao.selectByNo(3).toString());
 	}
+
+
 }

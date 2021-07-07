@@ -73,4 +73,14 @@
     <servlet-name>DebateServelt</servlet-name>
     <url-pattern>/debate</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DebateSaveServlet</display-name>
+    <servlet-name>DebateSaveServlet</servlet-name>
+    <servlet-class>com.talkabout.servlet.DebateSaveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateSaveServlet</servlet-name>
+    <url-pattern>/debatesave</url-pattern>
+  </servlet-mapping>
 </web-app>

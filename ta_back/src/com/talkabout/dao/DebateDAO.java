@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
+import com.talkabout.dto.Member;
 import com.talkabout.exception.ModifyException;
 
 public interface DebateDAO {
@@ -47,8 +48,15 @@ public interface DebateDAO {
 	void updateEnddate(Debate end_date);
 	/**
 	 * 
+	 * @param 토론자 등록.
+	 */
+	void updateDiscussor(Debate deb_no,DebateDetail dd, Member m);
+	/**
+	 * 
 	 * @param deb_no 토론 삭제
 	 */
 	void deleteDebate(Debate deb_no);
+	
+
 
 }
