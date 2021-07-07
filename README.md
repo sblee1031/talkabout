@@ -31,21 +31,11 @@ ___
 - 세팅 SQL구문 수정
 ___
 
-## 210706
-- 
+## 210707
+- DTO Date 타입 -> String 타입으로 수정
 ___
 #
 
 # Todo
-- DebateDetail DTO 수정
-```java
-// com\talkabout\dto\DebateDetail.java
-
-// 수정 전
-private int debate_no;
-
-// 수정 후
-private int detail_no; 
-```
 - 메인 페이지 제작
 - Service, DAO 구현 마무리
