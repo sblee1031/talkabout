@@ -61,22 +61,22 @@ DEBATECOMMENT
 ```java
 /* 수정 전 */
 try {
-			con = MyConnection.getConnection();
-			pstmt = con.prepareStatement(select_SQL);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				Date in_time = rs.getDate("IN_TIME");
-			}
+	con = MyConnection.getConnection();
+	pstmt = con.prepareStatement(select_SQL);
+	rs = pstmt.executeQuery();
+	while(rs.next()) {
+		Date in_time = rs.getDate("IN_TIME");
+	}
 }
 
 /* 수정 후 */
 try {
-			con = MyConnection.getConnection();
-			pstmt = con.prepareStatement(select_SQL);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				String in_time = rs.getString("IN_TIME");
-			}
+	con = MyConnection.getConnection();
+	pstmt = con.prepareStatement(select_SQL);
+	rs = pstmt.executeQuery();
+	while(rs.next()) {
+		String in_time = rs.getString("IN_TIME");
+	}
 }
 ```
 ___
