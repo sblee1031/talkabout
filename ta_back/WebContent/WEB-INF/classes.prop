@@ -1,2 +1,3 @@
 #classes.prop
 memberDAO=com.talkabout.dao.MemberDAOOracle
+debateDAO=com.talkabout.dao.DebateDAOOracle

@@ -63,4 +63,14 @@
     <servlet-name>LeaveMemberService</servlet-name>
     <url-pattern>/leavemember</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DebateServelt</display-name>
+    <servlet-name>DebateServelt</servlet-name>
+    <servlet-class>com.talkabout.servlet.DebateServelt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateServelt</servlet-name>
+    <url-pattern>/debate</url-pattern>
+  </servlet-mapping>
 </web-app>

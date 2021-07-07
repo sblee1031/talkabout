@@ -60,7 +60,7 @@ public class MemberDAOOracle implements MemberDAO{
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				String selectByNo = "SELECT * FROM member WHERE member_no = ? AND member_able = 1";
+				String selectByNo = "SELECT * FROM member WHERE member_no = ?";
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
 				Member l = null;

@@ -35,7 +35,9 @@ public class MemberService {
 	}
 	public Member memberCheck(String social_no) throws FindException {
 		return dao.selectByNo(social_no);
-		
+	}
+	public Member memberInfo(int mem_no) throws FindException {
+		return dao.selectByNo(mem_no);
 	}
 	
 	public void updateNick(Member m) throws FindException{
