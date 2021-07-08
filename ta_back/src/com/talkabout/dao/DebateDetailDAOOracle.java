@@ -1,18 +1,14 @@
 package com.talkabout.dao;
 
 import java.sql.Connection;
-
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import com.talkabout.dto.DebateDetail;
-import com.talkabout.exception.FindException;
 import com.talkabout.sql.MyConnection;
 
 public class DebateDetailDAOOracle implements DebateDetailDAO {
@@ -44,7 +40,7 @@ public class DebateDetailDAOOracle implements DebateDetailDAO {
 				String evi_two = rs.getString("EVI_TWO");
 				String evi_three = rs.getString("EVI_THREE");
 				int discussor = rs.getInt("DISCUSSOR");
-				Date in_time = rs.getDate("IN_TIME");
+				String in_time = rs.getString("IN_TIME");
 				
 				DebateDetail dd = new DebateDetail(detail_no, detail_deb, discuss, evi_one, evi_two, evi_three, discussor, in_time);
 				list.add(dd);
@@ -56,6 +52,42 @@ public class DebateDetailDAOOracle implements DebateDetailDAO {
 			//DB연결해제
 			MyConnection.close(con, pstmt, rs);
 		}		
+		return list;
+	}
+	// 토론 번호로 주장A, 주장B 가져오기 위한 메서드 
+	public List<DebateDetail> selectByNo(int detail_deb) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String select_SQL = "SELECT * FROM DEBATEDETAIL WHERE DETAIL_DEB = ?";
+		DebateDetail dd = null;
+		
+		List<DebateDetail> list = new ArrayList<>();
+		try {
+			con = MyConnection.getConnection();
+			pstmt = con.prepareStatement(select_SQL);
+			pstmt.setInt(1, detail_deb);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int detail_n = rs.getInt("DETAIL_NO");
+				int deb_no = rs.getInt("DETAIL_DEB");
+				String discuss = rs.getString("DISCUSS");
+				String evi_one = rs.getString("EVI_ONE");
+				String evi_two = rs.getString("EVI_TWO");
+				String evi_three = rs.getString("EVI_THREE");
+				int discussor_no = rs.getInt("DISCUSSOR");
+				String in_time = rs.getString("IN_TIME");
+				
+				dd = new DebateDetail(detail_n, deb_no, discuss, evi_one, evi_two, evi_three, discussor_no, in_time);
+				list.add(dd);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();	
+		} finally {
+			//DB연결해제
+			MyConnection.close(con, pstmt, rs);
+		}	
 		return list;
 	}
 	
@@ -80,7 +112,7 @@ public class DebateDetailDAOOracle implements DebateDetailDAO {
 				String evi_two = rs.getString("EVI_TWO");
 				String evi_three = rs.getString("EVI_THREE");
 				int discussor_no = rs.getInt("DISCUSSOR");
-				Date in_time = rs.getDate("IN_TIME");
+				String in_time = rs.getString("IN_TIME");
 				
 				dd = new DebateDetail(detail_n, deb_no, discuss, evi_one, evi_two, evi_three, discussor_no, in_time);
 			}
@@ -138,12 +170,12 @@ public class DebateDetailDAOOracle implements DebateDetailDAO {
 		PreparedStatement pstmt = null;
 		
 		String update_SQL = "UPDATE DEBATEDETAIL SET IN_TIME = ? WHERE DETAIL_NO = ?";
-		java.sql.Date utilToSQL = new java.sql.Date(dd.getIn_time().getTime());
+		//String utilToSQL = dd.getIn_time().getTime();
 		try {
 			con = MyConnection.getConnection();
 			pstmt = con.prepareStatement(update_SQL);
 			// setDate : 
-			pstmt.setDate(1, utilToSQL);
+			pstmt.setString(1, dd.getIn_time());
 			pstmt.setInt(2, dd.getDetail_no());
 			pstmt.executeUpdate();
 		}catch (SQLException e) {
@@ -223,7 +255,7 @@ public class DebateDetailDAOOracle implements DebateDetailDAO {
 		
 		// updateIntime 테스트
 		Date today = new Date();
-		update_Test.setIn_time(today);
+//		update_Test.setIn_time(today);
 		System.out.println(update_Test.toString());
 		dao.updateIntime(update_Test);
 		System.out.println("-----------------------------------------");

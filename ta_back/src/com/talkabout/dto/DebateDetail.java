@@ -22,7 +22,7 @@ public class DebateDetail {
 	private String evi_two;
 	private String evi_three;
 	private int discussor; // discussor.member_no
-	private Date in_time;
+	private String in_time;
 	
 	
 	
@@ -31,7 +31,7 @@ public class DebateDetail {
 	}
 
 	public DebateDetail(int detail_no, int detail_deb, String discuss, String evi_one, String evi_two,
-			String evi_three, int discussor, Date in_time) {
+			String evi_three, int discussor, String in_time) {
 		super();
 		this.detail_no = detail_no;
 		this.detail_deb = detail_deb;
@@ -99,11 +99,11 @@ public class DebateDetail {
 		this.discussor = discussor;
 	}
 
-	public Date getIn_time() {
+	public String getIn_time() {
 		return in_time;
 	}
 
-	public void setIn_time(Date in_time) {
+	public void setIn_time(String in_time) {
 		this.in_time = in_time;
 	}
 

@@ -49,6 +49,10 @@ public class DebateDetailService {
 		return dao.selectOne(d.getDebate_no(), discussor);
 	}
 	
+	public List<DebateDetail> findByDebNo(int deb_no) {//주장A,B 가져오기
+		return dao.selectByNo(deb_no);
+	}
+	
 	public void addDetail(DebateDetail dd) {
 		dao.insert(dd);
 	}
