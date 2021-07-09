@@ -71,6 +71,7 @@ public class NickNameServlet extends HttpServlet {
 			try {
 				service.updateNick(nick);
 				System.out.println("변경 완료");
+				session.invalidate(); //세션제거
 			} catch (FindException e) {
 				e.printStackTrace();
 			}
