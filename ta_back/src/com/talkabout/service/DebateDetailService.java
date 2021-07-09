@@ -41,11 +41,16 @@ public class DebateDetailService {
 	}
 	
 	public List<DebateDetail> findAll() throws FindException {
+
 		return dao.selectAll();
 	}
 	
 	public DebateDetail findByDeb(Debate d, int discussor) {
 		return dao.selectOne(d.getDebate_no(), discussor);
+	}
+
+	public List<DebateDetail> findByDebNo(int deb_no) {
+		return dao.selectByNo(deb_no);
 	}
 	
 	public void addDetail(DebateDetail dd) {
