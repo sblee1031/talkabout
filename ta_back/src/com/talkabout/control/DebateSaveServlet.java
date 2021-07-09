@@ -20,8 +20,7 @@ public class DebateSaveServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Member m = (Member)session.getAttribute("logininfo");
-		//로그인 정보 확인 구현 필요
-		//m.setMember_no(1);
+		//로그인 정보를 담은 멤버 객체
 		
 		request.setCharacterEncoding("utf-8");
 		ServletContext sc = getServletContext();		
@@ -42,7 +41,7 @@ public class DebateSaveServlet extends HttpServlet {
 		
 		if(method.equals("debatesave")) {
 			Debate deb = new Debate();
-			deb.setDebate_writer(1); // 임시 작성자
+			deb.setDebate_writer(m.getMember_no());
 			deb.setDebate_topic(debate_topic);
 			deb.setDebate_date(debate_date);
 			deb.setDebate_time(debate_time);
@@ -53,7 +52,7 @@ public class DebateSaveServlet extends HttpServlet {
 		if(method.equals("btnDiscuss1")) {
 			//System.out.println("토론자1 서블릿");
 			Debate deb = new Debate();
-			deb.setDebate_writer(1); // 임시 작성자
+			deb.setDebate_writer(m.getMember_no()); // 임시 작성자
 			deb.setDebate_topic(debate_topic);
 			deb.setDebate_date(debate_date);
 			deb.setDebate_time(debate_time);
@@ -63,7 +62,7 @@ public class DebateSaveServlet extends HttpServlet {
 		}
 		if(method.equals("btnDiscuss2")) {
 			Debate deb = new Debate();
-			deb.setDebate_writer(2); // 임시 작성자
+			deb.setDebate_writer(m.getMember_no()); // 임시 작성자
 			deb.setDebate_topic(debate_topic);
 			deb.setDebate_date(debate_date);
 			deb.setDebate_time(debate_time);
