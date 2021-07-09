@@ -38,7 +38,6 @@ public class DebateServelt extends HttpServlet {
 		DebateService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		MemberService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		String method = request.getParameter("method");
-		System.out.println(method);
 		
 		DebateService service;
 		service = DebateService.getInstance();
@@ -57,12 +56,10 @@ public class DebateServelt extends HttpServlet {
 		if(method.equals("listall")) {
 			try {
 			list = service.findAll();
-			//System.out.println(list.size());
 			List<Member> memList = new ArrayList<>();
 			for (Debate debate : list) {
 				Member mem = new Member();
 				try {
-					//System.out.println(debate.getDebate_writer());
 					mem = memservice.memberInfo(debate.getDebate_writer());
 					memList.add(mem);
 				} catch (FindException e) {

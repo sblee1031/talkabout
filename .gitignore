@@ -179,3 +179,10 @@ ta_back/build/classes/com/talkabout/service/DebateService.class
 ta_back/build/classes/com/talkabout/servlet/DebateSaveServlet.class
 ta_back/build/classes/com/talkabout/servlet/DebateServelt.class
 ta_back/build/classes/com/talkabout/servlet/LeaveMemberService.class
+ta_back/build/classes/com/talkabout/control/DebateSaveServlet.class
+ta_back/build/classes/com/talkabout/control/DebateServelt.class
+ta_back/build/classes/com/talkabout/control/LeaveMemberService.class
+ta_back/build/classes/com/talkabout/control/LoginServlet.class
+ta_back/build/classes/com/talkabout/control/LogoutServlet.class
+ta_back/build/classes/com/talkabout/control/NickNameServlet.class
+ta_back/build/classes/com/talkabout/control/SignUpServlet.class
