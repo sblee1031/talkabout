@@ -1,40 +1,49 @@
-package com.day.dto;
+package com.talkabout.dto;
 
 public class Audience {
 	/*
-	 * battle_no : ��й�ȣ(PK&FK, Battle_main.battle_no)
-	 * member_no : ȸ����ȣ(PK&FK, Member.member_no)
-	 * vote : ��ǥ(���� A(1), �߸�(0, default), ���� B(-1)) 
+	 * Table : 관중(중계방) 테이블
+	 * 
+	 * audi_no : 관중번호(PK)
+	 * audi_deb : 토론번호(FK, Debate 테이블 참조)
+	 * audi_mem : 회원번호(FK, Member 테이블 참조)
+	 * vote : 투표(주장 A(1), 중립(2, default), 주장 B(3)) 
 	 */
-	private Battle_Main battle_no;
-	private Member member_no;
+	private int audi_no;
+	private int audi_deb; // audi_deb.debate_no
+	private int audi_mem; // audi_mem.member_no
 	private int vote;
 	
-	public Audience() {
+	public Audience(int audi_no, int audi_deb, int audi_mem, int vote) {
 		super();
-	}
-
-	public Audience(Battle_Main battle_no, Member member_no, int vote) {
-		super();
-		this.battle_no = battle_no;
-		this.member_no = member_no;
+		this.audi_no = audi_no;
+		this.audi_deb = audi_deb;
+		this.audi_mem = audi_mem;
 		this.vote = vote;
 	}
 
-	public Battle_Main getBattle_no() {
-		return battle_no;
+	public int getAudi_no() {
+		return audi_no;
 	}
 
-	public void setBattle_no(Battle_Main battle_no) {
-		this.battle_no = battle_no;
+	public void setAudi_no(int audi_no) {
+		this.audi_no = audi_no;
 	}
 
-	public Member getMember_no() {
-		return member_no;
+	public int getAudi_deb() {
+		return audi_deb;
 	}
 
-	public void setMember_no(Member member_no) {
-		this.member_no = member_no;
+	public void setAudi_deb(int audi_deb) {
+		this.audi_deb = audi_deb;
+	}
+
+	public int getAudi_mem() {
+		return audi_mem;
+	}
+
+	public void setAudi_mem(int audi_mem) {
+		this.audi_mem = audi_mem;
 	}
 
 	public int getVote() {
@@ -47,6 +56,10 @@ public class Audience {
 
 	@Override
 	public String toString() {
-		return "Audience [battle_no=" + battle_no + ", member_no=" + member_no + ", vote=" + vote + "]";
+		return "Audience [audi_no=" + audi_no + ", audi_deb=" + audi_deb + ", audi_mem=" + audi_mem + ", vote=" + vote
+				+ "]";
 	}
+	
+	
+	
 }
