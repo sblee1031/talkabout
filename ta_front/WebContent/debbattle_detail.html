@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>토론 배틀</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<style>
+		html, body {
+			width: 100%; 
+			height: 100%;
+			text-align: center;
+		}
+		div, td {
+			border-style: ridge;
+		}
+		div.con_1,div.con_2,div.con_3 {
+			float : left; width: 450px; height: 900px; overflow-y: auto;
+		}
+	</style>
+</head>
+<body>
+	<div id = "container" style="height: auto;width: auto;">
+		<div class = "con_1">
+			<div style = "height: 15%;width: 40%;margin:0 auto;">프로필</div>
+			<div style = "height: 3%;width: 40%;margin:0 auto;">토론자 닉네임</div>
+			<div style = "height: 80%;width: auto;">
+				<table style = "height: 100%;width : 100%;">
+				    <tr style = "height: 5%;">
+				        <td colspan="2">근거</td>
+				    </tr>
+				    <tr style = "height: 5%;">
+				        <td>근거 1</td>
+				        <td><button>등록</button></td>
+				    </tr>
+				    <tr style = "height: auto;">
+				        <td colspan="2">근거 내용</td>
+				    </tr>
+				    <tr style = "height: 5%;">
+				        <td>근거 2</td>
+				        <td><button>등록</button></td>
+				    </tr>
+				    <tr style = "height: auto;">
+				        <td colspan="2">근거 내용</td>
+				    </tr>
+				    <tr style = "height: 5%;">
+				        <td>근거 3</td>
+				        <td><button>등록</button></td>
+				    </tr>
+				    <tr style = "height: auto;">
+				        <td colspan="2">근거 내용</td>
+				    </tr>
+				</table>
+			</div>
+		</div>
+		<div class = "con_2">
+			<div style = "height: 10%;width: auto;">호날두 vs 메시</div>
+			<div style = "height: 4%;width: auto;">남은 시간</div>
+			<div style = "height: 4%;width: auto;">호날두 XX% / 중립 XX% / 메시 XX%</div>
+			<div id="discussorWindow" style="overflow-x: auto; width: auto; height:30%;">
+				<div>토론자 채팅</div>
+			</div>
+			<div style = "height: auto;width: auto;">
+				<button>시작</button>
+				<button>종료</button>
+			</div>
+			
+			<div id="audienceWindow" style="overflow-x: auto; width: auto; height:30%;">
+				<div>중계방 채팅</div>
+			</div>
+			<div style = "height: auto;width: auto;">
+				<button>찬성</button>
+				<button>중립</button>
+				<button>반대</button>
+			</div>
+			<div style = "height: 5%;width: auto;">
+				<input type="text"><button>전송</button>
+			</div>
+		</div>
+		<div class = "con_3">
+			<div style = "height: 15%;width: 40%;margin:0 auto;">프로필</div>
+			<div style = "height: 3%;width: 40%;margin:0 auto;">토론자 닉네임</div>
+			<div style = "height: 80%;width: auto;">
+				<table style = "height: 100%;width : 100%;">
+				    <tr style = "height: 5%;">
+				        <td colspan="2">근거</td>
+				    </tr>
+				    <tr style = "height: 5%;">
+				        <td>근거 1</td>
+				        <td><button>등록</button></td>
+				    </tr>
+				    <tr style = "height: auto;">
+				        <td colspan="2">근거 내용</td>
+				    </tr>
+				    <tr style = "height: 5%;">
+				        <td>근거 2</td>
+				        <td><button>등록</button></td>
+				    </tr>
+				    <tr style = "height: auto;">
+				        <td colspan="2">근거 내용</td>
+				    </tr>
+				    <tr style = "height: 5%;">
+				        <td>근거 3</td>
+				        <td><button>등록</button></td>
+				    </tr>
+				    <tr style = "height: auto;">
+				        <td colspan="2">근거 내용</td>
+				    </tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
