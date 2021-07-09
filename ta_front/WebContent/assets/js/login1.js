@@ -1,8 +1,6 @@
-var userdata = "";
+var userdata = ""; //로그인 정보 담기는 객체
 var nickBoolean; //닉네임 중복여부 저장 변수
 $(function () {
-
-
   // Get the modal
   var modal = document.getElementById("myModal");
 
@@ -38,11 +36,11 @@ $(function () {
     data: {},
     success: function (responseData) {
       userdata = responseData;
-      console.log(responseData.member);
+      //console.log(responseData.member);
       //console.log(responseData.usercheck);
       if (responseData.logined == "logined") {
-	console.log(responseData.logined);
-		$("div.signup").hide();
+        //console.log(responseData.logined);
+        $("div.signup").hide();
         $("#memberinfo").show();
         $("#login_thumb_img").attr("src", responseData.member.member_thumb);
         $("#member_nickname").html(
@@ -93,42 +91,40 @@ function onSignIn(googleUser) {
       //console.log(responseData);
       //console.log(responseData.usercheck);
       if (responseData.usercheck == "non_member") {
-	 $("#section").load("logininfo.html", function () {
-		
-        // console.log(responseData.usercheck);
-		$("#myinfodiv").hide();
-        $("div.signup").show();
-        $("#email").val(profile.Nt);
-        $("#social_type").val("구글");
-        $("#social_no").val(profile.LS);
-        $("#thumb").val(profile.DJ);
-        $("#thumb_img").attr("src", profile.DJ);
-        $("#close").trigger("click");
+        $("#section").load("logininfo.html", function () {
+          // console.log(responseData.usercheck);
+          $("#myinfodiv").hide();
+          $("div.signup").show();
+          $("#email").val(profile.Nt);
+          $("#social_type").val("구글");
+          $("#social_no").val(profile.LS);
+          $("#thumb").val(profile.DJ);
+          $("#thumb_img").attr("src", profile.DJ);
+          $("#close").trigger("click");
 
-		  $("#nickname").on("keyup", function (e) {
-      console.log("닉체크" + e);
-      var data = $("#nickname").val();
-      var chkhtml = $("span.signchkNick");
-      var url = "../ta_back/nickname";
-      $.ajax({
-        url: url,
-        method: "post",
-        data: { nickName: data },
-        success: function (reseponse) {
-          //console.log(reseponse);
-          nickBoolean = reseponse.chkNick;
-          if (reseponse.chkNick == false) {
-            chkhtml.text("사용 가능한 닉네임");
-            chkhtml.css("color", "blue");
-          } else if (reseponse.chkNick == true) {
-            chkhtml.text("사용 불가능 닉네임");
-            chkhtml.css("color", "red");
-          }
-        },
-      });
-    });
-
-});
+          $("#nickname").on("keyup", function (e) {
+            console.log("닉체크" + e);
+            var data = $("#nickname").val();
+            var chkhtml = $("span.signchkNick");
+            var url = "../ta_back/nickname";
+            $.ajax({
+              url: url,
+              method: "post",
+              data: { nickName: data },
+              success: function (reseponse) {
+                //console.log(reseponse);
+                nickBoolean = reseponse.chkNick;
+                if (reseponse.chkNick == false) {
+                  chkhtml.text("사용 가능한 닉네임");
+                  chkhtml.css("color", "blue");
+                } else if (reseponse.chkNick == true) {
+                  chkhtml.text("사용 불가능 닉네임");
+                  chkhtml.css("color", "red");
+                }
+              },
+            });
+          });
+        });
       } else if (responseData.usercheck == "member") {
         userdata = responseData;
         logined(responseData);
@@ -138,10 +134,7 @@ function onSignIn(googleUser) {
       alert(xhr.status);
     },
   });
-
-
-}//구글로그인 끝
-
+} //구글로그인 끝
 
 function onSignInFailure(t) {
   console.log(t);
@@ -164,7 +157,7 @@ function changeNick() {
   if (data.member_nickName == inputNick) {
     alert("변경 사항이 없습니다.");
   } else if (data.member_nickName != inputNick && nickBoolean == false) {
-	alert("변경완료");
+    alert("변경완료! 다시 로그인 해주세요");
     $.ajax({
       url: url,
       method: "post",
@@ -175,11 +168,11 @@ function changeNick() {
       },
     });
   }
-window.location.href = "../ta_front/index.html";
+  window.location.href = "../ta_front/index.html";
 }
 
 function logined(responseData) {
-  console.log("logined : "+responseData);
+  console.log("logined : " + responseData);
   $("div.signup").hide();
   $("#memberinfo").show();
   $("#login_thumb_img").attr("src", responseData.member.member_thumb);
@@ -190,6 +183,7 @@ function logined(responseData) {
   $("#myBtn").hide();
   //location.href = "./login.html";
   $("#close").trigger("click");
+	location.reload();
 }
 
 function logout() {
@@ -211,39 +205,34 @@ function logout() {
   });
 }
 
-
-
 function myinfo() {
-	
-	  $("#section").load("logininfo.html", function () {
+  $("#section").load("logininfo.html", function () {
     //$("#myinfodiv").hide();
     //닉네임 중복 함수
 
-  var url = "../ta_back/login";
-  var data = userdata.member;
-  $.ajax({
-    url: url,
-    method: "post",
-    data: { social_no: data.member_social_no },
-    success: function (resposeData) {
-      //console.log(resposeData);
-      $("div.signup").hide();
-      // $("#memberinfo").hide();
-      // $("#social").show();
+    var url = "../ta_back/login";
+    var data = userdata.member;
+    $.ajax({
+      url: url,
+      method: "post",
+      data: { social_no: data.member_social_no },
+      success: function (resposeData) {
+        //console.log(resposeData);
+        $("div.signup").hide();
+        // $("#memberinfo").hide();
+        // $("#social").show();
 
-      $("#myemail").text(data.member_email);
-      $("#mynickname").val(data.member_nickName);
-      $("#mysocial_type").text(data.member_social_type);
-      $("#mybirthday").val(data.member_birth);
-      $("#mygender").text(data.member_gender);
-      //$("#mysocial_no").val(data.member);
-      //$("#thumb").val(profile.DJ);
-      $("#mythumb_img").attr("src", data.member_thumb);
-	$("#myinfodiv").css("display", "block");
-    },
-  });
-
-  
+        $("#myemail").text(data.member_email);
+        $("#mynickname").val(data.member_nickName);
+        $("#mysocial_type").text(data.member_social_type);
+        $("#mybirthday").val(data.member_birth);
+        $("#mygender").text(data.member_gender);
+        //$("#mysocial_no").val(data.member);
+        //$("#thumb").val(profile.DJ);
+        $("#mythumb_img").attr("src", data.member_thumb);
+        $("#myinfodiv").css("display", "block");
+      },
+    });
 
     $("#mynickname").on("keyup", function (e) {
       console.log("닉체크" + e);
@@ -267,11 +256,7 @@ function myinfo() {
         },
       });
     });
-
-  
-
   }); //섹션로드 끝
-
 }
 
 function leave() {
@@ -372,46 +357,42 @@ Kakao.Auth.createLoginButton({
           } /*id=id1&pwd=p1*/,
           success: function (data) {
             if (data.usercheck == "non_member") {
-		 $("#section").load("logininfo.html", function () {
-			$("#myinfodiv").hide();
-			   $("div.signup").show();
-              $("#email").val(result.kakao_account.email);
-              $("#social_type").val("카카오");
-              $("#social_no").val(result.id);
-              $("#thumb").val(result.kakao_account.profile.profile_image_url);
-              $("#thumb_img").attr(
-                "src",
-                result.kakao_account.profile.profile_image_url
-              );
-              $("#close").trigger("click");
+              $("#section").load("logininfo.html", function () {
+                $("#myinfodiv").hide();
+                $("div.signup").show();
+                $("#email").val(result.kakao_account.email);
+                $("#social_type").val("카카오");
+                $("#social_no").val(result.id);
+                $("#thumb").val(result.kakao_account.profile.profile_image_url);
+                $("#thumb_img").attr(
+                  "src",
+                  result.kakao_account.profile.profile_image_url
+                );
+                $("#close").trigger("click");
 
-		  $("#nickname").on("keyup", function (e) {
-      console.log("닉체크" + e);
-      var data = $("#nickname").val();
-      var chkhtml = $("span.signchkNick");
-      var url = "../ta_back/nickname";
-      $.ajax({
-        url: url,
-        method: "post",
-        data: { nickName: data },
-        success: function (reseponse) {
-          //console.log(reseponse);
-          nickBoolean = reseponse.chkNick;
-          if (reseponse.chkNick == false) {
-            chkhtml.text("사용 가능한 닉네임");
-            chkhtml.css("color", "blue");
-          } else if (reseponse.chkNick == true) {
-            chkhtml.text("사용 불가능 닉네임");
-            chkhtml.css("color", "red");
-          }
-        },
-      });
-    });
-
-		});
-		
-
-
+                $("#nickname").on("keyup", function (e) {
+                  console.log("닉체크" + e);
+                  var data = $("#nickname").val();
+                  var chkhtml = $("span.signchkNick");
+                  var url = "../ta_back/nickname";
+                  $.ajax({
+                    url: url,
+                    method: "post",
+                    data: { nickName: data },
+                    success: function (reseponse) {
+                      //console.log(reseponse);
+                      nickBoolean = reseponse.chkNick;
+                      if (reseponse.chkNick == false) {
+                        chkhtml.text("사용 가능한 닉네임");
+                        chkhtml.css("color", "blue");
+                      } else if (reseponse.chkNick == true) {
+                        chkhtml.text("사용 불가능 닉네임");
+                        chkhtml.css("color", "red");
+                      }
+                    },
+                  });
+                });
+              });
             } else if (data.usercheck == "member") {
               userdata = data;
               logined(data);
