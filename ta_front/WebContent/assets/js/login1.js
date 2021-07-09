@@ -1,33 +1,7 @@
 var userdata = "";
 var nickBoolean; //닉네임 중복여부 저장 변수
 $(function () {
-  $("#section").load("logininfo.html", function () {
-    $("#myinfodiv").hide();
-    //닉네임 중복 함수
 
-    $("#mynickname").on("keyup", function (e) {
-      console.log("닉체크" + e);
-      var data = $("#mynickname").val();
-      var chkhtml = $("span.chkNick");
-      var url = "../ta_back/nickname";
-      $.ajax({
-        url: url,
-        method: "post",
-        data: { nickName: data },
-        success: function (reseponse) {
-          //console.log(reseponse);
-          nickBoolean = reseponse.chkNick;
-          if (reseponse.chkNick == false) {
-            chkhtml.text("사용 가능한 닉네임");
-            chkhtml.css("color", "blue");
-          } else if (reseponse.chkNick == true) {
-            chkhtml.text("사용 불가능 닉네임");
-            chkhtml.css("color", "red");
-          }
-        },
-      });
-    });
-  }); //섹션로드 끝
 
   // Get the modal
   var modal = document.getElementById("myModal");
@@ -185,7 +159,7 @@ function logined(responseData) {
 }
 
 function logout() {
-  $("#myinfodiv").hide();
+  //$("#myinfodiv").hide();
   var data;
   var url = "../ta_back/logout";
   $.ajax({
@@ -203,7 +177,11 @@ function logout() {
   });
 }
 function myinfo() {
-  $("#myinfodiv").show();
+	
+	  $("#section").load("logininfo.html", function () {
+    //$("#myinfodiv").hide();
+    //닉네임 중복 함수
+
   var url = "../ta_back/login";
   var data = userdata.member;
   $.ajax({
@@ -224,8 +202,36 @@ function myinfo() {
       //$("#mysocial_no").val(data.member);
       //$("#thumb").val(profile.DJ);
       $("#mythumb_img").attr("src", data.member_thumb);
+	$("#myinfodiv").css("display", "block");
     },
   });
+
+  
+
+    $("#mynickname").on("keyup", function (e) {
+      console.log("닉체크" + e);
+      var data = $("#mynickname").val();
+      var chkhtml = $("span.chkNick");
+      var url = "../ta_back/nickname";
+      $.ajax({
+        url: url,
+        method: "post",
+        data: { nickName: data },
+        success: function (reseponse) {
+          //console.log(reseponse);
+          nickBoolean = reseponse.chkNick;
+          if (reseponse.chkNick == false) {
+            chkhtml.text("사용 가능한 닉네임");
+            chkhtml.css("color", "blue");
+          } else if (reseponse.chkNick == true) {
+            chkhtml.text("사용 불가능 닉네임");
+            chkhtml.css("color", "red");
+          }
+        },
+      });
+    });
+  }); //섹션로드 끝
+
 }
 
 function leave() {
@@ -259,7 +265,7 @@ Kakao.init("cef4a19442da922d3333aab48432a47a");
 //console.log("카카오 클라이언트 연결 : " + Kakao.isInitialized());
 
 $("div.signup").hide();
-$("#myinfodiv").hide();
+//$("#myinfodiv").hide();
 
 $("body").on("click", "button.sign", function () {
   //폼 태그 전송 ajax
