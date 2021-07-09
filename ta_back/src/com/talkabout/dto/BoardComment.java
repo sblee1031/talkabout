@@ -1,30 +1,30 @@
-<<<<<<< HEAD
-package com.day.dto;
-=======
 package com.talkabout.dto;
->>>>>>> 5500205aa2729dc897e6f159d29008d88730535e
 
 import java.util.Date;
 
 public class BoardComment {
-	private int com_no; //댓글번호
-	private Date freeboard_comment_date; //댓글 작성 날짜
-	private String freeboard_comment_dtl; //댓글내용
-	private Member comment_member_no; //댓글 작성 회원번호
-	private Board comment_freeboard_no; //댓글 작성 한 댓글번호
+	/*
+	 * Table : 자유게시판 댓글 테이블
+	 * 
+	 * com_no : 댓글번호(PK)
+	 * com_date : 댓글 작성일
+	 * com_contents : 댓글 내용
+	 * com_mem : 회원번호(FK, Member 테이블 참조)
+	 * com_board : 게시글 번호(FK, Board 테이블 참조)
+	 */
+	private int com_no;
+	private Date com_date;
+	private String com_contents;
+	private Member com_mem; // com_mem.member_no
+	private Board com_board; // com_board.board_no
 	
-	public BoardComment() {
-		super();
-	}
-
-	public BoardComment(int com_no, Date freeboard_comment_date, String freeboard_comment_dtl, Member comment_member_no,
-			Board comment_freeboard_no) {
+	public BoardComment(int com_no, Date com_date, String com_contents, Member com_mem, Board com_board) {
 		super();
 		this.com_no = com_no;
-		this.freeboard_comment_date = freeboard_comment_date;
-		this.freeboard_comment_dtl = freeboard_comment_dtl;
-		this.comment_member_no = comment_member_no;
-		this.comment_freeboard_no = comment_freeboard_no;
+		this.com_date = com_date;
+		this.com_contents = com_contents;
+		this.com_mem = com_mem;
+		this.com_board = com_board;
 	}
 
 	public int getCom_no() {
@@ -35,37 +35,36 @@ public class BoardComment {
 		this.com_no = com_no;
 	}
 
-	public Date getFreeboard_comment_date() {
-		return freeboard_comment_date;
+	public Date getCom_date() {
+		return com_date;
 	}
 
-	public void setFreeboard_comment_date(Date freeboard_comment_date) {
-		this.freeboard_comment_date = freeboard_comment_date;
+	public void setCom_date(Date com_date) {
+		this.com_date = com_date;
 	}
 
-	public String getFreeboard_comment_dtl() {
-		return freeboard_comment_dtl;
+	public String getCom_contents() {
+		return com_contents;
 	}
 
-	public void setFreeboard_comment_dtl(String freeboard_comment_dtl) {
-		this.freeboard_comment_dtl = freeboard_comment_dtl;
+	public void setCom_contents(String com_contents) {
+		this.com_contents = com_contents;
 	}
 
-	public Member getComment_member_no() {
-		return comment_member_no;
+	public Member getCom_mem() {
+		return com_mem;
 	}
 
-	public void setComment_member_no(Member comment_member_no) {
-		this.comment_member_no = comment_member_no;
+	public void setCom_mem(Member com_mem) {
+		this.com_mem = com_mem;
 	}
 
-	public Board getComment_freeboard_no() {
-		return comment_freeboard_no;
+	public Board getCom_board() {
+		return com_board;
 	}
 
-	public void setComment_freeboard_no(Board comment_freeboard_no) {
-		this.comment_freeboard_no = comment_freeboard_no;
+	public void setCom_board(Board com_board) {
+		this.com_board = com_board;
 	}
-	
 	
 }
