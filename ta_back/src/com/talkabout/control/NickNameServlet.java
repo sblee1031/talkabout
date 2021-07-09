@@ -21,6 +21,7 @@ public class NickNameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("닉네임 서블릿");
 		HttpSession session = request.getSession();
 		Member loginmem = (Member) session.getAttribute("logininfo");
 		
@@ -60,8 +61,8 @@ public class NickNameServlet extends HttpServlet {
 		
 		String nickUpdate = request.getParameter("nickUpdate");//닉네임 변경여부 체크 값
 		String changeNick = request.getParameter("changeNick");//바뀐 닉네임
-		System.out.println(changeNick);
-		System.out.println(nickUpdate);
+//		System.out.println(changeNick);
+//		System.out.println(nickUpdate);
 		try {
 		if(nickUpdate.equals("true")) {
 			Member nick = new Member();

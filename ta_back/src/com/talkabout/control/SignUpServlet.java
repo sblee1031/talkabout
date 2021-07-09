@@ -73,8 +73,8 @@ public class SignUpServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.print(jsonStr);
 		
-		System.out.println("회원 가입 성공");
-		System.out.println("정보 : "+social_type +" / "+social_no+" / "+email + " / "+ nickname+" / " +birthday+ " / "+ gender+" / " + thumb);
+//		System.out.println("회원 가입 성공");
+//		System.out.println("정보 : "+social_type +" / "+social_no+" / "+email + " / "+ nickname+" / " +birthday+ " / "+ gender+" / " + thumb);
 		
 	}
 

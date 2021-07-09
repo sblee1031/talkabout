@@ -24,7 +24,7 @@ public class LeaveMemberService extends HttpServlet {
 		String chkLeave = request.getParameter("chkLeave"); // 닉네임 체크용 매개변수
 		String leaveNo = request.getParameter("leaveNo"); // 닉네임 체크용 매개변수
 		int intleaveNo = Integer.parseInt(leaveNo);
-		System.out.println(chkLeave+ " / " + intleaveNo);
+//		System.out.println(chkLeave+ " / " + intleaveNo);
 		
 		ServletContext sc = getServletContext();		
 		MemberService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -39,7 +39,8 @@ public class LeaveMemberService extends HttpServlet {
 			} catch (FindException e) {
 				e.printStackTrace();
 			}
-			System.out.println(loginmem.getMember_nickName()+" 탈퇴완료");
+//			System.out.println(loginmem.getMember_nickName()+" 탈퇴완료");
+			session.invalidate(); //세션제거
 		}
 		
 	}
