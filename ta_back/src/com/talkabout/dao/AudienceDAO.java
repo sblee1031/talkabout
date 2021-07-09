@@ -6,7 +6,6 @@ import java.util.List;
 import com.talkabout.dto.Audience;
 
 public interface AudienceDAO {
-
 	List<Audience> selectAll();
 	
 	Audience selectByNo(int audi_no);
