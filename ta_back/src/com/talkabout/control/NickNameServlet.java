@@ -21,7 +21,6 @@ public class NickNameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("닉네임 서블릿");
 		HttpSession session = request.getSession();
 		Member loginmem = (Member) session.getAttribute("logininfo");
 		
@@ -72,6 +71,7 @@ public class NickNameServlet extends HttpServlet {
 			try {
 				service.updateNick(nick);
 				System.out.println("변경 완료");
+				session.invalidate(); //세션제거
 			} catch (FindException e) {
 				e.printStackTrace();
 			}

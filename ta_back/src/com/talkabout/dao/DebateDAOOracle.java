@@ -75,7 +75,7 @@ public class DebateDAOOracle implements DebateDAO {
 				String debate_topic = rs.getString("DEBATE_TOPIC");
 				String debate_date = rs.getString("debate_date");
 				
-				System.out.println("시간 : "+debate_date);
+				//System.out.println("시간 : "+debate_date);
 				int debate_time = rs.getInt("DEBATE_TIME");
 				String debate_status = rs.getString("DEBATE_STATUS");
 				String debate_startdate = rs.getString("DEBATE_STARTDATE");
@@ -128,12 +128,12 @@ public class DebateDAOOracle implements DebateDAO {
 					dd.setDetail_deb(seq);
 					dd.setDiscuss(discuss1); //주장1 
 					detail.insert(dd);
-					System.out.println("주장1 입력");
+					//System.out.println("주장1 입력");
 					
 					dd.setDetail_deb(seq);
 					dd.setDiscuss(discuss2); //주장2
 					detail.insert(dd);
-					System.out.println("주장2 입력");
+					//System.out.println("주장2 입력");
 					
 				} catch (SQLException e) {
 					e.printStackTrace();

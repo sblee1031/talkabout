@@ -31,7 +31,7 @@ public class DebateSaveServlet extends HttpServlet {
 		service = DebateService.getInstance();
 		
 		String method = request.getParameter("method");
-		System.out.println(method);
+		//System.out.println(method);
 		String debate_topic = request.getParameter("debate_topic");
 		String discuss1 = request.getParameter("discuss1");
 		String discuss2 = request.getParameter("discuss2");
@@ -48,10 +48,10 @@ public class DebateSaveServlet extends HttpServlet {
 			deb.setDebate_time(debate_time);
 			DebateDetail dd = new DebateDetail();
 			service.addDebate(deb, dd, discuss1, discuss2);
-			System.out.println("주장 등록 완료"+deb.toString());
+			//System.out.println("주장 등록 완료"+deb.toString());
 		}
 		if(method.equals("btnDiscuss1")) {
-			System.out.println("토론자1 서블릿");
+			//System.out.println("토론자1 서블릿");
 			Debate deb = new Debate();
 			deb.setDebate_writer(1); // 임시 작성자
 			deb.setDebate_topic(debate_topic);
@@ -59,7 +59,7 @@ public class DebateSaveServlet extends HttpServlet {
 			deb.setDebate_time(debate_time);
 			DebateDetail dd = new DebateDetail();
 			service.addDebate(deb, dd, discuss1, discuss2);
-			System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
+			//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
 		}
 		if(method.equals("btnDiscuss2")) {
 			Debate deb = new Debate();
@@ -69,7 +69,7 @@ public class DebateSaveServlet extends HttpServlet {
 			deb.setDebate_time(debate_time);
 			DebateDetail dd = new DebateDetail();
 			service.addDebate(deb, dd, discuss1, discuss2);
-			System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
+			//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
 		}
 		
 		

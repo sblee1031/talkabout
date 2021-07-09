@@ -243,7 +243,87 @@
 
     <section id="section" style="text-align: center; border-style: solid; height: 80%">
       <div>여기에 작업한 내용 추가하시면 됩니다</div>
-      
+          <div id="container">
+      <div id="deb_status">
+        <span id="deb_status">제안</span>
+        <span id="deb_status">토론자 모집</span>
+        <span id="deb_status">관리자 승인 대기</span>
+        <span id="deb_status">토론 예정</span>
+        <hr />
+      </div>
+      <div id="searchPart">
+        <button id="write">글쓰기</button>
+        <select id="search" name="search">
+          <option>제목</option>
+          <option>내용</option>
+          <option>작성자</option>
+        </select>
+        <input name="searchInput" placeholder="검색할 내용을 입력해주세요." />
+        <button id="btnSearch">검색</button>
+        <hr />
+      </div>
+      <table id="debateList">
+        <tr id="tablehead">
+          <th>토론 번호</th>
+          <th style="width: 50%">토론 제목</th>
+          <th>토론 작성자</th>
+          <th>토론 작성시간</th>
+          <th>토론 시간</th>
+          <th>진행 상태</th>
+        </tr>
+        <tr id="debateContents"></tr>
+      </table>
+      <!--글쓰기 div 시작-->
+      <div id="debateWrite">
+        <label>토론 주제 : <input type="text" id="inputDebate_topic" /></label
+        ><br />
+        <label>토론 주장1 : <input type="text" id="inputDiscuss1" /></label>
+        <label>토론 주장2 : <input type="text" id="inputDiscuss2" /></label
+        ><br />
+
+        <label
+          >토론일자<input type="datetime-local" id="inputDebate_date" value=""
+        /></label>
+        <label
+          >토론제한시간
+          <select id="selectDebate_time" name="selectDebate_time">
+            <option value="30">30분</option>
+            <option value="60">60분</option>
+            <option value="120">120분</option>
+          </select>
+        </label>
+        <br />
+        <button id="btnSaveDebate" onclick="saveDebate()">저장하기</button>
+        <hr />
+      </div>
+      <!--글쓰기 div 끝-->
+      <!--글 상세보기 div 시작-->
+      <div id="divDebateView">
+        <div>주제 : <span id="spanDebate_topic"></span></div>
+        <div>토론일자 : <span id="spanDebate_date"></span></div>
+        <div>토론제한시간 : <span id="spanDebate_time"></span></div>
+        <div id="divDiscuss1">
+          주장1 : <span id="spanDebate_discuss1"></span>
+        </div>
+        <label
+          >토론자1 :<span id="spanDebate_discussor1"></span><br />
+
+          <button type="text" id="btnDiscussor1" onclick="btnDiscuss1()">
+            토론자 참여하기
+          </button></label
+        ><br />
+        <div id="divDiscuss2">
+          주장2 : <span id="spanDebate_discuss2"></span>
+        </div>
+        <label
+          >토론자2 : <span id="spanDebate_discussor2"></span><br />
+          <button type="text" id="btnDiscussor2" onclick="btnDiscuss2()">
+            토론자 참여하기
+          </button></label
+        >
+      </div>
+      <!--글 상세보기 div 끝-->
+    </div>
 
    
     
@@ -254,6 +334,7 @@
       <div>FOOTER 영역</div>
     </footer>
      <script src="assets/js/login1.js"></script>
+     <script src="assets/js/debaterecruit.js"></script>
      <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> 	  
   </body>
 </html>

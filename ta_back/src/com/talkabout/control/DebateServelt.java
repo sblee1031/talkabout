@@ -99,7 +99,7 @@ public class DebateServelt extends HttpServlet {
 		
 		
 		String method = request.getParameter("method");
-		System.out.println(method);
+		//System.out.println(method);
 		
 		DebateService service;
 		service = DebateService.getInstance();
@@ -122,7 +122,7 @@ public class DebateServelt extends HttpServlet {
 		
 		if(method.equals("debatedetail")) {
 			int deb_no = Integer.parseInt(strdeb_no);
-			System.out.println(deb_no);
+			//System.out.println(deb_no);
 			Debate d = new Debate();
 			d = service.findByNo(deb_no);
 			list= ddservice.findByDebNo(deb_no);
