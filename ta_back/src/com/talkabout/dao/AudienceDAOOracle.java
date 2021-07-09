@@ -140,31 +140,4 @@ public class AudienceDAOOracle implements AudienceDAO {
 		
 		return list;
 	};
-	
-	public static void main(String[] args) throws SQLException {
-		AudienceDAOOracle dao = new AudienceDAOOracle();
-		List<Audience> list = dao.selectAll();
-		
-		// SelectAll
-		for (Audience audience : list) {
-			System.out.println(audience.toString());
-		}
-		
-		// SelectOne By audi_no 
-		System.out.println(dao.selectByNo(2).toString());
-		
-		// UpdateVote By AudienceDTO(audi_no)
-		Audience a = dao.selectByNo(3);
-		a.setVote(2);
-		dao.updateVote(a);
-		
-		// 
-		ArrayList vote_List = dao.selectByCnt(1);
-		for (Object object : vote_List) {
-			System.out.println(object);
-		}
-	}
-
-
-	
 }
