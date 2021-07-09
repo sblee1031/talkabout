@@ -21,7 +21,7 @@ public class LogoutServlet extends HttpServlet {
 		
 		System.out.println(m.getMember_nickName()+"님 로그아웃");
 		session.invalidate(); //세션제거
-		System.out.println("세션제거");
+//		System.out.println("세션제거");
 	}
 
 }

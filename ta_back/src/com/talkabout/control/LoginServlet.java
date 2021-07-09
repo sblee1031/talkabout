@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 		
 		
 		if(loginmem==null) {
-			System.out.println("null임");
+//			System.out.println("null임");
 			
 			ServletContext sc = getServletContext();		
 			MemberService.envProp = sc.getRealPath(sc.getInitParameter("env"));
@@ -67,7 +67,7 @@ public class LoginServlet extends HttpServlet {
 			out.print(jsonStr);
 			
 		}else {
-			System.out.println(loginmem.getMember_nickName());
+			System.out.println(loginmem.getMember_nickName()+" 님 로그인");
 			Map<String, Object> map = new HashMap<>();
 			ObjectMapper mapper;
 			mapper = new ObjectMapper();

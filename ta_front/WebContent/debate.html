@@ -1,264 +1,258 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <title>토론모집</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>HTML Layouts</title>
+    <!--jquery 스크립트-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+       <!-- 로그인 js 시작 -->
+    <meta
+      name="google-signin-client_id"
+      content="241916072602-heae1rac9sjh4t615b0k7i0iso0m842o.apps.googleusercontent.com"
+    />
+      <!--    <script
+      src="https://apis.google.com/js/platform.js?onload=renderButton"
+      async
+      defer
+    ></script> -->
+
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+
+    <!-- 로그인 js 끝 -->
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+    <script>
+
+    </script>
+    <!-- 아이콘 -->
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="assets/img/favicon.ico"
+    />
+
+    <!-- 부트스트랩 -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/templatemo.css" />
+    <link rel="stylesheet" href="assets/css/custom.css" />
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css" />
     <style>
-      span#deb_status {
-        font-size: 30pt;
-        border: 1px black solid;
-        margin-right: 5%;
-      }
-      div #deb_status {
-        text-align: center;
-      }
-
-      button#btnSearch,
-      select[name="search"],
-      input[name="searchInput"] {
-        font-size: 15px;
-      }
-      select[name="search"] {
-        margin-left: 50%;
-      }
-      div#searchPart {
-        margin-top: 10%;
-      }
-      button#write {
-        font-size: 20px;
-        margin-left: 10%;
-      }
-      div#debateList {
-        text-align: center;
-      }
-      span#debateList {
-        font-size: 20pt;
-
-        margin-right: 5%;
-      }
-      div#debateContent {
-        font-size: 20pt;
-        margin-right: 5%;
-        text-align: center;
-      }
-      table#debateList {
+      html,
+      body {
         width: 100%;
-        text-align: center;
-        border: 1px solid black;
+        height: 100%;
+        margin: 0 auto;
       }
-      tr#tablehead {
-        font-size: 20px;
-      }
-      div#debateWrite {
+      header {
+        background-color: lightgrey;
         text-align: center;
-        margin: 20px;
-        line-height: 300%;
+      }
+      footer {
+        background-color: #ffcc00;
+        text-align: center;
+
+        position: absolute;
+
+        left: 0;
+
+        bottom: 0;
+
+        width: 100%;
+        height: 10%;
+      }
+      #live {
+        background-color: brown;
+        float: left;
+      }
+      #login {
+        background-color: darkturquoise;
+        float: right;
+      }
+      span.board_index {
+        font-size: 30pt;
+        margin-right: 5%;
+      }
+      /* The Modal (background) */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0); /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+      }
+
+      /* Modal Content/Box */
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+      }
+      /* The Close Button */
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
       }
     </style>
-    <script>
-      $(function () {
-        var url = "../ta_back/debate";
-        $.ajax({
-          url: url,
-          method: "get",
-          data: {},
-          success: function (resposeData) {
-            console.log(resposeData);
-            var lists = resposeData.debatelist;
-            var mlists = resposeData.memberinfo;
-            var listsize = lists.length;
-            var divtext = "";
-            var trContent = $("#debateList");
-            var trDebates = "";
-            $(lists).each(function (list_i, list) {
-              trDebates += "<tr>";
-              trDebates += '<td class="debate_no">' + list.debate_no + "</td>";
-              trDebates +=
-                '<td class="debate_topic">' + list.debate_topic + "</td>";
-              trDebates +=
-                '<td class="debate_writer">' +
-                mlists[list_i].member_nickName +
-                "</td>";
-              trDebates +=
-                '<td class="debate_date">' + list.debate_date + "</td>";
-              trDebates +=
-                '<td class="debate_time">' + list.debate_time + "</td>";
-              trDebates +=
-                '<td class="debate_status">' + list.debate_status + "</td>";
-              trDebates += "</tr>";
-            });
-            trContent.append(trDebates);
-          },
-        });
-
-        function getCurrentDate() {
-          //현재시간 구하는 함수
-          var date = new Date();
-          var year = date.getFullYear().toString();
-          var month = date.getMonth() + 1;
-          month = month < 10 ? "0" + month.toString() : month.toString();
-          var day = date.getDate();
-          day = day < 10 ? "0" + day.toString() : day.toString();
-          var hour = date.getHours();
-          hour = hour < 10 ? "0" + hour.toString() : hour.toString();
-          if (Number.parseInt(hour) + 1 == 24) {
-            hour = "00";
-          }
-          var minites = date.getMinutes();
-          minites =
-            minites < 10 ? "0" + minites.toString() : minites.toString();
-          var t;
-
-          return year + "-" + month + "-" + day + "T" + hour + ":" + minites; // 현재시간보다 1시간 추가 ,최소 시작시간은 한시간 뒤부터 가능.
-        }
-        var date = getCurrentDate();
-        $("#inputDebate_date").val(date);
-        $("#inputDebate_date").attr("min", date);
-      });
-      function saveDebate() {
-        var topic = $("#inputDebate_topic").val();
-        var discuss1 = $("#inputDiscuss1").val();
-        var discuss2 = $("#inputDiscuss2").val();
-        var indate = $("#inputDebate_date").val();
-        var time = $("#selectDebate_time").val();
-        if (typeof topic == "undefined" || topic == null || topic == "") {
-          alert("토론주제를 입력해주세요.");
-        } else if (
-          typeof discuss1 == "undefined" ||
-          discuss1 == null ||
-          discuss1 == ""
-        ) {
-          alert("주장1을 입력해주세요.");
-        } else if (
-          typeof discuss2 == "undefined" ||
-          discuss2 == null ||
-          discuss2 == ""
-        ) {
-          alert("주장2를 입력해주세요.");
-        }
-
-        var url = "../ta_back/debatesave";
-        var method = 'debatesave';
-        $.ajax({
-          url: url,
-          method: "post",
-          data: {
-        	 method: method,
-            debate_topic: topic,
-            discuss1: discuss1,
-            discuss2: discuss2,
-            debate_date: indate,
-            debate_time: time,
-          },
-          success: function (resposeData) {
-            window.location.href = "../ta_front/debate.html";
-          },
-        });
-      }
-
-      function btnDiscuss1() {
-        console.log("1번버튼");
-        var url = "../ta_back/debatesave";
-        var method = 'btnDiscuss1';
-        $.ajax({
-          url: url,
-          method: "post",
-          data: {
-        	 method: method,
-            discuss1: discuss1,
-          },
-          success: function (resposeData) {
-            window.location.href = "../ta_front/debate.html";
-          },
-        });
-      }
-      function btnDiscuss2() {
-        console.log("2번버튼");
-        var url = "../ta_back/debatesave";
-        var method = 'btnDiscuss2';
-        $.ajax({
-          url: url,
-          method: "post",
-          data: {
-        	 method: method,
-            debate_topic: topic,
-            discuss1: discuss1,
-            discuss2: discuss2,
-            debate_date: indate,
-            debate_time: time,
-          },
-          success: function (resposeData) {
-            window.location.href = "../ta_front/debate.html";
-          },
-        });
-      }
-    </script>
   </head>
+
   <body>
-    <div id="container">
-      <div id="deb_status">
-        <span id="deb_status">제안</span>
-        <span id="deb_status">토론자 모집</span>
-        <span id="deb_status">관리자 승인 대기</span>
-        <span id="deb_status">토론 예정</span>
-        <hr />
-      </div>
-      <div id="searchPart">
-        <button id="write">글쓰기</button>
-        <select id="search" name="search">
-          <option>제목</option>
-          <option>내용</option>
-          <option>작성자</option>
-        </select>
-        <input name="searchInput" placeholder="검색할 내용을 입력해주세요." />
-        <button id="btnSearch">검색</button>
-        <hr />
-      </div>
-      <table id="debateList">
-        <tr id="tablehead">
-          <th>토론 번호</th>
-          <th style="width: 50%">토론 제목</th>
-          <th>토론 작성자</th>
-          <th>토론 작성시간</th>
-          <th>토론 시간</th>
-          <th>진행 상태</th>
-        </tr>
-        <tr id="debateContents"></tr>
-      </table>
-      <!--글쓰기 div 시작-->
-      <div id="debateWrite">
-        <label>토론 주제 : <input type="text" id="inputDebate_topic" /></label
-        ><br />
-        <label>토론 주장1 : <input type="text" id="inputDiscuss1" /></label>
-        <label>토론 주장2 : <input type="text" id="inputDiscuss2" /></label
-        ><br />
-        <label
-          >토론자1 :
-          <button type="text" id="btnDiscussor1" onclick="btnDiscuss1()">
-            토론자 참여하기
-          </button></label
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a
+          class="navbar-brand text-success logo h1 align-self-center"
+          href="index.html"
         >
-        <label
-          >토론자2 :
-          <button type="text" id="btnDiscussor2" onclick="btnDiscuss2()">
-            토론자 참여하기
-          </button></label
+          Talk About
+        </a>
+
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#templatemo_main_nav"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
-        <label
-          >토론일자<input type="datetime-local" id="inputDebate_date" value=""
-        /></label>
-        <label
-          >토론제한시간
-          <select id="selectDebate_time" name="selectDebate_time">
-            <option value="30">30분</option>
-            <option value="60">60분</option>
-            <option value="120">120분</option>
-          </select>
-        </label>
-        <br />
-        <button id="btnSaveDebate" onclick="saveDebate()">저장하기</button>
-      </div>
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="
+            align-self-center
+            collapse
+            navbar-collapse
+            flex-fill
+            d-lg-flex
+            justify-content-lg-between
+          "
+          id="templatemo_main_nav"
+        >
+          <div class="flex-fill">
+            <ul
+              class="nav navbar-nav d-flex justify-content-between mx-lg-auto"
+            >
+              <li class="nav-item">
+                <a class="nav-link" href="notice.html">공지사항</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="board.html">자유게시판</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="debrecruit.html">토론 모집</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="debbattle.html">토론 배틀</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="debresult.html">토론 결과</a>
+              </li>
+            </ul>
+          </div>
+
+      <!-- modal 시작 -->
+      <button id="myBtn">로그인</button>
+
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close" id="close">&times;</span>
+           <!-- 소셜계정 선택 시작 -->
+    <div id="social" style="text: center; margin-block: inherit">
+      <li id="GgCustomLogin" style="list-style-type: none">
+         <a href="javascript:void(0)">
+       <!--  <button onclick="init()"> -->
+          <!-- <p id="my-signin2"></p> -->
+          <img style="width:220px" src="assets/img/loginbt_google.png">
+        </a>
+      </li>
+      <br />
+      <a id="kakao-login-btn"></a>
+      <!-- <button class="api-btn" onclick="unlinkApp()">앱 탈퇴하기</button> -->
+      <br />
+              
     </div>
+    
+        <!-- 소셜계정 선택 끝 -->
+          <p>소셜로그인..</p>
+        </div>
+      </div>
+      <!-- The Modal END -->
+		 <!-- 로고인 완료 화면 시작 -->
+    <div id="memberinfo" style="text-align: center; display: none">
+      <ul>
+        <li style="list-style-type: none">
+          <img
+            style="width: 30px"
+            id="login_thumb_img"
+            src=""
+            alt="mythumbnail"
+          />
+          <span id="member_nickname" style="font-size: 10pt"></span>
+        </li>
+      </ul>
+      <a class="myinfo" href="#" onclick="myinfo()">마이페이지</a>
+      <button class="logout" type="button" onclick="logout()">로그아웃</button>
+       
+    </div>
+
+    <!-- 로고인 완료 화면 끝 -->
+          <div class="navbar align-self-center d-flex">
+            <div
+              class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3"
+            >
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputMobileSearch"
+                  placeholder="Search ..."
+                />
+                <div class="input-group-text">
+                  <i class="fa fa-fw fa-search"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section style="text-align: center; border-style: solid; height: 80%">
+      <div>여기에 작업한 내용 추가하시면 됩니다</div>
+      
+
+    
+      <!-- Links -->
+
+    </section>
+    <footer>
+      <div>FOOTER 영역</div>
+    </footer>
+     <script src="assets/js/login1.js"></script>
+     <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> 	  
   </body>
 </html>
