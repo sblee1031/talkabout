@@ -99,6 +99,8 @@ public class DebateServelt extends HttpServlet {
 		
 		
 		String method = request.getParameter("method");
+		String column = request.getParameter("column");
+		String keyword = request.getParameter("keyword");
 		//System.out.println(method);
 		
 		DebateService service;
@@ -117,17 +119,41 @@ public class DebateServelt extends HttpServlet {
 		
 		Map<String, Object> map = new HashMap<>();
 		List<DebateDetail> list = new ArrayList<>();
+		List<Debate> dlist = new ArrayList<>();
 		
 		String strdeb_no = request.getParameter("deb_no");
 		
 		if(method.equals("debatedetail")) {
+			//System.out.println("detail");
 			int deb_no = Integer.parseInt(strdeb_no);
-			//System.out.println(deb_no);
 			Debate d = new Debate();
 			d = service.findByNo(deb_no);
 			list= ddservice.findByDebNo(deb_no);
 			map.put("debate", d);
 			map.put("detail", list);
+		}if(method.equals("debatesearch")) {
+			try {
+				dlist= service.selectSearch(column, keyword);
+			List<Member> memList = new ArrayList<>();
+			for (Debate debate : dlist) {
+				Member mem = new Member();
+				try {
+					mem = memservice.memberInfo(debate.getDebate_writer());
+					memList.add(mem);
+				} catch (FindException e) {
+					e.printStackTrace();
+				}
+			}
+				if(dlist.size()==0) {
+					System.out.println("게시글 없음");
+				}else {
+					map.put("rs", dlist);
+					map.put("memberinfo", memList);
+				}
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+			
 		}
 		
 		jsonStr = mapper.writeValueAsString(map);

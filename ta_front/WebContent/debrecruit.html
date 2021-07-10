@@ -43,6 +43,7 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
     />
     <link rel="stylesheet" href="assets/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="assets/css/debrecruit.css" />
     <style>
       html,
       body {
@@ -181,7 +182,7 @@
         <div class="modal-content">
           <span class="close" id="close">&times;</span>
            <!-- 소셜계정 선택 시작 -->
-    <div id="social" style="text: center; margin-block: inherit">
+    <div id="social" style="text-align: center; margin-block: inherit">
       <li id="GgCustomLogin" style="list-style-type: none">
          <a href="javascript:void(0)">
        <!--  <button onclick="init()"> -->
@@ -241,25 +242,16 @@
       </div>
     </nav>
 
-    <section id="section" style="text-align: center; border-style: solid; height: 80%">
-      <div>여기에 작업한 내용 추가하시면 됩니다</div>
-          <div id="container">
-      <div id="deb_status">
-        <span id="deb_status">제안</span>
-        <span id="deb_status">토론자 모집</span>
-        <span id="deb_status">관리자 승인 대기</span>
-        <span id="deb_status">토론 예정</span>
-        <hr />
-      </div>
+    <section id="section" style="overflow-y: auto; text-align: center; border-style: solid; height: 80%">
+		<br/>
       <div id="searchPart">
-        <button id="write">글쓰기</button>
-        <select id="search" name="search">
-          <option>제목</option>
-          <option>내용</option>
-          <option>작성자</option>
+        <button id="write" onclick="debateWrite()">글쓰기</button>
+        <select id="column" name="search">
+          <option value="TOPIC">제목</option>
+          <option value="WRITER">작성자</option>
         </select>
-        <input name="searchInput" placeholder="검색할 내용을 입력해주세요." />
-        <button id="btnSearch">검색</button>
+        <input id="searchInput" name="searchInput" placeholder="검색할 내용을 입력해주세요." />
+        <button id="btnSearch" onclick="debateSearch()">검색</button>
         <hr />
       </div>
       <table id="debateList">
@@ -299,6 +291,7 @@
       <!--글쓰기 div 끝-->
       <!--글 상세보기 div 시작-->
       <div id="divDebateView">
+      	<div>토론번호 : <span id="spanDebate_no"></span></div>
         <div>주제 : <span id="spanDebate_topic"></span></div>
         <div>토론일자 : <span id="spanDebate_date"></span></div>
         <div>토론제한시간 : <span id="spanDebate_time"></span></div>
@@ -308,19 +301,31 @@
         <label
           >토론자1 :<span id="spanDebate_discussor1"></span><br />
 
-          <button type="text" id="btnDiscussor1" onclick="btnDiscuss1()">
+          
+          </label
+        ><button type="button" id="btnDiscussor1" onclick="btnDiscuss1()">
             토론자 참여하기
-          </button></label
-        ><br />
+          </button>
+          <button type="button" id="btnCacleDiscussor1" onclick="btnCancleDiscuss1()">
+            토론자 취소하기
+          </button><br />
         <div id="divDiscuss2">
           주장2 : <span id="spanDebate_discuss2"></span>
         </div>
         <label
           >토론자2 : <span id="spanDebate_discussor2"></span><br />
-          <button type="text" id="btnDiscussor2" onclick="btnDiscuss2()">
+          
+          </label
+        ><button type="button" id="btnDiscussor2" onclick="btnDiscuss2()">
             토론자 참여하기
-          </button></label
-        >
+          </button>
+               <button type="button" id="btnCacleDiscussor2" onclick="btnCancleDiscuss2()">
+            토론자 취소하기
+          </button>
+          <br/>
+          <button type="button" id="btnDeleteDebate" onclick="btnDeleteDebate()">
+            주제 삭제하기
+          </button>
       </div>
       <!--글 상세보기 div 끝-->
     </div>

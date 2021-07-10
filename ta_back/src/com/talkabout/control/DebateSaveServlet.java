@@ -20,8 +20,7 @@ public class DebateSaveServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Member m = (Member)session.getAttribute("logininfo");
-		//로그인 정보 확인 구현 필요
-		//m.setMember_no(1);
+		//로그인 정보를 담은 멤버 객체
 		
 		request.setCharacterEncoding("utf-8");
 		ServletContext sc = getServletContext();		
@@ -32,17 +31,20 @@ public class DebateSaveServlet extends HttpServlet {
 		
 		String method = request.getParameter("method");
 		//System.out.println(method);
+		String strdebate_no = request.getParameter("debate_no");
 		String debate_topic = request.getParameter("debate_topic");
 		String discuss1 = request.getParameter("discuss1");
 		String discuss2 = request.getParameter("discuss2");
 		String debate_date = request.getParameter("debate_date");
-		debate_date = debate_date.replace('T', ' ');
+		
 		String strtime = request.getParameter("debate_time");
-		int debate_time = Integer.parseInt(strtime);
+		
 		
 		if(method.equals("debatesave")) {
+			debate_date = debate_date.replace('T', ' ');
+			int debate_time = Integer.parseInt(strtime);
 			Debate deb = new Debate();
-			deb.setDebate_writer(1); // 임시 작성자
+			deb.setDebate_writer(m.getMember_no());
 			deb.setDebate_topic(debate_topic);
 			deb.setDebate_date(debate_date);
 			deb.setDebate_time(debate_time);
@@ -52,23 +54,81 @@ public class DebateSaveServlet extends HttpServlet {
 		}
 		if(method.equals("btnDiscuss1")) {
 			//System.out.println("토론자1 서블릿");
+			int debate_no = Integer.parseInt(strdebate_no);
+			Member mem = new Member();
+			mem.setMember_no(m.getMember_no());
 			Debate deb = new Debate();
-			deb.setDebate_writer(1); // 임시 작성자
+			deb.setDebate_no(debate_no);
 			deb.setDebate_topic(debate_topic);
-			deb.setDebate_date(debate_date);
-			deb.setDebate_time(debate_time);
 			DebateDetail dd = new DebateDetail();
-			service.addDebate(deb, dd, discuss1, discuss2);
+			dd.setDiscuss(discuss1);
+			service.addDiscussor(deb, dd, m);
 			//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
 		}
 		if(method.equals("btnDiscuss2")) {
+			int debate_no = Integer.parseInt(strdebate_no);
+			Member mem = new Member();
+			mem.setMember_no(m.getMember_no());
 			Debate deb = new Debate();
-			deb.setDebate_writer(2); // 임시 작성자
+			deb.setDebate_no(debate_no);
 			deb.setDebate_topic(debate_topic);
-			deb.setDebate_date(debate_date);
-			deb.setDebate_time(debate_time);
 			DebateDetail dd = new DebateDetail();
-			service.addDebate(deb, dd, discuss1, discuss2);
+			dd.setDiscuss(discuss2);
+			service.addDiscussor(deb, dd, m);
+			//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
+		}
+		if(method.equals("btnCancleDiscuss1")) {
+			//System.out.println("토론자1 서블릿");
+			int debate_no = Integer.parseInt(strdebate_no);
+			Member mem = new Member();
+			mem.setMember_no(0);//토론자 취소 상태 0
+			Debate deb = new Debate();
+			deb.setDebate_no(debate_no);
+			deb.setDebate_topic(debate_topic);
+			DebateDetail dd = new DebateDetail();
+			dd.setDiscuss(discuss1);
+			deb.setDebate_status("모집중");
+			service.updateStatus(deb);
+			service.addDiscussor(deb, dd, mem);
+			//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
+		}
+		if(method.equals("btnCancleDiscuss2")) {
+			int debate_no = Integer.parseInt(strdebate_no);
+			Member mem = new Member();
+			mem.setMember_no(0);//토론자 취소 상태 0
+			Debate deb = new Debate();
+			deb.setDebate_no(debate_no);
+			deb.setDebate_topic(debate_topic);
+			DebateDetail dd = new DebateDetail();
+			dd.setDiscuss(discuss2);
+			deb.setDebate_status("모집중");
+			service.updateStatus(deb);
+			service.addDiscussor(deb, dd, mem);
+			//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
+		}
+		if(method.equals("status")) {
+			//System.out.println("status변경");
+			int debate_no = Integer.parseInt(strdebate_no);
+			Debate deb = new Debate();
+			deb.setDebate_no(debate_no);
+			deb.setDebate_status("대기중");
+			service.updateStatus(deb);
+			//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
+		}
+		if(method.equals("statusCancle")) {
+			//System.out.println("status취소");
+			int debate_no = Integer.parseInt(strdebate_no);
+			Debate deb = new Debate();
+			deb.setDebate_no(debate_no);
+			deb.setDebate_status("모집중");
+			service.updateStatus(deb);
+			//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
+		}if(method.equals("debateDelete")) {
+			//System.out.println("주제삭제");
+			int debate_no = Integer.parseInt(strdebate_no);
+			Debate deb = new Debate();
+			deb.setDebate_no(debate_no);
+			service.deleteDebate(deb);
 			//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
 		}
 		

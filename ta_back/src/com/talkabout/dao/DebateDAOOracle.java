@@ -277,7 +277,35 @@ public class DebateDAOOracle implements DebateDAO {
 			//DB연결 해제
 			MyConnection.close(con, pstmt, rs);
 		}
+	}
+	public void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m) {// 토론자 취소
+		//DB연결
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String updateStatus = "UPDATE debatedetail SET discussor = 0 WHERE detail_deb = ? and discuss = ?";
 		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		//Member l = null;
+		try {
+			pstmt = con.prepareStatement(updateStatus);
+			//pstmt.setInt(1, m.getMember_no());
+			pstmt.setInt(1, deb_no.getDebate_no());
+			pstmt.setString(2, dd.getDiscuss());
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}finally{
+			//DB연결 해제
+			MyConnection.close(con, pstmt, rs);
+		}
 	}
 
 	@Override
@@ -308,6 +336,45 @@ public class DebateDAOOracle implements DebateDAO {
 					MyConnection.close(con, pstmt, rs);
 				}
 	}
+	
+	public List<Debate> selectSearch(String column, String keyword){//컬럼 분류
+	      Connection con = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      String select_SQL = "";
+	      if (column.equals("TOPIC")) {
+	         select_SQL = "select * from debate where DEBATE_TOPIC LIKE '%' || ? || '%'";
+	      } else if (column.equals("WRITER")) {
+	         select_SQL = "select * from debate where DEBATE_WRITER LIKE '%' || ? || '%'";
+	      } 
+	      List<Debate> list = new ArrayList();
+	      try {
+	         con = MyConnection.getConnection();
+	         pstmt = con.prepareStatement(select_SQL);
+	         pstmt.setString(1, keyword);
+	         rs = pstmt.executeQuery();
+	         while(rs.next()) {
+	            int debate_no = rs.getInt("DEBATE_NO");
+	            int debate_writer = rs.getInt("DEBATE_WRITER");
+	            String debate_topic = rs.getString("DEBATE_TOPIC");
+	            String debate_date = rs.getString("DEBATE_DATE");
+	            int debate_time = rs.getInt("DEBATE_TIME");
+	            String debate_status = rs.getString("DEBATE_STATUS");
+	            String debate_startdate = rs.getString("DEBATE_STARTDATE");
+	            String debate_enddate = rs.getString("DEBATE_ENDDATE");
+
+	            Debate d = new Debate(debate_no, debate_writer, debate_topic, debate_date, debate_time, debate_status, debate_startdate, debate_enddate, null, null, null, null);
+	            list.add(d);
+	         }
+	         
+	      } catch (SQLException e) {
+	         e.printStackTrace();   
+	      } finally {
+	         //DB연결해제
+	         MyConnection.close(con, pstmt, rs);
+	      }
+	      return list;
+	   }
 	
 	public static void main(String[] args) {
 		
