@@ -13,7 +13,7 @@ import com.talkabout.dto.Member;
 import com.talkabout.exception.FindException;
 import com.talkabout.service.MemberService;
 
-public class LeaveMemberService extends HttpServlet {
+public class LeaveMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

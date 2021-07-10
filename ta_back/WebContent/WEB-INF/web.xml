@@ -55,12 +55,12 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>LeaveMemberService</display-name>
-    <servlet-name>LeaveMemberService</servlet-name>
-    <servlet-class>com.talkabout.control.LeaveMemberService</servlet-class>
+    <display-name>LeaveMemberServlet</display-name>
+    <servlet-name>LeaveMemberServlet</servlet-name>
+    <servlet-class>com.talkabout.control.LeaveMemberServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LeaveMemberService</servlet-name>
+    <servlet-name>LeaveMemberServlet</servlet-name>
     <url-pattern>/leavemember</url-pattern>
   </servlet-mapping>
   <servlet>

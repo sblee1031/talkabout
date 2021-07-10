@@ -133,7 +133,14 @@ public class DebateServelt extends HttpServlet {
 			map.put("detail", list);
 		}if(method.equals("debatesearch")) {
 			try {
-				dlist= service.selectSearch(column, keyword);
+				if(column.equals("WRITER")) {
+					Member m = new Member();
+					m.setMember_nickName(keyword);
+					Member nickMem = memservice.searchNick(m);
+					dlist= service.selectSearch(column, nickMem.getMember_no()+"");
+				}else {
+					dlist= service.selectSearch(column, keyword);
+				}
 			List<Member> memList = new ArrayList<>();
 			for (Debate debate : dlist) {
 				Member mem = new Member();
