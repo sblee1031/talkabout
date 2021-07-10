@@ -13,6 +13,9 @@ $(function () {
 	$('#btnCacleDiscussor1').hide();
 	$('#btnCacleDiscussor2').hide();
 	$('#btnDeleteDebate').hide();
+	$('#btnModify').hide();
+	$('#btnModifyDebate').hide();
+	
 	
       userdata = responseData;
 		console.log(userdata);
@@ -106,6 +109,7 @@ $(function () {
         var discussor2 = detail[1].discussor;
 		if(userdata.logined=="logined" && writer==userdata.member.member_no){
 			$('#btnDeleteDebate').show();
+			$('#btnModifyDebate').show();
 		}else{
 			$('#btnDeleteDebate').hide();
 		}
@@ -174,7 +178,7 @@ $(function () {
 function debateWrite(){
 	$('#debateList').hide();
 	$("#debateWrite").show();
-	
+	$('#btnModify').hide();
 }
 
 function saveDebate() {
@@ -404,11 +408,12 @@ function btnDeleteDebate(){
       }
 }
 function debateSearch(){
+	$('#debateWrite').hide();
 	var url = "../ta_back/debrecruit";
   	var method = "debatesearch";
 	var column =$('#column').val();
 	var keyword =$('#searchInput').val();
-		    console.log(column+keyword);
+		   // console.log(column+keyword);
 		var deb_no = $('#spanDebate_no').text();
 			$.ajax({
 		    url: url,
@@ -419,10 +424,13 @@ function debateSearch(){
 		      keyword: keyword,
 		    },
 		    success: function (resposeData) {
-			console.log(resposeData);
+			//console.log(resposeData);
 			//$("#debateList").empty();
 		      var lists = resposeData.rs;
 			 var mlists = resposeData.memberinfo;
+			if(lists==0){
+				alert('검색결과가 없습니다.');
+			}else{
 		      var listsize = lists.length;
 		      var trContent = $("#tablehead").clone();
 		      var trDebates = "";
@@ -449,6 +457,118 @@ function debateSearch(){
 		      $('#debateList').html(trContent);
  				$('#debateList').append(trDebates);
 				//trContent.show();
+				}
 		    },
 		  });
+}
+
+function btnModifyDebate(){
+	$('#debateList').hide();
+	$('#debateWrite').show();
+	$('#btnSaveDebate').hide();
+	$('#btnModify').show();
+	
+	var deb_no = $('#spanDebate_no').text();
+	var discuss1 = $('#spanDebate_discuss1').text();
+	var discuss2 = $('#spanDebate_discuss2').text();
+	var topic = $('#spanDebate_topic').text();
+    var date = $("#spanDebate_date").text();
+		date =date.replace(" ","T");//date타입 날자 변환
+    var time = $("#spanDebate_time").text();
+	
+  $("#inputDebate_no").val(deb_no);
+  $("#inputDebate_topic").val(topic);
+  $("#inputDiscuss1").val(discuss1);
+  $("#inputDiscuss2").val(discuss2);
+  $("#inputDebate_date").val(date);
+  $("#selectDebate_time").val(time);
+
+}
+function btnModify(){
+	var deb_no =  $("#inputDebate_no").val();
+	  var topic = $("#inputDebate_topic").val();
+  var discuss1 = $("#inputDiscuss1").val();
+  var discuss2 = $("#inputDiscuss2").val();
+  var indate = $("#inputDebate_date").val();
+  var time = $("#selectDebate_time").val();
+	 if (typeof topic == "undefined" || topic == null || topic == "") {
+    alert("토론주제를 입력해주세요.");
+  } else if (
+    typeof discuss1 == "undefined" ||
+    discuss1 == null ||
+    discuss1 == ""
+  ) {
+    alert("주장1을 입력해주세요.");
+  } else if (
+    typeof discuss2 == "undefined" ||
+    discuss2 == null ||
+    discuss2 == ""
+  ) {
+    alert("주장2를 입력해주세요.");
+  }
+	else{
+	  var url = "../ta_back/debatesave";
+	  var method = "debateModify";
+	  $.ajax({
+	    url: url,
+	    method: "post",
+	    data: {
+	      method: method,
+			debate_no : deb_no,
+	      debate_topic: (topic+' '),
+	      discuss1: discuss1,
+	      discuss2: discuss2,
+	      debate_date: indate,
+	      debate_time: time,
+	    },
+	    success: function (resposeData) {
+			alert('수정완료');
+	      window.location.href = "../ta_front/debrecruit.html";
+	    },
+	  });
+	}
+}
+function goList(){
+	$('#debateWrite').hide();
+	//$('#debateContents').empty();
+	$('#debateList').show();
+	
+  var url = "../ta_back/debrecruit";
+  var method = "listall";
+  $.ajax({
+    url: url,
+    method: "get",
+    data: { method: method },
+    success: function (resposeData) {
+      console.log(resposeData);
+      var lists = resposeData.debatelist;
+      var mlists = resposeData.memberinfo;
+      var listsize = lists.length;
+     // var divtext = "";
+      var trContent = $("#tablehead").clone();
+      var trDebates = "";
+      $(lists).each(function (list_i, list) {
+        trDebates += '<tr class="' + list.debate_no + '">';
+        trDebates += '<td class="debate_no">' + list.debate_no + "</td>";
+        trDebates +=
+          '<td class="' +
+          list.debate_no +
+          '" id="debate_no"><a class="atitle" href="#">' +
+          list.debate_topic +
+          "</a></td>";
+        trDebates +=
+          '<td class="debate_writer">' +
+          mlists[list_i].member_nickName +
+          "</td>";
+        trDebates += '<td class="debate_date">' + list.debate_date + "</td>";
+        trDebates += '<td class="debate_time">' + list.debate_time + "</td>";
+        trDebates +=
+          '<td class="debate_status">' + list.debate_status + "</td>";
+        trDebates += "</tr>";
+      });
+      		      $('#debateList').html(trContent);
+ 				$('#debateList').append(trDebates);
+    },
+  });
+	
 }

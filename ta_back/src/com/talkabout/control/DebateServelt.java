@@ -137,9 +137,16 @@ public class DebateServelt extends HttpServlet {
 					Member m = new Member();
 					m.setMember_nickName(keyword);
 					Member nickMem = memservice.searchNick(m);
-					dlist= service.selectSearch(column, nickMem.getMember_no()+"");
-				}else {
+					try {
+					dlist = service.selectSearch(column, nickMem.getMember_no()+"");
+					}catch(Exception e) {
+						if(dlist.size()==0) {
+							//System.out.println("게시글 없음");
+							map.put("rs", 0);}
+					}
+					}else {
 					dlist= service.selectSearch(column, keyword);
+					
 				}
 			List<Member> memList = new ArrayList<>();
 			for (Debate debate : dlist) {
@@ -150,9 +157,10 @@ public class DebateServelt extends HttpServlet {
 				} catch (FindException e) {
 					e.printStackTrace();
 				}
-			}
+				}
 				if(dlist.size()==0) {
-					System.out.println("게시글 없음");
+					//System.out.println("게시글 없음");
+					map.put("rs", 0);
 				}else {
 					map.put("rs", dlist);
 					map.put("memberinfo", memList);

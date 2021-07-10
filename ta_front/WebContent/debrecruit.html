@@ -246,6 +246,7 @@
 		<br/>
       <div id="searchPart">
         <button id="write" onclick="debateWrite()">글쓰기</button>
+        <button id="goList" onclick="goList()">목록으로</button>
         <select id="column" name="search">
           <option value="TOPIC">제목</option>
           <option value="WRITER">작성자</option>
@@ -267,6 +268,7 @@
       </table>
       <!--글쓰기 div 시작-->
       <div id="debateWrite">
+        <input type="text" id="inputDebate_no" style="display:none;"/><!--토론번호 저장하는 input박스  -->
         <label>토론 주제 : <input type="text" id="inputDebate_topic" /></label
         ><br />
         <label>토론 주장1 : <input type="text" id="inputDiscuss1" /></label>
@@ -286,6 +288,9 @@
         </label>
         <br />
         <button id="btnSaveDebate" onclick="saveDebate()">저장하기</button>
+                  <button type="button" id="btnModify" onclick="btnModify()">
+            수정하기
+          </button>
         <hr />
       </div>
       <!--글쓰기 div 끝-->
@@ -325,6 +330,9 @@
           <br/>
           <button type="button" id="btnDeleteDebate" onclick="btnDeleteDebate()">
             주제 삭제하기
+          </button>
+          <button type="button" id="btnModifyDebate" onclick="btnModifyDebate()">
+            수정하기
           </button>
       </div>
       <!--글 상세보기 div 끝-->

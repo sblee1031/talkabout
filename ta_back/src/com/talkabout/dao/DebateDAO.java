@@ -29,7 +29,7 @@ public interface DebateDAO {
 	 * 
 	 * @param deb 토론 수정하기
 	 */
-	void updateDebateAll(Debate deb) throws ModifyException;
+	void updateDebateAll(Debate deb, List<DebateDetail> dd, String discuss1,String discuss2) throws ModifyException;
 	/**
 	 * 
 	 * @param status 토론 상태 업데이트

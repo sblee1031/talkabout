@@ -8,6 +8,7 @@ import com.talkabout.dao.DebateDAO;
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.Member;
+import com.talkabout.exception.ModifyException;
 
 public class DebateService {
 	private DebateDAO dao;
@@ -47,7 +48,10 @@ public class DebateService {
 	public void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m) {
 		dao.cancleDiscussor(deb_no, dd, m);
 	}
-
+	public void updateDebateAll(Debate deb, List<DebateDetail> dd, String discuss1,String discuss2) throws ModifyException{
+		dao.updateDebateAll(deb, dd,discuss1,discuss2);
+	}
+	
 	public void updateStatus(Debate status) {
 		dao.updateStatus(status);
 	}

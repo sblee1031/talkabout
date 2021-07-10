@@ -145,13 +145,13 @@ public class DebateDAOOracle implements DebateDAO {
 	}
 
 	@Override
-	public void updateDebateAll(Debate deb) throws ModifyException {
+	public void updateDebateAll(Debate deb, List<DebateDetail> dd, String discuss1,String discuss2) throws ModifyException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
 		String updateAllSQL = "UPDATE debate SET ";
 		String updateAllSQL2 = "WHERE debate_no = ? ";
-		
+		String updateAllSQL3 = "UPDATE debatedetail SET discuss = ? WHERE detail_no = ? ";
 		DebateDAOOracle dao;
 		Debate dbDebate = null;
 		try {
@@ -199,6 +199,27 @@ public class DebateDAOOracle implements DebateDAO {
 			pstmt = con.prepareStatement(updateAllSQL+updateAllSQL2);
 			pstmt.setInt(1, deb.getDebate_no());
 			pstmt.executeUpdate();
+			
+			int[] ddarray = new int[2];
+			int i=0;
+			for (DebateDetail debateDetail : dd) {
+				ddarray[i]=debateDetail.getDetail_no();
+				i++;
+			}
+			pstmt = con.prepareStatement(updateAllSQL3);
+			pstmt.setString(1, discuss1);
+			pstmt.setInt(2, ddarray[0]);
+			int rs = pstmt.executeUpdate();
+			System.out.println(rs);
+			System.out.println("주장 "+ discuss1);
+			pstmt = con.prepareStatement(updateAllSQL3);
+			
+			pstmt.setString(1, discuss2);
+			pstmt.setInt(2, ddarray[1]);
+			rs = pstmt.executeUpdate();
+			System.out.println(rs);
+			System.out.println("주장 "+ discuss2);
+			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {

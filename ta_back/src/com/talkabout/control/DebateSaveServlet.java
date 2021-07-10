@@ -1,6 +1,8 @@
 package com.talkabout.control;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpSession;
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.Member;
+import com.talkabout.exception.ModifyException;
+import com.talkabout.service.DebateDetailService;
 import com.talkabout.service.DebateService;
 
 public class DebateSaveServlet extends HttpServlet {
@@ -25,9 +29,13 @@ public class DebateSaveServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		ServletContext sc = getServletContext();		
 		DebateService.envProp = sc.getRealPath(sc.getInitParameter("env"));
+		DebateDetailService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		
 		DebateService service;
 		service = DebateService.getInstance();
+		
+		DebateDetailService ddservice;
+		ddservice = DebateDetailService.getInstance();
 		
 		String method = request.getParameter("method");
 		//System.out.println(method);
@@ -129,6 +137,26 @@ public class DebateSaveServlet extends HttpServlet {
 			Debate deb = new Debate();
 			deb.setDebate_no(debate_no);
 			service.deleteDebate(deb);
+			//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
+		}if(method.equals("debateModify")) {
+			int debate_no = Integer.parseInt(strdebate_no);
+			//System.out.println("주제삭제");
+			List<DebateDetail> ddlist = null;
+			ddlist= new ArrayList<>();
+			ddlist = ddservice.findByDebNo(debate_no);
+			debate_date = debate_date.replace('T', ' ');
+			int debate_time = Integer.parseInt(strtime);
+			Debate deb = new Debate();
+			//deb.setDebate_writer(m.getMember_no());
+			deb.setDebate_no(debate_no);
+			deb.setDebate_topic(debate_topic);
+			deb.setDebate_date(debate_date);
+			deb.setDebate_time(debate_time);
+			try {
+				service.updateDebateAll(deb, ddlist, discuss1, discuss2);
+			} catch (ModifyException e) {
+				e.printStackTrace();
+			}
 			//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
 		}
 		
