@@ -10,6 +10,7 @@ public class DebateLike {
 	 */
 	private int deblike_no;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private int deblike_deb; // deblike_deb.debate_no
 	private int deblike_mem; // deblike_mem.member_no
 	
@@ -20,16 +21,22 @@ public class DebateLike {
 	}
 	public DebateLike(int deblike_no, int deblike_deb, int deblike_mem) {
 =======
+=======
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	private Debate deblike_deb; // deblike_deb.debate_no
 	private Member deblike_mem; // deblike_mem.member_no 
 	
 	public DebateLike(int deblike_no, Debate deblike_deb, Member deblike_mem) {
+<<<<<<< HEAD
 >>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
+=======
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 		super();
 		this.deblike_no = deblike_no;
 		this.deblike_deb = deblike_deb;
 		this.deblike_mem = deblike_mem;
 	}
+<<<<<<< HEAD
 <<<<<<< HEAD
 	public int getDeblike_no() {
 		return deblike_no;
@@ -52,6 +59,8 @@ public class DebateLike {
 	
 	
 =======
+=======
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 
 	public int getDeblike_no() {
 		return deblike_no;
@@ -76,5 +85,8 @@ public class DebateLike {
 	public void setDeblike_mem(Member deblike_mem) {
 		this.deblike_mem = deblike_mem;
 	}
+<<<<<<< HEAD
 >>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
+=======
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 }

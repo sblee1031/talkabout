@@ -16,6 +16,7 @@ public class BoardComment {
 	private Date com_date;
 	private String com_contents;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private Member com_mem; // com_mem.member_no
 	private Board com_board; // com_board.board_no
 	
@@ -43,6 +44,18 @@ public class BoardComment {
 		this.com_mem = com_mem;
 		
 >>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
+=======
+	private Member com_mem; // com_mem.member_no
+	private Board com_board; // com_board.board_no
+	
+	public BoardComment(int com_no, Date com_date, String com_contents, Member com_mem, Board com_board) {
+		super();
+		this.com_no = com_no;
+		this.com_date = com_date;
+		this.com_contents = com_contents;
+		this.com_mem = com_mem;
+		this.com_board = com_board;
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	}
 
 	public int getCom_no() {
@@ -70,6 +83,9 @@ public class BoardComment {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	public Member getCom_mem() {
 		return com_mem;
 	}
@@ -83,6 +99,7 @@ public class BoardComment {
 	}
 
 	public void setCom_board(Board com_board) {
+<<<<<<< HEAD
 =======
 	public int getCom_mem() {
 		return com_mem;
@@ -98,6 +115,8 @@ public class BoardComment {
 
 	public void setCom_board(int com_board) {
 >>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
+=======
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 		this.com_board = com_board;
 	}
 	

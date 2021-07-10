@@ -1,6 +1,10 @@
 package com.talkabout.dto;
 
+<<<<<<< HEAD
 public class Member {
+=======
+public class Member{
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	/*
 	 * Table : 회원 테이블
 	 * 
@@ -12,6 +16,10 @@ public class Member {
 	 * member_email : 회원 이메일
 	 * member_thumb : 회원 썸네일
 	 * member_birth : 회원 출생연도
+<<<<<<< HEAD
+=======
+	 * member_able : 1-활동회원, 2-비활동회원(탈퇴시)
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	 */
 	private int member_no;
 	private String member_social_type;
@@ -21,11 +29,29 @@ public class Member {
 	private String member_email;
 	private String member_thumb;
 	private String member_birth;
+	private int member_able;
 	
+<<<<<<< HEAD
 	public Member(int member_no, String member_social_type, String member_social_no, String member_nickName,
 			String member_gender, String member_email, String member_thumb, String member_birth) {
 		super();
-		this.member_no = member_no;
+=======
+
+	
+
+
+
+	public Member() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	//signUp 생성자
+	public Member(String member_social_type, String member_social_no, String member_nickName, String member_gender,
+			String member_email, String member_thumb, String member_birth) {
+		super();
 		this.member_social_type = member_social_type;
 		this.member_social_no = member_social_no;
 		this.member_nickName = member_nickName;
@@ -35,6 +61,32 @@ public class Member {
 		this.member_birth = member_birth;
 	}
 
+
+
+	//전체 생성자
+	public Member(int member_no, String member_social_type, String member_social_no, String member_nickName,
+			String member_gender, String member_email, String member_thumb, String member_birth, int member_able) {
+		super();
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
+		this.member_no = member_no;
+		this.member_social_type = member_social_type;
+		this.member_social_no = member_social_no;
+		this.member_nickName = member_nickName;
+		this.member_gender = member_gender;
+		this.member_email = member_email;
+		this.member_thumb = member_thumb;
+		this.member_birth = member_birth;
+<<<<<<< HEAD
+	}
+
+=======
+		this.member_able = member_able;
+	}
+
+
+
+
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	public int getMember_no() {
 		return member_no;
 	}
@@ -98,5 +150,18 @@ public class Member {
 	public void setMember_birth(String member_birth) {
 		this.member_birth = member_birth;
 	}
+<<<<<<< HEAD
+=======
+
+	public int getMember_able() {
+		return member_able;
+	}
+
+	public void setMember_able(int member_able) {
+		this.member_able = member_able;
+	}
+	
+	
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	
 }

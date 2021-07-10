@@ -9,262 +9,244 @@
     />
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  </head>
-  <body>
-    <ul>
-      <li id="GgCustomLogin">
-        <a href="javascript:void(0)">
-          <div id="my-signin2"></div>
-          <!-- <span>Login with Google</span> -->
-        </a>
-      </li>
-    </ul>
-
     <script>
-      function renderButton() {
-        gapi.signin2.render('my-signin2', {
-          scope: 'profile email',
-          width: 240,
-          height: 50,
-          longtitle: true,
-          theme: 'dark',
-        });
-      }
+     
     </script>
-
-    <script
+    <!--  <script
       src="https://apis.google.com/js/platform.js?onload=renderButton"
       async
       defer
-    ></script>
+    ></script>-->
     <script>
-      //처음 실행하는 함수
-      function init() {
-        gapi.load('auth2', function () {
-        //$('div.signup').hide();
-          gapi.auth2.init();
-          options = new gapi.auth2.SigninOptionsBuilder();
-          options.setPrompt('select_account');
-          // 추가는 Oauth 승인 권한 추가 후 띄어쓰기 기준으로 추가
-          options.setScope(
-            'email profile openid https://www.googleapis.com/auth/user.birthday.read'
-          );
-          // 인스턴스의 함수 호출 - element에 로그인 기능 추가
-          // GgCustomLogin은 li태그안에 있는 ID, 위에 설정한 options와 아래 성공,실패시 실행하는 함수들
-          gapi.auth2
-            .getAuthInstance()
-            .attachClickHandler(
-              'GgCustomLogin',
-              options,
-              onSignIn,
-              onSignInFailure
-            );
-        });
-      }
 
-      function onSignIn(googleUser) {
-        var profile = googleUser.getBasicProfile();
-        console.log(profile);
-        if(profile.LS != null){
-        	$('div.signup').show();
-        	 $('#email').val(profile.Nt);
-           $('#social_type').val("카카오");
-             //$('#sex').val(result.kakao_account.gender);
-        var url = '../ta_back/login';
-        //서버로 AJAX 요청, 응답
-		 $.ajax({
-          url : url,
-          method: 'post',
-          data: { social_type:"구글",
-            social_no: profile.LS, 
-          	email: profile.Nt,
-          	thumb: profile.DJ
-          	},
-          success: function (responseData) {
-            console.log(responseData);
-            
-            
-          },
-          error: function (xhr) {
-            alert(xhr.status);
-          }
-        });
-        }else{
-        	alert('소셜 로그인 정보가 없습니다.');
-        }
-        /* console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        console.log('Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
-        console.log('Family Name: ' + profile.getFamilyName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-        var id = 'ID: ' + profile.getId();
-        var name = 'Name: ' + profile.getName();
-        var email = 'Email: ' + profile.getEmail();
-        document.querySelector('div.google_info').innerHTML = id + '<br/>';
-        document.querySelector('div.google_info').innerHTML += name + '<br/>';
-        document.querySelector('div.google_info').innerHTML += email + '<br/>';
-        document.querySelector('div.google_info').innerHTML +=
-          '성 : ' + profile.getFamilyName() + '<br/>';
-        document.querySelector('div.google_info').innerHTML +=
-          '이름 : ' + profile.getGivenName() + '<br/>';
-
-        document.querySelector('div.google_info').innerHTML +=
-          '썸네일 : <br/><img src="' + profile.getImageUrl() + '"><br/>'; */
-      }
-      function onSignInFailure(t) {
-        console.log(t);
-      }
     </script>
-
-    <script
+  	    <script
       src="https://apis.google.com/js/platform.js?onload=init"
       async
       defer
     ></script>
->
-    <hr />
-    <h4>구글로그인 정보</h4>
-    <div class="google_info"></div>
 
-    <br />
-
-    <hr />
-    <div style="margin-block: inherit">
-      <a id="kakao-login-btn"></a>
-      <button class="api-btn" onclick="unlinkApp()">앱 탈퇴하기</button>
-    </div>
-         <script type="text/javascript">
-      function unlinkApp() {
-        Kakao.API.request({
-          url: '/v1/user/unlink',
-          success: function (res) {
-            alert('success: ' + JSON.stringify(res));
-          },
-          fail: function (err) {
-            alert('fail: ' + JSON.stringify(err));
-          },
-        });
+<style>
+      /* The Modal (background) */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0); /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
       }
-    </script>
 
-    <script type="text/javascript">
-      Kakao.init('cef4a19442da922d3333aab48432a47a');
-      console.log('카카오 클라이언트 연결 : ' + Kakao.isInitialized());
-
-      Kakao.Auth.createLoginButton({
-        container: '#kakao-login-btn',
-        success: function (authObj) {
-        	$('div.signup').show();
-          Kakao.API.request({
-            url: '/v2/user/me',
-            success: function (result) {
-             // $('#result').append(result);
-              console.log('result : ' + JSON.stringify(result));
-              
-              $('#email').val(result.kakao_account.email);
-              //$('#sex').val(result.kakao_account.gender);
-              $('#social_type').val("카카오");
-              $('#social_no').val(result.id);
-              $('#thumb').val(result.kakao_account.profile.profile_image_url);
-               $('#thumb_img').attr('src',result.kakao_account.profile.profile_image_url);
-              
-              var url = '../ta_back/login';
-              //서버로 AJAX 요청, 응답
-              $.ajax({
-                url : url,
-                method: 'post',
-                data: { social_type:"카카오",
-                  social_no: result.id, 
-                	email: result.kakao_account.email,
-                	thumb: result.kakao_account.profile.profile_image_url
-                	} /*id=id1&pwd=p1*/,
-                success: function (responseData) {
-                  console.log(responseData);
-                  /* if(responseData.status ==1){//성공
-                	  alert(responseData.msg);
-    	              }else{//실패인경우
-    	            	  alert(responseData.msg);
-    	              } */
-                },
-                error: function (xhr) {
-                  alert(xhr.status);
-                }
-              });
-              
-/*               id = result.id;
-              connected_at = result.connected_at;
-              kakao_account = result.kakao_account;
-              $('#result').append(kakao_account);
-              resultdiv = '<h2>로그인 성공 !!';
-              resultdiv += '<h4>id: ' + id + '<h4>';
-              resultdiv += '<h4>connected_at: ' + connected_at + '<h4>';
-              email = '';
-              gender = '';
-              if (typeof kakao_account != 'undefined') {
-                console.log(JSON.stringify(kakao_account));
-                email = kakao_account.email;
-                gender = kakao_account.gender;
-                // thumbnail_image_url = kakao_account.profile_image_url;
-              }
-              resultdiv += '<h4>email: ' + email + '<h4>';
-              resultdiv += '<h4>gender: ' + gender + '<h4>';
-              resultdiv += '<h4>연령대: ' + kakao_account.age_range + '<h4>';
-              if (kakao_account.birthday_type == 'SOLAR')
-                birthday_type = '양력';
-              else {
-                birthday_type = '음력';
-              }
-              resultdiv +=
-                '<h4>생일: ' +
-                kakao_account.birthday +
-                '(타입 :' +
-                birthday_type +
-                ')' +
-                '<h4>';
-              resultdiv +=
-                '<h4>썸네일 이미지 : <br/> <img style="width:300px" src="' +
-                kakao_account.profile.profile_image_url +
-                '"><h4>';
-              '<p style="width: 50%;">JSON: ' +
-                JSON.stringify(kakao_account) +
-                '</p>';
-              $('#result').append(resultdiv); */
-              
-            },
-            fail: function (error) {
-              alert(
-                'login success, but failed to request user information: ' +
-                  JSON.stringify(error)
-              );
-            },
-          });
-        },
-        fail: function (err) {
-          alert('failed to login: ' + JSON.stringify(err));
-        },
-      });
-    </script>
-    <h4>카카오 로그인 정보</h4>
-    <div id="result" style="width: 100%; overflow: visible"></div>
-   
-   	<div class="signup">
-      <form id="signup-from" method="POST" action="../ta_back/login">
-   	<ol>
-    <li><label>소셜 타입<input type="text" id ="social_type" name="social_type" readonly></label>
-    <input type="text" id ="social_no" name="social_no" hidden>
-    </li>
-   	<li><label>이메일<input type="text" id ="email" name="email" readonly></label></li>
-   	<li><label>닉네임<input type="text" id ="nickname" name="nickname" required="required"></label></li>
-   	<li><label>생년월일<input type="text" id ="birthday" name="birthday" required="required"></label></li>
-   	<li>성별<label><input type="radio"  name ="gender" value="남자" checked>남자</label><label><input type="radio" name ="gender" value="여자" >여자</label></li>
-   	<li>썸네일 이미지 <input type="text" id ="thumb" name="thumb" hidden><br>
-    <img style = "width: 300px;" id ="thumb_img" name="thumb" src="">
-    </li>
-     <li><button type="submit">회원 가입</button></li>
-   	</ol>
-     </form>
-   	</div>
+      /* Modal Content/Box */
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+      }
+      /* The Close Button */
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+</style>
+  </head>
+  <body>
+         
+  
+      <!-- 소셜계정 선택 시작 -->
+    <div id="social" style="text: center; margin-block: inherit">
+      <li id="GgCustomLogin" style="list-style-type: none">
+        <a href="javascript:void(0)">
+         <!--  <p id="my-signin2"></p>-->
+          <span>Login with GooglWe</span> 
+        </a>
+      </li>
+      <a id="kakao-login-btn"></a>
+      <!-- <button class="api-btn" onclick="unlinkApp()">앱 탈퇴하기</button> -->
+      <br />
+    </div>
     
+        <!-- 소셜계정 선택 끝 -->
+         <!-- 로고인 완료 화면 시작 -->
+    <div id="memberinfo" style="text-align: center; display: none">
+      <ul>
+        <li style="list-style-type: none">
+          <img
+            style="width: 30px"
+            id="login_thumb_img"
+            src=""
+            alt="mythumbnail"
+          />
+          <span id="member_nickname" style="font-size: 20pt"></span>
+        </li>
+      </ul>
+      <a class="myinfo" href="#" onclick="myinfo()">마이페이지</a>
+      <button class="logout" type="button" onclick="logout()">로그아웃</button>
+          <hr />
+    </div>
+
+    <!-- 로고인 완료 화면 끝 -->
+    <!-- 마이페이지 끝 -->
+    <div id="myinfodiv">
+      <h1>마이페이지</h1>
+     <!-- <form> --> 
+      <ul>
+        <li>
+          <label
+            >소셜 타입 : <a
+              type="text"
+              id="mysocial_type"
+             
+              
+          ></a></label>
+        </li>
+        <li>
+          <label
+            >이메일 : <a type="text" id="myemail" name="myemail" readonly
+          ></a></label>
+        </li>
+        <li>
+          <label
+            >닉네임 : <input
+              type="text"
+              id="mynickname"
+              name="mynickname"
+              required
+         / ><span class="chkNick" >  닉네임 중복</span></label>
+        </li>
+        <li>
+          <label
+            >출생년월 : <input
+              type="month"
+              id="mybirthday"
+              name="mybirthday"
+              max="9999-12"
+              readonly
+          /></label>
+        </li>
+        <li>
+          성별 : <label
+            ><a
+              type="radio"
+              id="mygender"
+              name="mygender"
+              value=""
+              checked /></a></label
+          >
+        </li>
+        <li>
+          썸네일 이미지
+          <input
+            type="text"
+            id="mythumb"
+            name="mythumb"
+            alt="mythumbname"
+            hidden
+          /><br />
+          <img style="width: 300px" id="mythumb_img" src="" />
+        </li>
+          <button class="update" onclick="changeNick()">정보변경</button
+          ><button class="leave" onclick="leave()">탈퇴하기</button>
+      </ul>
+      <!-- </form> --> 
+    </div>
+    <!-- 마이페이지 끝 -->
+
+    <!-- 회원가입 화면 시작 -->
+    <div class="signup" style="display: none">
+      <form
+        id="signupfrom"
+        name="signupfrom"
+        method="post"
+        action="../ta_back/signup"
+      >
+        <ol>
+          <li>
+            <label
+              >소셜 타입<input
+                type="text"
+                id="social_type"
+                name="social_type"
+                readonly
+            /></label>
+            <input type="text" id="social_no" name="social_no" hidden />
+          </li>
+          <li>
+            <label
+              >이메일<input type="text" id="email" name="email" readonly
+            /></label>
+          </li>
+          <li>
+            <label
+              >닉네임<input
+                type="text"
+                id="nickname"
+                name="nickname"
+                required
+            /></label>
+          </li>
+          <li>
+            <label
+              >생년월일<input
+                type="month"
+                id="birthday"
+                name="birthday"
+                required
+            /></label>
+          </li>
+          <li>
+            성별<label
+              ><input
+                type="radio"
+                name="gender"
+                value="남자"
+                checked
+              />남자</label
+            ><label
+              ><input type="radio" name="gender" value="여자" />여자</label
+            >
+          </li>
+          <li>
+            썸네일 이미지
+            <input type="text" id="thumb" name="thumb" hidden /><br />
+            <img style="width: 300px" id="thumb_img" src="" alt="thumbnail" />
+          </li>
+          <li><button class="sign" type="submit">회원 가입</button></li>
+        </ol>
+      </form>
+    </div>
+    <!-- 회원가입 화면 끝 -->
+    
+    
+      <button id="myBtn">Open Modal</button>
+
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>Some text in the Modal..</p>
+        </div>
+      </div>
+      <!-- The Modal END -->
+
+
+    
+<!-- body에 내장된 로그인 스크립트 -->
+ <script src="assets/js/login1.js"></script>
   </body>
 </html>

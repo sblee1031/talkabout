@@ -38,7 +38,11 @@ public interface BoardDAO {
 	 * @param b
 	 * @throws AddException
 	 */
+<<<<<<< HEAD
 	void insert(Board b) throws AddException;
+=======
+	void insert(Board binfo) throws AddException;
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	
 	/**
 	 * 게시글 수정
@@ -48,6 +52,7 @@ public interface BoardDAO {
 	void update(Board binfo) throws ModifyException;
 	
 	/**
+<<<<<<< HEAD
 	 * 게시글 조회수 카운트
 	 * @param Board_no
 	 * @throws ModifyException
@@ -55,10 +60,28 @@ public interface BoardDAO {
 	void updateCount(int Board_no) throws ModifyException;
 	
 	/**
+=======
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	 * 게시글 삭제
 	 * @param Board_no
 	 * @throws DeleteException
 	 */
 	void deleteByBoardNo(int Board_no) throws DeleteException;
 	
+<<<<<<< HEAD
+=======
+	/**
+	 * 게시글 좋아요
+	 * @param BL
+	 * @throws AddException
+	 */
+	void insert(BoardLike BL) throws AddException;
+	
+	/**
+	 * 게시글 좋아요 삭제
+	 * @param BoardLike_no
+	 * @throws DeleteException
+	 */
+	void deleteByBlNo(int BoardLike_no) throws DeleteException;
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 }

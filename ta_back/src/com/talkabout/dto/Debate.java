@@ -22,6 +22,7 @@ public class Debate {
 	 */
 	
 	private int debate_no;
+<<<<<<< HEAD
 	private Member debate_writer; // debate_writer.member_no
 	private String debate_topic;
 	private Date debate_date;
@@ -29,6 +30,15 @@ public class Debate {
 	private String debate_status;
 	private Date debate_startDate;
 	private Date debate_endDate;
+=======
+	private int debate_writer; // debate_writer.member_no
+	private String debate_topic;
+	private String debate_date;
+	private int debate_time;
+	private String debate_status;
+	private String debate_startDate;
+	private String debate_endDate;
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	List<DebateDetail> detail_list;
 	List<DebateComment> comment_list;
 	List<DebateLike> like_list; 
@@ -38,8 +48,15 @@ public class Debate {
 		DebateLike 테이블에 행이 추가될 때마다 Debate 테이블의 좋아요 수도 1씩 증가 
 	 */
 	
+<<<<<<< HEAD
 	public Debate(int debate_no, Member debate_writer, String debate_topic, Date debate_date, int debate_time,
 			String debate_status, Date debate_startDate, Date debate_endDate, List<DebateDetail> detail_list,
+=======
+	
+	
+	public Debate(int debate_no, int debate_writer, String debate_topic, String debate_date, int debate_time,
+			String debate_status, String debate_startDate, String debate_endDate, List<DebateDetail> detail_list,
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 			List<DebateComment> comment_list, List<DebateLike> like_list, List<Audience> audience_list) {
 		super();
 		this.debate_no = debate_no;
@@ -56,6 +73,19 @@ public class Debate {
 		this.audience_list = audience_list;
 	}
 
+<<<<<<< HEAD
+=======
+	public Debate(String debate_date) {
+		super();
+		this.debate_date = debate_date;
+	}
+
+	public Debate() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	public int getDebate_no() {
 		return debate_no;
 	}
@@ -64,11 +94,19 @@ public class Debate {
 		this.debate_no = debate_no;
 	}
 
+<<<<<<< HEAD
 	public Member getDebate_writer() {
 		return debate_writer;
 	}
 
 	public void setDebate_writer(Member debate_writer) {
+=======
+	public int getDebate_writer() {
+		return debate_writer;
+	}
+
+	public void setDebate_writer(int debate_writer) {
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 		this.debate_writer = debate_writer;
 	}
 
@@ -80,11 +118,19 @@ public class Debate {
 		this.debate_topic = debate_topic;
 	}
 
+<<<<<<< HEAD
 	public Date getDebate_date() {
 		return debate_date;
 	}
 
 	public void setDebate_date(Date debate_date) {
+=======
+	public String getDebate_date() {
+		return debate_date;
+	}
+
+	public void setDebate_date(String debate_date) {
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 		this.debate_date = debate_date;
 	}
 
@@ -104,6 +150,7 @@ public class Debate {
 		this.debate_status = debate_status;
 	}
 
+<<<<<<< HEAD
 	public Date getDebate_startDate() {
 		return debate_startDate;
 	}
@@ -117,6 +164,21 @@ public class Debate {
 	}
 
 	public void setDebate_endDate(Date debate_endDate) {
+=======
+	public String getDebate_startDate() {
+		return debate_startDate;
+	}
+
+	public void setDebate_startDate(String debate_startDate) {
+		this.debate_startDate = debate_startDate;
+	}
+
+	public String getDebate_endDate() {
+		return debate_endDate;
+	}
+
+	public void setDebate_endDate(String debate_endDate) {
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 		this.debate_endDate = debate_endDate;
 	}
 

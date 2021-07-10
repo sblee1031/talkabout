@@ -1,5 +1,6 @@
 package com.talkabout.dao;
 
+<<<<<<< HEAD
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -315,3 +316,8 @@ public class BoardCommentDAOOracle implements BoardCommentDAO{
 
 
 
+=======
+public class BoardCommentDAOOracle {
+
+}
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8

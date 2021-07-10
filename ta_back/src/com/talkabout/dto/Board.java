@@ -25,20 +25,28 @@ public class Board {
 	private Date board_date;
 	private int board_views;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private Member board_mem; // board_mem.member_no
 =======
 	private int board_mem; // board_mem.member_no
 //	private Member board_mem;
 >>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
+=======
+	private int board_mem; // board_mem.member_no
+//	private Member board_mem;
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	List<BoardComment> comment_list;
 	List<BoardLike> like_list; 
 	// 게시글번호,회원번호 체크?
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	public Board(int board_no, String board_type, String board_title, String board_contents, Date board_date,
 			int board_views, Member board_mem, List<BoardComment> comment_list, List<BoardLike> like_list) {
 		super();
 =======
+=======
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	public Board() {
 		super();
 	}	
@@ -46,7 +54,10 @@ public class Board {
 	public Board(int board_no, String board_type, String board_title, String board_contents, Date board_date,
 			int board_views, int board_mem, List<BoardComment> comment_list, List<BoardLike> like_list) {
 		super();
+<<<<<<< HEAD
 >>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
+=======
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 		this.board_no = board_no;
 		this.board_type = board_type;
 		this.board_title = board_title;
@@ -57,6 +68,7 @@ public class Board {
 		this.comment_list = comment_list;
 		this.like_list = like_list;
 	}
+<<<<<<< HEAD
 <<<<<<< HEAD
 	public int getBoard_no() {
 		return board_no;
@@ -104,6 +116,8 @@ public class Board {
 		return comment_list;
 	}
 =======
+=======
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	public Board(int board_no, String board_type, String board_title, String board_contents, Date board_date,
 			int board_views, int board_mem) {
 		super();
@@ -160,7 +174,10 @@ public class Board {
 	public List<BoardComment> getComment_list() {
 		return comment_list;
 	}
+<<<<<<< HEAD
 >>>>>>> b2119f65f28489bfc6bb0cfeef710cd6044263fc
+=======
+>>>>>>> 173f792aa85f8cdae498f11b5e4a8ac11d9cb0e8
 	public void setComment_list(List<BoardComment> comment_list) {
 		this.comment_list = comment_list;
 	}
