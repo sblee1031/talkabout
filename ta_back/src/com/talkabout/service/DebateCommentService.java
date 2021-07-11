@@ -1,7 +1,7 @@
 package com.talkabout.service;
 
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import com.talkabout.dao.DebateCommentDAO;
@@ -43,7 +43,7 @@ public void DCdelete(int com_no)throws DeleteException{
 public void DCupdate(DebateComment DC)throws ModifyException{
 	dao.update(DC);
 }
-public DebateComment DCselectByComNo(int com_no)throws FindException{
+public List<DebateComment> DCselectByComNo(int com_no)throws FindException{
 	return dao.selectByComNo(com_no);
 }
 

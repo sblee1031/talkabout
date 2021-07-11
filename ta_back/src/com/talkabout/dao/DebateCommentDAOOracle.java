@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.talkabout.dto.DebateComment;
@@ -17,8 +16,14 @@ import com.talkabout.exception.ModifyException;
 import com.talkabout.sql.MyConnection;
 
 public class DebateCommentDAOOracle implements DebateCommentDAO{
-	public DebateCommentDAOOracle() throws Exception {
-		Class.forName("oracle.jdbc.driver.OracleDriver");
+	public DebateCommentDAOOracle() {
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("JDBC 드라이버 로드 성공");
 }
 
@@ -95,7 +100,7 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 				DebateComment dbDebateComment = null;
 				try {
 					dao = new DebateCommentDAOOracle();
-					dbDebateComment= dao.selectByComNo(dc.getCom_no());
+					dbDebateComment= dao.selectByNo(dc.getCom_no());
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -121,8 +126,8 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 
 		
 	}
-
-	public DebateComment selectByComNo(int com_no) throws FindException  {
+	//댓글 한개만 가져온느거
+	public DebateComment selectByNo(int com_no) throws FindException  {
 		// TODO Auto-generated method stub
 		//DB연결
 		Connection con = null;
@@ -146,7 +151,7 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 				int com_no1 = rs.getInt("com_no");
 				int com_deb = rs.getInt("com_deb");
 				String com_contents = rs.getString("com_contents");
-				Date com_date = rs.getDate("com_date");
+				String com_date = rs.getString("com_date");
 				int com_mem = rs.getInt("com_mem");
 				
 				dc = new DebateComment(com_no1, com_deb, com_contents, com_date, com_mem);
@@ -163,6 +168,48 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 			MyConnection.close(con, pstmt, rs);
 		}
 		return dc;
+	}
+	public List<DebateComment> selectByComNo(int com_no) throws FindException  {
+		// TODO Auto-generated method stub
+		//DB연결
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			throw new FindException(e.getMessage());
+			//DB연결에 문제발생시 예외처리
+		}
+		String selectByComNo = "SELECT * FROM DebateComment WHERE com_deb = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<DebateComment> listDebateComment = new ArrayList<>();
+		DebateComment dc = null;
+		try {
+			pstmt = con.prepareStatement(selectByComNo);
+			pstmt.setInt(1, com_no);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				//행의 칼럼값 얻기
+				int com_no1 = rs.getInt("com_no");
+				int com_deb = rs.getInt("com_deb");
+				String com_contents = rs.getString("com_contents");
+				String com_date = rs.getString("com_date");
+				int com_mem = rs.getInt("com_mem");
+				
+				dc = new DebateComment(com_no1, com_deb, com_contents, com_date, com_mem);
+				listDebateComment.add(dc);
+			}
+			if(listDebateComment.size() == 0) { //게시글이 없는경우
+				throw new FindException("댓글이 존재하지 않습니다.");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			//DB연결해제
+			MyConnection.close(con, pstmt, rs);
+		}
+		return listDebateComment;
 	}
 	@Override
 	public void deleteByAdmin(int com_no) throws DeleteException {
@@ -194,26 +241,21 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 	}
 	
 	
-	public static void main(String []args) throws AddException, ModifyException, FindException {
-		DebateCommentDAOOracle dao = null;
-		try {
-			dao = new DebateCommentDAOOracle();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static void main(String []args) throws Exception {
+		DebateCommentDAOOracle dao = new DebateCommentDAOOracle();
+		
 		
 		DebateComment dc = new DebateComment();
 		MemberDAOOracle mDAO = null;
 		Member member = null;
 		try {
 			mDAO = new MemberDAOOracle();
-			member= mDAO.selectById(1);
+			member= mDAO.selectByNo(1);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+//		
 //		dc.setCom_deb(1);
 //		dc.setCom_mem(member.getMember_no());
 //		dc.setCom_contents("2번댓글 ");
@@ -223,8 +265,8 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 //		debatecomment.setCom_contents("바꼇슈");
 //		dao.update(debatecomment);
 		
-		DebateComment debatecomment = dao.selectByComNo(3);
-		System.out.println(debatecomment.toString());
+//		DebateComment debatecomment = dao.selectByComNo(3);
+//		System.out.println(debatecomment.toString());
 	}
 //	public static void main(String []args) throws DeleteException  {
 //		DebateCommentDAOOracle dao = null;

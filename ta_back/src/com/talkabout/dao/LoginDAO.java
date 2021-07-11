@@ -1,6 +1,6 @@
 package com.talkabout.dao;
 
-import com.talkabout.dto.Member;
+import com.talkabout.dto.Login;
 import com.talkabout.exception.FindException;
 
 public interface LoginDAO {
@@ -9,18 +9,18 @@ public interface LoginDAO {
 	 * @param Login 
 	 * @throws AddException
 	 */
-	void signUp(Member l) ;
+	void signUp(Login l) ;
 	/**
 	 * 
 	 * @param id
 	 * @return
 	 * @throws FindException
 	 */
-	Member selectById(int no) throws FindException;
+	Login selectById(int no) throws FindException;
 	/**
 	 * 
 	 * @param c
 	 * @throws ModifyException
 	 */
-	void update(Member c) ;
+	void update(Login c) ;
 }
