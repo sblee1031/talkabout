@@ -4,13 +4,13 @@
     
     function paging(totalData, dataPerPage, pageCount, currentPage){
         
-        console.log("currentPage : " + currentPage);
+        //console.log("currentPage : " + currentPage);
         
         var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
-		console.log('토탈페이지 :'+totalPage);
+		//console.log('토탈페이지 :'+totalPage);
         var pageGroup = Math.ceil(currentPage/pageCount);    // 페이지 그룹
         
-        console.log("pageGroup : " + pageGroup);
+       // console.log("pageGroup : " + pageGroup);
         
         var last = pageGroup * pageCount;    // 화면에 보여질 마지막 페이지 번호
         if(last > totalPage)
@@ -21,10 +21,10 @@
         var next = last+1;
         var prev = first-1;
         
-        console.log("last : " + last);
-        console.log("first : " + first);
-        console.log("next : " + next);
-        console.log("prev : " + prev);
+        //console.log("last : " + last);
+       // console.log("first : " + first);
+        //console.log("next : " + next);
+      //  console.log("prev : " + prev);
  
         var $pingingView = $("#paging");
         
@@ -525,7 +525,11 @@ function btnDeleteDebate(){
       }
 }
 function debateSearch(){
+	if($('#searchInput').val()==''){
+		alert('검색어를 입력해주세요.');
+	}else{
 	$('#debateWrite').hide();
+	$('#debateList').show();
 	$('#paging').hide();
 	var url = "../ta_back/debrecruit";
   	var method = "debatesearch";
@@ -579,6 +583,7 @@ function debateSearch(){
 				}
 		    },
 		  });
+	}
 }
 
 function btnModifyDebate(){
@@ -659,7 +664,8 @@ function goList(){
     url: url,
     method: "get",
     data: { method: method,
-			page: 1 },
+			page: 1 ,
+			pagesize: dataPerPage},
     success: function (resposeData) {
       console.log(resposeData);
       var lists = resposeData.debatelist;
