@@ -210,6 +210,7 @@ $(function () {
         console.log('res'+ resposeData.detail[0]);
         var debate = resposeData.debate;
         var detail = resposeData.detail;
+		var dismem = resposeData.memberinfo;
         var addTrObj; //상세페이지 될 객체
 		$('#btnDiscussor1').hide();
 		console.log(detail);
@@ -220,8 +221,16 @@ $(function () {
         $("#spanDebate_discuss1").html(detail[0].discuss);
         $("#spanDebate_discuss2").html(detail[1].discuss);
 		var writer = debate.debate_writer;
-        var discussor1 = detail[0].discussor;
-        var discussor2 = detail[1].discussor;
+		
+		if(dismem[0].member_no==0){
+			discussor1=0;
+		}else{
+       var discussor1 = dismem[0].member_nickName;
+		}		if(dismem[1].member_no==0){
+			discussor2=0;
+		}else{
+		 var discussor2 = dismem[1].member_nickName;
+		}
 		if(userdata.logined=="logined" && writer==userdata.member.member_no){
 			$('#btnDeleteDebate').show();
 			$('#btnModifyDebate').show();

@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.talkabout.dao.DebateDAOOracle;
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.Member;
@@ -136,13 +135,34 @@ public class DebateServelt extends HttpServlet {
 		String strdeb_no = request.getParameter("deb_no");
 		
 		if(method.equals("debatedetail")) {
+			
+			List<Member> memList = new ArrayList<>();
 			//System.out.println("detail");
 			int deb_no = Integer.parseInt(strdeb_no);
 			Debate d = new Debate();
 			d = service.findByNo(deb_no);
 			list= ddservice.findByDebNo(deb_no);
-			map.put("debate", d);
-			map.put("detail", list);
+			
+			
+			for (DebateDetail debate : list) {
+				Member mem = new Member();
+				try {
+					mem = memservice.memberInfo(debate.getDiscussor());
+					memList.add(mem);
+				} catch (FindException e) {
+					e.printStackTrace();
+				}
+				
+			}
+				if(list.size()==0) {
+					System.out.println("게시글 없음");
+				}else {
+					map.put("debate", d);
+					map.put("detail", list);
+					map.put("memberinfo", memList);
+				}
+			
+			map.put("memberinfo", memList);
 		}if(method.equals("debatesearch")) {
 			try {
 				if(column.equals("WRITER")) {
