@@ -17,7 +17,7 @@ public interface DebateCommentDAO {
 	
 	DebateComment selectByNo(int com_no) throws FindException ;//한개만 가져오는거
 
-	List<DebateComment> selectByComNo(int com_com) throws FindException; //댓글들 가져오느느 com_deb으로 가져온다 oracle과 여기엔 변수만 com_no임 나중에 수정해서 변수는 못바꿈
+	List<DebateComment> selectByComNo(int com_com) throws FindException; //댓글들 가져오느느
 	
 void deleteByAdmin(int com_no) throws DeleteException;
 }

@@ -42,9 +42,9 @@ public class DebateCommentInsertServlet extends HttpServlet {
 		Member member = null;
 		
 		try {
-			DC.setCom_mem(1);//예시 ,여기는 로그인정보가 들어가야함
-			DC.setCom_deb(1);//댓글을 달려는 토론 결과의 토로번호
-			service.DCinsert(DC);//댓글작성
+			DC.setCom_mem(member.getMember_no());
+			DC.setCom_deb(member.getMember_no());
+			service.DCinsert(DC);
 		     
 			
 		} catch (AddException e) {

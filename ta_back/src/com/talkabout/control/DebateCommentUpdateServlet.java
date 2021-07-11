@@ -45,9 +45,9 @@ HttpSession session = request.getSession();
 		MemberDAOOracle mDAO  = null;
 		Member member = null;
 		try {
-			DC.setCom_mem(member.getMember_no());//로그인한 정보로 조회
-			DC.setCom_deb(member.getMember_no()); //쓴글글중에 토론번호로 조회후 
-			service.DCupdate(DC);//내용을 수정
+			DC.setCom_deb(member.getMember_no()); 
+			DC.setCom_mem(member.getMember_no());
+			service.DCupdate(DC);
 			
 		} catch (ModifyException e) {
 			e.printStackTrace();

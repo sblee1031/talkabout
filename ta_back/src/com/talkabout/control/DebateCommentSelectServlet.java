@@ -41,7 +41,7 @@ public class DebateCommentSelectServlet extends HttpServlet {
 		Map<String, Object> map = new HashMap<>();
 		List<DebateComment> DC = new ArrayList<>();
 		try {
-			 DC = service.DCselectByComNo(com_no);//com_no는 그냥 변수고 com_deb 으로  select
+			 DC = service.DCselectByComNo(com_no);
 			map.put("comment", DC);
 		 jsonStr = mapper.writeValueAsString(map);
 			

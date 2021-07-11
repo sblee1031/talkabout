@@ -179,7 +179,7 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 			throw new FindException(e.getMessage());
 			//DB연결에 문제발생시 예외처리
 		}
-		String selectByComNo = "SELECT * FROM DebateComment WHERE com_deb = ?";//위에 int com_no무시 sql엔 com_deb으로 들어간다
+		String selectByComNo = "SELECT * FROM DebateComment WHERE com_deb = ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<DebateComment> listDebateComment = new ArrayList<>();

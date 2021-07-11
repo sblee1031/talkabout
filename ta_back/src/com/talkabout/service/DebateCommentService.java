@@ -44,7 +44,7 @@ public void DCupdate(DebateComment DC)throws ModifyException{
 	dao.update(DC);
 }
 public List<DebateComment> DCselectByComNo(int com_no)throws FindException{
-	return dao.selectByComNo(com_no);//여기도 dao , oracle에서 말햇듯이 변수만 com_no이고 sql에는 com_deb으로 들어가게햇음
+	return dao.selectByComNo(com_no);
 }
 
 }
