@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 		
 		
 		if(loginmem==null) {
-			System.out.println("비회원");
+			System.out.println("null임");
 			
 			ServletContext sc = getServletContext();		
 			MemberService.envProp = sc.getRealPath(sc.getInitParameter("env"));

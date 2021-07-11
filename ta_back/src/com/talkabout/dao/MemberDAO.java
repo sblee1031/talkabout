@@ -31,6 +31,4 @@ public interface MemberDAO {
 	
 	void deleteMember(Member m)throws FindException;
 	
-	Member searchNick(Member m)throws FindException;
-	
 }

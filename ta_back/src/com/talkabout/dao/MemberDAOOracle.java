@@ -41,7 +41,7 @@ public class MemberDAOOracle implements MemberDAO{
 			pstmt.setString(6, l.getMember_thumb());
 			pstmt.setString(7, l.getMember_birth());
 			int result = pstmt.executeUpdate();
-			//System.out.println("가입회원 추가 : "+result);
+			System.out.println("가입회원 추가 : "+result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
@@ -187,39 +187,6 @@ public class MemberDAOOracle implements MemberDAO{
 			MyConnection.close(con, pstmt, rs);
 		}return result;
 	}
-	@Override
-	public Member searchNick(Member m) throws FindException {
-		Connection con = null;
-		
-		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		String checkNick = "SELECT member_no, member_nickname FROM member WHERE member_nickname = ? ";
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		Member l = null;
-		try {
-			pstmt = con.prepareStatement(checkNick);
-			pstmt.setString(1, m.getMember_nickName());
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-			//행의 컬럼값 얻기
-			int member_no = rs.getInt("member_no");
-			String member_nickName = rs.getString("member_nickName");
-			l = new  Member(member_no, member_nickName
-					); //DB값 읽어와 DTO에 담기
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			
-		}finally{
-			//DB연결 해제
-			MyConnection.close(con, pstmt, rs);
-		}return l;
-	}
 		
 	//회원 탈퇴 메서드
 	public void deleteMember(Member m) {
@@ -313,8 +280,6 @@ public class MemberDAOOracle implements MemberDAO{
 
 		
 	}
-
-
 
 
 

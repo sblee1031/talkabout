@@ -36,14 +36,6 @@ public class Member{
 
 
 
-	public Member(int member_no, String member_nickName) {
-		super();
-		this.member_no = member_no;
-		this.member_nickName = member_nickName;
-	}
-
-
-
 	//signUp 생성자
 	public Member(String member_social_type, String member_social_no, String member_nickName, String member_gender,
 			String member_email, String member_thumb, String member_birth) {
