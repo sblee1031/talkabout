@@ -46,7 +46,7 @@ HttpSession session = request.getSession();
 		
 		
 		try {
-			 service.DCdelete(com_deb);
+			 service.DCdelete(com_deb);//원하는 토론번호의 댓글 삭제
 			
 		} catch (DeleteException e) {
 			e.printStackTrace();
