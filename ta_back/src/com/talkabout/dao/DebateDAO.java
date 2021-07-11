@@ -64,4 +64,10 @@ public interface DebateDAO {
 	 * 검색기능
 	 */
 	List<Debate> selectSearch(String column, String keyword);
+	
+     int lastRow();
+     
+     void pageNum(int page);
+     
+     void pageSize(int size);
 }

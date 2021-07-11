@@ -61,4 +61,13 @@ public class DebateService {
 	public List<Debate> selectSearch(String column, String keyword){
 		return dao.selectSearch(column, keyword);
 	}
+	public int lastRow() {//총 게시물 개수 구하기
+		return dao.lastRow();
+	}
+	public void pageNum(int page) {
+		dao.pageNum(page);
+	}
+	public void pageSize(int size) {
+		dao.pageSize(size);
+	}
 }

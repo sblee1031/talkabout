@@ -1,4 +1,113 @@
+    var totalData;    // 총 데이터 수
+    var dataPerPage = 5;    // 한 페이지에 나타낼 데이터 수
+    var pageCount = 5;        // 한 화면에 나타낼 페이지 수
+    
+    function paging(totalData, dataPerPage, pageCount, currentPage){
+        
+        console.log("currentPage : " + currentPage);
+        
+        var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
+		console.log('토탈페이지 :'+totalPage);
+        var pageGroup = Math.ceil(currentPage/pageCount);    // 페이지 그룹
+        
+        console.log("pageGroup : " + pageGroup);
+        
+        var last = pageGroup * pageCount;    // 화면에 보여질 마지막 페이지 번호
+        if(last > totalPage)
+            last = totalPage;
+        var first = last - (pageCount-1);    // 화면에 보여질 첫번째 페이지 번호
+		if(first<1)
+		first = 1;
+        var next = last+1;
+        var prev = first-1;
+        
+        console.log("last : " + last);
+        console.log("first : " + first);
+        console.log("next : " + next);
+        console.log("prev : " + prev);
+ 
+        var $pingingView = $("#paging");
+        
+        var html = "";
+        
+        if(prev > 0)
+            html += "<a href=# id='prev'><</a> ";
+        
+        for(var i=first; i <= last; i++){
+            html += "<a href='#' id=" + i + ">" + i + "</a> ";
+        }
+        
+        if(last < totalPage)
+            html += "<a href=# id='next'>></a>";
+        
+        $("#paging").html(html);    // 페이지 목록 생성
+        $("#paging a").css("color", "black");
+        $("#paging a#" + currentPage).css({"text-decoration":"none", 
+                                           "color":"red", 
+                                           "font-weight":"bold"});    // 현재 페이지 표시
+                                           
+        $("#paging a").click(function(){
+            
+            var $item = $(this);
+            var $id = $item.attr("id");
+            var selectedPage = $item.text();
+            
+            if($id == "next")    selectedPage = next;
+            if($id == "prev")    selectedPage = prev;
+            
+            paging(totalData, dataPerPage, pageCount, selectedPage);
+
+			$('#debateWrite').hide();
+			//$('#debateContents').empty();
+			$('#debateList').show();
+			
+		  var url = "../ta_back/debrecruit";
+		  var method = "listall";
+		  $.ajax({
+		    url: url,
+		    method: "get",
+		    data: { method: method,
+			page: selectedPage,
+			pagesize: dataPerPage,},
+		    success: function (resposeData) {
+		      console.log(resposeData);
+		      var lists = resposeData.debatelist;
+		      var mlists = resposeData.memberinfo;
+		      var listsize = lists.length;
+		     // var divtext = "";
+		      var trContent = $("#tablehead").clone();
+		      var trDebates = "";
+		      $(lists).each(function (list_i, list) {
+		        trDebates += '<tr class="' + list.debate_no + '">';
+		        trDebates += '<td class="debate_no">' + list.debate_no + "</td>";
+		        trDebates +=
+		          '<td class="' +
+		          list.debate_no +
+		          '" id="debate_no"><a class="atitle" href="#">' +
+		          list.debate_topic +
+		          "</a></td>";
+		        trDebates +=
+		          '<td class="debate_writer">' +
+		          mlists[list_i].member_nickName +
+		          "</td>";
+		        trDebates += '<td class="debate_date">' + list.debate_date + "</td>";
+		        trDebates += '<td class="debate_time">' + list.debate_time + "</td>";
+		        trDebates +=
+		          '<td class="debate_status">' + list.debate_status + "</td>";
+		        trDebates += "</tr>";
+		      });
+		      		      $('#debateList').html(trContent);
+		 				$('#debateList').append(trDebates);
+		    },
+		  });
+
+        });// $("#paging a") 끝.
+                                           
+    }
+
+
 var userdata; //로그인 정보 담기는 객체
+var page;
 $(function () {
   var url = "../ta_back/login";
   $.ajax({
@@ -40,9 +149,15 @@ $(function () {
   $.ajax({
     url: url,
     method: "get",
-    data: { method: method },
+    data: { method: method,
+			page: 1,
+			pagesize: dataPerPage,
+			},
     success: function (resposeData) {
-      console.log(resposeData);
+	totalData = resposeData.row;
+	paging(totalData, dataPerPage, pageCount, 1);
+    
+  console.log(resposeData);
       var lists = resposeData.debatelist;
       var mlists = resposeData.memberinfo;
       var listsize = lists.length;
@@ -179,9 +294,11 @@ function debateWrite(){
 	$('#debateList').hide();
 	$("#debateWrite").show();
 	$('#btnModify').hide();
+	$('#paging').hide();
 }
 
 function saveDebate() {
+	//$('#paging').show();
   var topic = $("#inputDebate_topic").val();
   var discuss1 = $("#inputDiscuss1").val();
   var discuss2 = $("#inputDiscuss2").val();
@@ -409,6 +526,7 @@ function btnDeleteDebate(){
 }
 function debateSearch(){
 	$('#debateWrite').hide();
+	$('#paging').hide();
 	var url = "../ta_back/debrecruit";
   	var method = "debatesearch";
 	var column =$('#column').val();
@@ -420,6 +538,7 @@ function debateSearch(){
 		    method: "post",
 		    data: {
 		      method: method,
+			  page: 1,
 		      column: column,
 		      keyword: keyword,
 		    },
@@ -532,13 +651,15 @@ function goList(){
 	$('#debateWrite').hide();
 	//$('#debateContents').empty();
 	$('#debateList').show();
+	$('#paging').show();
 	
   var url = "../ta_back/debrecruit";
   var method = "listall";
   $.ajax({
     url: url,
     method: "get",
-    data: { method: method },
+    data: { method: method,
+			page: 1 },
     success: function (resposeData) {
       console.log(resposeData);
       var lists = resposeData.debatelist;

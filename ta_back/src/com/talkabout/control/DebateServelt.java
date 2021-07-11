@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.talkabout.dao.DebateDAOOracle;
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.Member;
@@ -38,9 +39,16 @@ public class DebateServelt extends HttpServlet {
 		DebateService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		MemberService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		String method = request.getParameter("method");
+		String page = request.getParameter("page");
+		String pageSize = request.getParameter("pagesize");
+		int intpage = Integer.parseInt(page);
+		int intpagesize = Integer.parseInt(pageSize);
+		//System.out.println("서블릿 페이지 사이즈:"+intpagesize);
 		
 		DebateService service;
 		service = DebateService.getInstance();
+		service.pageNum(intpage);
+		service.pageSize(intpagesize);
 		
 		MemberService memservice;
 		memservice = MemberService.getInstance();
@@ -52,6 +60,9 @@ public class DebateServelt extends HttpServlet {
 		
 		Map<String, Object> map = new HashMap<>();
 		List<Debate> list = new ArrayList<>();
+		int last = service.lastRow();
+		//num_page_no = intpage;
+		
 		
 		if(method.equals("listall")) {
 			try {
@@ -72,6 +83,7 @@ public class DebateServelt extends HttpServlet {
 				}else {
 					map.put("debatelist", list);
 					map.put("memberinfo", memList);
+					map.put("row", last);
 				}
 			}catch (Exception e){
 				e.printStackTrace();
