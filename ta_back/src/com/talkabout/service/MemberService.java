@@ -52,6 +52,8 @@ public class MemberService {
 		dao.deleteMember(m);
 	}
 	
-
+	public Member searchNick(Member m) throws FindException{//닉네임 검색시, 멤버 번호 가져옴
+		return dao.searchNick(m);
+	}
 
 }

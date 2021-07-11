@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateComment;
 import com.talkabout.dto.Member;
 import com.talkabout.exception.AddException;
@@ -26,7 +27,41 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 		}
 		System.out.println("JDBC 드라이버 로드 성공");
 }
-
+	public List<Debate> selectAll() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		//String select_SQL = "SELECT * FROM DEBATE";
+		String select_SQL = "SELECT * FROM debate WHERE debate_status = '종료'";
+		List<Debate> list = new ArrayList();
+		try {
+			con = MyConnection.getConnection();
+			pstmt = con.prepareStatement(select_SQL);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int debate_no = rs.getInt("DEBATE_NO");
+				int debate_writer = rs.getInt("DEBATE_WRITER");
+				String debate_topic = rs.getString("DEBATE_TOPIC");
+				String debate_date = rs.getString("DEBATE_DATE");
+				int debate_time = rs.getInt("DEBATE_TIME");
+				String debate_status = rs.getString("DEBATE_STATUS");
+				String debate_startdate = rs.getString("DEBATE_STARTDATE");
+				String debate_enddate = rs.getString("DEBATE_ENDDATE");
+				
+				
+				Debate d = new Debate(debate_no, debate_writer, debate_topic, debate_date, debate_time, debate_status, debate_startdate, debate_enddate, null, null, null, null);
+				list.add(d);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();	
+		} finally {
+			//DB연결해제
+			MyConnection.close(con, pstmt, rs);
+		}		
+		return list;
+	}
+	
 	public void insert(DebateComment dc) throws AddException {
 		Connection con = null;
 	      try {
@@ -243,18 +278,22 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 	
 	public static void main(String []args) throws Exception {
 		DebateCommentDAOOracle dao = new DebateCommentDAOOracle();
-		
-		
-		DebateComment dc = new DebateComment();
-		MemberDAOOracle mDAO = null;
-		Member member = null;
-		try {
-			mDAO = new MemberDAOOracle();
-			member= mDAO.selectByNo(1);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		List<Debate> list = new ArrayList<>();
+		list = dao.selectAll();
+		for (Debate debate : list) {
+			System.out.println(debate.getDebate_topic());
 		}
+		
+//		DebateComment dc = new DebateComment();
+//		MemberDAOOracle mDAO = null;
+//		Member member = null;
+//		try {
+//			mDAO = new MemberDAOOracle();
+//			member= mDAO.selectByNo(1);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 //		
 //		dc.setCom_deb(1);
 //		dc.setCom_mem(member.getMember_no());
