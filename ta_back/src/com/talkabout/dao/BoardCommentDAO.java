@@ -24,7 +24,7 @@ public interface BoardCommentDAO {
 	 * @return List<BaordComment>
 	 * @throws FindException
 	 */
-	public List<BoardComment> selectAll() throws FindException;
+	public List<BoardComment> selectAll(int com_board) throws FindException;
 	
 	/**
 	 * 댓글 작성

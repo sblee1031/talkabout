@@ -10,6 +10,13 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <context-param>
+<<<<<<< HEAD
+=======
+    <param-name>Developer</param-name>
+    <param-value>Choi MinKyu</param-value>
+  </context-param>
+  <context-param>
+>>>>>>> Choi
     <param-name>env</param-name>
     <param-value>/WEB-INF/classes.prop</param-value>
   </context-param>
@@ -55,12 +62,21 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+<<<<<<< HEAD
     <display-name>LeaveMemberServlet</display-name>
     <servlet-name>LeaveMemberServlet</servlet-name>
     <servlet-class>com.talkabout.control.LeaveMemberServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>LeaveMemberServlet</servlet-name>
+=======
+    <display-name>LeaveMemberService</display-name>
+    <servlet-name>LeaveMemberService</servlet-name>
+    <servlet-class>com.talkabout.control.LeaveMemberService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LeaveMemberService</servlet-name>
+>>>>>>> Choi
     <url-pattern>/leavemember</url-pattern>
   </servlet-mapping>
   <servlet>
@@ -83,6 +99,7 @@
     <servlet-name>DebateSaveServlet</servlet-name>
     <url-pattern>/debatesave</url-pattern>
   </servlet-mapping>
+<<<<<<< HEAD
 <<<<<<< HEAD
     <servlet>
     <description></description>
@@ -135,6 +152,139 @@
     <url-pattern>/noticesave</url-pattern>
   </servlet-mapping>
     <servlet>
+=======
+  <servlet>
+    <description></description>
+    <display-name>BoardListServlet</display-name>
+    <servlet-name>BoardListServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardListServlet</servlet-name>
+    <url-pattern>/boardlist</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardInfoServlet</display-name>
+    <servlet-name>BoardInfoServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardInfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardInfoServlet</servlet-name>
+    <url-pattern>/boardinfo</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardWirteServlet</display-name>
+    <servlet-name>BoardWirteServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardWirteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardWirteServlet</servlet-name>
+    <url-pattern>/boardwrite</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardSearchServlet</display-name>
+    <servlet-name>BoardSearchServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardSearchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardSearchServlet</servlet-name>
+    <url-pattern>/boardsearch</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardViewsServlet</display-name>
+    <servlet-name>BoardViewsServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardViewsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardViewsServlet</servlet-name>
+    <url-pattern>/boardviews</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardDeleteServlet</display-name>
+    <servlet-name>BoardDeleteServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardDeleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardDeleteServlet</servlet-name>
+    <url-pattern>/boarddelete</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardEditServlet</display-name>
+    <servlet-name>BoardEditServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardEditServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardEditServlet</servlet-name>
+    <url-pattern>/boardedit</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardLikeServlet</display-name>
+    <servlet-name>BoardLikeServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardLikeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardLikeServlet</servlet-name>
+    <url-pattern>/boardlike</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardComListServlet</display-name>
+    <servlet-name>BoardComListServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardComListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardComListServlet</servlet-name>
+    <url-pattern>/boardcomlist</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardComWriteServlet</display-name>
+    <servlet-name>BoardComWriteServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardComWriteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardComWriteServlet</servlet-name>
+    <url-pattern>/boardcomwrite</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardComEditServlet</display-name>
+    <servlet-name>BoardComEditServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardComEditServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardComEditServlet</servlet-name>
+    <url-pattern>/boardcomedit</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardComDeleteServlet</display-name>
+    <servlet-name>BoardComDeleteServlet</servlet-name>
+    <servlet-class>com.talkabout.control.BoardComDeleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardComDeleteServlet</servlet-name>
+    <url-pattern>/boardcomdelete</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MyBoardComServlet</display-name>
+    <servlet-name>MyBoardComServlet</servlet-name>
+    <servlet-class>com.talkabout.control.MyBoardComServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyBoardComServlet</servlet-name>
+    <url-pattern>/myboardcom</url-pattern>
+  </servlet-mapping>
+  <servlet>
+>>>>>>> Choi
     <description></description>
     <display-name>NoticeServlet</display-name>
     <servlet-name>NoticeServlet</servlet-name>
@@ -143,6 +293,9 @@
   <servlet-mapping>
     <servlet-name>NoticeServlet</servlet-name>
     <url-pattern>/notice</url-pattern>
+<<<<<<< HEAD
 >>>>>>> Eom
+=======
+>>>>>>> Choi
   </servlet-mapping>
 </web-app>

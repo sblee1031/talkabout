@@ -9,4 +9,12 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <context-param>
+    <param-name>Developer</param-name>
+    <param-value>Choi MinKyu</param-value>
+  </context-param>
+  <context-param>
+    <param-name>env</param-name>
+    <param-value>/WEB-INF/classes.prop</param-value>
+  </context-param>
 </web-app>
