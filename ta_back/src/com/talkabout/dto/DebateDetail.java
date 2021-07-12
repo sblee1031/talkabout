@@ -16,17 +16,24 @@ public class DebateDetail {
 	 * in_time : 입장시간
 	 */
 	private int detail_no;
-	private Debate detail_deb; // detail_deb.debate_no
+	private int detail_deb; // detail_deb.debate_no
 	private String discuss;
 	private String evi_one;
 	private String evi_two;
 	private String evi_three;
-	private Member discussor; // discussor.member_no
-	private Date in_time;
+	private int discussor; // discussor.member_no
+	private String in_time;
 	
-	public DebateDetail(Debate detail_deb, String discuss, String evi_one, String evi_two, String evi_three,
-			Member discussor, Date in_time) {
+	
+	
+	public DebateDetail() {
 		super();
+	}
+
+	public DebateDetail(int detail_no, int detail_deb, String discuss, String evi_one, String evi_two,
+			String evi_three, int discussor, String in_time) {
+		super();
+		this.detail_no = detail_no;
 		this.detail_deb = detail_deb;
 		this.discuss = discuss;
 		this.evi_one = evi_one;
@@ -36,11 +43,19 @@ public class DebateDetail {
 		this.in_time = in_time;
 	}
 
-	public Debate getDetail_deb() {
+	public int getDetail_no() {
+		return detail_no;
+	}
+
+	public void setDetail_no(int detail_no) {
+		this.detail_no = detail_no;
+	}
+
+	public int getDetail_deb() {
 		return detail_deb;
 	}
 
-	public void setDetail_deb(Debate detail_deb) {
+	public void setDetail_deb(int detail_deb) {
 		this.detail_deb = detail_deb;
 	}
 
@@ -76,19 +91,29 @@ public class DebateDetail {
 		this.evi_three = evi_three;
 	}
 
-	public Member getDiscussor() {
+	public int getDiscussor() {
 		return discussor;
 	}
 
-	public void setDiscussor(Member discussor) {
+	public void setDiscussor(int discussor) {
 		this.discussor = discussor;
 	}
 
-	public Date getIn_time() {
+	public String getIn_time() {
 		return in_time;
 	}
 
-	public void setIn_time(Date in_time) {
+	public void setIn_time(String in_time) {
 		this.in_time = in_time;
 	}
+
+	@Override
+	public String toString() {
+		return "DebateDetail [detail_no=" + detail_no + ", detail_deb=" + detail_deb + ", discuss=" + discuss
+				+ ", evi_one=" + evi_one + ", evi_two=" + evi_two + ", evi_three=" + evi_three + ", discussor="
+				+ discussor + ", in_time=" + in_time + "]";
+	}
+
+	
+	
 }

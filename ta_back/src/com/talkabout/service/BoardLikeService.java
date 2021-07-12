@@ -31,10 +31,10 @@ public class BoardLikeService {
 		}
 		return service;
 	}
-	public void insert(BoardLike BL) throws AddException{
+	public void AddBoardLike(BoardLike BL) throws AddException{
 		dao.insert(BL);
 	}
-	public void deleteByBoardLikeNo(int boardlike_no) throws DeleteException{
+	public void DeleteBoardLike(int boardlike_no) throws DeleteException{
 		dao.deleteByBoardLikeNo(boardlike_no);
 	}
 }

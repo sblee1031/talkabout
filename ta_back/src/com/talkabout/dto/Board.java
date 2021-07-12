@@ -22,7 +22,7 @@ public class Board {
 	private String board_type;
 	private String board_title;
 	private String board_contents;
-	private Date board_date;
+	private String board_date;
 	private int board_views;
 	private int board_mem; // board_mem.member_no
 //	private Member board_mem;
@@ -34,7 +34,7 @@ public class Board {
 		super();
 	}	
 	
-	public Board(int board_no, String board_type, String board_title, String board_contents, Date board_date,
+	public Board(int board_no, String board_type, String board_title, String board_contents, String board_date,
 			int board_views, int board_mem, List<BoardComment> comment_list, List<BoardLike> like_list) {
 		super();
 		this.board_no = board_no;
@@ -47,7 +47,13 @@ public class Board {
 		this.comment_list = comment_list;
 		this.like_list = like_list;
 	}
-	public Board(int board_no, String board_type, String board_title, String board_contents, Date board_date,
+	public Board(String board_type, String board_title, String board_contents) {
+		super();
+		this.board_type = board_type;
+		this.board_title = board_title;
+		this.board_contents = board_contents;
+	}
+	public Board(int board_no, String board_type, String board_title, String board_contents, String board_date,
 			int board_views, int board_mem) {
 		super();
 		this.board_no = board_no;
@@ -82,10 +88,10 @@ public class Board {
 	public void setBoard_contents(String board_contents) {
 		this.board_contents = board_contents;
 	}
-	public Date getBoard_date() {
+	public String getBoard_date() {
 		return board_date;
 	}
-	public void setBoard_date(Date board_date) {
+	public void setBoard_date(String board_date) {
 		this.board_date = board_date;
 	}
 	public int getBoard_views() {

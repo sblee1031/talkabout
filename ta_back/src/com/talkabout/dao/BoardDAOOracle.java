@@ -18,13 +18,13 @@ import com.talkabout.exception.ModifyException;
 import com.talkabout.sql.MyConnection;
 
 public class BoardDAOOracle implements BoardDAO{
-	
+	//DB커넥트
 	public BoardDAOOracle() throws Exception {
 		//JDBC드라이버 로드
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		System.out.println("JDBC 드라이버 로드 성공");
 	}
-
+	//자유게시판 검색
 	public List<Board> boardSearch(String type, String contents) throws FindException {
 		//DB연결
 		Connection con = null;
@@ -48,7 +48,7 @@ public class BoardDAOOracle implements BoardDAO{
 				String board_type = rs.getString("board_type");
 				String board_title = rs.getString("board_title");
 				String board_contents = rs.getString("board_contents");
-				Date board_date = rs.getDate("board_date");
+				String board_date = rs.getString("board_date");
 				int board_views = rs.getInt("board_views");
 				int board_mem = rs.getInt("board_mem"); //작성자 가져와야함 
 				
@@ -68,7 +68,7 @@ public class BoardDAOOracle implements BoardDAO{
 			MyConnection.close(con, pstmt, rs);
 		}
 	}
-
+	//자유게시판 리스트
 	public List<Board> selectAll() throws FindException {
 		//DB연결
 		Connection con = null;
@@ -93,7 +93,7 @@ public class BoardDAOOracle implements BoardDAO{
 				String board_type = rs.getString("board_type");
 				String board_title = rs.getString("board_title");
 				String board_contents = rs.getString("board_contents");
-				Date board_date = rs.getDate("board_date");
+				String board_date = rs.getString("board_date");
 				int board_views = rs.getInt("board_views");
 				int board_mem = rs.getInt("board_mem");
 				
@@ -114,7 +114,7 @@ public class BoardDAOOracle implements BoardDAO{
 		}
 		
 	}
-
+	//자유게시판 상세보기
 	@Override
 	public Board selectByBoardNo(int board_no) throws FindException {
 		//DB연결
@@ -140,7 +140,7 @@ public class BoardDAOOracle implements BoardDAO{
 				String board_type = rs.getString("board_type");
 				String board_title = rs.getString("board_title");
 				String board_contents = rs.getString("board_contents");
-				Date board_date = rs.getDate("board_date");
+				String board_date = rs.getString("board_date");
 				int board_views = rs.getInt("board_views");
 				int board_mem = rs.getInt("board_mem"); //작성자 가져와야함 
 				
@@ -159,7 +159,7 @@ public class BoardDAOOracle implements BoardDAO{
 			MyConnection.close(con, pstmt, rs);
 		}
 	}
-
+	//자유게시판 작성 DB연결 및 커밋
 	@Override
 	public void insert(Board binfo) throws AddException {
 		Connection con = null;
@@ -184,14 +184,13 @@ public class BoardDAOOracle implements BoardDAO{
 			MyConnection.close(con, null, null);
 		}
 	} 
-	
+	//자유게시판 작성
 	private void insertInfo(Connection con, Board binfo) throws AddException{
 		//SQL송신
 		PreparedStatement pstmt = null;
 		String insertInfoSQL = "INSERT INTO BOARD VALUES(BOARD_SEQ.NEXTVAL, ?, ?, ?, sysdate, 0, ?)";
 		try {
 			pstmt = con.prepareStatement(insertInfoSQL);
-			pstmt.setInt(1, binfo.getBoard_no());
 			pstmt.setString(1, binfo.getBoard_type());
 			pstmt.setString(2, binfo.getBoard_title());
 			pstmt.setString(3, binfo.getBoard_contents());
@@ -204,7 +203,7 @@ public class BoardDAOOracle implements BoardDAO{
 			MyConnection.close(null, pstmt, null);
 		}	
 	}
-
+	//자유게시판 수정
 	@Override
 	public void update(Board binfo) throws ModifyException {
 		Connection con = null;
@@ -272,7 +271,7 @@ public class BoardDAOOracle implements BoardDAO{
 		
 	}
 	
-	//조회수
+	//게시물 조회수
 	@Override
 	public void updateCount(int Board_no) throws ModifyException {
 		//DB연결
@@ -311,7 +310,7 @@ public class BoardDAOOracle implements BoardDAO{
 			MyConnection.close(con, pstmt, rs);
 		}
 	}
-
+	//자유게시판 삭제
 	@Override
 	public void deleteByBoardNo(int Board_no) throws DeleteException {
 		//DB연결
@@ -340,7 +339,7 @@ public class BoardDAOOracle implements BoardDAO{
 			MyConnection.close(con, pstmt, null);
 		}
 	}
-
+	
 	public static void main(String[] args) throws Exception {
 		BoardDAOOracle dao = new BoardDAOOracle();
 
@@ -364,18 +363,18 @@ public class BoardDAOOracle implements BoardDAO{
 //		게시글 검색
 //		String type = "board_title";
 //		String contents = "궁시렁";
-		String type = "board_type";
-		String contents = "코딩";
-		List<Board> list = new ArrayList<>();
-		list = dao.boardSearch(type, contents);
-		for (Board board : list) {
-			System.out.print(board.getBoard_no() + " ");
-			System.out.print(board.getBoard_type()+ " ");
-			System.out.print(board.getBoard_title()+ " ");
-			System.out.print(board.getBoard_date()+ " ");
-			System.out.print(board.getBoard_contents() + "//	");
-			
-		}
+//		String type = "board_type";
+//		String contents = "포";
+//		List<Board> list = new ArrayList<>();
+//		list = dao.boardSearch(type, contents);
+//		for (Board board : list) {
+//			System.out.print(board.getBoard_no() + " ");
+//			System.out.print(board.getBoard_type()+ " ");
+//			System.out.print(board.getBoard_title()+ " ");
+//			System.out.print(board.getBoard_date()+ " ");
+//			System.out.print(board.getBoard_contents() + "//	");
+//			
+//		}
 		
 		//게시글 상세
 //		Board board = dao.selectByBoardNo(2);
@@ -387,12 +386,12 @@ public class BoardDAOOracle implements BoardDAO{
 		
 		
 //		//insert
-//		Board b = new Board();
-//		b.setBoard_type("코딩");
-//		b.setBoard_title("웹사이트");
-//		b.setBoard_contents("프론트는 언제 만드냐?");
-//		b.setBoard_mem(3);
-//		dao.insert(b);
+		Board b = new Board();
+		b.setBoard_type("코딩");
+		b.setBoard_title("웹사이트");
+		b.setBoard_contents("하루남았다;;;;");
+		b.setBoard_mem(2);
+		dao.insert(b);
 //		Board board =  dao.selectByBoardNo(1);
 //		System.out.println(board.getBoard_mem());
 //		System.out.println(board.getBoard_title());
@@ -403,7 +402,7 @@ public class BoardDAOOracle implements BoardDAO{
 //		Member member = memberdao.selectById(board.getBoard_mem());
 //		System.out.println("작성자 닉 : " +member.getMember_nickName());
 //		System.out.println("작성자 메일 : " +member.getMember_email());
-		//dao.deleteByBoardNo(4);
+//		dao.deleteByBoardNo(23);
 //		Board board = new Board();
 //		board.setBoard_no(4);
 //		board.setBoard_type("바뀐타입 ");
@@ -412,10 +411,7 @@ public class BoardDAOOracle implements BoardDAO{
 //		dao.update(board);
 		
 		//조회수
-//		dao.updateCount(19);
+//		dao.updateCount(3);
 	}
 
-
-
-	
 }

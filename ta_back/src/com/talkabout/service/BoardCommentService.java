@@ -34,19 +34,19 @@ public class BoardCommentService {
 		}
 		return service;
 	}
-	public List<BoardComment> myBoardComSearch(int com_board, int com_mem) throws FindException{
+	public List<BoardComment> MyBoradComseach(int com_board, int com_mem) throws FindException{
 		return dao.myBoardComSearch(com_board, com_mem);
 	}
-	public List<BoardComment> selectAll() throws FindException{
-		return dao.selectAll();
+	public List<BoardComment> BoardComList(int com_board) throws FindException{
+		return dao.selectAll(com_board);
 	}
-	public void insert(BoardComment bc) throws AddException{
+	public void AddBoardCom(BoardComment bc) throws AddException{
 		dao.insert(bc);
 	}
-	public void update(BoardComment bc) throws ModifyException{
+	public void EditBoardCom(BoardComment bc) throws ModifyException{
 		dao.update(bc);
 	}
-	public void deleteByNo(int com_no) throws DeleteException{
+	public void DeleteBoardCom(int com_no) throws DeleteException{
 		dao.deleteByNo(com_no);
 	}
 }

@@ -34,22 +34,25 @@ public class BoardService {
 		}
 		return service;
 	}
-	public List<Board> boardSearch(String type, String content) throws FindException{
-		return dao.boardSearch(type, content);
+	public List<Board> BoardSearch(String type, String contents) throws FindException{
+		return dao.boardSearch(type, contents);
 	}
-	public List<Board> selectAll() throws FindException{
+	public List<Board> BoardList() throws FindException{
 		return dao.selectAll();
 	}
-	public void insert(Board b) throws AddException{
+	public Board BoardDetail(int board_no) throws FindException{
+		return dao.selectByBoardNo(board_no);
+	}
+	public void AddBoard(Board b) throws AddException{
 		dao.insert(b);
 	}
-	public void update(Board binfo) throws ModifyException{
+	public void EditBoard(Board binfo) throws ModifyException{
 		dao.update(binfo);
 	}
-	public void deleteByBoardNo(int Board_no) throws DeleteException{
+	public void	DeleteBoard(int Board_no) throws DeleteException{
 		dao.deleteByBoardNo(Board_no);
 	}
-	public void updateCount(int Board_no) throws ModifyException{
+	public void CountBoardView(int Board_no) throws ModifyException{
 		dao.updateCount(Board_no);
 	}
 }

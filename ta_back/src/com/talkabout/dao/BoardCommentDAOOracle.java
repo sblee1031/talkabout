@@ -19,6 +19,7 @@ import com.talkabout.exception.ModifyException;
 import com.talkabout.sql.MyConnection;
 
 public class BoardCommentDAOOracle implements BoardCommentDAO{
+	
 	public BoardCommentDAOOracle() throws Exception {
 		//JDBC드라이버 로드
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -50,7 +51,7 @@ public class BoardCommentDAOOracle implements BoardCommentDAO{
 				//행의 컬럼값 얻기
 				int com_no = rs.getInt("com_no");
 				int com_board_no = rs.getInt("com_board");
-				Date com_date = rs.getDate("com_date");
+				String com_date = rs.getString("com_date");
 				String com_contents = rs.getString("com_contents");
 				int com_member_no = rs.getInt("com_mem");
 				
@@ -73,90 +74,91 @@ public class BoardCommentDAOOracle implements BoardCommentDAO{
 	}
 
 	@Override
-	public List<BoardComment> selectAll() throws FindException {
+	public List<BoardComment> selectAll(int com_board) throws FindException {
 		//DB연결
-				Connection con = null;
-				try {
-				con = MyConnection.getConnection();
-				}catch(SQLException e) {
-					throw new FindException(e.getMessage());
-					//DB연결에 문제발생시 예외처리
-				}
-				String selectALLSQL = "SELECT*FROM BoardComment where com_board_no = ? ORDER BY com_no ASC";
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-				List<BoardComment> list = new ArrayList<> ();
-				try {
-					pstmt = con.prepareStatement(selectALLSQL);
-					rs = pstmt.executeQuery();
-					//커서 이동한 위치에 행이 존재할 경우 true
-					//커서 이동한 위치에 행이 존재하지 않을 경우 false
-					while(rs.next()) {
-						//행의 컬럼값 얻기
-						int com_no = rs.getInt("com_no");
-						int com_board_no = rs.getInt("com_board");
-						Date com_date = rs.getDate("com_date");
-						String com_contents = rs.getString("com_contents");
-						int com_member_no = rs.getInt("com_mem");
-						
-						BoardComment BC = new BoardComment(com_no, com_board_no, com_date,
-								com_contents, com_member_no);
-						list.add(BC);
-					}
-					if(list.size() == 0) {//게시글이 없는 경우
-						throw new FindException("게시글이 없습니다");
-					}
-					return list; //게시글이 있는 상태 (0보다 클때)
-				} catch (SQLException e) {
-					e.printStackTrace(); //콘솔에 예외종류, 내용, 줄번호 출력
-					throw new FindException(e.getMessage());
-				} finally {
-					//DB연결해제 (안하면 메모리 누수 발생 가능성있음)
-					MyConnection.close(con, pstmt, rs);
-				}
+		Connection con = null;
+		try {
+		con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			throw new FindException(e.getMessage());
+			//DB연결에 문제발생시 예외처리
+		}
+		String selectALLSQL = "SELECT*FROM BoardComment where com_board = ? ORDER BY com_no ASC";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<BoardComment> list = new ArrayList<> ();
+		try {
+			pstmt = con.prepareStatement(selectALLSQL);
+			pstmt.setInt(1, com_board);
+			rs = pstmt.executeQuery();
+			//커서 이동한 위치에 행이 존재할 경우 true
+			//커서 이동한 위치에 행이 존재하지 않을 경우 false
+			while(rs.next()) {
+				//행의 컬럼값 얻기
+				int com_no = rs.getInt("com_no");
+				int com_board_no = rs.getInt("com_board");
+				String com_date = rs.getString("com_date");
+				String com_contents = rs.getString("com_contents");
+				int com_member_no = rs.getInt("com_mem");
+				
+				BoardComment BC = new BoardComment(com_no, com_board_no, com_date,
+						com_contents, com_member_no);
+				list.add(BC);
+			}
+			if(list.size() == 0) {//게시글이 없는 경우
+				throw new FindException("댓글이 없습니다");
+			}
+			return list; //게시글이 있는 상태 (0보다 클때)
+		} catch (SQLException e) {
+			e.printStackTrace(); //콘솔에 예외종류, 내용, 줄번호 출력
+			throw new FindException(e.getMessage());
+		} finally {
+			//DB연결해제 (안하면 메모리 누수 발생 가능성있음)
+			MyConnection.close(con, pstmt, rs);
+		}
 	}
 
 	@Override
 	public BoardComment selectByComNo(int com_no) throws FindException {
 		//DB연결
-				Connection con = null;
-				try {
-					con = MyConnection.getConnection();
-				}catch(SQLException e) {
-					throw new FindException(e.getMessage());
-					//DB연결에 문제발생시 예외처리
-				}
-				String selectByComNo = "SELECT*FROM BOARDCOMMENT WHERE com_no = ?";
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-				List<BoardComment> listboardcomment = new ArrayList<>();
-				BoardComment bc = null;
-				try {
-					pstmt = con.prepareStatement(selectByComNo);
-					pstmt.setInt(1, com_no);
-					rs = pstmt.executeQuery();
-					while (rs.next()) {
-						//행의 칼럼값 얻기
-						int com_number = rs.getInt("com_no");
-						int com_board = rs.getInt("com_board");
-						Date com_date = rs.getDate("com_date");
-						String com_contents = rs.getString("com_contents");
-						int com_mem = rs.getInt("com_mem");
-						
-						bc = new BoardComment(com_number, com_board, com_date,com_contents, com_mem);
-						listboardcomment.add(bc);
-					}
-					if(listboardcomment.size() == 0) { //게시글이 없는경우
-						throw new FindException("댓글이 존재하지 않습니다.");
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}finally {
-					//DB연결해제
-					MyConnection.close(con, pstmt, rs);
-				}
-				return bc;
+		Connection con = null;
+		try {
+			con = MyConnection.getConnection();
+		}catch(SQLException e) {
+			throw new FindException(e.getMessage());
+			//DB연결에 문제발생시 예외처리
+		}
+		String selectByComNo = "SELECT*FROM BOARDCOMMENT WHERE com_no = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<BoardComment> listboardcomment = new ArrayList<>();
+		BoardComment bc = null;
+		try {
+			pstmt = con.prepareStatement(selectByComNo);
+			pstmt.setInt(1, com_no);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				//행의 칼럼값 얻기
+				int com_number = rs.getInt("com_no");
+				int com_board = rs.getInt("com_board");
+				String com_date = rs.getString("com_date");
+				String com_contents = rs.getString("com_contents");
+				int com_mem = rs.getInt("com_mem");
+				
+				bc = new BoardComment(com_number, com_board, com_date,com_contents, com_mem);
+				listboardcomment.add(bc);
+			}
+			if(listboardcomment.size() == 0) { //게시글이 없는경우
+				throw new FindException("댓글이 존재하지 않습니다.");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			//DB연결해제
+			MyConnection.close(con, pstmt, rs);
+		}
+		return bc;
 	}
 
 	@Override
@@ -204,10 +206,6 @@ public class BoardCommentDAOOracle implements BoardCommentDAO{
 		}
 	}
 		
-	
-
-
-
 	@Override
 	public void update(BoardComment bc) throws ModifyException {
 		//DB연결
@@ -252,8 +250,6 @@ public class BoardCommentDAOOracle implements BoardCommentDAO{
 		
 	}
 		
-	
-
 	@Override
 	public void deleteByNo(int com_no) throws DeleteException {
 		//DB연결
@@ -282,6 +278,7 @@ public class BoardCommentDAOOracle implements BoardCommentDAO{
 		}
 		
 	}
+	
 	public static void main(String[] args) throws Exception {
 		BoardCommentDAOOracle dao = new BoardCommentDAOOracle();
 		
@@ -292,6 +289,32 @@ public class BoardCommentDAOOracle implements BoardCommentDAO{
 //		System.out.println(boardcomment.getCom_contents());
 //		System.out.println(boardcomment.getCom_mem());
 		
+		List<BoardComment> list =  new ArrayList<>();
+		try {
+			list = dao.selectAll(1);
+			for(BoardComment bc : list) {
+				System.out.print(bc.getCom_no() + " ");
+				System.out.print(bc.getCom_board()+ " ");
+				System.out.print(bc.getCom_date()+ " ");
+				System.out.print(bc.getCom_contents()+ " ");
+				System.out.println(bc.getCom_mem()+ "//  ");
+			}
+		} catch(FindException e) {
+			e.printStackTrace();
+		}
+		
+//		int com_board = 2;
+//		int com_mem = 1;
+//		List<BoardComment> list = new ArrayList<>();
+//			list = dao.myBoardComSearch(com_board, com_mem);
+//			for(BoardComment bc : list) {
+//				System.out.print(bc.getCom_no() + " ");
+//				System.out.print(bc.getCom_board()+ " ");
+//				System.out.print(bc.getCom_date()+ " ");
+//				System.out.print(bc.getCom_contents()+ " ");
+//				System.out.println(bc.getCom_mem()+ "//  ");
+//			}
+		
 		
 		
 //		BoardComment boardcomment = new BoardComment();
@@ -300,11 +323,11 @@ public class BoardCommentDAOOracle implements BoardCommentDAO{
 //		dao.update(boardcomment);
 //		dao.deleteByNo(6);
 		
-		BoardComment bc = new BoardComment();
-		bc.setCom_board(2);
-		bc.setCom_contents("왜 안되요?");
-		bc.setCom_mem(2);
-		dao.insert(bc);
+//		BoardComment bc = new BoardComment();
+//		bc.setCom_board(2);
+//		bc.setCom_contents("댓글 안받아와짐 왜 그럼?");
+//		bc.setCom_mem(2);
+//		dao.insert(bc);
 		
 	}
 }

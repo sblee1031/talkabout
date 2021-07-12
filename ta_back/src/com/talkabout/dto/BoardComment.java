@@ -13,7 +13,7 @@ public class BoardComment {
 	 * com_board : 게시글 번호(FK, Board 테이블 참조)
 	 */
 	private int com_no;
-	private Date com_date;
+	private String com_date;
 	private String com_contents;
 	private int com_mem; // com_mem.member_no
 	private int com_board; // com_board.board_no
@@ -22,7 +22,7 @@ public class BoardComment {
 		super();
 	}	
 	
-	public BoardComment(int com_no, int com_board, Date com_date, String com_contents, int com_mem) {
+	public BoardComment(int com_no, int com_board, String com_date, String com_contents, int com_mem) {
 		super();
 		this.com_no = com_no;
 		this.com_board = com_board;
@@ -40,11 +40,11 @@ public class BoardComment {
 		this.com_no = com_no;
 	}
 
-	public Date getCom_date() {
+	public String getCom_date() {
 		return com_date;
 	}
 
-	public void setCom_date(Date com_date) {
+	public void setCom_date(String com_date) {
 		this.com_date = com_date;
 	}
 
