@@ -42,11 +42,6 @@ public class DebateService {
 	public void addDebate(Debate deb, DebateDetail dd, String discuss1, String discuss2) {
 		dao.insertDebate(deb, dd,discuss1,discuss2);
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 5fab60149265d5f50113f263e7bd3b2ae5071d3d
 	public void addDiscussor(Debate deb_no, DebateDetail dd, Member m) {
 		dao.updateDiscussor(deb_no, dd, m);
 	}
@@ -75,8 +70,4 @@ public class DebateService {
 	public void pageSize(int size) {
 		dao.pageSize(size);
 	}
-<<<<<<< HEAD
->>>>>>> 5ac37c42a178fda003efc468c67fd7af6320ff58
-=======
->>>>>>> 5fab60149265d5f50113f263e7bd3b2ae5071d3d
 }

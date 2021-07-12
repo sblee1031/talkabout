@@ -56,12 +56,6 @@ public interface DebateDAO {
 	 * @param deb_no 토론 삭제
 	 */
 	void deleteDebate(Debate deb_no);
-<<<<<<< HEAD
-<<<<<<< HEAD
-	
-
-
-=======
 	/*
 	 * 토론자 취소
 	 */
@@ -71,24 +65,9 @@ public interface DebateDAO {
 	 */
 	List<Debate> selectSearch(String column, String keyword);
 	
-=======
-	/*
-	 * 토론자 취소
-	 */
-	void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m);
-	/*
-	 * 검색기능
-	 */
-	List<Debate> selectSearch(String column, String keyword);
-	
->>>>>>> 5fab60149265d5f50113f263e7bd3b2ae5071d3d
      int lastRow();
      
      void pageNum(int page);
      
      void pageSize(int size);
-<<<<<<< HEAD
->>>>>>> 5ac37c42a178fda003efc468c67fd7af6320ff58
-=======
->>>>>>> 5fab60149265d5f50113f263e7bd3b2ae5071d3d
 }
