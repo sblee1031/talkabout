@@ -102,7 +102,17 @@ public class DebateCommentSelectServlet extends HttpServlet {
 				}
 			
 		}
-		
+		if(method.equals("selectone")) {
+			int com_no = Integer.parseInt(strcom_no);
+			DebateComment dc = new DebateComment();
+			try {
+				dc=service.selectByNo(com_no);
+				map.put("oneComment", dc);
+			} catch (FindException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		 jsonStr = mapper.writeValueAsString(map);
 		 //System.out.println(jsonStr);

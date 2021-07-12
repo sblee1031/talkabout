@@ -50,5 +50,8 @@ public List<DebateComment> DCselectByComNo(int com_no)throws FindException{
 public List<Debate> selectAll(){//토론결과 리스트 조회
 	return dao.selectAll();
 }
+public DebateComment selectByNo(int com_no) throws FindException  {
+	return dao.selectByNo(com_no);
+}
 
 }

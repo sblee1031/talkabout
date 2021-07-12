@@ -27,31 +27,33 @@ public class DebateCommentDeleteServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-HttpSession session = request.getSession();
+		HttpSession session = request.getSession();
 		
 		ServletContext sc = getServletContext();
 		DebateCommentService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		request.setCharacterEncoding("utf-8");
 	
-		String strcom_deb = request.getParameter("com_deb");
+		String strcom_deb = request.getParameter("com_no");
 		System.out.println(strcom_deb);
 		
-		int com_deb = Integer.parseInt(strcom_deb);
+		
 		ObjectMapper mapper = new ObjectMapper();
 		DebateCommentService service;
 		service = DebateCommentService.getInstance();
 		String jsonStr ="";
 		DebateComment DC = new DebateComment();
 		
-		
+		Map<String, Object> map = new HashMap<>();
 		
 		try {
+			int com_deb = Integer.parseInt(strcom_deb);
 			 service.DCdelete(com_deb);//원하는 토론번호의 댓글 삭제
 			
 		} catch (DeleteException e) {
 			e.printStackTrace();
 			// TODO: handle exception
 		}//selectbycomno Servlet
+		 jsonStr = mapper.writeValueAsString(map);
 		response.setContentType("application/json;charset=utf-8;");
 		PrintWriter out = response.getWriter();
 		response.getWriter().print(jsonStr);

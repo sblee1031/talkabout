@@ -26,16 +26,16 @@ public class DebateCommentUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-HttpSession session = request.getSession();
+			HttpSession session = request.getSession();
 		
 		ServletContext sc = getServletContext();
 		DebateCommentService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		request.setCharacterEncoding("utf-8");
 	
-		String strcom_no = request.getParameter("com_deb");
-		System.out.println(strcom_no);
+		String strcom_no = request.getParameter("com_no");
+		String com_contents = request.getParameter("com_contents");
+		String method = request.getParameter("method");
 		
-		int com_no = Integer.parseInt(strcom_no);
 		ObjectMapper mapper = new ObjectMapper();
 		DebateCommentService service;
 		service = DebateCommentService.getInstance();
@@ -44,18 +44,22 @@ HttpSession session = request.getSession();
 		DC.setCom_contents(strcom_no);
 		MemberDAOOracle mDAO  = null;
 		Member member = null;
+		Map<String, Object> map = new HashMap<>();
 		try {
-			DC.setCom_mem(member.getMember_no());//로그인한 정보로 조회
-			DC.setCom_deb(member.getMember_no()); //쓴글글중에 토론번호로 조회후 
+			int com_no = Integer.parseInt(strcom_no);
+			DC.setCom_no(com_no);//로그인한 정보로 조회
+			DC.setCom_contents(com_contents);//로그인한 정보로 조회
 			service.DCupdate(DC);//내용을 수정
 			
 		} catch (ModifyException e) {
 			e.printStackTrace();
 			// TODO: handle exception
 		}//selectbycomno Servlet
+		jsonStr = mapper.writeValueAsString(map);
 		response.setContentType("application/json;charset=utf-8;");
 		PrintWriter out = response.getWriter();
 		response.getWriter().print(jsonStr);
+		System.out.println("제이슨"+jsonStr);
 		
 	}
 

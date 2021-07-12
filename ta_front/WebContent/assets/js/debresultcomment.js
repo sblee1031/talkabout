@@ -1,10 +1,14 @@
 var userdata; //로그인 정보 담기는 객체
+var com_deb; //토론번호 담는 객체
+var com_no; //댓글번호 담는 객체
 $(function () {
 	$('#btnComment').hide();
 	$('#tableinsert').hide();
 	$('#divDebateView').hide();
 	$('#tablecommentList').hide();
+	$('#copytablecommentList').hide();
 	$('#insert_btn').hide();
+	$('#btnupdate').hide();
 	$('#trinsert').attr('readonly',true);
   var url = "../ta_back/login";
   $.ajax({
@@ -74,7 +78,7 @@ $(function () {
 	  $("#debateList").on("click", "#debate_no", function () {
     $("#view").remove(); //기존 상세페이지가 열려 있으면 지우기
     $("tr.list").remove(); //기존 상세페이지가 열려 있으면 지우기
-	$('#commentList').empty();
+	//$('#commentList').empty();
 	$('#tableinsert').show();
 	$('#btnDiscussor1').hide();
 	$('#btnDiscussor2').hide();
@@ -99,6 +103,8 @@ $(function () {
         var detail = resposeData.detail;
 		var dismem = resposeData.memberinfo;
         var addTrObj; //상세페이지 될 객체
+		com_deb = debate.debate_no; //클릭된 토론 번호 저장
+		console.log(com_deb);
 		$('#btnDiscussor1').hide();
 		//console.log(detail);
         $("#spanDebate_no").html(debate.debate_no);
@@ -130,9 +136,9 @@ $(function () {
       },
     });
 
-		$('#tablecommentList').show();
+		//$('#tablecommentList').show();
 		 var method = "comment";
-	 var url = "../ta_back/debatecommentselect";
+		 var url = "../ta_back/debatecommentselect";
 	    console.log('글번호 : ' + deb_no)
 		$.ajax({
 	      url: url,
@@ -143,69 +149,149 @@ $(function () {
 	      },
 	      success: function (resposeData) {
 			console.log(resposeData);
-			
-			var commentlist = $('#tablecommentList');
-			var comlist = $('#commentList');
+			$('#divcomment').empty();
+			var commentlist = $('#tablecommentList').clone();
+			var commenthead = $('#commenthead').clone();
 	      var lists = resposeData.comment;
 	      var mlists = resposeData.memberinfo;
-if(lists=="" || lists==null){
-	comlist.html('댓글이 존재 하지 않습니다.');
-	}else{
+		if(lists=="" || lists==null || typeof lists == "undefined" ){
+		 $('#divcomment').html('댓글이 존재 하지 않습니다.');
+		}else{
 	      var listsize = lists.length;
 	     // var divtext = "";
 	      var trDebates = "";
 	      $(lists).each(function (list_i, list) {
-			trDebates += '<tr class="list">';
-        trDebates += '<td class="com_no">' + list.com_no + "</td>";
-        trDebates += '<td class="com_no">' + list.com_contents + "</td>";
-        trDebates +=
-          '<td class="debate_writer">' +
-          mlists[list_i].member_nickName +
-          "</td>";
-        trDebates +=
-          '<td class="date" id="debate_no">' +
-          list.com_date +
-          "</td>";
-        trDebates += "</tr>";
+			//console.log(list_i);
+			var copycomlist = $('#commentList').clone();
+			copycomlist.find('#deb_no').html(list.com_no);
+			copycomlist.find('#deb_content').html(list.com_contents);
+			copycomlist.find('#deb_writter').html(mlists[list_i].member_nickName);
+			copycomlist.find('#deb_wrritedate').text(list.com_date );
+			copycomlist.find('#deb_wrritedate').attr('class',list.com_no);
+			
+			copycomlist.show();
+			commentlist.append(copycomlist);
+			
+				if(userdata.logined=="logined" && mlists[list_i].member_no==userdata.member.member_no){
+					copycomlist.find('#btnedit').css('display','block');
+					copycomlist.find('#btndelete').css('display','block');
+				}
 			
 			});
-			commentlist.append(trDebates);
+			commentlist.show();
+			$('#divcomment').html(commentlist);
+			$('#divcomment').append(commentlist);
+			
+				
 			}
+			if(userdata.logined=="logined"){
+				console.log(userdata.member);
+				$('#trinsert').attr('readonly',false);
+			}
+			
+			
 			},
 			
 			});
-  });
+			
+ 
+ });//게시글 클릭 이벤트 끝
 	
+		$('#insert_btn').on('click',function(){
+			
+		//	console.log('인서트 버튼');
+			var comment = $('#trinsert').val();
+			if(comment==''){
+				alert('댓글을 입력해주세요.');
+			}else{
+			var method = "insertcomment";
+			var url = "../ta_back/debatecommentinsert";
+		  //  console.log('글번호 : ' + com_deb);
+			$.ajax({
+		      url: url,
+		      method: "post",
+		      data: {
+				com_deb : com_deb,
+		        com_contents: comment,
+		     	 },
+		      success: function (resposeData) {
+				//console.log('댓글작성완료:');
+				$('#trinsert').val('');
+				$('td.'+com_deb).trigger('click');
+					
+				},
+			});
+			}
+		});
 	
+	$(document).on('click', '#btnedit',function(){
+			var $a = $(this).prev();
+			com_no=$a.attr("class");
+			console.log($a);
+			//console.log($a.attr("class"));
+			var method = "selectone";
+			var url = "../ta_back/debatecommentselect";
+		 // console.log('글번호 : ' + com_deb);
+			$.ajax({
+		      url: url,
+		      method: "post",
+		      data: {
+				method : method,
+				com_deb : $a.attr("class"),
+		     	 },
+		      success: function (resposeData) {
+				//console.log(resposeData);
+				var onecomment = resposeData.oneComment;
+				$('#insert_btn').hide();
+				$('#btnupdate').show();
+				$('#trinsert').val(onecomment.com_contents);
+			},
+		
+		});
+	});
+	$(document).on('click', '#btnupdate',function(){
+			console.log('클릭');
+			//console.log($a.attr("class"));
+			var method = "comupdate";
+			var url = "../ta_back/debatecommentupdate";
+			var content = $('#trinsert').val();
+			console.log('수정내용 : '+ content);
+			$.ajax({
+		      url: url,
+		      method: "post",
+		      data: {
+				method : method,
+				com_no : com_no,
+				com_contents : content,
+		     	 },
+		      success: function (resposeData) {
+				//console.log(resposeData);
+				console.log('com_deb'+ com_deb);
+				$('#insert_btn').show();
+				$('#btnupdate').hide();
+				$('td.'+com_deb).trigger('click');
+				$('#trinsert').val('');
+			},
+		});
+	});
+		$(document).on('click', '#btndelete',function(){
+			var $a = $(this).prevAll('#deb_wrritedate');
+			com_no=$a.attr("class");
+			console.log(com_no);
+			//console.log(com_no1);
+			var url = "../ta_back/debatecommentdelete";
+			$.ajax({
+		      url: url,
+		      method: "post",
+		      data: {
+				com_no : com_no,
+		     	 },
+		      success: function (resposeData) {
+				//console.log(resposeData);
+				window.location.href = "../ta_front/debresult.html";
+			},
+		});
+	});
 	
-	
-	
-	
-		//해당댓글번호로 조회
-    	console.log('시작1');
-    	var com_deb='1';
-		var method = 'comment';
-    	var data = {method: method, com_deb : com_deb,};
-    	 var url = "../ta_back/debatecommentselect";
-         $.ajax({
-           url: url,
-           method: "post",
-           data: data,
-           //dataType: "json",
-           success: function (responsedata) {
-				console.log(responsedata.comment);
-				var data = responsedata.comment;
-				var comment = $('#trcomments');
-				var table = $('#tablecomment');
-				
-				 $(data).each(function(i, e){
-					 var cloneobj = comment.clone();
-					// console.log(i);
-					 cloneobj.html(e.com_contents);
-					 table.append(cloneobj);
-					 
-				 });
-           },
-         });
 
 });//Dom끝

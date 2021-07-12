@@ -128,7 +128,7 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 					e.printStackTrace();
 					//DB연결에 문제발생시 예외처리
 				}
-				String updateSQL = "UPDATE DEBATECOMMENT SET "; // com_contetns;
+				String updateSQL = "UPDATE DEBATECOMMENT SET com_contents = '"+ dc.getCom_contents()+"' "; // com_contetns;
 				String updateSQL1 = "WHERE com_no = ?";
 				
 				DebateCommentDAOOracle dao;
@@ -139,16 +139,7 @@ public class DebateCommentDAOOracle implements DebateCommentDAO{
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
-				boolean flag = false; //변경할 값이 있는 경우 true
-				
-				String Com_contents = dc.getCom_contents();
-				if(Com_contents != null && !Com_contents.equals("") && !Com_contents.contentEquals(dbDebateComment.getCom_contents())) {
-					updateSQL += "com_contents = '" + Com_contents + "'";
-					flag = true;
-				}
-				if(!flag) {
-					throw new ModifyException("수정할 내용이 없습니다");
-				}
+				System.out.println("업데이트"+dc.getCom_contents());
 					try {
 						pstmt = con.prepareStatement(updateSQL + updateSQL1);
 						pstmt.setInt(1, dc.getCom_no());

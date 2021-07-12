@@ -241,7 +241,7 @@
       </div>
     </nav>
 
-    <section id="section" style="text-align: center; border-style: solid; height: 80%">
+    <section id="section" style="overflow:auto; text-align: center; border-style: solid; height: 80%">
       
 
    <!DOCTYPE html>
@@ -286,24 +286,32 @@
                         <!-- 댓글삭제 -->
                 <!-- 댓글이 들어갈 공간 -->
                 </div>
-                <table border="1" id=tablecommentList  width="1200px" bordercolor=red> 
-                <tr>
+                <div id="divcomment"></div>
+                <table border="1" id="tablecommentList"> 
+                <tr id="commenthead">
                 <th>댓글번호</th>
                 <th>댓글</th>
                 <th>작성자</th>
                 <th>작성시간</th>
                 </tr>
                 <tr id="commentList">
-                <td id="comment"></td><td id="writter"></td><td id="writerdate"></td>
-                </tr>
-                <tr>
+                <td id="deb_no"></td>
+                <td id="deb_content"></td>
+                <td id="deb_writter"></td>
+                <td>
+                <span id="deb_wrritedate"></span>
+                <button id="btnedit" style="float:right; display:none">수정</button>
+                 <button id="btndelete" style="float:right; display:none;">삭제</button>
+                 </td>
                 </tr>
             </table>
+              
  			<table border="1" id=tableinsert  width="1200px" bordercolor=red> 
                 <tr>
                     <td width="500px">
                         이름: <input type="text" id="debcom_writer" name="debcom_writer" style="width:250px;" readonly maxlength="10" placeholder="로그인을 해주세요.."/>
-                        <button id="insert_btn" name="insert_btn">댓글작성</button>
+                        <button id="insert_btn" name="insert_btn" >댓글작성</button>
+                        <button id="btnupdate" name="insert_btn" >댓글수정</button>
                         <!-- 댓글작성 -->
                          
 	                    </td>
