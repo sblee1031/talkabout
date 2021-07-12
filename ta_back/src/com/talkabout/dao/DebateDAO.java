@@ -56,7 +56,24 @@ public interface DebateDAO {
 	 * @param deb_no 토론 삭제
 	 */
 	void deleteDebate(Debate deb_no);
+<<<<<<< HEAD
 	
 
 
+=======
+	/*
+	 * 토론자 취소
+	 */
+	void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m);
+	/*
+	 * 검색기능
+	 */
+	List<Debate> selectSearch(String column, String keyword);
+	
+     int lastRow();
+     
+     void pageNum(int page);
+     
+     void pageSize(int size);
+>>>>>>> 5ac37c42a178fda003efc468c67fd7af6320ff58
 }

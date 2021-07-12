@@ -21,18 +21,64 @@ public class DebateDAOOracle implements DebateDAO {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		lastRow();
 		System.out.println("JDBC 드라이버 로드 성공");
 	}
+public int num_page_size; //1페이지당 사이즈
+public int num_page_no = 1; //페이지번호
+public int lastrow; // row개수
 
+public void pageSize(int size) {
+	this.num_page_size = size;
+	//System.out.println("페이지 사이즈 : "+num_page_size);
+}
+
+	public void pageNum(int page) {
+		this.num_page_no = page;
+		//System.out.println("페이지번호 : "+num_page_no);
+	}
+	//마지막 row 가져오기
+	public int lastRow() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String select_SQL = "SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM debate ORDER BY ROWNUM DESC) WHERE ROWNUM = 1";
+		try {
+			con = MyConnection.getConnection();
+			pstmt = con.prepareStatement(select_SQL);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				lastrow = rs.getInt("rnum");
+				//System.out.println("총 게시글게수 : "+lastrow);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();	
+		} finally {
+			//DB연결해제
+			MyConnection.close(con, pstmt, rs);
+		}
+		return lastrow;
+	}
+	
 	public List<Debate> selectAll() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String select_SQL = "SELECT * FROM DEBATE";
+		//String select_SQL = "SELECT * FROM DEBATE";
+		String select_SQL = "SELECT * FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate) WHERE RNUM BETWEEN ? AND ?";
 		List<Debate> list = new ArrayList();
+		
+		 int num_start_row = ((num_page_no-1) * num_page_size) + 1 ;
+		 int num_end_row   = (num_page_no * num_page_size) ;
+		 
 		try {
 			con = MyConnection.getConnection();
 			pstmt = con.prepareStatement(select_SQL);
+			//System.out.println("넘버 : "+num_page_no);
+			//System.out.println("start_row"+num_start_row+" end_row : "+  num_end_row);
+			pstmt.setInt(1, num_start_row);
+			pstmt.setInt(2, num_end_row);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int debate_no = rs.getInt("DEBATE_NO");
@@ -312,6 +358,7 @@ public class DebateDAOOracle implements DebateDAO {
 	public static void main(String[] args) {
 		
 		DebateDAOOracle dao = new DebateDAOOracle();
+		dao.lastRow();
 		
 //		Debate deb_no = new Debate();
 //		deb_no.setDebate_no(2);
