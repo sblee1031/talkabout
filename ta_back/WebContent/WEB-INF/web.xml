@@ -10,7 +10,10 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <context-param>
+<<<<<<< HEAD
 
+=======
+>>>>>>> Ahn
     <param-name>env</param-name>
     <param-value>/WEB-INF/classes.prop</param-value>
   </context-param>
@@ -66,12 +69,21 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+<<<<<<< HEAD
     <display-name>DebateServelt</display-name>
     <servlet-name>DebateServelt</servlet-name>
     <servlet-class>com.talkabout.control.DebateServelt</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>DebateServelt</servlet-name>
+=======
+    <display-name>DebateServlet</display-name>
+    <servlet-name>DebateServlet</servlet-name>
+    <servlet-class>com.talkabout.control.DebateServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateServlet</servlet-name>
+>>>>>>> Ahn
     <url-pattern>/debrecruit</url-pattern>
   </servlet-mapping>
   <servlet>
@@ -84,6 +96,7 @@
     <servlet-name>DebateSaveServlet</servlet-name>
     <url-pattern>/debatesave</url-pattern>
   </servlet-mapping>
+<<<<<<< HEAD
     <servlet>
     <description></description>
     <display-name>DebateCommentSelectServlet</display-name>
@@ -273,5 +286,46 @@
   <servlet-mapping>
     <servlet-name>NoticeServlet</servlet-name>
     <url-pattern>/notice</url-pattern>
+=======
+  <servlet>
+    <description></description>
+    <display-name>DebateBattleServlet</display-name>
+    <servlet-name>DebateBattleServlet</servlet-name>
+    <servlet-class>com.talkabout.control.DebateBattleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateBattleServlet</servlet-name>
+    <url-pattern>/debatebattle</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DebateBattleDetailServlet</display-name>
+    <servlet-name>DebateBattleDetailServlet</servlet-name>
+    <servlet-class>com.talkabout.control.DebateBattleDetailServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateBattleDetailServlet</servlet-name>
+    <url-pattern>/debatebattledetail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BroadSocket</display-name>
+    <servlet-name>BroadSocket</servlet-name>
+    <servlet-class>com.talkabout.control.BroadSocket</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BroadSocket</servlet-name>
+    <url-pattern>/broadsocket</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SetEvidenceServlet</display-name>
+    <servlet-name>SetEvidenceServlet</servlet-name>
+    <servlet-class>com.talkabout.control.SetEvidenceServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SetEvidenceServlet</servlet-name>
+    <url-pattern>/setevidence</url-pattern>
+>>>>>>> Ahn
   </servlet-mapping>
 </web-app>

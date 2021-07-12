@@ -58,11 +58,6 @@ public class Debate {
 		this.audience_list = audience_list;
 	}
 
-	public Debate(String debate_date) {
-		super();
-		this.debate_date = debate_date;
-	}
-
 	public Debate() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -163,6 +158,14 @@ public class Debate {
 	public void setAudience_list(List<Audience> audience_list) {
 		this.audience_list = audience_list;
 	}
+
+	@Override
+	public String toString() {
+		return "Debate [debate_no=" + debate_no + ", debate_writer=" + debate_writer + ", debate_topic=" + debate_topic
+				+ ", debate_date=" + debate_date + ", debate_time=" + debate_time + ", debate_status=" + debate_status
+				+ ", debate_startDate=" + debate_startDate + ", debate_endDate=" + debate_endDate + "]";
+	}
+	
 	
 	
 }

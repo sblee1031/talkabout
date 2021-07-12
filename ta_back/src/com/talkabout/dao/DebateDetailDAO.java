@@ -20,5 +20,4 @@ public interface DebateDetailDAO {
 	void updateEvidence(DebateDetail dd, int num);
 	
 	List<DebateDetail> selectByNo(int deb_no); // 주장A, 주장B 가져오기
-	
 }

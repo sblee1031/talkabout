@@ -1,14 +1,17 @@
 package com.talkabout.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.sql.Date;
 
 import com.talkabout.dto.DebateDetail;
+import com.talkabout.exception.FindException;
 import com.talkabout.sql.MyConnection;
 
 public class DebateDetailDAOOracle implements DebateDetailDAO {
@@ -54,6 +57,7 @@ public class DebateDetailDAOOracle implements DebateDetailDAO {
 		}		
 		return list;
 	}
+	
 	// 토론 번호로 주장A, 주장B 가져오기 위한 메서드 
 	public List<DebateDetail> selectByNo(int detail_deb) {
 		Connection con = null;
@@ -125,7 +129,7 @@ public class DebateDetailDAOOracle implements DebateDetailDAO {
 		}	
 		return dd;
 	}
-
+	
 	public void insert(DebateDetail dd) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -170,7 +174,7 @@ public class DebateDetailDAOOracle implements DebateDetailDAO {
 		PreparedStatement pstmt = null;
 		
 		String update_SQL = "UPDATE DEBATEDETAIL SET IN_TIME = ? WHERE DETAIL_NO = ?";
-		//String utilToSQL = dd.getIn_time().getTime();
+		// java.sql.Date utilToSQL = new java.sql.Date(dd.getIn_time().getTime());
 		try {
 			con = MyConnection.getConnection();
 			pstmt = con.prepareStatement(update_SQL);
@@ -243,28 +247,30 @@ public class DebateDetailDAOOracle implements DebateDetailDAO {
 		*/
 		
 		// updateEvidence 테스트
-		DebateDetail update_Test = new DebateDetail();
-		update_Test.setDetail_no(7);
+		DebateDetail update_Test = dao.selectOne(2, 21);
 		update_Test.setEvi_one("근거 1 테스트");
-		update_Test.setEvi_two("근거 2 테스트");
-		update_Test.setEvi_three("근거 3 테스트");
 		
 		dao.updateEvidence(update_Test, 1);
-		dao.updateEvidence(update_Test, 2);
-		dao.updateEvidence(update_Test, 3);
+
 		
 		// updateIntime 테스트
-		Date today = new Date();
+//		Date today = new Date();
 //		update_Test.setIn_time(today);
-		System.out.println(update_Test.toString());
-		dao.updateIntime(update_Test);
-		System.out.println("-----------------------------------------");
+//		System.out.println(update_Test.toString());
+//		dao.updateIntime(update_Test);
+//		System.out.println("-----------------------------------------");
 		
 		// updateDiscussor 테스트
-		update_Test.setDiscussor(3);
-		System.out.println(update_Test.toString());
-		dao.updateDiscussor(update_Test);
+//		update_Test.setDiscussor(3);
+//		System.out.println(update_Test.toString());
+//		dao.updateDiscussor(update_Test);
 		
-		
+		System.out.println("-----------------------------------------");
+		System.out.println("select 테스트");
+		List<DebateDetail> select_test = dao.selectByNo(1);
+		for (DebateDetail debateDetail : select_test) {
+			System.out.println(debateDetail.toString());
+		}
+		System.out.println(select_test.get(0).toString());
 	}	
 }

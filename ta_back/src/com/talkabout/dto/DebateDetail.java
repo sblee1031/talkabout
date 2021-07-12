@@ -1,6 +1,6 @@
 package com.talkabout.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class DebateDetail {
 	/*
@@ -23,9 +23,7 @@ public class DebateDetail {
 	private String evi_three;
 	private int discussor; // discussor.member_no
 	private String in_time;
-	
-	
-	
+
 	public DebateDetail() {
 		super();
 	}

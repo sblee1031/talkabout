@@ -21,64 +21,18 @@ public class DebateDAOOracle implements DebateDAO {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		lastRow();
 		System.out.println("JDBC 드라이버 로드 성공");
 	}
-public int num_page_size; //1페이지당 사이즈
-public int num_page_no = 1; //페이지번호
-public int lastrow; // row개수
 
-public void pageSize(int size) {
-	this.num_page_size = size;
-	//System.out.println("페이지 사이즈 : "+num_page_size);
-}
-
-	public void pageNum(int page) {
-		this.num_page_no = page;
-		//System.out.println("페이지번호 : "+num_page_no);
-	}
-	//마지막 row 가져오기
-	public int lastRow() {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String select_SQL = "SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM debate ORDER BY ROWNUM DESC) WHERE ROWNUM = 1";
-		try {
-			con = MyConnection.getConnection();
-			pstmt = con.prepareStatement(select_SQL);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				lastrow = rs.getInt("rnum");
-				//System.out.println("총 게시글게수 : "+lastrow);
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();	
-		} finally {
-			//DB연결해제
-			MyConnection.close(con, pstmt, rs);
-		}
-		return lastrow;
-	}
-	
 	public List<Debate> selectAll() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		//String select_SQL = "SELECT * FROM DEBATE";
-		String select_SQL = "SELECT * FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate) WHERE RNUM BETWEEN ? AND ?";
+		String select_SQL = "SELECT * FROM DEBATE";
 		List<Debate> list = new ArrayList();
-		
-		 int num_start_row = ((num_page_no-1) * num_page_size) + 1 ;
-		 int num_end_row   = (num_page_no * num_page_size) ;
-		 
 		try {
 			con = MyConnection.getConnection();
 			pstmt = con.prepareStatement(select_SQL);
-			//System.out.println("넘버 : "+num_page_no);
-			//System.out.println("start_row"+num_start_row+" end_row : "+  num_end_row);
-			pstmt.setInt(1, num_start_row);
-			pstmt.setInt(2, num_end_row);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int debate_no = rs.getInt("DEBATE_NO");
@@ -89,7 +43,6 @@ public void pageSize(int size) {
 				String debate_status = rs.getString("DEBATE_STATUS");
 				String debate_startdate = rs.getString("DEBATE_STARTDATE");
 				String debate_enddate = rs.getString("DEBATE_ENDDATE");
-				
 				
 				Debate d = new Debate(debate_no, debate_writer, debate_topic, debate_date, debate_time, debate_status, debate_startdate, debate_enddate, null, null, null, null);
 				list.add(d);
@@ -121,15 +74,12 @@ public void pageSize(int size) {
 				String debate_topic = rs.getString("DEBATE_TOPIC");
 				String debate_date = rs.getString("debate_date");
 				
-				//System.out.println("시간 : "+debate_date);
+				System.out.println("시간 : "+debate_date);
 				int debate_time = rs.getInt("DEBATE_TIME");
 				String debate_status = rs.getString("DEBATE_STATUS");
 				String debate_startdate = rs.getString("DEBATE_STARTDATE");
 				String debate_enddate = rs.getString("DEBATE_ENDDATE");
-				
-				
-//				d = new Debate(debate_date);
-//			}
+
 				d = new Debate(debate_no, debate_writer, debate_topic, debate_date, debate_time, debate_status, debate_startdate, debate_enddate, null, null, null, null);
 			}
 			
@@ -140,6 +90,45 @@ public void pageSize(int size) {
 			MyConnection.close(con, pstmt, rs);
 		}		
 		return d;
+	}
+	
+	public List<Debate> selectSearch(String column, String keyword){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String select_SQL = "";
+		if (column.equals("TOPIC")) {
+			select_SQL = "select * from debate where DEBATE_TOPIC LIKE '%' || ? || '%'";
+		} else if (column.equals("WRITER")) {
+			select_SQL = "select * from debate where DEBATE_WRITER LIKE '%' || ? || '%'";
+		} 
+		List<Debate> list = new ArrayList();
+		try {
+			con = MyConnection.getConnection();
+			pstmt = con.prepareStatement(select_SQL);
+			pstmt.setString(1, keyword);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int debate_no = rs.getInt("DEBATE_NO");
+				int debate_writer = rs.getInt("DEBATE_WRITER");
+				String debate_topic = rs.getString("DEBATE_TOPIC");
+				String debate_date = rs.getString("DEBATE_DATE");
+				int debate_time = rs.getInt("DEBATE_TIME");
+				String debate_status = rs.getString("DEBATE_STATUS");
+				String debate_startdate = rs.getString("DEBATE_STARTDATE");
+				String debate_enddate = rs.getString("DEBATE_ENDDATE");
+
+				Debate d = new Debate(debate_no, debate_writer, debate_topic, debate_date, debate_time, debate_status, debate_startdate, debate_enddate, null, null, null, null);
+				list.add(d);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();	
+		} finally {
+			//DB연결해제
+			MyConnection.close(con, pstmt, rs);
+		}
+		return list;
 	}
 	
 	@Override
@@ -162,7 +151,7 @@ public void pageSize(int size) {
 					pstmt.setString(2, deb.getDebate_topic());
 					pstmt.setInt(3, deb.getDebate_time());
 					int result = pstmt.executeUpdate();
-//					System.out.println("result : "+ result);
+					// System.out.println("result : "+ result);
 					
 					pstmt = con.prepareStatement(seqSQL);
 					rs = pstmt.executeQuery();
@@ -174,12 +163,12 @@ public void pageSize(int size) {
 					dd.setDetail_deb(seq);
 					dd.setDiscuss(discuss1); //주장1 
 					detail.insert(dd);
-					//System.out.println("주장1 입력");
+					System.out.println("주장1 입력");
 					
 					dd.setDetail_deb(seq);
 					dd.setDiscuss(discuss2); //주장2
 					detail.insert(dd);
-					//System.out.println("주장2 입력");
+					System.out.println("주장2 입력");
 					
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -191,13 +180,13 @@ public void pageSize(int size) {
 	}
 
 	@Override
-	public void updateDebateAll(Debate deb, List<DebateDetail> dd, String discuss1,String discuss2) throws ModifyException {
+	public void updateDebateAll(Debate deb) throws ModifyException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
 		String updateAllSQL = "UPDATE debate SET ";
 		String updateAllSQL2 = "WHERE debate_no = ? ";
-		String updateAllSQL3 = "UPDATE debatedetail SET discuss = ? WHERE detail_no = ? ";
+		
 		DebateDAOOracle dao;
 		Debate dbDebate = null;
 		try {
@@ -245,27 +234,6 @@ public void pageSize(int size) {
 			pstmt = con.prepareStatement(updateAllSQL+updateAllSQL2);
 			pstmt.setInt(1, deb.getDebate_no());
 			pstmt.executeUpdate();
-			
-			int[] ddarray = new int[2];
-			int i=0;
-			for (DebateDetail debateDetail : dd) {
-				ddarray[i]=debateDetail.getDetail_no();
-				i++;
-			}
-			pstmt = con.prepareStatement(updateAllSQL3);
-			pstmt.setString(1, discuss1);
-			pstmt.setInt(2, ddarray[0]);
-			int rs = pstmt.executeUpdate();
-			System.out.println(rs);
-			System.out.println("주장 "+ discuss1);
-			pstmt = con.prepareStatement(updateAllSQL3);
-			
-			pstmt.setString(1, discuss2);
-			pstmt.setInt(2, ddarray[1]);
-			rs = pstmt.executeUpdate();
-			System.out.println(rs);
-			System.out.println("주장 "+ discuss2);
-			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -306,14 +274,50 @@ public void pageSize(int size) {
 	}
 
 	@Override
-	public void updateSartdate(Debate start_date) {
-		//detail쪽 작성
+	public void updateStartdate(Debate deb) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String update_SQL = "UPDATE debate SET debate_startdate = sysdate WHERE debate_no = ?";
+		
+		try {
+			con = MyConnection.getConnection();
+			pstmt = con.prepareStatement(update_SQL);
+			// pstmt.setString(1, deb.getDebate_startDate());
+			pstmt.setInt(1, deb.getDebate_no());
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			//DB연결 해제
+			MyConnection.close(con, pstmt, rs);
+		}
 	}
 
 	@Override
-	public void updateEnddate(Debate end_date) {
-		// detail쪽 작성
+	public void updateEnddate(Debate deb) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
+		String update_SQL = "UPDATE debate SET debate_enddate = sysdate WHERE debate_no = ?";
+		
+		try {
+			con = MyConnection.getConnection();
+			pstmt = con.prepareStatement(update_SQL);
+			// pstmt.setString(1, deb.getDebate_endDate());
+			// System.out.println("테스트 구간 : " + deb.getDebate_endDate());
+			pstmt.setInt(1, deb.getDebate_no());
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			//DB연결 해제
+			MyConnection.close(con, pstmt, rs);
+		}
 	}
 	@Override
 	public void updateDiscussor(Debate deb_no, DebateDetail dd, Member m) {// 토론자 등록
@@ -344,8 +348,11 @@ public void pageSize(int size) {
 			//DB연결 해제
 			MyConnection.close(con, pstmt, rs);
 		}
+		
 	}
-	public void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m) {// 토론자 취소
+
+	@Override
+	public void deleteDebate(Debate deb_no) {
 		//DB연결
 		Connection con = null;
 		try {
@@ -353,16 +360,14 @@ public void pageSize(int size) {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		String updateStatus = "UPDATE debatedetail SET discussor = 0 WHERE detail_deb = ? and discuss = ?";
+		String deleteSQL = "DELETE debate WHERE debate_no = ?";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		//Member l = null;
 		try {
-			pstmt = con.prepareStatement(updateStatus);
-			//pstmt.setInt(1, m.getMember_no());
+			pstmt = con.prepareStatement(deleteSQL);
 			pstmt.setInt(1, deb_no.getDebate_no());
-			pstmt.setString(2, dd.getDiscuss());
 			
 			pstmt.executeUpdate();
 			
@@ -374,82 +379,35 @@ public void pageSize(int size) {
 			MyConnection.close(con, pstmt, rs);
 		}
 	}
-
-	@Override
-	public void deleteDebate(Debate deb_no) {
-		//DB연결
-				Connection con = null;
-				try {
-					con = MyConnection.getConnection();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				String deleteSQL = "DELETE debate WHERE debate_no = ?";
-				
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-				//Member l = null;
-				try {
-					pstmt = con.prepareStatement(deleteSQL);
-					pstmt.setInt(1, deb_no.getDebate_no());
-					
-					pstmt.executeUpdate();
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-					
-				}finally{
-					//DB연결 해제
-					MyConnection.close(con, pstmt, rs);
-				}
-	}
-	
-	public List<Debate> selectSearch(String column, String keyword){//컬럼 분류
-	      Connection con = null;
-	      PreparedStatement pstmt = null;
-	      ResultSet rs = null;
-	      String select_SQL = "";
-	      if (column.equals("TOPIC")) {
-	         select_SQL = "select * from debate where DEBATE_TOPIC LIKE '%' || ? || '%'";
-	      } else if (column.equals("WRITER")) {
-	         select_SQL = "select * from debate where DEBATE_WRITER LIKE '%' || ? || '%'";
-	      } 
-	      List<Debate> list = new ArrayList();
-	      try {
-	         con = MyConnection.getConnection();
-	         pstmt = con.prepareStatement(select_SQL);
-	         pstmt.setString(1, keyword);
-	         rs = pstmt.executeQuery();
-	         while(rs.next()) {
-	            int debate_no = rs.getInt("DEBATE_NO");
-	            int debate_writer = rs.getInt("DEBATE_WRITER");
-	            String debate_topic = rs.getString("DEBATE_TOPIC");
-	            String debate_date = rs.getString("DEBATE_DATE");
-	            int debate_time = rs.getInt("DEBATE_TIME");
-	            String debate_status = rs.getString("DEBATE_STATUS");
-	            String debate_startdate = rs.getString("DEBATE_STARTDATE");
-	            String debate_enddate = rs.getString("DEBATE_ENDDATE");
-
-	            Debate d = new Debate(debate_no, debate_writer, debate_topic, debate_date, debate_time, debate_status, debate_startdate, debate_enddate, null, null, null, null);
-	            list.add(d);
-	         }
-	         
-	      } catch (SQLException e) {
-	         e.printStackTrace();   
-	      } finally {
-	         //DB연결해제
-	         MyConnection.close(con, pstmt, rs);
-	      }
-	      return list;
-	   }
 	
 	public static void main(String[] args) {
 		
 		DebateDAOOracle dao = new DebateDAOOracle();
-		dao.lastRow();
 		
-//		Debate deb_no = new Debate();
-//		deb_no.setDebate_no(2);
+		Debate deb_no = new Debate();
+		deb_no.setDebate_no(2);
+		deb_no.setDebate_startDate("21/07/03 03:00:00");
+		deb_no.setDebate_endDate("21/07/03 04:52:00");
+		dao.updateStartdate(deb_no);
+		dao.updateEnddate(deb_no);
+		
+		Debate test = dao.selectByNo(2);
+		System.out.println("시작 : " + test.getDebate_startDate());
+		System.out.println("끝 : " + test.getDebate_endDate());
+		
+		List<Debate> search_test = dao.selectSearch("TOPIC", "된장");
+//		List<Debate> search_test = dao.selectSearch("WRITER", "2");
+		for (Debate debate : search_test) {
+			System.out.println("검색 테스트");
+			System.out.println(debate.toString());
+		}
+		
+//		List<Debate> test = dao.selectAll();
+//		for (Debate debate : test) {
+//			System.out.println(debate.getDebate_startDate());
+//			System.out.println(debate.getDebate_endDate());
+//		}
+		
 //		DebateDetail dd = new DebateDetail();
 //		dd.setDiscuss("삼성");
 //		Member m = new Member();

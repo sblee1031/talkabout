@@ -7,8 +7,11 @@ import java.util.Properties;
 import com.talkabout.dao.DebateDAO;
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
+<<<<<<< HEAD
 import com.talkabout.dto.Member;
 import com.talkabout.exception.ModifyException;
+=======
+>>>>>>> Ahn
 
 public class DebateService {
 	private DebateDAO dao;
@@ -42,6 +45,7 @@ public class DebateService {
 	public void addDebate(Debate deb, DebateDetail dd, String discuss1, String discuss2) {
 		dao.insertDebate(deb, dd,discuss1,discuss2);
 	}
+<<<<<<< HEAD
 	public void addDiscussor(Debate deb_no, DebateDetail dd, Member m) {
 		dao.updateDiscussor(deb_no, dd, m);
 	}
@@ -70,4 +74,18 @@ public class DebateService {
 	public void pageSize(int size) {
 		dao.pageSize(size);
 	}
+=======
+	
+	public void setStartDate(Debate deb) {
+		dao.updateStartdate(deb);
+	}
+	
+	public void setEndDate(Debate deb) {
+		dao.updateEnddate(deb);
+	}
+	
+	public List<Debate> selectSearch(String column, String keyword){
+		return dao.selectSearch(column, keyword);
+	}
+>>>>>>> Ahn
 }

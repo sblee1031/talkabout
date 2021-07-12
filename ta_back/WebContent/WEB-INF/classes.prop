@@ -1,4 +1,5 @@
 #classes.prop
+<<<<<<< HEAD
 memberDAO=com.talkabout.dao.MemberDAOOracle
 debateDAO=com.talkabout.dao.DebateDAOOracle
 DebateDetailDAO=com.talkabout.dao.DebateDetailDAOOracle
@@ -6,3 +7,10 @@ DebateCommentDAO=com.talkabout.dao.DebateCommentDAOOracle
 DebateLikeDAO=com.talkabout.dao.DebateLikeDAOOracle
 boardDAO=com.talkabout.dao.BoardDAOOracle
 boardCommentDAO=com.talkabout.dao.BoardCommentDAOOracle
+=======
+audienceDAO=com.talkabout.dao.AudienceDAOOracle
+debateDAO=com.talkabout.dao.DebateDAOOracle
+debateDetailDAO=com.talkabout.dao.DebateDetailDAOOracle
+loginDAO=com.talkabout.dao.LoginDAOOracle
+memberDAO=com.talkabout.dao.MemberDAOOracle
+>>>>>>> Ahn

@@ -2,28 +2,21 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <title>HTML Layouts</title>
+    <title>토론배틀 게시판</title>
+    
     <!--jquery 스크립트-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-       <!-- 로그인 js 시작 -->
+    
+    <!-- 로그인 js 시작 -->
     <meta
       name="google-signin-client_id"
       content="241916072602-heae1rac9sjh4t615b0k7i0iso0m842o.apps.googleusercontent.com"
     />
-      <!--    <script
-      src="https://apis.google.com/js/platform.js?onload=renderButton"
-      async
-      defer
-    ></script> -->
-
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-
-
     <!-- 로그인 js 끝 -->
+    
     <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-    <script>
 
-    </script>
     <!-- 아이콘 -->
     <link rel="apple-touch-icon" href="assets/img/apple-icon.png" />
     <link
@@ -114,6 +107,48 @@
         text-decoration: none;
         cursor: pointer;
       }
+      
+      /* debbattle */
+      div#searchPart {
+      	width : 300px;
+      	float : right;
+      	margin-top: 10px;
+      	margin-bottom: 10px;
+      	margin-right: 10px;
+      }
+      button#write {
+        font-size: 20px;
+        margin-left: 10%;
+      }
+      div#debateList {
+        text-align: center;
+      }
+      span#debateList {
+        font-size: 20pt;
+
+        margin-right: 5%;
+      }
+      div#debateContent {
+        font-size: 20pt;
+        margin-right: 5%;
+        text-align: center;
+      }
+      table#debateList {
+        width: 100%;
+        text-align: center;
+        border: 1px solid black;
+      }
+      tr#tablehead {
+        font-size: 20px;
+      }
+      div#debateWrite {
+        text-align: center;
+        margin: 20px;
+        line-height: 300%;
+      }
+      td {
+      	border: 1px solid black;
+      }
     </style>
   </head>
 
@@ -181,7 +216,7 @@
         <div class="modal-content">
           <span class="close" id="close">&times;</span>
            <!-- 소셜계정 선택 시작 -->
-    <div id="social" style="text: center; margin-block: inherit">
+    <div id="social" style="text-align: center; margin-block: inherit">
       <li id="GgCustomLogin" style="list-style-type: none">
          <a href="javascript:void(0)">
        <!--  <button onclick="init()"> -->
@@ -241,19 +276,37 @@
       </div>
     </nav>
 
-    <section id="section" style="text-align: center; border-style: solid; height: 80%">
-      <div>여기에 작업한 내용 추가하시면 됩니다</div>
-      
-
-   
-    
-      <!-- Links -->
-
+    <section id="section" style="text-align: center; border-style: solid; height: 80%;margin: 0 auto;overflow: auto;">
+      <div id="searchPart">
+        <input name="searchInput" placeholder="검색할 주제 입력" />
+        <button id="btnSearch">검색</button>
+      </div>
+      <table id="deb_battleList"  style="width: 100%;">
+        <tr id="tablehead">
+            <th style="width: 10%;">번호</th>
+            <th style="width: 10%;">상태</th>
+            <th style="width: auto;">주제</th>
+            <th style="width: 20%;">작성자</th>
+            <th style="width: 20%;">토론 예정시각</th>
+            <th style="width: 10%;">시청자</th>	
+        </tr>
+        <tr class="tablecontents" style = "display: none">
+			<td class="debate_no"><a class= "debate_no_detail">test</a></td>
+			<td class="debate_status">test</td>
+			<td class="debate_topic">test</td>
+			<td class="debate_writer">test</td>
+			<td class="debate_date">test</td>
+			<td class="audience_cnt">test</td>
+		</tr>
+        
+      </table>
     </section>
     <footer>
       <div>FOOTER 영역</div>
     </footer>
-     <script src="assets/js/login1.js"></script>
-     <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> 	  
+    
+    <script src="assets/js/login1.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+    <script src="assets/js/debatedetail.js"></script>	  
   </body>
 </html>
