@@ -1,3 +1,0 @@
-INDEX VERSION 1.4+E:\JAVA_WORK\Worksapce\talkabout\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-2998227262.index
-1257068310.index

@@ -83,6 +83,7 @@
     <servlet-name>DebateSaveServlet</servlet-name>
     <url-pattern>/debatesave</url-pattern>
   </servlet-mapping>
+<<<<<<< HEAD
     <servlet>
     <description></description>
     <display-name>DebateCommentSelectServlet</display-name>
@@ -122,5 +123,26 @@
   <servlet-mapping>
     <servlet-name>DebateCommentUpdateServlet</servlet-name>
     <url-pattern>/debatecommentupdate</url-pattern>
+=======
+  <servlet>
+    <description></description>
+    <display-name>NoticeSaveServlet</display-name>
+    <servlet-name>NoticeSaveServlet</servlet-name>
+    <servlet-class>com.talkabout.control.NoticeSaveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NoticeSaveServlet</servlet-name>
+    <url-pattern>/noticesave</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>NoticeServlet</display-name>
+    <servlet-name>NoticeServlet</servlet-name>
+    <servlet-class>com.talkabout.control.NoticeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NoticeServlet</servlet-name>
+    <url-pattern>/notice</url-pattern>
+>>>>>>> Eom
   </servlet-mapping>
 </web-app>
