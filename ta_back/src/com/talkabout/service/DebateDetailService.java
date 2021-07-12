@@ -19,7 +19,7 @@ public class DebateDetailService {
 		Properties env = new Properties();
 		try {
 			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("DebateDetailDAO");
+			String className = env.getProperty("debateDetailDAO");
 			Class c = Class.forName(className);
 			dao = (DebateDetailDAO)c.newInstance(); //jvm에 로드, 객체생성
 		} catch (IOException e) {
@@ -41,11 +41,17 @@ public class DebateDetailService {
 	}
 	
 	public List<DebateDetail> findAll() throws FindException {
+
 		return dao.selectAll();
 	}
 	
 	public DebateDetail findByDeb(Debate d, int discussor) {
 		return dao.selectOne(d.getDebate_no(), discussor);
+	}
+	
+	// 주장A,B 가져오기
+	public List<DebateDetail> findByDebNo(int deb_no) {
+		return dao.selectByNo(deb_no);
 	}
 	
 	public void addDetail(DebateDetail dd) {

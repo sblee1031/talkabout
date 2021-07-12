@@ -1,74 +1,114 @@
-package com.day.dto;
+package com.talkabout.dto;
+
 
 import java.util.Date;
+import java.util.List;
 
 public class Board {
-	private int freeboard_no; //게시글 번호
-	private String freeboard_type; //게시글 종류
-	private String freeboard_title; //게시글 제목
-	private String freeboard_contents; //게시글 내용
-	private Date freeboard_date; //작성시간(날짜)
-	private int freeboard_cnt; //조회수(count) 
-	private Member freeboard_member; //회원(member table)번호 참조
-	//게시글번호,회원번호 체크?
+	/*
+	 * Table : 자유게시판 테이블
+	 * 
+	 * board_no : 자유게시판 번호(PK)
+	 * board_type : 자유게시판 분류
+	 * board_title : 자유게시판 제목
+	 * board_contents : 자유게시판 내용
+	 * board_date : 자유게시판 작성일
+	 * board_views : 자유게시판 조회수
+	 * board_mem : 회원번호(FK, Member 테이블 참조)
+	 * comment_list : BoardComment has-a
+	 * like_list : BoardLike has-a
+	 */
+	private int board_no;
+	private String board_type;
+	private String board_title;
+	private String board_contents;
+	private String board_date;
+	private int board_views;
+	private Member board_mem; // board_mem.member_no
+	List<BoardComment> comment_list;
+	List<BoardLike> like_list; 
+	// 게시글번호,회원번호 체크?
+	
 	public Board() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-	public Board(int freeboard_no, String freeboard_type, String freeboard_title, String freeboard_contents,
-			Date freeboard_date, int freeboard_cnt, Member freeboard_member) {
+	}	
+	
+	public Board(int board_no, String board_type, String board_title, String board_contents, String board_date,
+			int board_views, Member board_mem, List<BoardComment> comment_list, List<BoardLike> like_list) {
 		super();
-		this.freeboard_no = freeboard_no;
-		this.freeboard_type = freeboard_type;
-		this.freeboard_title = freeboard_title;
-		this.freeboard_contents = freeboard_contents;
-		this.freeboard_date = freeboard_date;
-		this.freeboard_cnt = freeboard_cnt;
-		this.freeboard_member = freeboard_member;
+		this.board_no = board_no;
+		this.board_type = board_type;
+		this.board_title = board_title;
+		this.board_contents = board_contents;
+		this.board_date = board_date;
+		this.board_views = board_views;
+		this.board_mem = board_mem;
+		this.comment_list = comment_list;
+		this.like_list = like_list;
 	}
-	public int getFreeboard_no() {
-		return freeboard_no;
+	public Board(int board_no, String board_type, String board_title, String board_contents, String board_date,
+			int board_views, Member board_mem) {
+		super();
+		this.board_no = board_no;
+		this.board_type = board_type;
+		this.board_title = board_title;
+		this.board_contents = board_contents;
+		this.board_date = board_date;
+		this.board_views = board_views;
+		this.board_mem = board_mem;
 	}
-	public void setFreeboard_no(int freeboard_no) {
-		this.freeboard_no = freeboard_no;
+	public int getBoard_no() {
+		return board_no;
 	}
-	public String getFreeboard_type() {
-		return freeboard_type;
+	public void setBoard_no(int board_no) {
+		this.board_no = board_no;
 	}
-	public void setFreeboard_type(String freeboard_type) {
-		this.freeboard_type = freeboard_type;
+	public String getBoard_type() {
+		return board_type;
 	}
-	public String getFreeboard_title() {
-		return freeboard_title;
+	public void setBoard_type(String board_type) {
+		this.board_type = board_type;
 	}
-	public void setFreeboard_title(String freeboard_title) {
-		this.freeboard_title = freeboard_title;
+	public String getBoard_title() {
+		return board_title;
 	}
-	public String getFreeboard_contents() {
-		return freeboard_contents;
+	public void setBoard_title(String board_title) {
+		this.board_title = board_title;
 	}
-	public void setFreeboard_contents(String freeboard_contents) {
-		this.freeboard_contents = freeboard_contents;
+	public String getBoard_contents() {
+		return board_contents;
 	}
-	public Date getFreeboard_date() {
-		return freeboard_date;
+	public void setBoard_contents(String board_contents) {
+		this.board_contents = board_contents;
 	}
-	public void setFreeboard_date(Date freeboard_date) {
-		this.freeboard_date = freeboard_date;
+	public String getBoard_date() {
+		return board_date;
 	}
-	public int getFreeboard_cnt() {
-		return freeboard_cnt;
+	public void setBoard_date(String board_date) {
+		this.board_date = board_date;
 	}
-	public void setFreeboard_cnt(int freeboard_cnt) {
-		this.freeboard_cnt = freeboard_cnt;
+	public int getBoard_views() {
+		return board_views;
 	}
-	public Member getFreeboard_member() {
-		return freeboard_member;
+	public void setBoard_views(int board_views) {
+		this.board_views = board_views;
 	}
-	public void setFreeboard_member(Member freeboard_member) {
-		this.freeboard_member = freeboard_member;
+	public Member getBoard_mem() {
+		return board_mem;
 	}
-	
-
-	
+	public void setBoard_mem(Member board_mem) {
+		this.board_mem = board_mem;
+	}
+	public List<BoardComment> getComment_list() {
+		return comment_list;
+	}
+	public void setComment_list(List<BoardComment> comment_list) {
+		this.comment_list = comment_list;
+	}
+	public List<BoardLike> getLike_list() {
+		return like_list;
+	}
+	public void setLike_list(List<BoardLike> like_list) {
+		this.like_list = like_list;
+	}	
 }

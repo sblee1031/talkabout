@@ -19,7 +19,7 @@ public class AudienceService {
 		Properties env = new Properties();
 		try {
 			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("AudienceDAO");
+			String className = env.getProperty("audienceDAO");
 			Class c = Class.forName(className);
 			dao = (AudienceDAO)c.newInstance(); //jvm에 로드, 객체생성
 		} catch (IOException e) {
@@ -47,6 +47,14 @@ public class AudienceService {
 	
 	public Audience findByNo(int audi_no) throws FindException {
 		return dao.selectByNo(audi_no);
+	}
+	
+	public Audience findByDeb(int deb_no, int mem_no) {
+		return dao.selectByDeb(deb_no, mem_no);
+	}
+	
+	public void addVote(int deb_no, int mem_no) {
+		dao.insertVote(deb_no, mem_no);
 	}
 	
 	public void setVote(Audience a) {

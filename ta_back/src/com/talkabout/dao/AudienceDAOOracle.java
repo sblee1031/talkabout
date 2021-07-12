@@ -24,7 +24,6 @@ public class AudienceDAOOracle implements AudienceDAO {
 	}
 	
 	public List<Audience> selectAll() {
-
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -82,6 +81,57 @@ public class AudienceDAOOracle implements AudienceDAO {
 			MyConnection.close(con, pstmt, rs);
 		}		
 		return a;
+	}
+	
+	public Audience selectByDeb(int deb_no, int mem_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String select_SQL = "SELECT * FROM AUDIENCE WHERE AUDI_DEB = ? AND AUDI_MEM = ?";
+		Audience a = null;
+		try {
+			con = MyConnection.getConnection();
+			pstmt = con.prepareStatement(select_SQL);
+			pstmt.setInt(1, deb_no);
+			pstmt.setInt(2, mem_no);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int audi_n = rs.getInt("AUDI_NO");
+				int audi_deb = rs.getInt("AUDI_DEB");
+				int audi_mem = rs.getInt("AUDI_MEM");
+				int vote = rs.getInt("VOTE");
+				
+				a = new Audience(audi_n, audi_deb, audi_mem, vote);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();	
+		} finally {
+			//DB연결해제
+			MyConnection.close(con, pstmt, rs);
+		}		
+		return a;
+	}
+	
+	public void insertVote(int deb_no, int mem_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String insert_SQL = "INSERT INTO AUDIENCE VALUES (AUDI_SEQ.NEXTVAL, ?,?,2)";
+		
+		try {
+			con = MyConnection.getConnection();
+			pstmt = con.prepareStatement(insert_SQL);
+			pstmt.setInt(1, deb_no);
+			pstmt.setInt(2, mem_no);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();	
+		} finally {
+			//DB연결해제
+			MyConnection.close(con, pstmt, rs);
+		}		
 	}
 	
 	public void updateVote(Audience a) {
@@ -159,10 +209,14 @@ public class AudienceDAOOracle implements AudienceDAO {
 		dao.updateVote(a);
 		
 		// 
-		ArrayList vote_List = dao.selectByCnt(1);
-		for (Object object : vote_List) {
-			System.out.println(object);
+		ArrayList<Integer> vote_List = dao.selectByCnt(1);
+		for (int i : vote_List) {
+			System.out.println(i);
 		}
+		
+		Audience a3 = dao.selectByDeb(1, 2);
+		System.out.println("a3");
+		System.out.println(a3.toString());
 	}
 
 
