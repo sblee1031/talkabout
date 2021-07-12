@@ -48,6 +48,10 @@ public class DebateDetailService {
 	public DebateDetail findByDeb(Debate d, int discussor) {
 		return dao.selectOne(d.getDebate_no(), discussor);
 	}
+
+	public List<DebateDetail> findByDebNo(int deb_no) {
+		return dao.selectByNo(deb_no);
+	}
 	
 	// 주장A,B 가져오기
 	public List<DebateDetail> findByDebNo(int deb_no) {
