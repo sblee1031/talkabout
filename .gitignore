@@ -480,3 +480,4 @@ ta_back/.settings/org.eclipse.wst.common.project.facet.core.xml~Choi
 ta_front/.classpath~Choi
 ta_front/.settings/org.eclipse.jdt.core.prefs~Choi
 ta_front/.settings/org.eclipse.wst.common.project.facet.core.xml~Choi
+ta_back/build/classes/com/talkabout/dao/BoardLikeDAOOracle.class

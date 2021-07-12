@@ -1,14 +1,8 @@
 #classes.prop
-<<<<<<< .merge_file_a20180
 memberDAO=com.talkabout.dao.MemberDAOOracle
 debateDAO=com.talkabout.dao.DebateDAOOracle
 DebateDetailDAO=com.talkabout.dao.DebateDetailDAOOracle
 DebateCommentDAO=com.talkabout.dao.DebateCommentDAOOracle
 DebateLikeDAO=com.talkabout.dao.DebateLikeDAOOracle
-=======
 boardDAO=com.talkabout.dao.BoardDAOOracle
 boardCommentDAO=com.talkabout.dao.BoardCommentDAOOracle
-memberDAO=com.talkabout.dao.MemberDAOOracle
-debateDAO=com.talkabout.dao.DebateDAOOracle
-DebateDetailDAO=com.talkabout.dao.DebateDetailDAOOracle
->>>>>>> .merge_file_a21960

@@ -10,13 +10,7 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <context-param>
-<<<<<<< HEAD
-=======
-    <param-name>Developer</param-name>
-    <param-value>Choi MinKyu</param-value>
-  </context-param>
-  <context-param>
->>>>>>> Choi
+
     <param-name>env</param-name>
     <param-value>/WEB-INF/classes.prop</param-value>
   </context-param>
@@ -62,21 +56,12 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-<<<<<<< HEAD
     <display-name>LeaveMemberServlet</display-name>
     <servlet-name>LeaveMemberServlet</servlet-name>
     <servlet-class>com.talkabout.control.LeaveMemberServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>LeaveMemberServlet</servlet-name>
-=======
-    <display-name>LeaveMemberService</display-name>
-    <servlet-name>LeaveMemberService</servlet-name>
-    <servlet-class>com.talkabout.control.LeaveMemberService</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LeaveMemberService</servlet-name>
->>>>>>> Choi
     <url-pattern>/leavemember</url-pattern>
   </servlet-mapping>
   <servlet>
@@ -99,8 +84,6 @@
     <servlet-name>DebateSaveServlet</servlet-name>
     <url-pattern>/debatesave</url-pattern>
   </servlet-mapping>
-<<<<<<< HEAD
-<<<<<<< HEAD
     <servlet>
     <description></description>
     <display-name>DebateCommentSelectServlet</display-name>
@@ -140,7 +123,7 @@
   <servlet-mapping>
     <servlet-name>DebateCommentUpdateServlet</servlet-name>
     <url-pattern>/debatecommentupdate</url-pattern>
-=======
+   </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>NoticeSaveServlet</display-name>
@@ -151,8 +134,6 @@
     <servlet-name>NoticeSaveServlet</servlet-name>
     <url-pattern>/noticesave</url-pattern>
   </servlet-mapping>
-    <servlet>
-=======
   <servlet>
     <description></description>
     <display-name>BoardListServlet</display-name>
@@ -284,7 +265,6 @@
     <url-pattern>/myboardcom</url-pattern>
   </servlet-mapping>
   <servlet>
->>>>>>> Choi
     <description></description>
     <display-name>NoticeServlet</display-name>
     <servlet-name>NoticeServlet</servlet-name>
@@ -293,9 +273,5 @@
   <servlet-mapping>
     <servlet-name>NoticeServlet</servlet-name>
     <url-pattern>/notice</url-pattern>
-<<<<<<< HEAD
->>>>>>> Eom
-=======
->>>>>>> Choi
   </servlet-mapping>
 </web-app>

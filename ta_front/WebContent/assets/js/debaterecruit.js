@@ -4,7 +4,6 @@
     
     function paging(totalData, dataPerPage, pageCount, currentPage){
         
-<<<<<<< HEAD
         //console.log("currentPage : " + currentPage);
         
         var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
@@ -12,15 +11,6 @@
         var pageGroup = Math.ceil(currentPage/pageCount);    // 페이지 그룹
         
        // console.log("pageGroup : " + pageGroup);
-=======
-        console.log("currentPage : " + currentPage);
-        
-        var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
-		console.log('토탈페이지 :'+totalPage);
-        var pageGroup = Math.ceil(currentPage/pageCount);    // 페이지 그룹
-        
-        console.log("pageGroup : " + pageGroup);
->>>>>>> Heo
         
         var last = pageGroup * pageCount;    // 화면에 보여질 마지막 페이지 번호
         if(last > totalPage)
@@ -31,17 +21,10 @@
         var next = last+1;
         var prev = first-1;
         
-<<<<<<< HEAD
         //console.log("last : " + last);
        // console.log("first : " + first);
         //console.log("next : " + next);
       //  console.log("prev : " + prev);
-=======
-        console.log("last : " + last);
-        console.log("first : " + first);
-        console.log("next : " + next);
-        console.log("prev : " + prev);
->>>>>>> Heo
  
         var $pingingView = $("#paging");
         
@@ -551,15 +534,11 @@ function btnDeleteDebate(){
       }
 }
 function debateSearch(){
-<<<<<<< HEAD
 	if($('#searchInput').val()==''){
 		alert('검색어를 입력해주세요.');
 	}else{
 	$('#debateWrite').hide();
 	$('#debateList').show();
-=======
-	$('#debateWrite').hide();
->>>>>>> Heo
 	$('#paging').hide();
 	var url = "../ta_back/debrecruit";
   	var method = "debatesearch";
@@ -613,10 +592,7 @@ function debateSearch(){
 				}
 		    },
 		  });
-<<<<<<< HEAD
 	}
-=======
->>>>>>> Heo
 }
 
 function btnModifyDebate(){
@@ -697,12 +673,8 @@ function goList(){
     url: url,
     method: "get",
     data: { method: method,
-<<<<<<< HEAD
 			page: 1 ,
 			pagesize: dataPerPage},
-=======
-			page: 1 },
->>>>>>> Heo
     success: function (resposeData) {
       console.log(resposeData);
       var lists = resposeData.debatelist;
