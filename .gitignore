@@ -187,4 +187,8 @@ ta_back/build/classes/com/talkabout/control/LogoutServlet.class
 ta_back/build/classes/com/talkabout/control/NickNameServlet.class
 ta_back/build/classes/com/talkabout/control/SignUpServlet.class
 ta_back/build/classes/com/talkabout/control/LeaveMemberServlet.class
+<<<<<<< HEAD
 ta_front/WebContent/test/table.html
+=======
+ta_front/WebContent/assets/img/favicon1.ico
+>>>>>>> Lee
