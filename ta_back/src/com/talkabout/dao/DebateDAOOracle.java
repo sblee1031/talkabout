@@ -30,12 +30,20 @@ public int lastrow; // row개수
 
 public void pageSize(int size) {
 	this.num_page_size = size;
+<<<<<<< HEAD
 	//System.out.println("페이지 사이즈 : "+num_page_size);
+=======
+	System.out.println("페이지 사이즈 : "+num_page_size);
+>>>>>>> Heo
 }
 
 	public void pageNum(int page) {
 		this.num_page_no = page;
+<<<<<<< HEAD
 		//System.out.println("페이지번호 : "+num_page_no);
+=======
+		System.out.println("페이지번호 : "+num_page_no);
+>>>>>>> Heo
 	}
 	//마지막 row 가져오기
 	public int lastRow() {
@@ -49,7 +57,11 @@ public void pageSize(int size) {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				lastrow = rs.getInt("rnum");
+<<<<<<< HEAD
 				//System.out.println("총 게시글게수 : "+lastrow);
+=======
+				System.out.println("총 게시글게수 : "+lastrow);
+>>>>>>> Heo
 			}
 			
 		} catch (SQLException e) {
@@ -75,8 +87,13 @@ public void pageSize(int size) {
 		try {
 			con = MyConnection.getConnection();
 			pstmt = con.prepareStatement(select_SQL);
+<<<<<<< HEAD
 			//System.out.println("넘버 : "+num_page_no);
 			//System.out.println("start_row"+num_start_row+" end_row : "+  num_end_row);
+=======
+			System.out.println("넘버 : "+num_page_no);
+			System.out.println("start_row"+num_start_row+" end_row : "+  num_end_row);
+>>>>>>> Heo
 			pstmt.setInt(1, num_start_row);
 			pstmt.setInt(2, num_end_row);
 			rs = pstmt.executeQuery();

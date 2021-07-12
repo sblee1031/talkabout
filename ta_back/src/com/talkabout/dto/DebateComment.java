@@ -13,18 +13,42 @@ public class DebateComment {
 	 * com_mem : 회원번호 (FK, Member 테이블 참조) 
 	 */
 	private int com_no;
-	private Debate com_deb; // com_deb.debate_no
+	private int com_deb; // com_deb.debate_no
 	private String com_contents;
-	private Date com_date;
-	private Member com_mem; // com_mem.member_no
+	private String com_date;
+	private int com_mem; // com_mem.member_no
+	String com_admin;
 	
-	public DebateComment(int com_no, Debate com_deb, String com_contents, Date com_date, Member com_mem) {
+	
+	public String getCom_admin() {
+		return com_admin;
+	}
+
+	public void setCom_admin(String com_admin) {
+		this.com_admin = com_admin;
+	}
+
+	public DebateComment() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	
+	public DebateComment(int com_no, int com_deb, String com_contents, String com_date, int com_mem) {
 		super();
 		this.com_no = com_no;
 		this.com_deb = com_deb;
 		this.com_contents = com_contents;
 		this.com_date = com_date;
 		this.com_mem = com_mem;
+	}
+	public DebateComment(int com_no, int com_deb, String com_contents, String com_date, String com_admin) {
+		super();
+		this.com_no = com_no;
+		this.com_deb = com_deb;
+		this.com_contents = com_contents;
+		this.com_date = com_date;
+		this.com_admin = com_admin;
 	}
 
 	public int getCom_no() {
@@ -35,11 +59,11 @@ public class DebateComment {
 		this.com_no = com_no;
 	}
 
-	public Debate getCom_deb() {
+	public int getCom_deb() {
 		return com_deb;
 	}
 
-	public void setCom_deb(Debate com_deb) {
+	public void setCom_deb(int com_deb) {
 		this.com_deb = com_deb;
 	}
 
@@ -51,20 +75,27 @@ public class DebateComment {
 		this.com_contents = com_contents;
 	}
 
-	public Date getCom_date() {
+	public String getCom_date() {
 		return com_date;
 	}
 
-	public void setCom_date(Date com_date) {
+	public void setCom_date(String com_date) {
 		this.com_date = com_date;
 	}
 
-	public Member getCom_mem() {
+	public int getCom_mem() {
 		return com_mem;
 	}
 
-	public void setCom_mem(Member com_mem) {
+	public void setCom_mem(int com_mem) {
 		this.com_mem = com_mem;
 	}
+
+	@Override
+	public String toString() {
+		return "DebateComment [com_no=" + com_no + ", com_deb=" + com_deb + ", com_contents=" + com_contents
+				+ ", com_date=" + com_date + ", com_mem=" + com_mem + "]";
+	}
+	
 	
 }

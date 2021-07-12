@@ -241,11 +241,114 @@
       </div>
     </nav>
 
-    <section id="section" style="text-align: center; border-style: solid; height: 80%">
-      <div>여기에 작업한 내용 추가하시면 됩니다</div>
+    <section id="section" style="overflow:auto; text-align: center; border-style: solid; height: 80%">
       
 
-   
+   <!DOCTYPE html>
+<html>
+    <head>
+     <meta charset="UTF-8" />
+        <title>토론결과 댓글</title>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <style>
+  table {
+    width: 100%;
+    border: 2px solid #444444;
+    border-collapse: collapse;
+  }
+  th,tr,td {
+    border: 1px solid #444444;
+  }
+            </style>
+            <script>
+            
+            </script>
+</head>        
+      
+    <body>
+        <input type="hidden" id="debcom_id" name="debcom_id"  />
+        <div align="center">
+         
+      <table id="debateList">
+        <tr id="tablehead">
+          <th>토론 번호</th>
+          <th style="width: 50%">토론 제목</th>
+          <th>토론 작성자</th>
+          <th>토론 시간</th>
+          <th>진행 상태</th>
+        </tr>
+        <tr id="debateContents"></tr>
+      </table>
+      <div id="btnComment">
+                	<button id="update_btn" name="update_btn">댓글수정</button>
+                        <!-- 댓글수정 -->
+                   <button id="delete_btn" name="delete_btn">댓글삭제</button>
+                        <!-- 댓글삭제 -->
+                <!-- 댓글이 들어갈 공간 -->
+                </div>
+                <div id="divcomment"></div>
+                <table border="1" id="tablecommentList"> 
+                <tr id="commenthead">
+                <th>댓글번호</th>
+                <th>댓글</th>
+                <th>작성자</th>
+                <th>작성시간</th>
+                </tr>
+                <tr id="commentList">
+                <td id="deb_no"></td>
+                <td id="deb_content"></td>
+                <td id="deb_writter"></td>
+                <td>
+                <span id="deb_wrritedate"></span>
+                <button id="btnedit" style="float:right; display:none">수정</button>
+                 <button id="btndelete" style="float:right; display:none;">삭제</button>
+                 </td>
+                </tr>
+            </table>
+              
+ 			<table border="1" id=tableinsert  width="1200px" bordercolor=red> 
+                <tr>
+                    <td width="500px">
+                        이름: <input type="text" id="debcom_writer" name="debcom_writer" style="width:250px;" readonly maxlength="10" placeholder="로그인을 해주세요.."/>
+                        <button id="insert_btn" name="insert_btn" >댓글작성</button>
+                        <button id="btnupdate" name="insert_btn" >댓글수정</button>
+                        <!-- 댓글작성 -->
+                         
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>
+	                        <textarea id="trinsert" name="trinsert" rows="4" cols="150" placeholder="-댓글작성칸 -*욕설 및 비하시 강제  아이디 삭제됨ㅎㅎ*"></textarea>
+	                    </td>
+	                </tr>
+            	</table>
+       			
+        </div>
+          <div id="divDebateView">
+      	<div>토론번호 : <span id="spanDebate_no"></span></div>
+        <div>주제 : <span id="spanDebate_topic"></span></div>
+        <div>토론일자 : <span id="spanDebate_date"></span></div>
+        <div>토론제한시간 : <span id="spanDebate_time"></span></div>
+        <div id="divDiscuss1">
+          주장1 : <span id="spanDebate_discuss1"></span>
+        </div>
+        <label
+          >토론자1 :<span id="spanDebate_discussor1"></span><br />
+
+          
+          </label
+        >
+        <div id="divDiscuss2">
+          주장2 : <span id="spanDebate_discuss2"></span>
+        </div>
+        <label
+          >토론자2 : <span id="spanDebate_discussor2"></span><br />
+          
+          </label
+        >
+      </div>
+    </body>
+</html>
     
       <!-- Links -->
 
@@ -254,6 +357,7 @@
       <div>FOOTER 영역</div>
     </footer>
      <script src="assets/js/login1.js"></script>
+     <script src="assets/js/debresultcomment.js"></script>
      <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> 	  
   </body>
 </html>

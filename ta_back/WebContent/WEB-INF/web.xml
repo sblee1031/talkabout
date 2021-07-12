@@ -83,4 +83,44 @@
     <servlet-name>DebateSaveServlet</servlet-name>
     <url-pattern>/debatesave</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>DebateCommentSelectServlet</display-name>
+    <servlet-name>DebateCommentSelectServlet</servlet-name>
+    <servlet-class>com.talkabout.control.DebateCommentSelectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateCommentSelectServlet</servlet-name>
+    <url-pattern>/debatecommentselect</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DebateCommentInsertServlet</display-name>
+    <servlet-name>DebateCommentInsertServlet</servlet-name>
+    <servlet-class>com.talkabout.control.DebateCommentInsertServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateCommentInsertServlet</servlet-name>
+    <url-pattern>/debatecommentinsert</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DebateCommentDeleteServlet</display-name>
+    <servlet-name>DebateCommentDeleteServlet</servlet-name>
+    <servlet-class>com.talkabout.control.DebateCommentDeleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateCommentDeleteServlet</servlet-name>
+    <url-pattern>/debatecommentdelete</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DebateCommentUpdateServlet</display-name>
+    <servlet-name>DebateCommentUpdateServlet</servlet-name>
+    <servlet-class>com.talkabout.control.DebateCommentUpdateServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateCommentUpdateServlet</servlet-name>
+    <url-pattern>/debatecommentupdate</url-pattern>
+  </servlet-mapping>
 </web-app>

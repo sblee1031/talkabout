@@ -2,3 +2,5 @@
 memberDAO=com.talkabout.dao.MemberDAOOracle
 debateDAO=com.talkabout.dao.DebateDAOOracle
 DebateDetailDAO=com.talkabout.dao.DebateDetailDAOOracle
+DebateCommentDAO=com.talkabout.dao.DebateCommentDAOOracle
+DebateLikeDAO=com.talkabout.dao.DebateLikeDAOOracle
