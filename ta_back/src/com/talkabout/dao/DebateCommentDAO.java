@@ -2,6 +2,7 @@ package com.talkabout.dao;
 
 import java.util.List;
 
+import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateComment;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.DeleteException;
@@ -19,5 +20,7 @@ public interface DebateCommentDAO {
 
 	List<DebateComment> selectByComNo(int com_com) throws FindException; //댓글들 가져오느느 com_deb으로 가져온다 oracle과 여기엔 변수만 com_no임 나중에 수정해서 변수는 못바꿈
 	
-void deleteByAdmin(int com_no) throws DeleteException;
+    void deleteByAdmin(int com_no) throws DeleteException;
+    
+    List<Debate> selectAll();
 }

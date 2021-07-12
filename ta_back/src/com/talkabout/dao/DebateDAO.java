@@ -29,7 +29,7 @@ public interface DebateDAO {
 	 * 
 	 * @param deb 토론 수정하기
 	 */
-	void updateDebateAll(Debate deb) throws ModifyException;
+	void updateDebateAll(Debate deb, List<DebateDetail> dd, String discuss1,String discuss2) throws ModifyException;
 	/**
 	 * 
 	 * @param status 토론 상태 업데이트
@@ -57,6 +57,7 @@ public interface DebateDAO {
 	 */
 	void deleteDebate(Debate deb_no);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	
 
 
@@ -70,10 +71,24 @@ public interface DebateDAO {
 	 */
 	List<Debate> selectSearch(String column, String keyword);
 	
+=======
+	/*
+	 * 토론자 취소
+	 */
+	void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m);
+	/*
+	 * 검색기능
+	 */
+	List<Debate> selectSearch(String column, String keyword);
+	
+>>>>>>> 5fab60149265d5f50113f263e7bd3b2ae5071d3d
      int lastRow();
      
      void pageNum(int page);
      
      void pageSize(int size);
+<<<<<<< HEAD
 >>>>>>> 5ac37c42a178fda003efc468c67fd7af6320ff58
+=======
+>>>>>>> 5fab60149265d5f50113f263e7bd3b2ae5071d3d
 }

@@ -40,7 +40,7 @@ public class DebateLikeDAOOracle implements DebateLikeDAO{
 		}
 	}
 
-	@Override
+	@Override	
 	public void deleteByDebatelikeNo(int deblike_no) throws DeleteException {
 		// TODO Auto-generated method stub
 		Connection con = null;
@@ -64,11 +64,11 @@ public class DebateLikeDAOOracle implements DebateLikeDAO{
 	}
 	public static void main(String[] args) throws Exception {
 		DebateLikeDAOOracle dao = new DebateLikeDAOOracle();
-//		dao.deleteByDebateLikeNo(5);
+//		dao.deleteByDebatelikeNo(1);
 		
 		//insert
 		DebateLike dl = new DebateLike();
-		dl.setDeblike_deb(1);
+		dl.setDeblike_deb(2);
 		dl.setDeblike_mem(3);
 		dao.insert(dl);
 	}

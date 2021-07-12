@@ -111,6 +111,8 @@ public class DebateServelt extends HttpServlet {
 		
 		
 		String method = request.getParameter("method");
+		String column = request.getParameter("column");
+		String keyword = request.getParameter("keyword");
 		//System.out.println(method);
 		
 		DebateService service;
@@ -129,17 +131,77 @@ public class DebateServelt extends HttpServlet {
 		
 		Map<String, Object> map = new HashMap<>();
 		List<DebateDetail> list = new ArrayList<>();
+		List<Debate> dlist = new ArrayList<>();
 		
 		String strdeb_no = request.getParameter("deb_no");
 		
 		if(method.equals("debatedetail")) {
+			
+			List<Member> memList = new ArrayList<>();
+			//System.out.println("detail");
 			int deb_no = Integer.parseInt(strdeb_no);
-			//System.out.println(deb_no);
 			Debate d = new Debate();
 			d = service.findByNo(deb_no);
 			list= ddservice.findByDebNo(deb_no);
-			map.put("debate", d);
-			map.put("detail", list);
+			
+			
+			for (DebateDetail debate : list) {
+				Member mem = new Member();
+				try {
+					mem = memservice.memberInfo(debate.getDiscussor());
+					memList.add(mem);
+				} catch (FindException e) {
+					e.printStackTrace();
+				}
+				
+			}
+				if(list.size()==0) {
+					System.out.println("게시글 없음");
+				}else {
+					map.put("debate", d);
+					map.put("detail", list);
+					map.put("memberinfo", memList);
+				}
+			
+			map.put("memberinfo", memList);
+		}if(method.equals("debatesearch")) {
+			try {
+				if(column.equals("WRITER")) {
+					Member m = new Member();
+					m.setMember_nickName(keyword);
+					Member nickMem = memservice.searchNick(m);
+					try {
+					dlist = service.selectSearch(column, nickMem.getMember_no()+"");
+					}catch(Exception e) {
+						if(dlist.size()==0) {
+							//System.out.println("게시글 없음");
+							map.put("rs", 0);}
+					}
+					}else {
+					dlist= service.selectSearch(column, keyword);
+					
+				}
+			List<Member> memList = new ArrayList<>();
+			for (Debate debate : dlist) {
+				Member mem = new Member();
+				try {
+					mem = memservice.memberInfo(debate.getDebate_writer());
+					memList.add(mem);
+				} catch (FindException e) {
+					e.printStackTrace();
+				}
+				}
+				if(dlist.size()==0) {
+					//System.out.println("게시글 없음");
+					map.put("rs", 0);
+				}else {
+					map.put("rs", dlist);
+					map.put("memberinfo", memList);
+				}
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+			
 		}
 		
 		jsonStr = mapper.writeValueAsString(map);

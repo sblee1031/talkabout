@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Properties;
 
 import com.talkabout.dao.DebateCommentDAO;
+import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateComment;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.DeleteException;
@@ -45,6 +46,9 @@ public void DCupdate(DebateComment DC)throws ModifyException{
 }
 public List<DebateComment> DCselectByComNo(int com_no)throws FindException{
 	return dao.selectByComNo(com_no);//여기도 dao , oracle에서 말햇듯이 변수만 com_no이고 sql에는 com_deb으로 들어가게햇음
+}
+public List<Debate> selectAll(){//토론결과 리스트 조회
+	return dao.selectAll();
 }
 
 }
