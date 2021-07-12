@@ -9,17 +9,15 @@ public class NoticeLike {
 	 * noticeLike_mem : 회원번호(FK, Member 테이블 참조)
 	 */
 	private int noticeLike_no; 
-	private Notice noticeLike_notice; // noticeLike_notice.notice_no //
-	int noticeLike_mem; // noticeLike_mem.member_no
+	private Notice noticeLike_notice; // noticeLike_notice.notice_no
+	private Member noticeLike_mem; // noticeLike_mem.member_no
 	
-	public NoticeLike(int noticeLike_no, Notice noticeLike_notice, int noticeLike_mem) {
+	public NoticeLike(int noticeLike_no, Notice noticeLike_notice, Member noticeLike_mem) {
 		super();
 		this.noticeLike_no = noticeLike_no;
 		this.noticeLike_notice = noticeLike_notice;
 		this.noticeLike_mem = noticeLike_mem;
 	}
-
-
 
 	public int getNoticeLike_no() {
 		return noticeLike_no;
@@ -37,37 +35,11 @@ public class NoticeLike {
 		this.noticeLike_notice = noticeLike_notice;
 	}
 
-	public int getNoticeLike_mem() {
+	public Member getNoticeLike_mem() {
 		return noticeLike_mem;
 	}
 
-	public void setNoticeLike_mem(int noticeLike_mem) {
+	public void setNoticeLike_mem(Member noticeLike_mem) {
 		this.noticeLike_mem = noticeLike_mem;
 	}
-////////////////////////////////////////////////////////
-	public NoticeLike() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	public int getnoticeLike_notice() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public int getnoticeLike_mem() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void setnoticeLike_notice(int i) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	public void setnoticeLike_mem(int i) {
-		// TODO Auto-generated method stub
-		
-	}
-////////////////////////////////////////////////////////
 }

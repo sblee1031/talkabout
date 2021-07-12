@@ -13,33 +13,19 @@ public class NoticeComment {
 	 * com_mem : 회원번호(FK, Member 테이블 참조)
 	 */
 	private int com_no;
-	private int com_notice; // com_notice.notice_no
+	private Notice com_notice; // com_notice.notice_no
 	private Date com_date;
 	private String com_contents;
-	int com_mem; // com_mem.member_no
+	private Member com_mem; // com_mem.member_no
 	//private NoticeOffi com_noticeOffi;
-	String com_admin;
 	
-	public NoticeComment(int com_no, int com_notice, Date com_date, String com_contents, int com_mem) {
+	public NoticeComment(int com_no, Notice com_notice, Date com_date, String com_contents, Member com_mem) {
 		super();
 		this.com_no = com_no;
 		this.com_notice = com_notice;
 		this.com_date = com_date;
 		this.com_contents = com_contents;
 		this.com_mem = com_mem;
-	}
-	
-	public NoticeComment(int com_no, int com_notice, Date com_date, String com_contents, String com_admin) {
-		super();
-		this.com_no = com_no;
-		this.com_notice = com_notice;
-		this.com_date = com_date;
-		this.com_contents = com_contents;
-		this.com_admin = com_admin;
-	}
-
-	public NoticeComment() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getCom_no() {
@@ -50,11 +36,11 @@ public class NoticeComment {
 		this.com_no = com_no;
 	}
 
-	public int getCom_notice() {
+	public Notice getCom_notice() {
 		return com_notice;
 	}
 
-	public void setCom_notice(int com_notice) {
+	public void setCom_notice(Notice com_notice) {
 		this.com_notice = com_notice;
 	}
 
@@ -74,20 +60,11 @@ public class NoticeComment {
 		this.com_contents = com_contents;
 	}
 
-	public int getCom_mem() {
+	public Member getCom_mem() {
 		return com_mem;
 	}
 
-	public void setCom_mem(int com_mem) {
+	public void setCom_mem(Member com_mem) {
 		this.com_mem = com_mem;
 	}
-
-	public String getCom_admin() {
-		return com_admin;
-	}
-
-	public void setCom_admin(String com_admin) {
-		this.com_admin = com_admin;
-	}
-	
 }

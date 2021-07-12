@@ -9,7 +9,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-   <context-param>
+  <context-param>
     <param-name>env</param-name>
     <param-value>/WEB-INF/classes.prop</param-value>
   </context-param>
@@ -17,10 +17,80 @@
     <description></description>
     <display-name>LoginServlet</display-name>
     <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>com.talkabout.servlet.LoginServlet</servlet-class>
+    <servlet-class>com.talkabout.control.LoginServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SignUpServlet</display-name>
+    <servlet-name>SignUpServlet</servlet-name>
+    <servlet-class>com.talkabout.control.SignUpServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SignUpServlet</servlet-name>
+    <url-pattern>/signup</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LogoutServlet</display-name>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>com.talkabout.control.LogoutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>NickNameServlet</display-name>
+    <servlet-name>NickNameServlet</servlet-name>
+    <servlet-class>com.talkabout.control.NickNameServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NickNameServlet</servlet-name>
+    <url-pattern>/nickname</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LeaveMemberServlet</display-name>
+    <servlet-name>LeaveMemberServlet</servlet-name>
+    <servlet-class>com.talkabout.control.LeaveMemberServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LeaveMemberServlet</servlet-name>
+    <url-pattern>/leavemember</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DebateServelt</display-name>
+    <servlet-name>DebateServelt</servlet-name>
+    <servlet-class>com.talkabout.control.DebateServelt</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateServelt</servlet-name>
+    <url-pattern>/debrecruit</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DebateSaveServlet</display-name>
+    <servlet-name>DebateSaveServlet</servlet-name>
+    <servlet-class>com.talkabout.control.DebateSaveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateSaveServlet</servlet-name>
+    <url-pattern>/debatesave</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>NoticeSaveServlet</display-name>
+    <servlet-name>NoticeSaveServlet</servlet-name>
+    <servlet-class>com.talkabout.control.NoticeSaveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NoticeSaveServlet</servlet-name>
+    <url-pattern>/noticesave</url-pattern>
   </servlet-mapping>
 </web-app>

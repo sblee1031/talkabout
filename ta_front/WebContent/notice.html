@@ -1,159 +1,445 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Canvas</title>
-<style type="text/css">
-	body{
-		line-height:2em;		
-		font-family:"맑은 고딕";
-	}
-	ul, li{ 
-	    list-style:none;
-	    text-align:center;
-	    padding:0;
-	    margin:0;
-    }
-    #mainWrapper{
-    	width: 800px;
-		margin: 0 auto; /*가운데 정렬*/
-	}
-	#mainWrapper > ul > li:first-child {
-		text-align: center;
-		font-size:14pt;
-		height:40px;
-		vertical-align:middle;
-		line-height:30px;
-	}
-	#ulTable {margin-top:10px;}
-	#ulTable > li:first-child > ul > li {
-		background-color:#c9c9c9;
-		font-weight:bold;
-		text-align:center;
-	}
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML Layouts</title>
+    <!--jquery 스크립트-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+       <!-- 로그인 js 시작 -->
+    <meta
+      name="google-signin-client_id"
+      content="241916072602-heae1rac9sjh4t615b0k7i0iso0m842o.apps.googleusercontent.com"
+    />
+      <!--    <script
+      src="https://apis.google.com/js/platform.js?onload=renderButton"
+      async
+      defer
+    ></script> -->
 
-    #ulTable > li > ul {
-    	clear:both;
-    	padding:0px auto;
-    	position:relative;
-    	min-width:40px;
-    }
-    #ulTable > li > ul > li { 
-    	float:left;
-    	font-size:10pt;
-    	border-bottom:1px solid silver;
-    	vertical-align:baseline;
-    }    
-    #ulTable > li > ul > li:first-child           	{width:10%;} /*No 열 크기*/
-    #ulTable > li > ul > li:first-child +li       	{width:45%;} /*제목 열 크기*/
-    #ulTable > li > ul > li:first-child +li+li    	{width:20%;} /*작성일 열 크기*/
-    #ulTable > li > ul > li:first-child +li+li+li 	{width:15%;} /*작성자 열 크기*/
-    #ulTable > li > ul > li:first-child +li+li+li+li{width:10%;} /*조회수 열 크기*/
-    #divPaging {
-  		clear:both; 
-    	margin:0 auto; 
-    	width:220px; 
-    	height:50px;
-    }
-    #divPaging > div {
-	    float:left;
-	    width: 30px;
-	    margin:0 auto;
-	    text-align:center;
-     }
-    #liSearchOption {clear:both;}
-    #liSearchOption > div {
-	    margin:0 auto; 
-	    margin-top: 30px; 
-	    width:auto; 
-	    height:100px; 
-    }
-    .left {
-    	text-align : left;
-    }
-</style>
-</head>
-<body>
-	<div id="mainWrapper">
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
-		<ul>
-			<li>공지사항 </li>
-			<li>
-				<ul id ="ulTable">
-					<li>
-						<ul>
-							<li>No</li>
-							<li>제목</li>
-							<li>작성일</li>
-							<li>작성자</li>
-							<li>조회수</li>
-						</ul>
-					</li>
-					<li>
-						<ul>
-							<li>1</li>
-							<li class="left">11111</li>
-							<li>2021.06.30</li>
-							<li>admin</li>
-							<li>0</li>
-						</ul>
-					</li>
 
-					<li>
-						<ul>
-							<li>2</li>
-							<li class="left">22222</li>
-							<li>2021.06.30</li>
-							<li>admin</li>
-							<li>0</li>
-						</ul>
-					</li>
+    <!-- 로그인 js 끝 -->
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+    <script>
 
-					<li>
-						<ul>
-							<li>3</li>
-							<li class="left">33333</li>
-							<li>2021.06.30</li>
-							<li>admin</li>
-							<li>0</li>
-						</ul>
-					</li>
+    </script>
+    <!-- 아이콘 -->
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="assets/img/favicon.ico"
+    />
 
-					<li>
-						<ul>
-							<li>4</li>
-							<li class="left">44444</li>
-							<li>2021.06.30</li>
-							<li>admin</li>
-							<li>0</li>
-						</ul>
-					<li>										
-				</ul>
-			</li>
-			<li>
-				<div id="divPaging">
-					<div>◀</div>
-               		<div><b>1</b></div>
-                	<div>2</div>
-                	<div>3</div>
-                	<div>4</div>
-                	<div>5</div>
-                	<div>▶</div>
-				</div>
-			</li>
-			<li id='liSearchOption'>
-	            <div>
-	                <select id='selSearchOption' >
-	                    <option value='A'>공지사항</option>
-	                    <option value='T'>업데이트</option>
-	                    <option value='C'>이벤트</option>
-	                </select>
-	                <input id='txtKeyWord' />
-	                <input type='button' value='검색'/>
-	            </div>
-      	  	</li>
+    <!-- 부트스트랩 -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/templatemo.css" />
+    <link rel="stylesheet" href="assets/css/custom.css" />
+    
+    <!-- 노티스 CSS -->
+    <link rel="stylesheet" href="assets/css/noticecss.css">
+    
+    <!-- Load fonts style after rendering the layout styles -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css" />
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+      }
+      header {
+        background-color: lightgrey;
+        text-align: center;
+      }
+      footer {
+        background-color: #ffcc00;
+        text-align: center;
 
-		</ul>
-	</div>
-</body>
+        position: absolute;
+
+        left: 0;
+
+        bottom: 0;
+
+        width: 100%;
+        height: 10%;
+      }
+      #live {
+        background-color: brown;
+        float: left;
+      }
+      #login {
+        background-color: darkturquoise;
+        float: right;
+      }
+      span.board_index {
+        font-size: 30pt;
+        margin-right: 5%;
+      }
+      /* The Modal (background) */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0); /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+      }
+
+      /* Modal Content/Box */
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+      }
+      /* The Close Button */
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a
+          class="navbar-brand text-success logo h1 align-self-center"
+          href="index.html"
+        >
+          Talk About
+        </a>
+
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#templatemo_main_nav"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="
+            align-self-center
+            collapse
+            navbar-collapse
+            flex-fill
+            d-lg-flex
+            justify-content-lg-between
+          "
+          id="templatemo_main_nav"
+        >
+          <div class="flex-fill">
+            <ul
+              class="nav navbar-nav d-flex justify-content-between mx-lg-auto"
+            >
+              <li class="nav-item">
+                <a class="nav-link" href="notice.html">공지사항</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="board.html">자유게시판</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="debrecruit.html">토론 모집</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="debbattle.html">토론 배틀</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="debresult.html">토론 결과</a>
+              </li>
+            </ul>
+          </div>
+
+      <!-- modal 시작 -->
+      <button id="myBtn">로그인</button>
+
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close" id="close">&times;</span>
+           <!-- 소셜계정 선택 시작 -->
+    <div id="social" style="text: center; margin-block: inherit">
+      <li id="GgCustomLogin" style="list-style-type: none">
+         <a href="javascript:void(0)">
+       <!--  <button onclick="init()"> -->
+          <!-- <p id="my-signin2"></p> -->
+          <img style="width:220px" src="assets/img/loginbt_google.png">
+        </a>
+      </li>
+      <br />
+      <a id="kakao-login-btn"></a>
+      <!-- <button class="api-btn" onclick="unlinkApp()">앱 탈퇴하기</button> -->
+      <br />
+              
+    </div>
+    
+        <!-- 소셜계정 선택 끝 -->
+          <p>소셜로그인..</p>
+        </div>
+      </div>
+      <!-- The Modal END -->
+		 <!-- 로고인 완료 화면 시작 -->
+    <div id="memberinfo" style="text-align: center; display: none">
+      <ul>
+        <li style="list-style-type: none">
+          <img
+            style="width: 30px"
+            id="login_thumb_img"
+            src=""
+            alt="mythumbnail"
+          />
+          <span id="member_nickname" style="font-size: 10pt"></span>
+        </li>
+      </ul>
+      <a class="myinfo" href="#" onclick="myinfo()">마이페이지</a>
+      <button class="logout" type="button" onclick="logout()">로그아웃</button>
+       
+    </div>
+
+    <!-- 로고인 완료 화면 끝 -->
+          <div class="navbar align-self-center d-flex">
+            <div
+              class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3"
+            >
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputMobileSearch"
+                  placeholder="Search ..."
+                />
+                <div class="input-group-text">
+                  <i class="fa fa-fw fa-search"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section id="section" style="text-align: center; border-style: solid; height: 80%">
+      <div>여기에 작업한 내용 추가하시면 됩니다</div>
+      <div class="board_wrap">
+      	<div class="board_title">
+        	<strong>공지사항</strong>
+        </div>
+        <div class="board_search">
+            <select id="search" name="search">
+              <option name="all">전체</option>
+              <option name="mainnotice">공지</option>
+              <option name="updates">업데이트</option>
+              <option name="events">이벤트</option>
+            </select>
+            <input name="searchInput" placeholder="검색내용을 입력하세요." />
+            <button id="btnSearch">검색</button>
+            <hr />
+          </div>
+        <div class="board_list_wrap">
+            <div class="board_list">
+                <div class="top">
+                    <div class="notice_no">번호</div>
+                    <div class="notice_type">분류</div>
+                    <div class="notice_title">제목</div>
+                    <div class="notice_writer">글쓴이</div>
+                    <div class="notice_date">작성일</div>
+                    <div class="notice_views">조회</div>
+                </div>
+                <div>
+                    <div class="notice_no">5</div>
+                    <div class="notice_type">type_updates</div>
+                    <div class="notice_title"><a href="view.html">업데이트임</a></div>
+                    <div class="notice_writer">admin</div>
+                    <div class="notice_date">date</div>
+                    <div class="notice_views">views</div>
+                </div>
+                <div>
+                    <div class="notice_no">4</div>
+                    <div class="notice_type">type_notice</div>
+                    <div class="notice_title"><a href="view.html">공지임</a></div>
+                    <div class="notice_writer">admin</div>
+                    <div class="notice_date">date</div>
+                    <div class="notice_views">views</div>
+                </div>
+                <div>
+                    <div class="notice_no">3</div>
+                    <div class="notice_type">type_event</div>
+                    <div class="notice_title"><a href="view.html">이벤트임</a></div>
+                    <div class="notice_writer">admin</div>
+                    <div class="notice_date">date</div>
+                    <div class="notice_views">views</div>
+                </div>
+                <div>
+                    <div class="notice_no">2</div>
+                    <div class="notice_type">type_notice</div>
+                    <div class="notice_title"><a href="view.html">공지임</a></div>
+                    <div class="notice_writer">admin</div>
+                    <div class="notice_date">date</div>
+                    <div class="notice_views">views</div>
+                </div>
+                <div>
+                    <div class="notice_no">1</div>
+                    <div class="notice_type">type_event</div>
+                    <div class="notice_title"><a href="view.html">이벤트임</a></div>
+                    <div class="notice_writer">admin</div>
+                    <div class="notice_date">date</div>
+                    <div class="notice_count">views</div>
+                </div>
+            </div>
+            <div class="board_page">
+                <a href="#" class="bt first"></a>
+                <a href="#" class="bt prev"></a>
+                <a href="#" class="num on">1</a>
+                <a href="#" class="num">2</a>
+                <a href="#" class="num">3</a>
+                <a href="#" class="num">4</a>
+                <a href="#" class="num">5</a>
+                <a href="#" class="bt next">></a>
+                <a href="#" class="bt last">>></a>
+            </div>
+            <div class="bt_wrap">
+                <a href="write.html" class="on">등록</a>
+                <!-- <a href="edit.html" class="on">수정</a> -->
+            </div>
+        </div>
+    </div>
+          <div class="board_wrap">
+        <div class="board_title">
+            <strong>공지사항</strong>
+        </div>
+        <div class="board_view_wrap">
+            <div class="board_view">
+                <div class="notice_title">
+                    업데이트임
+                </div>
+                <div class="notice_info">
+                    <dl>
+                        <dt>번호</dt>
+                        <dd>5</dd>
+                    </dl>
+                    <dl>
+                        <dt>글쓴이</dt>
+                        <dd>admin</dd>
+                    </dl>
+                    <dl>
+                        <dt>작성일</dt>
+                        <dd>date</dd>
+                    </dl>
+                    <dl>
+                        <dt>조회</dt>
+                        <dd>views</dd>
+                    </dl>
+                    <dl>
+                        <button name = "notice_like"> 좋아요</button>
+                        <dd>like_count</dd>
+                    </dl>
+                </div>
+                <div class="notice_contents">
+                    123456789<br>
+                    123456789<br>
+                    123456789<br>
+                    123456789<br>
+                    123456789<br>
+                </div>
+            </div>
+            <div class="bt_wrap">
+                <a href="list.html" class="on">목록</a>
+                <!-- <a href="write.html" class="on">댓글쓰기</a> -->
+                <a href="edit.html" class="on">수정</a>
+            </div>
+            <div>
+
+                <table width="100%" >
+                    <!-- <table border="1" width="100%" bordercolor="black"></table> -->
+                    <tr>
+                        <td width="100%">
+                            이름: <input type="text" id="reply_writer" name="reply_writer" style="width:170px;" maxlength="10" placeholder="작성자"/>
+                            패스워드: <input type="password" id="reply_password" name="reply_password" style="width:170px;" maxlength="10" placeholder="패스워드"/>
+                            <!-- <button id="reply_save" name="reply_save" >댓글 등록</button> -->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea id="reply_content" name="reply_content" width="100%" rows="4" cols="140" placeholder="댓글을 입력하세요."></textarea>
+                            <button id="reply_save" name="reply_save">댓글 등록</button>
+                        </td>
+                    </tr>
+                </table>
+                <table  width="100%" id="reply_area">
+                    <tr reply_type="all"><!-- 뒤에 댓글 붙이기 쉽게 선언 -->
+                        <td colspan="4"></td>
+                    </tr>
+                    <!-- 댓글이 들어갈 공간 -->
+                </table>
+            </div>
+            <!-- <table width="100%">
+            </table> -->
+        </div>
+    </div>
+    <div class="board_wrap">
+        <div class="board_title">
+            <strong>공지사항</strong>
+        </div>
+        <div class="board_write_wrap">
+            <div class="board_write">
+                <div class="title">
+                    <dl>
+                        <dt>제목</dt>
+                        <dd><input type="text" placeholder="제목 입력"></dd>
+                    </dl>
+                </div>
+                <div class="info">
+                    <!-- 작성상세정보 필요 -->
+                </div>
+                <div class="cont">
+                    <textarea placeholder="내용 입력"></textarea>
+                </div>
+            </div>
+            <div class="bt_wrap">
+                <a href="view.html" class="on">등록</a>
+                <!-- 작성공지로 이동 필요-->
+                <a href="list.html">취소</a>
+            </div>
+        </div>
+    </div>
+      
+      
+
+   
+    
+      <!-- Links -->
+
+    </section>
+    <footer>
+      <div>FOOTER 영역</div>
+    </footer>
+     <script src="assets/js/login1.js"></script>
+     <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> 	  
+  </body>
 </html>

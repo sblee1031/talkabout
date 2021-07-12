@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.talkabout.dto.Admin;
 import com.talkabout.dto.Notice;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.DeleteException;
@@ -15,174 +16,159 @@ import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
 import com.talkabout.sql.MyConnection;
 
-public class NoticeDAOOracle {
+public class NoticeDAOOracle implements NoticeDAO {
 	
-	public NoticeDAOOracle() throws Exception {
-		Class.forName("oracle.jdbc.driver.OracleDriver");
+	public NoticeDAOOracle() {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		//lastRow();
 		System.out.println("JDBC 드라이버 로드 성공");
 	}
 	
 	
-	
-	//공지게시글 보기
-		public List<Notice> selectAll() throws FindException {
-			Connection con = null;
-			try {
-			con = MyConnection.getConnection();
-			}catch(SQLException e) {
-				throw new FindException(e.getMessage());
-			}
-			String selectALLSQL = "SELECT*FROM NOTICE ORDER BY notice_no ASC";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			List<Notice> list = new ArrayList<> ();
-			try {
-				pstmt = con.prepareStatement(selectALLSQL);
-				rs = pstmt.executeQuery();
-				while(rs.next()) {
-					int notice_no = rs.getInt("notice_no");
-					String notice_type = rs.getString("notice_type");
-					String notice_title = rs.getString("notice_title");
-					String notice_contents = rs.getString("notice_contents");
-					Date notice_date = rs.getDate("notice_date");
-					int notice_views = rs.getInt("notice_views");
-		            String notice_admin = rs.getString("notice_admin");
-		            Notice n = new Notice(notice_no, notice_type, notice_title,
-		                     notice_contents, notice_date, notice_views, notice_admin);
-		            list.add(n);
-				}
-				if(list.size() == 0) {
-					throw new FindException("공지 없음");
-				}
-				return list;
-			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new FindException(e.getMessage());
-			} finally {
-				MyConnection.close(con, pstmt, rs);
-			}	
-		}
-		
-		
-		
-		
-		
-		
-		public Notice selectByNoticeNo(int notice_no) {
-			//DB연결
-			Connection con = null;
-			try {
-			con = MyConnection.getConnection();
-			}catch(Exception e) {
-				e.printStackTrace();
-				//throw new FindException(e.getMessage());
-				//DB연결에 문제발생시 예외처리
-			}
-			String selectByTypeSQL = "SELECT * FROM NOTICE WHERE notice_no = ? ";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			//List<Notice> listnotice = new ArrayList<> ();
-			Notice n = null;
-			try {
-				pstmt = con.prepareStatement(selectByTypeSQL);
-				pstmt.setInt(1, notice_no);
-				rs = pstmt.executeQuery();
-				while(rs.next()) {
-					//행의 컬럼값 얻기
-					int notice_number = rs.getInt("notice_no");
-					String notice_type = rs.getString("notice_type");
-					String notice_title = rs.getString("notice_title");
-					String notice_contents = rs.getString("notice_contents");
-					Date notice_date = rs.getDate("notice_date");
-					int notice_views = rs.getInt("notice_views");
-					String notice_admin = rs.getString("notice_admin"); //작성자 가져와야함 
-					
-					n = new Notice (notice_number, notice_type, notice_title,
-							notice_contents, notice_date, notice_views, notice_admin);
-					//listnotice.add(n);
-				}
-				//if(listnotice.size() == 0) { //게시글이 없는 경우
-					//throw new FindException("게시글이 존재하지 않습니다");
-				//}
-				
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-				//throw new FindException(e.getMessage());
-			}finally {
-				//DB연결해제 (안하면 메모리 누수 발생 가능성있음)
-				MyConnection.close(con, pstmt, rs);
-			}
-			return n;
-		}
-	
-		
-		
-	//공지 타입별 검색(전체/공지/업데이트/이벤트)
-	public List<Notice> noticeSearch(String type, String contents) throws FindException {
+	public List<Notice> selectAll() {
 		Connection con = null;
-		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			throw new FindException(e.getMessage());
-		}
-		String selectByTypeSQL = "SELECT*FROM NOTICE WHERE notice_type = ? ORDER BY notice_no ASC";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<Notice> list_search = new ArrayList<> ();
-		try {
-			pstmt = con.prepareStatement(selectByTypeSQL);
-			pstmt.setString(1, contents);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {	
-				int notice_no = rs.getInt("notice_no");
-				String notice_type = rs.getString("notice_type");
-				String notice_title = rs.getString("notice_title");
-				String notice_contents = rs.getString("notice_contents");
-				Date notice_date = rs.getDate("notice_date");
-				int notice_views = rs.getInt("notice_views");
-	            int notice_admin = rs.getInt("notice_admin");
-	            //Notice n = new Notice(notice_no, notice_type, notice_title,
-	            //         notice_contents, notice_date, notice_views, notice_admin);
-	            //list_search.add(n);
-	            
-	         }
-	         if(list_search.size() == 0) {
-	            throw new FindException("공지 없음");
-	         }
-	         return list_search;
-	      } catch (SQLException e) {
-	         e.printStackTrace();
-	         throw new FindException(e.getMessage());
-	      } finally {
-	         MyConnection.close(con, pstmt, rs);
-		}
-	}
+		//String select_SQL = "SELECT * FROM NOTICE";
+		String select_SQL = "SELECT * FROM ( SELECT ROWNUM AS RNUM, notice.* FROM notice) WHERE RNUM BETWEEN ? AND ?";
+		List<Notice> list = new ArrayList();
 		
-	
-
-	//공지작성
-	public void insert(Notice einfo) throws AddException {
-		Connection con = null;
+		 int num_start_row = ((num_page_no-1) * num_page_size) + 1 ;
+		 int num_end_row   = (num_page_no * num_page_size) ;
+		 
 		try {
 			con = MyConnection.getConnection();
-			con.setAutoCommit(false);
-		}catch(SQLException e) {
-			e.printStackTrace();
-			throw new AddException(e.getMessage());
-		}
-		try {
-			//insertInfo(con, einfo);
-			con.commit();
-		} catch (Exception e) {
-			try {
-				con.rollback();
-			} catch (SQLException e1) {
+			pstmt = con.prepareStatement(select_SQL);
+			System.out.println("넘버 : "+num_page_no);
+			System.out.println("start_row"+num_start_row+" end_row : "+  num_end_row);
+			pstmt.setInt(1, num_start_row);
+			pstmt.setInt(2, num_end_row);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int notice_no = rs.getInt("NOTICE_NO");
+				String notice_type = rs.getString("NOTICE_TYPE");
+				String notice_title = rs.getString("NOTICE_TITLE");
+				String notice_contents = rs.getString("NOTICE_CONTENTS");
+				int notice_admin = rs.getInt("NOTICE_ADMIN");
+				Date notice_date = rs.getDate("NOTICE_DATE");
+				//String notice_date = rs.getString("NOTICE_DATE");//시간값이....
+				int notice_views = rs.getInt("NOTICE_VIEWS");
+				
+				
+				Notice n = new Notice(notice_no, notice_type, notice_title, notice_contents, notice_admin, notice_date, notice_views, null, null);
+				list.add(n);
 			}
-			throw new AddException(e.getMessage());
-		}finally {
-			MyConnection.close(con, null, null);
-		}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();	
+		} finally {
+			//DB연결해제
+			MyConnection.close(con, pstmt, rs);
+		}		
+		return list;
+	}
+	
+	
+	public Notice selectByNo(int notice_no) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String select_SQL = "SELECT * FROM NOTICE WHERE NOTICE_NO = ?";
+		Notice n = null;
+		try {
+			con = MyConnection.getConnection();
+			pstmt = con.prepareStatement(select_SQL);
+			pstmt.setInt(1, notice_no);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int not_no = rs.getInt("NOTICE_NO");
+				String notice_type = rs.getString("NOTICE_TYPE");
+				String notice_title = rs.getString("NOTICE_TITLE");
+				String notice_contents = rs.getString("NOTICE_CONTENTS");
+				int notice_admin = rs.getInt("NOTICE_ADMIN");
+				Date notice_date = rs.getDate("NOTICE_DATE");
+				//String notice_date = rs.getString("NOTICE_DATE");//시간값이....
+				int notice_views = rs.getInt("NOTICE_VIEWS");
+				
+				n = new Notice(notice_no, notice_type, notice_title, notice_contents, notice_admin, notice_date, notice_views, null, null);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();	
+		} finally {
+			//DB연결해제
+			MyConnection.close(con, pstmt, rs);
+		}		
+		return n;
+	}
+	
+	
+	public List<Notice> selectSearch(String type, String keyword){//컬럼 분류
+	      Connection con = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      String select_SQL = "";
+	      if (type.equals("공지")) {
+	    	 select_SQL = "select * from notice where NOTICE_TYPE = ? ORDER BY notice_no ASC";
+	      } else if (type.equals("업데이트")) {
+	    	 select_SQL = "select * from notice where NOTICE_TYPE = ? ORDER BY notice_no ASC";
+	      } else if (type.equals("이벤트")) {
+		     select_SQL = "select * from notice where NOTICE_TYPE = ? ORDER BY notice_no ASC";
+		      } 
+	      List<Notice> list = new ArrayList();
+	      try {
+	         con = MyConnection.getConnection();
+	         pstmt = con.prepareStatement(select_SQL);
+	         pstmt.setString(1, keyword);
+	         rs = pstmt.executeQuery();
+	         while(rs.next()) {
+					int notice_no = rs.getInt("NOTICE_NO");
+					String notice_type = rs.getString("NOTICE_TYPE");
+					String notice_title = rs.getString("NOTICE_TITLE");
+					String notice_contents = rs.getString("NOTICE_CONTENTS");
+					int notice_admin = rs.getInt("NOTICE_ADMIN");
+					Date notice_date = rs.getDate("NOTICE_DATE");
+					//String notice_date = rs.getString("NOTICE_DATE");//시간값이....
+					int notice_views = rs.getInt("NOTICE_VIEWS");
+
+	            Notice n = new Notice(notice_no, notice_type, notice_title, notice_contents, notice_admin, notice_date, notice_views, null, null);
+	         }
+	         
+	      } catch (SQLException e) {
+	         e.printStackTrace();   
+	      } finally {
+	         //DB연결해제
+	         MyConnection.close(con, pstmt, rs);
+	      }
+	      return list;
+	   }
+
+
+	public void insertNotice(Notice noti) throws AddException {
+//		Connection con = null;
+//		try {
+//			con = MyConnection.getConnection();
+//			con.setAutoCommit(false);
+//		}catch(SQLException e) {
+//			e.printStackTrace();
+//			throw new AddException(e.getMessage());
+//		}
+//		try {
+//			//insertInfo(con, einfo);
+//			con.commit();
+//		} catch (Exception e) {
+//			try {
+//				con.rollback();
+//			} catch (SQLException e1) {
+//			}
+//			throw new AddException(e.getMessage());
+//		}finally {
+//			MyConnection.close(con, null, null);
+//		}
 	}
 	public void insertInfo(Notice einfo) throws AddException{
 		Connection con = null;
@@ -198,8 +184,8 @@ public class NoticeDAOOracle {
 			pstmt.setString(1, einfo.getNotice_type());
 			pstmt.setString(2, einfo.getNotice_title());
 			pstmt.setString(3, einfo.getNotice_contents());
-			pstmt.executeUpdate();
-			if(pstmt.executeUpdate()==1) {
+			int rs = pstmt.executeUpdate();
+			if(rs==1) {
 				System.out.println("공지 작성");
 			}else {
 				System.out.println("공지 작성 실패");
@@ -208,13 +194,13 @@ public class NoticeDAOOracle {
 			e.printStackTrace();
 		}finally {
 			MyConnection.close(con, pstmt, null);
-		} return;
+		}
 	}
 	
 	
 	
 	//update
-	public void update(Notice einfo) throws ModifyException {
+	public void updateNotice(Notice noti) throws ModifyException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
@@ -230,20 +216,20 @@ public class NoticeDAOOracle {
 		try {
 			
 			dao = new NoticeDAOOracle();
-			dbNotice = dao.selectByNoticeNo(einfo.getNotice_no());
+			dbNotice = dao.selectByNo(noti.getNotice_no());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		boolean flag = false; //변경할 값이 있는 경우 true
 		
-		String Notice_type = einfo.getNotice_type();		
+		String Notice_type = noti.getNotice_type();		
 		if( Notice_type != null && !Notice_type.equals("") && !Notice_type.equals(dbNotice.getNotice_type())) {
 			updateSQL += "Notice_type = '" + Notice_type + "'";
 			flag = true;
 		}		
 		
-		String Notice_title = einfo.getNotice_title();		
+		String Notice_title = noti.getNotice_title();		
 		if( Notice_title != null && !Notice_title.equals("")&& !Notice_title.equals(dbNotice.getNotice_title())) {
 			if(flag) {
 				updateSQL += ",";
@@ -252,7 +238,7 @@ public class NoticeDAOOracle {
 			flag = true;
 		}		
 			
-		String Notice_contents = einfo.getNotice_contents();		
+		String Notice_contents = noti.getNotice_contents();		
 		if( Notice_contents != null && !Notice_contents.equals("")&& !Notice_contents.equals(dbNotice.getNotice_contents())) {
 			if(flag) {
 				updateSQL += ",";
@@ -267,7 +253,7 @@ public class NoticeDAOOracle {
 		}
 			try {
 				pstmt = con.prepareStatement(updateSQL + updateSQL1);
-				pstmt.setInt(1, einfo.getNotice_no());
+				pstmt.setInt(1, noti.getNotice_no());
 				pstmt.executeUpdate();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -284,7 +270,7 @@ public class NoticeDAOOracle {
 
 
 	//공지삭제
-	public void deleteByNoticeNo(int Notice_no) throws DeleteException {
+	public void deleteNotice(int noti_no) throws DeleteException {
 		Connection con = null;
 		try {
 			con = MyConnection.getConnection();
@@ -295,7 +281,7 @@ public class NoticeDAOOracle {
 		String deleteSQL = "DELETE FROM NOTICE WHERE notice_no = ?";
 		try {
 			pstmt = con.prepareStatement(deleteSQL);
-			pstmt.setInt(1, Notice_no);
+			pstmt.setInt(1, noti_no);
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -345,6 +331,42 @@ public class NoticeDAOOracle {
 	         MyConnection.close(con, pstmt, rs);
 	      }
 	   }
+	public int num_page_size; //1페이지당 사이즈
+	public int num_page_no = 1; //페이지번호
+	public int lastrow; // row개수
+
+	public void pageSize(int size) {
+		this.num_page_size = size;
+		System.out.println("페이지 사이즈 : "+num_page_size);
+	}
+
+		public void pageNum(int page) {
+			this.num_page_no = page;
+			System.out.println("페이지번호 : "+num_page_no);
+		}
+		//마지막 row 가져오기
+		public int lastRow() {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String select_SQL = "SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM debate ORDER BY ROWNUM DESC) WHERE ROWNUM = 1";
+			try {
+				con = MyConnection.getConnection();
+				pstmt = con.prepareStatement(select_SQL);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					lastrow = rs.getInt("rnum");
+					System.out.println("총 게시글게수 : "+lastrow);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();	
+			} finally {
+				//DB연결해제
+				MyConnection.close(con, pstmt, rs);
+			}
+			return lastrow;
+		}
 	
 	
 	
@@ -353,46 +375,101 @@ public class NoticeDAOOracle {
 		
 		
 		//검색
-		//List<Notice> list = new ArrayList<>();
-		//list = dao.selectAll();
-		//for (Notice notice : list) {
-			//System.out.println(notice.getNotice_no());
-			//System.out.println(notice.getNotice_contents());
-			//System.out.println(notice.getNotice_title());
-		//}
+//		List<Notice> list = new ArrayList<>();
+//		list = dao.selectAll();
+//		for (Notice notice : list) {
+//			System.out.println(notice.getNotice_no());
+//			System.out.println(notice.getNotice_contents());
+//			System.out.println(notice.getNotice_title());
+//		}
 		
 		
-		//insert
-		//Notice notice = new Notice();
-		//notice.setNotice_type("공지용");
-		//notice.setNotice_title("제목 공지 ");
-		//notice.setNotice_contents("세번공지내용 ");
-		//dao.insertInfo(notice);
+		
+		//작성
+		Notice notice = new Notice();
+		notice.setNotice_type("공지용2");
+		notice.setNotice_title("제목 공지2 ");
+		notice.setNotice_contents("세번공지내용2 ");
+		dao.insertInfo(notice);
+		System.out.println("1번");
+	}
+
 		
 		//삭제 
-		//dao.deleteByNoticeNo(10);
+//		dao.deleteNotice(21);
 		
-		//selectByNo()
-		//Notice notice = new Notice();
-		//notice = dao.selectByNoticeNo(3);
-		//System.out.println(notice.getNotice_no());
-		//System.out.println(notice.getNotice_type());
-		//System.out.println(notice.getNotice_title());
-		//System.out.println(notice.getNotice_contents());
-		//System.out.println(notice.getNotice_date());
-		//System.out.println(notice.getNotice_views());
-		//System.out.println(notice.getNotice_admin());
+//		selectByNo();
+//		Notice notice = new Notice();
+//		notice = dao.selectByNo(3);
+//		System.out.println(notice.getNotice_no());
+//		System.out.println(notice.getNotice_type());
+//		System.out.println(notice.getNotice_title());
+//		System.out.println(notice.getNotice_contents());
+//		System.out.println(notice.getNotice_date());
+//		System.out.println(notice.getNotice_views());
+//		System.out.println(notice.getNotice_admin());
 		
 		
 		
 		//업데이트
-		Notice notice = new Notice();
-		notice.setNotice_no(3);
-		notice.setNotice_type("바뀐타입11 ");
-		notice.setNotice_title("바뀐타이틀11");
-		notice.setNotice_contents("바뀐내용11");
-		dao.update(notice);
-	}
-	
+//		Notice noti = new Notice();
+//		noti.setNotice_no(2);
+//		noti.setNotice_type("바뀐타입11 ");
+//		noti.setNotice_title("바뀐타이틀11");
+//		noti.setNotice_contents("바뀐내용11");
+//		dao.updateNotice(noti);
+//	}
+
+
+//	@Override
+//	public void insertNotice(Notice noti) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//
+//	@Override
+//	public void updateNotice(int einfo) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//
+//	@Override
+//	public void deleteNotice(Notice notice_no) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+
+//	@Override
+//	public List<Notice> noticeSearch() throws FindException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public List<Notice> selectSearch(String type, String contents) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public void insertNotice(int einfo) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void updateNotice(int einfo) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void deleteNotice(Notice notice_no) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 	
 }
+

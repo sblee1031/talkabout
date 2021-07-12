@@ -33,22 +33,41 @@ public class NoticeService {
 		}
 		return service;
 	}
-	public List<Notice> NoticeTypeSearch(String type, String content) throws FindException{
-		return dao.noticeSearch(type, content);
+	public List<Notice> NoticeTypeSearch(String type, String keyword) throws FindException{
+		return dao.selectSearch(type, keyword);
 	}
 	public List<Notice> NoticeList() throws FindException{
 		return dao.selectAll();
 	}
-	public void WriteNotice(Notice n) throws AddException{
-		//dao.insert(n);
+	public void WriteNotice(Notice noti) throws AddException{
+		dao.insertNotice(noti);
 	}
-	public void EditNotice(Notice einfo) throws ModifyException{
-		//dao.update(einfo);
+	public void EditNotice(Notice noti) throws ModifyException{
+		dao.updateNotice(noti);
 	}
-	public void DeleteNotice(int Notice_no) throws DeleteException{
-		dao.deleteByNoticeNo(Notice_no);
+	public void DeleteNotice(int noti_no) throws DeleteException{
+		dao.deleteNotice(noti_no);
 	}
-	public void NoticeViews(int Notice_no) throws ModifyException{
-		dao.updateCount(Notice_no);
+	//조회수
+//	public void NoticeViews(int Notice_no) throws ModifyException{
+//		dao.updateCount(Notice_no);
+//	}
+	public List<Notice> selectAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+	public List<Notice> findAll() { //추가
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public int lastRow() {//총 게시물 개수 구하기
+		return dao.lastRow();
+	}
+	public void pageNum(int page) {
+		dao.pageNum(page);
+	}
+	public void pageSize(int size) {
+		dao.pageSize(size);
+	}
+
 }

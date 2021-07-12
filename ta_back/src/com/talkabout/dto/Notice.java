@@ -22,14 +22,15 @@ public class Notice {
 	private String notice_type;
 	private String notice_title;
 	private String notice_contents;
+	private int notice_admin;
 	private Date notice_date;
-	int notice_views;
-	String notice_admin; // notice_admin.admin_id
+	private int notice_views;
+	 // notice_admin.admin_id
 	List<NoticeComment> comment_list;
 	List<NoticeLike> like_list;
 	
-	public Notice(int notice_no, String notice_type, String notice_title, String notice_contents, Date notice_date,
-			int notice_views, String notice_admin, List<NoticeComment> comment_list, List<NoticeLike> like_list) {
+	public Notice(int notice_no, String notice_type, String notice_title, String notice_contents, int notice_admin, Date notice_date,
+			int notice_views, List<NoticeComment> comment_list, List<NoticeLike> like_list) {
 		super();
 		this.notice_no = notice_no;
 		this.notice_type = notice_type;
@@ -41,24 +42,11 @@ public class Notice {
 		this.comment_list = comment_list;
 		this.like_list = like_list;
 	}
-
-
-	public Notice(int notice_no, String notice_type, String notice_title, String notice_contents, Date notice_date,
-			int notice_views, String notice_admin) {
-		super();
-		this.notice_no = notice_no;
-		this.notice_type = notice_type;
-		this.notice_title = notice_title;
-		this.notice_contents = notice_contents;
-		this.notice_date = notice_date;
-		this.notice_views = notice_views;
-		this.notice_admin = notice_admin;
-	}
-
 	public Notice() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 
 	public int getNotice_no() {
 		return notice_no;
@@ -108,11 +96,11 @@ public class Notice {
 		this.notice_views = notice_views;
 	}
 
-	public String getNotice_admin() {
+	public int getNotice_admin() {
 		return notice_admin;
 	}
 
-	public void setNotice_admin(String notice_admin) {
+	public void setNotice_admin(int notice_admin) {
 		this.notice_admin = notice_admin;
 	}
 
