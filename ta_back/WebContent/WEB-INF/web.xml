@@ -93,4 +93,14 @@
     <servlet-name>NoticeSaveServlet</servlet-name>
     <url-pattern>/noticesave</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <description></description>
+    <display-name>NoticeServlet</display-name>
+    <servlet-name>NoticeServlet</servlet-name>
+    <servlet-class>com.talkabout.control.NoticeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NoticeServlet</servlet-name>
+    <url-pattern>/notice</url-pattern>
+  </servlet-mapping>
 </web-app>

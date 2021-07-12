@@ -33,28 +33,25 @@ public class NoticeDAOOracle implements NoticeDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		//String select_SQL = "SELECT * FROM NOTICE";
-		String select_SQL = "SELECT * FROM ( SELECT ROWNUM AS RNUM, notice.* FROM notice) WHERE RNUM BETWEEN ? AND ?";
+		String select_SQL = "SELECT * FROM NOTICE";
+		//String select_SQL = "SELECT * FROM ( SELECT ROWNUM AS RNUM, notice.* FROM notice) WHERE RNUM BETWEEN ? AND ?";
 		List<Notice> list = new ArrayList();
-		
-		 int num_start_row = ((num_page_no-1) * num_page_size) + 1 ;
-		 int num_end_row   = (num_page_no * num_page_size) ;
 		 
 		try {
 			con = MyConnection.getConnection();
 			pstmt = con.prepareStatement(select_SQL);
-			System.out.println("넘버 : "+num_page_no);
-			System.out.println("start_row"+num_start_row+" end_row : "+  num_end_row);
-			pstmt.setInt(1, num_start_row);
-			pstmt.setInt(2, num_end_row);
+//			System.out.println("넘버 : "+num_page_no);
+//			System.out.println("start_row"+num_start_row+" end_row : "+  num_end_row);
+//			pstmt.setInt(1, num_start_row);
+//			pstmt.setInt(2, num_end_row);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int notice_no = rs.getInt("NOTICE_NO");
 				String notice_type = rs.getString("NOTICE_TYPE");
 				String notice_title = rs.getString("NOTICE_TITLE");
 				String notice_contents = rs.getString("NOTICE_CONTENTS");
-				int notice_admin = rs.getInt("NOTICE_ADMIN");
-				Date notice_date = rs.getDate("NOTICE_DATE");
+				String notice_admin = rs.getString("NOTICE_ADMIN");
+				String notice_date = rs.getString("NOTICE_DATE");
 				//String notice_date = rs.getString("NOTICE_DATE");//시간값이....
 				int notice_views = rs.getInt("NOTICE_VIEWS");
 				
@@ -89,8 +86,8 @@ public class NoticeDAOOracle implements NoticeDAO {
 				String notice_type = rs.getString("NOTICE_TYPE");
 				String notice_title = rs.getString("NOTICE_TITLE");
 				String notice_contents = rs.getString("NOTICE_CONTENTS");
-				int notice_admin = rs.getInt("NOTICE_ADMIN");
-				Date notice_date = rs.getDate("NOTICE_DATE");
+				String notice_admin = rs.getString("NOTICE_ADMIN");
+				String notice_date = rs.getString("NOTICE_DATE");
 				//String notice_date = rs.getString("NOTICE_DATE");//시간값이....
 				int notice_views = rs.getInt("NOTICE_VIEWS");
 				
@@ -130,8 +127,8 @@ public class NoticeDAOOracle implements NoticeDAO {
 					String notice_type = rs.getString("NOTICE_TYPE");
 					String notice_title = rs.getString("NOTICE_TITLE");
 					String notice_contents = rs.getString("NOTICE_CONTENTS");
-					int notice_admin = rs.getInt("NOTICE_ADMIN");
-					Date notice_date = rs.getDate("NOTICE_DATE");
+					String notice_admin = rs.getString("NOTICE_ADMIN");
+					String notice_date = rs.getString("NOTICE_DATE");
 					//String notice_date = rs.getString("NOTICE_DATE");//시간값이....
 					int notice_views = rs.getInt("NOTICE_VIEWS");
 
@@ -148,37 +145,32 @@ public class NoticeDAOOracle implements NoticeDAO {
 	   }
 
 
-	public void insertNotice(Notice noti) throws AddException {
-//		Connection con = null;
-//		try {
-//			con = MyConnection.getConnection();
-//			con.setAutoCommit(false);
-//		}catch(SQLException e) {
-//			e.printStackTrace();
-//			throw new AddException(e.getMessage());
-//		}
-//		try {
-//			//insertInfo(con, einfo);
-//			con.commit();
-//		} catch (Exception e) {
-//			try {
-//				con.rollback();
-//			} catch (SQLException e1) {
-//			}
-//			throw new AddException(e.getMessage());
-//		}finally {
-//			MyConnection.close(con, null, null);
-//		}
-	}
-	public void insertInfo(Notice einfo) throws AddException{
+	public void insertNotice(Notice einfo) throws AddException {
 		Connection con = null;
 		try {
-		con = MyConnection.getConnection();
+			con = MyConnection.getConnection();
+			con.setAutoCommit(false);
 		}catch(SQLException e) {
-			//throw new FindException(e.getMessage());
+			e.printStackTrace();
+			throw new AddException(e.getMessage());
 		}
+		try {
+			insertInfo(con, einfo);
+			con.commit();
+		} catch (Exception e) {
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+			}
+			throw new AddException(e.getMessage());
+		}finally {
+			MyConnection.close(con, null, null);
+		}
+	}
+	public void insertInfo(Connection con, Notice einfo) throws AddException{
 		PreparedStatement pstmt = null;
 		String insertInfoSQL = "INSERT INTO NOTICE (notice_no, notice_type, notice_title, notice_contents, notice_date, notice_admin) VALUES(NOTICE_SEQ.nextval, ?, ?, ?, sysdate, 'ad1')";
+		
 		try {
 			pstmt = con.prepareStatement(insertInfoSQL);
 			pstmt.setString(1, einfo.getNotice_type());
@@ -193,7 +185,7 @@ public class NoticeDAOOracle implements NoticeDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
-			MyConnection.close(con, pstmt, null);
+			MyConnection.close(null, pstmt, null);
 		}
 	}
 	
@@ -390,7 +382,7 @@ public class NoticeDAOOracle implements NoticeDAO {
 		notice.setNotice_type("공지용2");
 		notice.setNotice_title("제목 공지2 ");
 		notice.setNotice_contents("세번공지내용2 ");
-		dao.insertInfo(notice);
+		dao.insertNotice(notice);
 		System.out.println("1번");
 	}
 

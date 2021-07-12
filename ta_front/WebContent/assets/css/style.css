@@ -90,7 +90,7 @@ a {
 }
 
 .board_list .notice_no {
-    width: 10%;
+    width: 5%;
 }
 
 .board_list .notice_type {
@@ -98,16 +98,18 @@ a {
 }
 
 .board_list .notice_title {
-    width: 60%;
+    width: 40%;
     text-align: left;
+    text-align: center;
 }
 
 .board_list .top .notice_title {
+	width: 40%;
     text-align: center;
 }
 
 .board_list .notice_writer {
-    width: 5%;
+    width: 10%;
 }
 
 .board_list .notice_date {
@@ -115,7 +117,7 @@ a {
 }
 
 .board_list .notice_views {
-    width: 5%;
+    width: 10%;
 }
 
 .board_page {

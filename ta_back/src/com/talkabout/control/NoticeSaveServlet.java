@@ -2,6 +2,7 @@ package com.talkabout.control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -15,6 +16,8 @@ import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.Member;
 import com.talkabout.dto.Notice;
+import com.talkabout.exception.AddException;
+import com.talkabout.exception.DeleteException;
 import com.talkabout.exception.ModifyException;
 import com.talkabout.service.DebateDetailService;
 import com.talkabout.service.DebateService;
@@ -22,6 +25,7 @@ import com.talkabout.service.NoticeService;
 
 public class NoticeSaveServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private Object a;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -45,35 +49,57 @@ public class NoticeSaveServlet extends HttpServlet {
 				String notice_type = request.getParameter("notice_type");
 				String notice_title = request.getParameter("notice_title");
 				String notice_contents = request.getParameter("notice_contents");
-				String notice_date = request.getParameter("notice_date");
+				
+				// String notice_date = request.getParameter("notice_date");
+				
+				Date now = new Date();
+				System.out.println(now +" 현재");
+				String notice_date = now + "";
+				int notice_no = Integer.parseInt(strnotice_no);
 				
 //				String strtime = request.getParameter("debate_time");
 				if(method.equals("noticesave")) {
-					notice_date = notice_date.replace('T', ' ');
+					// notice_date = notice_date.replace('T', ' ');
+					// String repr_date = notice_date.replace('T', ' ');
 //					int debate_time = Integer.parseInt(strtime);
+					
 					Notice noti = new Notice();
-					noti.setNotice_admin(a.getAdmin_no());//질문 admin...
+//					noti.setNotice_admin(a.getAdmin_no());//질문 admin...
 					noti.setNotice_type(notice_type);
 					noti.setNotice_title(notice_title);
 					noti.setNotice_contents(notice_contents);
 					noti.setNotice_date(notice_date);//시간설명필요
 //					DebateDetail dd = new DebateDetail();
-					service.WriteNotice(noti);
+					try {
+						service.WriteNotice(noti);
+					} catch (AddException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 					//System.out.println("주장 등록 완료"+deb.toString());
-				}if(method.equals("noticeDelete")) {
+				}
+				
+				if(method.equals("noticeDelete")) {
 					//System.out.println("주제삭제");
-					int notice_no = Integer.parseInt(strnotice_no);
 					Notice noti = new Notice();
 					noti.setNotice_no(notice_no);
-					service.DeleteNotice(int noti_no);
+					try {
+						service.DeleteNotice(notice_no);
+					} catch (DeleteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					//System.out.println(deb.getDebate_writer()+"번 회원 토론자 입력");
-				}if(method.equals("debateModify")) {
-					int notice_no = Integer.parseInt(strnotice_no);
+				}
+				
+				if(method.equals("noticeModify")) {
+					
 					//System.out.println("주제삭제");
 					List<Notice> list = null;
 //					ddlist= new ArrayList<>();
 //					ddlist = ddservice.findByDebNo(debate_no);
-					notice_date = notice_date.replace('T', ' ');
+					// notice_date = notice_date.replace('T', ' ');
 //					int debate_time = Integer.parseInt(strtime);
 					Notice noti = new Notice();
 					//deb.setDebate_writer(m.getMember_no());

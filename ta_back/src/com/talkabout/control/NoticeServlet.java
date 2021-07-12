@@ -27,7 +27,7 @@ import com.talkabout.service.NoticeService;
 /**
  * Servlet implementation class DebateServelt
  */
-public class NoticeServelt extends HttpServlet {
+public class NoticeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,21 +37,21 @@ public class NoticeServelt extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		ServletContext sc = getServletContext();		
 		NoticeService.envProp = sc.getRealPath(sc.getInitParameter("env"));
-		AdminService.envProp = sc.getRealPath(sc.getInitParameter("env"));//admin으로 변경
+		//AdminService.envProp = sc.getRealPath(sc.getInitParameter("env"));//admin으로 변경
 		String method = request.getParameter("method");
-		String page = request.getParameter("page");
-		String pageSize = request.getParameter("pagesize");
-		int intpage = Integer.parseInt(page);
-		int intpagesize = Integer.parseInt(pageSize);
+//		String page = request.getParameter("page");
+//		String pageSize = request.getParameter("pagesize");
+//		int intpage = Integer.parseInt(page);
+//		int intpagesize = Integer.parseInt(pageSize);
 		//System.out.println("서블릿 페이지 사이즈:"+intpagesize);
 		
 		NoticeService service;
 		service = NoticeService.getInstance();
-		service.pageNum(intpage);
-		service.pageSize(intpagesize);
+//		service.pageNum(intpage);
+//		service.pageSize(intpagesize);
 		
-		AdminService adminservice;//admin으로 변경
-		adminservice = AdminService.getInstance();//admin으로 변경
+//		AdminService adminservice;//admin으로 변경
+//		adminservice = AdminService.getInstance();//admin으로 변경
 		
 		ObjectMapper mapper;
 		mapper = new ObjectMapper();
@@ -67,24 +67,10 @@ public class NoticeServelt extends HttpServlet {
 		if(method.equals("listall")) {
 			try {
 			list = service.findAll();
-			List<Admin> adminList = new ArrayList<>();//admin으로 변경
-			for (Notice notice : list) {
-				Admin admin = new Admin();//admin으로 변경
-				try {
-					admin = adminservice.adminInfo(notice.getNotice_admin());//admin으로 변경
-					adminList.add(admin);//admin으로 변경
-				} catch (FindException e) {
-					e.printStackTrace();
-				}
-				
-			}
-				if(list.size()==0) {
-					System.out.println("게시글 없음");
-				}else {
+			System.out.println("리스트사이즈"+list.size());
 					map.put("noticelist", list);
-					map.put("admininfo", adminList);//admin으로 변경
-					map.put("row", last);
-				}
+//					map.put("admininfo", adminList);//admin으로 변경
+//					map.put("row", last);
 			}catch (Exception e){
 				e.printStackTrace();
 			}
@@ -111,18 +97,13 @@ public class NoticeServelt extends HttpServlet {
 		
 		
 		String method = request.getParameter("method");
-		String column = request.getParameter("column");
+		String type = request.getParameter("type");
 		String keyword = request.getParameter("keyword");
 		//System.out.println(method);
 		
 		NoticeService service;
 		service = NoticeService.getInstance();
 		
-//		NoticeDetailService ndservice;
-//		ndservice = NoticeDetailService.getInstance();
-		
-		AdminService adminservice;
-		adminservice = AdminService.getInstance();
 		
 		ObjectMapper mapper;
 		mapper = new ObjectMapper();
@@ -134,54 +115,19 @@ public class NoticeServelt extends HttpServlet {
 		List<Notice> nlist = new ArrayList<>();
 		
 		String strnotice_no = request.getParameter("notice_no");
-		
+		System.out.println("노티스 넘버"+ strnotice_no);
 		if(method.equals("noticedetail")) {
 			//System.out.println("detail");
 			int notice_no = Integer.parseInt(strnotice_no);
 			Notice n = new Notice();
-			n = service.findByNo(notice_no);
-			list= ndservice.findByNoticNo(notice_no);
-			map.put("notice", n);
-			map.put("detail", list);
-		}if(method.equals("noticesearch")) {
 			try {
-				if(column.equals("WRITER")) {
-					Admin a = new Admin();//admin으로 변경
-					a.setAdmin_nickName(keyword);//admin으로 변경
-					Admin nickAdmin = adminservice.searchNick(a);//admin으로 변경
-					try {
-					nlist = service.selectSearch(column, nickAdmin.getadmin_no()+"");//admin으로 변경
-					}catch(Exception e) {
-						if(nlist.size()==0) {
-							//System.out.println("게시글 없음");
-							map.put("rs", 0);}
-					}
-					}else {
-					nlist= service.selectSearch(column, keyword);
-					
-				}
-			List<Admin> adminList = new ArrayList<>();//admin으로 변경
-			for (Notice notice : nlist) {
-				Admin admin = new Admin();//admin으로 변경
-				try {
-					admin = adminservice.adminInfo(notice.getNotice_admin());//admin으로 변경
-					adminList.add(admin);//admin으로 변경
-				} catch (FindException e) {
-					e.printStackTrace();
-				}
-				}
-				if(nlist.size()==0) {
-					//System.out.println("게시글 없음");
-					map.put("rs", 0);
-				}else {
-					map.put("rs", nlist);
-					map.put("admininfo", adminList);//admin으로 변경
-				}
-			}catch (Exception e){
+				n = service.selectByNo(notice_no);
+			} catch (FindException e) {
 				e.printStackTrace();
 			}
-			
-		}
+			map.put("notice", n);
+//			map.put("detail", list);
+	}
 		
 		jsonStr = mapper.writeValueAsString(map);
 		//5.응답
@@ -189,5 +135,4 @@ public class NoticeServelt extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.print(jsonStr);
 	}
-
 }

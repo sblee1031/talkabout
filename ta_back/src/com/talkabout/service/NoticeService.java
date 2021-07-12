@@ -58,7 +58,7 @@ public class NoticeService {
 	}
 	public List<Notice> findAll() { //추가
 		// TODO Auto-generated method stub
-		return null;
+		return dao.selectAll();
 	}
 	public int lastRow() {//총 게시물 개수 구하기
 		return dao.lastRow();
@@ -68,6 +68,9 @@ public class NoticeService {
 	}
 	public void pageSize(int size) {
 		dao.pageSize(size);
+	}
+	public Notice selectByNo(int notice_no) throws FindException {
+		return dao.selectByNo(notice_no);
 	}
 
 }

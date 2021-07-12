@@ -22,14 +22,14 @@ public class Notice {
 	private String notice_type;
 	private String notice_title;
 	private String notice_contents;
-	private int notice_admin;
-	private Date notice_date;
+	private String notice_admin;
+	private String notice_date;
 	private int notice_views;
 	 // notice_admin.admin_id
 	List<NoticeComment> comment_list;
 	List<NoticeLike> like_list;
 	
-	public Notice(int notice_no, String notice_type, String notice_title, String notice_contents, int notice_admin, Date notice_date,
+	public Notice(int notice_no, String notice_type, String notice_title, String notice_contents, String notice_admin, String notice_date,
 			int notice_views, List<NoticeComment> comment_list, List<NoticeLike> like_list) {
 		super();
 		this.notice_no = notice_no;
@@ -80,11 +80,11 @@ public class Notice {
 		this.notice_contents = notice_contents;
 	}
 
-	public Date getNotice_date() {
+	public String getNotice_date() {
 		return notice_date;
 	}
 
-	public void setNotice_date(Date notice_date) {
+	public void setNotice_date(String notice_date) {
 		this.notice_date = notice_date;
 	}
 
@@ -96,11 +96,11 @@ public class Notice {
 		this.notice_views = notice_views;
 	}
 
-	public int getNotice_admin() {
+	public String getNotice_admin() {
 		return notice_admin;
 	}
 
-	public void setNotice_admin(int notice_admin) {
+	public void setNotice_admin(String notice_admin) {
 		this.notice_admin = notice_admin;
 	}
 
