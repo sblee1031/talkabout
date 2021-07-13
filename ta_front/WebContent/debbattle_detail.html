@@ -47,9 +47,9 @@
 			<div>중계방 채팅</div>
 		</div>
 		<div style = "height: auto;width: auto;margin: 15px;">
-			<button id = "agree" class = "btn_vote">찬성</button>
-			<button id = "neutral" class = "btn_vote">중립</button>
-			<button id = "disagree" class = "btn_vote">반대</button>
+			<button class = "btn_vote" value = "1">찬성</button>
+			<button class = "btn_vote" value = "2">중립</button>
+			<button class = "btn_vote" value = "3">반대</button>
 		</div>
 		<div style = "height: 5%;width: auto;margin: 15px;">
 			<input id="user" type="text" value = "A" style="text-align: center;width: 10%;" readonly="readonly">
@@ -140,30 +140,28 @@ $("table").on("click", ".btn_evid", function () {
 	});
 });
 
-$("table").on("click", ".btn_vote", function () {
-	// evi_num[0] : 토론자 종류 A, B
-	// evi_num[1] : 근거 번호 1, 2, 3
-
-	var vote_type = $(this).attr("id");
-	console.log(vote_type);
+$("div.con_2").on("click", ".btn_vote", function () {
+	var vote_type = $(this).attr("value");
+	var deb_no = $("div.battle_topic").attr("id");
+	var discussorA_no = $("div.nickname_A").attr("id");
+	var discussorB_no = $("div.nickname_B").attr("id");
 	
-	var url = "../ta_back/setevidence";
+	var url = "../ta_back/setvote";
 	$.ajax({
 	    url: url,
 	    method: "post",
 	    data: {
-	      deb_no : deb_no,
-	      discussor : evi_num[0],
-	      discussor_no : discussor_no,
-	      evi_num : evi_num[1],
-		  text : text
+	    	deb_no : deb_no,
+			vote_type : vote_type,
+			discussorA_no : discussorA_no,
+			discussorB_no : discussorB_no
 	    },
 	    success: function (responseData) {
 	      var status = responseData.status
 	      if (status == 0) {
-	    	  alert("수정 실패");
+	    	  alert("토론자는 투표할 수 없습니다");
 	      } else {
-	    	  alert("수정 성공");
+	    	  alert("투표 내역이 변경되었습니다");
 	      }
 	    },
 	});

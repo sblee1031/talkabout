@@ -4,13 +4,13 @@
     
     function paging(totalData, dataPerPage, pageCount, currentPage){
         
-        //console.log("currentPage : " + currentPage);
+        console.log("currentPage : " + currentPage);
         
         var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
-		//console.log('토탈페이지 :'+totalPage);
+		console.log('토탈페이지 :'+totalPage);
         var pageGroup = Math.ceil(currentPage/pageCount);    // 페이지 그룹
         
-       // console.log("pageGroup : " + pageGroup);
+        console.log("pageGroup : " + pageGroup);
         
         var last = pageGroup * pageCount;    // 화면에 보여질 마지막 페이지 번호
         if(last > totalPage)
@@ -21,10 +21,10 @@
         var next = last+1;
         var prev = first-1;
         
-        //console.log("last : " + last);
-       // console.log("first : " + first);
-        //console.log("next : " + next);
-      //  console.log("prev : " + prev);
+        console.log("last : " + last);
+        console.log("first : " + first);
+        console.log("next : " + next);
+        console.log("prev : " + prev);
  
         var $pingingView = $("#paging");
         
@@ -231,7 +231,7 @@ $(function () {
 		}else{
 		 var discussor2 = dismem[1].member_nickName;
 		}
-		if(userdata.logined=="logined" && writer==userdata.member.member_no){
+		if(userdata.logined=="logined" && writer==userdata.member.member_nickName){
 			$('#btnDeleteDebate').show();
 			$('#btnModifyDebate').show();
 		}else{
@@ -239,10 +239,10 @@ $(function () {
 		}
         if (discussor1 == 0) {
           discussor1 = "미정";
-			if(userdata.logined=="logined" && discussor2 != userdata.member.member_no ){//토론자0 일떄 로그인 한경우
+			if(userdata.logined=="logined" && discussor2 != userdata.member.member_nickName ){//토론자0 일떄 로그인 한경우
 				$('#btnDiscussor1').show();
 			}
-        }else if(userdata.logined=="logined" &&discussor1 == userdata.member.member_no){
+        }else if(userdata.logined=="logined" &&discussor1 == userdata.member.member_nickName){
 					console.log('토론자같음 : '+userdata.member.member_no);
 					$('#btnCacleDiscussor1').show();
 					//$('#btnCacleDiscussor2').show();
@@ -251,10 +251,10 @@ $(function () {
 				}
         if (discussor2 == 0) {
           discussor2 = "미정";
-			if(userdata.logined=="logined" && discussor1 != userdata.member.member_no ){//토론자0 일떄 로그인 한경우
+			if(userdata.logined=="logined" && discussor1 != userdata.member.member_nickName ){//토론자0 일떄 로그인 한경우
 				$('#btnDiscussor2').show();
 			}
-        }else if(userdata.logined=="logined" && discussor2 == userdata.member.member_no){
+        }else if(userdata.logined=="logined" && discussor2 == userdata.member.member_nickName){
 					console.log('토론자같음 : '+userdata.member.member_no);
 					//$('#btnCacleDiscussor1').show();
 					$('#btnCacleDiscussor2').show();
@@ -534,11 +534,7 @@ function btnDeleteDebate(){
       }
 }
 function debateSearch(){
-	if($('#searchInput').val()==''){
-		alert('검색어를 입력해주세요.');
-	}else{
 	$('#debateWrite').hide();
-	$('#debateList').show();
 	$('#paging').hide();
 	var url = "../ta_back/debrecruit";
   	var method = "debatesearch";
@@ -592,7 +588,6 @@ function debateSearch(){
 				}
 		    },
 		  });
-	}
 }
 
 function btnModifyDebate(){
@@ -673,8 +668,7 @@ function goList(){
     url: url,
     method: "get",
     data: { method: method,
-			page: 1 ,
-			pagesize: dataPerPage},
+			page: 1 },
     success: function (resposeData) {
       console.log(resposeData);
       var lists = resposeData.debatelist;

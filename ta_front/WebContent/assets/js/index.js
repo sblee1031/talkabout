@@ -13,6 +13,7 @@ $(function(){
 			  var lists = responseData.noticelist;
      		 $(lists).each(function (list_i, list) {
 				//console.log(list_i);
+				if(list_i<5){
 				var copyObj = contents.clone();
 				copyObj.find('#notice_no').text(list.notice_no);
 				copyObj.find('#notice_type').text(list.notice_type);
@@ -24,6 +25,7 @@ $(function(){
 				copyObj.show();
 				
 				wrap.append(copyObj);
+				}
 				});
 			},
 			
@@ -46,6 +48,7 @@ $(function(){
 		      var contents = $("#debatecontents").clone();
 				var wrap = $('#debateTable');
 		      $(lists).each(function (list_i, list) {
+				if(list_i<5){
 				var copyObj = contents.clone();
 				copyObj.find('#debate_no').text(list.debate_no);
 				copyObj.find('#debate_topic').text(list.debate_topic);
@@ -54,7 +57,7 @@ $(function(){
 				copyObj.show();
 				
 				wrap.append(copyObj);
-
+			}
 		      });
 		    },
 		  });
@@ -77,6 +80,7 @@ $(function(){
 			//console.log(boarddata.boardinfo.length);
 			$(lists1).each(function (i, e) {
 				//console.log('1');
+				if(i<5){
 				var copyObj = contents.clone();
 				copyObj.find('#board_no').text(e.board_no);
 				copyObj.find('#board_title').text(e.board_title);
@@ -85,6 +89,7 @@ $(function(){
 				
 				copyObj.show();
 				wrap.append(copyObj);
+				}
 			 });
 		},
 	});
@@ -106,6 +111,7 @@ $(function(){
 	      var contents = $("#debresultcontents").clone();
 				var wrap = $('#debresultTable');
 	      $(lists2).each(function (list_i, list4) {
+				if(list_i<5){
 				var copyObj = contents.clone();
 				copyObj.find('#result_no').text(list4.debate_no);
 				copyObj.find('#result_title').text(list4.debate_topic);
@@ -114,7 +120,7 @@ $(function(){
 				copyObj.show();
 				
 				wrap.append(copyObj);
-		
+			}
 	     			 });
 	           },
 	         });

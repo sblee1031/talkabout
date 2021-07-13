@@ -83,7 +83,7 @@
     <servlet-name>DebateSaveServlet</servlet-name>
     <url-pattern>/debatesave</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <description></description>
     <display-name>DebateCommentSelectServlet</display-name>
     <servlet-name>DebateCommentSelectServlet</servlet-name>
@@ -122,7 +122,7 @@
   <servlet-mapping>
     <servlet-name>DebateCommentUpdateServlet</servlet-name>
     <url-pattern>/debatecommentupdate</url-pattern>
-   </servlet-mapping>
+  </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>NoticeSaveServlet</display-name>
@@ -272,7 +272,7 @@
   <servlet-mapping>
     <servlet-name>NoticeServlet</servlet-name>
     <url-pattern>/notice</url-pattern>
-      </servlet-mapping>
+  </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>DebateBattleServlet</display-name>
@@ -312,5 +312,15 @@
   <servlet-mapping>
     <servlet-name>SetEvidenceServlet</servlet-name>
     <url-pattern>/setevidence</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SetVoteServlet</display-name>
+    <servlet-name>SetVoteServlet</servlet-name>
+    <servlet-class>com.talkabout.control.SetVoteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SetVoteServlet</servlet-name>
+    <url-pattern>/setvote</url-pattern>
   </servlet-mapping>
 </web-app>

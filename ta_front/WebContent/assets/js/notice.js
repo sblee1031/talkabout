@@ -116,23 +116,17 @@ $(function () {
 });//DOM트리 끝
 
 function btnNoticeWrite() {
-	console.log('클릭');
-
-	
 	$('#noticeWrite').show();
 	$('#noticeDetail').hide();
 	$('#noticeList').hide();
 	$('#noticeUpdate').hide();
 }
 
-
 function btnSaveNotice() {
-	var notice_no = $("#ddNotice_no").val();
+	var notice_no = $("#ddNotice_no").text();
 	var title = $("#inputNotice_title").val();
-	console.log(title);
 	//var type = $("#inputNotice_type").val();
 	var type = $("#search option:selected").text();
-	console.log(type);
 	var contents = $("#inputNotice_contents").val();
 	var indate = $("#inputNotice_date").val();
 	if (typeof title == "undefined" || title == null || title == "") {

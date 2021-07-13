@@ -54,8 +54,6 @@ public class SetEvidenceServlet extends HttpServlet {
 			Debate d = debate_service.findByNo(deb_no);
 			DebateDetail dd = detail_service.findByDeb(d, discussor_no);
 			
-			System.out.println("토론 테이블 : " + d.toString());
-			System.out.println("토론상세 테이블 전 : " + dd.toString());
 			if (evi_num.equals("1")) {
 				dd.setEvi_one(text);
 				detail_service.setEviOne(dd);
@@ -66,7 +64,6 @@ public class SetEvidenceServlet extends HttpServlet {
 				dd.setEvi_three(text);
 				detail_service.setEviThree(dd);
 			}
-			System.out.println("토론상세 테이블 후 : " + dd.toString());
 			
 			Map<String,Object> map = new HashMap<>();
 			map.put("status", 1);
