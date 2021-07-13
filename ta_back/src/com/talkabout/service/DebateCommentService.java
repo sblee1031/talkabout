@@ -28,7 +28,7 @@ private DebateCommentService() {
 	Properties env = new Properties();
 	try {
 		env.load(new FileInputStream(envProp));
-		String className = env.getProperty("DebateCommentDAO");
+		String className = env.getProperty("debateCommentDAO");
 		Class c = Class.forName(className);
 		dao=(DebateCommentDAO)c.newInstance();
 	} catch(Exception e) {

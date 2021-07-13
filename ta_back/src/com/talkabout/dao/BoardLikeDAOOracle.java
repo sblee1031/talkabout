@@ -31,8 +31,8 @@ public class BoardLikeDAOOracle implements BoardLikeDAO{
 		
 		try {
 			pstmt = con.prepareStatement(insertSQL);
-			pstmt.setInt(1, BL.getboardLike_board());
-			pstmt.setInt(2, BL.getboardLike_mem());
+			pstmt.setInt(1, BL.getboardLike_board().getBoard_no());
+			pstmt.setInt(2, BL.getboardLike_mem().getMember_no());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -63,15 +63,5 @@ public class BoardLikeDAOOracle implements BoardLikeDAO{
 		} finally {
 			MyConnection.close(con, pstmt, null);
 		}
-	}
-	public static void main(String[] args) throws Exception {
-		BoardLikeDAOOracle dao = new BoardLikeDAOOracle();
-//		dao.deleteByBoardLikeNo(5);
-		
-		//insert
-		BoardLike bl = new BoardLike();
-		bl.setboardLike_board(1);
-		bl.setboardLike_mem(3);
-		dao.insert(bl);
 	}
 }

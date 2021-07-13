@@ -33,6 +33,12 @@ public interface DebateDAO {
 	 * @param deb 토론 수정하기
 	 */
 	void updateDebateAll(Debate deb) throws ModifyException;
+	
+	/**
+	 * 
+	 * @param deb 토론 수정하기
+	 */
+	void updateDebateAll(Debate deb, List<DebateDetail> dd, String discuss1,String discuss2) throws ModifyException;
 	/**
 	 * 
 	 * @param status 토론 상태 업데이트
@@ -43,7 +49,7 @@ public interface DebateDAO {
 	 * 
 	 * @param start_date 시작시간 입력
 	 */
-	void updateStartdate(Debate start_date);
+	void updateStartdate(Debate deb);
 	/**
 	 * 
 	 * @param end_date 종료시간 입력
@@ -60,6 +66,18 @@ public interface DebateDAO {
 	 */
 	void deleteDebate(Debate deb_no);
 	
+	/*
+	 * 토론자 취소
+	 */
+	void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m);
+	/*
+	 * 검색기능
+	 */
 	
+     int lastRow();
+     
+     void pageNum(int page);
+     
+     void pageSize(int size);
 
 }

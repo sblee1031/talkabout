@@ -30,8 +30,8 @@ public class DebateLikeDAOOracle implements DebateLikeDAO{
 		
 		try {
 			pstmt = con.prepareStatement(insertSQL);
-			pstmt.setInt(1, DL.getDeblike_deb());
-			pstmt.setInt(2, DL.getDeblike_mem());
+			pstmt.setInt(1, DL.getDeblike_deb().getDebate_no());
+			pstmt.setInt(2, DL.getDeblike_mem().getMember_no());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,11 +66,6 @@ public class DebateLikeDAOOracle implements DebateLikeDAO{
 		DebateLikeDAOOracle dao = new DebateLikeDAOOracle();
 //		dao.deleteByDebatelikeNo(1);
 		
-		//insert
-		DebateLike dl = new DebateLike();
-		dl.setDeblike_deb(2);
-		dl.setDeblike_mem(3);
-		dao.insert(dl);
 	}
 
 }
