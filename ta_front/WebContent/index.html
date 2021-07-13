@@ -241,19 +241,106 @@
       </div>
     </nav>
 
-    <section id="section" style="text-align: center; border-style: solid; height: 80%">
-      <div>여기는 index 여기에 작업한 내용 추가하시면 됩니다</div>
+    <section id="section" style="text-align: center; background-color: honeydew; border-style: solid; height: 80%">
+      <div id="main" style="margin-top:3%; ">
+      
+      	<div id="noticeList" style="width:40%; display:inline-block;">
+      	<table id="noticeTable" style = "height: 100%; width:100%; border: 1px solid black;">
+			    <tr style = "text-align:center;font-weight:bold">
+			        <td colspan="4" style="width:100%">공지사항</td>
+			    </tr>
+			    <tr style = "width: 100%; font-weight:bold">
+			        <td>번호</td>
+			        <td>제목</td>
+			        <td>작성자</td>
+			        <td>조회수</td>
+			    </tr>
+			    <tr id="noticontents" style = "height: 5%;">
+			        <td id="notice_no"></td>
+			        <td id="notice_title"></td>
+			        <td id="notice_writer"></td>
+			        <td id="notice_views"></td>
+			    </tr>
+			    
+			</table>
+      	</div>
+      		<div id="debateList" style="width:40%; display:inline-block;">
+      		<table id="debateTable" style = "height: 100%; width:100%; border: 1px solid black;">
+			    <tr style = "text-align:center;font-weight:bold">
+			        <td colspan="4" style="width:100%">토론정보</td>
+			    </tr>
+			    <tr style = "width: 100%; font-weight:bold">
+			        <td>번호</td>
+			        <td>제목</td>
+			        <td>작성자</td>
+			        <td>진행상태</td>
+			    </tr>
+			    <tr id="debatecontents" style = "height: 5%;">
+			        <td id="debate_no"></td>
+			        <td id="debate_topic"></td>
+			        <td id="member_nickName"></td>
+			        <td id="debate_status"></td>
+			    </tr>
+			    
+			</table>
+      		</div>
+      		<div id="boardList" style="width:40%; display:inline-block;">
+      		<table id="boardTable" style = "height: 100%; width:100%; border: 1px solid black;">
+			    <tr style = "text-align:center;font-weight:bold">
+			        <td colspan="4" style="width:100%">자유게시판</td>
+			    </tr>
+			    <tr style = "width: 100%; font-weight:bold">
+			        <td>번호</td>
+			        <td>제목</td>
+			        <td>작성자</td>
+			        <td>조회수</td>
+			    </tr>
+			    <tr id="boardcontents" style = "height: 5%;">
+			        <td id="board_no"></td>
+			        <td id="board_title"></td>
+			        <td id="board_mem"></td>
+			        <td id="board_views"></td>
+			    </tr>
+			    
+			</table>
+      		</div>
+      		<div id="debresultList" style="width:40%; display:inline-block;">
+      		<table id="debresultTable" style = "height: 100%; width:100%; border: 1px solid black;">
+			    <tr style = "text-align:center;font-weight:bold">
+			        <td colspan="4" style="width:100%">토론결과</td>
+			    </tr>
+			    <tr style = "width: 100%; font-weight:bold">
+			        <td>번호</td>
+			        <td>제목</td>
+			        <td>토론시간</td>
+			        <td>종료시간</td>
+			    </tr>
+			    <tr id="debresultcontents" style = "height: 5%;">
+			        <td id="result_no"></td>
+			        <td id="result_title"></td>
+			        <td id="result_time"></td>
+			        <td id="result_end"></td>
+			    </tr>
+			    
+			</table>
+      		</div>
+      </div>
       
 
    
-    
+                  
       <!-- Links -->
 
     </section>
     <footer>
-      <div>FOOTER 영역</div>
+      <div><a>Copyright ⓒ </a><a
+          class="navbar-brand text-success logo h1 align-self-center"
+        >
+          Talk About
+        </a><br><a>경기도 성남시 분당구 성남대로 34 하나프라자 6층</a></div>
     </footer>
      <script src="assets/js/login1.js"></script>
+     <script src="assets/js/index.js"></script>
      <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> 	  
   </body>
 </html>
