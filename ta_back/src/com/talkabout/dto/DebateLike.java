@@ -12,8 +12,14 @@ public class DebateLike {
 	private Debate deblike_deb; // deblike_deb.debate_no
 	private Member deblike_mem; // deblike_mem.member_no 
 	
-	public DebateLike(int deblike_no, Debate deblike_deb, Member deblike_mem) {
+	
+	
+	public DebateLike() {
 		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public DebateLike(int deblike_no, Debate deblike_deb, Member deblike_mem) {
 		this.deblike_no = deblike_no;
 		this.deblike_deb = deblike_deb;
 		this.deblike_mem = deblike_mem;

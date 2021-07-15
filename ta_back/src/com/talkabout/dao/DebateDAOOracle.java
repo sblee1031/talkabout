@@ -75,8 +75,8 @@ public void pageSize(int size) {
 		try {
 			con = MyConnection.getConnection();
 			pstmt = con.prepareStatement(select_SQL);
-			//System.out.println("넘버 : "+num_page_no);
-			//System.out.println("start_row"+num_start_row+" end_row : "+  num_end_row);
+//			System.out.println("넘버 : "+num_page_no);
+//			System.out.println("start_row"+num_start_row+" end_row : "+  num_end_row);
 			pstmt.setInt(1, num_start_row);
 			pstmt.setInt(2, num_end_row);
 			rs = pstmt.executeQuery();
@@ -89,7 +89,6 @@ public void pageSize(int size) {
 				String debate_status = rs.getString("DEBATE_STATUS");
 				String debate_startdate = rs.getString("DEBATE_STARTDATE");
 				String debate_enddate = rs.getString("DEBATE_ENDDATE");
-				
 				
 				Debate d = new Debate(debate_no, debate_writer, debate_topic, debate_date, debate_time, debate_status, debate_startdate, debate_enddate, null, null, null, null);
 				list.add(d);

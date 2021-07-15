@@ -65,12 +65,12 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>DebateServelt</display-name>
-    <servlet-name>DebateServelt</servlet-name>
-    <servlet-class>com.talkabout.control.DebateServelt</servlet-class>
+    <display-name>DebateServlet</display-name>
+    <servlet-name>DebateServlet</servlet-name>
+    <servlet-class>com.talkabout.control.DebateServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>DebateServelt</servlet-name>
+    <servlet-name>DebateServlet</servlet-name>
     <url-pattern>/debrecruit</url-pattern>
   </servlet-mapping>
   <servlet>
@@ -322,5 +322,16 @@
   <servlet-mapping>
     <servlet-name>SetVoteServlet</servlet-name>
     <url-pattern>/setvote</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <description></description>
+    <display-name>DebateLikeServlet</display-name>
+    <servlet-name>DebateLikeServlet</servlet-name>
+    <servlet-class>com.talkabout.control.DebateLikeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DebateLikeServlet</servlet-name>
+    <url-pattern>/deblike</url-pattern>
   </servlet-mapping>
 </web-app>

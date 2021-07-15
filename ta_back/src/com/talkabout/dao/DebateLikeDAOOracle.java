@@ -2,11 +2,13 @@ package com.talkabout.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.talkabout.dto.DebateLike;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.DeleteException;
+import com.talkabout.exception.FindException;
 import com.talkabout.sql.MyConnection;
 
 public class DebateLikeDAOOracle implements DebateLikeDAO{
@@ -41,7 +43,7 @@ public class DebateLikeDAOOracle implements DebateLikeDAO{
 	}
 
 	@Override	
-	public void deleteByDebatelikeNo(int deblike_no) throws DeleteException {
+	public void deleteByDebatelikeNo(DebateLike dl) throws DeleteException {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		try {
@@ -51,10 +53,11 @@ public class DebateLikeDAOOracle implements DebateLikeDAO{
 			//DB연결에 문제발생시 예외처리
 		}
 		PreparedStatement pstmt = null;
-		String deleteSQL = "DELETE DEBATELIKE WHERE deblike_no = ?";
+		String deleteSQL = "DELETE DEBATELIKE WHERE DEBLIKE_DEB = ? and DEBLIKE_MEM = ?";
 		try {
 			pstmt= con.prepareStatement(deleteSQL);
-			pstmt.setInt(1, deblike_no);
+			pstmt.setInt(1, dl.getDeblike_deb().getDebate_no());
+			pstmt.setInt(2, dl.getDeblike_mem().getMember_no());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,10 +65,72 @@ public class DebateLikeDAOOracle implements DebateLikeDAO{
 			MyConnection.close(con, pstmt, null);
 		}
 	}
+	
+	@Override
+	public Integer debLikeChk(DebateLike dl) throws FindException {
+		int cnt = 0;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con=MyConnection.getConnection();
+		} catch (SQLException e) {
+			throw new FindException(e.getMessage());
+			//DB연결에 문제발생시 예외처리
+		}
+		String sql = "select count(*) from debatelike where DEBLIKE_DEB = ? and DEBLIKE_MEM = ?";
+		try {
+			pstmt= con.prepareStatement(sql);
+			pstmt.setInt(1, dl.getDeblike_deb().getDebate_no());
+			pstmt.setInt(2, dl.getDeblike_mem().getMember_no());
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int likeCnt = rs.getInt("count(*)");
+				cnt = likeCnt;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, rs);
+		}return cnt;
+	}
+	@Override
+	public Integer debLikeCnt(DebateLike deb_no)  {
+		int cnt = 0;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con=MyConnection.getConnection();
+		} catch (SQLException e) {
+			cnt = 0;
+			//DB연결에 문제발생시 예외처리
+		}
+		DebateLike dll = new DebateLike();
+	
+		String sql = "select count(*) from debatelike where DEBLIKE_DEB = ?";
+		try {
+			pstmt= con.prepareStatement(sql);
+			pstmt.setInt(1, deb_no.getDeblike_deb().getDebate_no());
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int likeCnt = rs.getInt("count(*)");
+				cnt = likeCnt;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			MyConnection.close(con, pstmt, rs);
+		}
+		return cnt;
+	}
+	
 	public static void main(String[] args) throws Exception {
 		DebateLikeDAOOracle dao = new DebateLikeDAOOracle();
 //		dao.deleteByDebatelikeNo(1);
 		
 	}
+
 
 }

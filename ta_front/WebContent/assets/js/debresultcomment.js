@@ -9,6 +9,9 @@ $(function () {
 	$('#copytablecommentList').hide();
 	$('#insert_btn').hide();
 	$('#btnupdate').hide();
+	$('#imglike').hide();
+	$('#imgdislike').hide();
+	
 	$('#trinsert').attr('readonly',true);
   var url = "../ta_back/login";
   $.ajax({
@@ -29,10 +32,11 @@ $(function () {
         //console.log("회원정보없음" + responseData);
        // $("#write").hide();
       }
+			
     },
   });
 
-	
+
 	
 			//해당댓글번호로 조회
     	//console.log('토론결괄조회');
@@ -69,10 +73,13 @@ $(function () {
         trDebates +=
           '<td class="debate_status">' + list.debate_status + "</td>";
         trDebates += "</tr>";
+							
       });
       trContent.append(trDebates); 
            },
          });
+
+
 	
 	
 	  $("#debateList").on("click", "#debate_no", function () {
@@ -133,8 +140,52 @@ $(function () {
         $("tr." + deb_no).after('<tr id="view"></tr>');
         $("#view").append(addTrObj);
         //trContent.append(addTrObj);
+
+									 //좋아 갯수 확인
+								var url = "../ta_back/deblike";
+								var like = 'likecnt';
+							//	console.log('좋아요 요청');
+								$.ajax({
+									url: "../ta_back/deblike",
+									method: "post",
+									data: {
+										method : like,
+										deb_no : com_deb,
+									},
+									success: function (data) {
+									//	console.log("좋아요");
+										console.log(data);
+										$('#plike').html(data.likecnt);
+										if(userdata.logined=="logined"){
+											
+													var url = "../ta_back/deblike";
+													var like = 'likechk';
+													//	console.log('좋아요 요청');
+													$.ajax({
+														url: url,
+														method: "post",
+														data: {
+															method : like,
+															deb_no : com_deb,
+														},
+														success: function (data) {
+															console.log(data);
+															if(data.likechk==0){
+																$('#imglike').show();
+															}else{
+																$('#imgdislike').show();
+															}
+														},
+													});
+
+										}
+									},
+								});
+
       },
     });
+	
+
 
 		//$('#tablecommentList').show();
 		 var method = "comment";
@@ -197,6 +248,45 @@ $(function () {
  
  });//게시글 클릭 이벤트 끝
 	
+
+ 	$(document).on('click','#imglike', function(e){
+			//e.preventDefault();
+				var url = "../ta_back/deblike";
+				var like = 'like';
+					console.log('좋아요 요청');
+				$.ajax({
+					url: url,
+					method: "post",
+					data: {
+						method : like,
+						deb_no : com_deb,
+					},
+					success: function (data) {
+						console.log(data);
+						console.log('좋아요성공');
+						window.location.href = "../ta_front/debresult.html";
+					},
+				});
+		});
+			$(document).on('click','#imgdislike' ,function(){
+				var url = "../ta_back/deblike";
+				var like = 'dislike';
+					console.log('좋아요 요청');
+				$.ajax({
+					url: url,
+					method: "post",
+					data: {
+						method : like,
+						deb_no : com_deb,
+					},
+					success: function (data) {
+						console.log(data);
+						console.log('좋아요취소');
+						window.location.href = "../ta_front/debresult.html";
+					},
+				});
+		});
+
 		$('#insert_btn').on('click',function(){
 			
 		//	console.log('인서트 버튼');
