@@ -427,6 +427,19 @@
     		  			$('td.board_date').html(board_date);
     		  			$('td.board_views').html(board_views); 
     		  			$('div.boardinfo').show();
+    		  			
+    		  			//조회수 증가 ajax
+		    			var backurl = '../ta_back/boardviews';
+		    			$.ajax({
+		    				url: backurl,
+		    				method: 'post',
+		    				data:{board_no: board_no},
+		    				success:function(responseObj){
+		    					//console.log('조회수 : '+responseObj);
+		    				},
+		    			});
+    		  			//조회수 증가 ajax 끝.
+		    			
     		          });
     				}
     			});
@@ -456,6 +469,9 @@
             	 	}
             	 });
     		});
+    		
+
+    		
     	});
          
  
