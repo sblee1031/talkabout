@@ -33,7 +33,10 @@
 	</div>
 	<div class = "con_2" style="display:inline-block; width: 450px; height: 900px; overflow-y: auto;margin:20px;">
 		<div id = "" class = "battle_topic" style = "height: 10%;width: auto;border: 1px solid black;">호날두 vs 메시</div>
-		<div class = "battle_time" style = "height: 4%;width: auto;border: 1px solid black;">남은 시간</div>
+		<!-- 
+		<div class = "battle_time" style = "height: 4%;width: auto;border: 1px solid black;">남은 시간</div> 
+		-->
+		<div id = "" class = "battle-timer" style = "height: 4%;width: auto;border: 1px solid black;">00:00<span class="sec-style" style="display: none;">:00</span></div>
 		<div class = "battle_vote" style = "height: 4%;width: auto;border: 1px solid black;">호날두 XX% / 중립 XX% / 메시 XX%</div>
 		<div id="discussorWindow" style="overflow: scroll; width: auto; height:30%;border: 1px solid black;">
 			<div>토론자 채팅</div>
@@ -166,4 +169,103 @@ $("div.con_2").on("click", ".btn_vote", function () {
 	    },
 	});
 });
+</script>
+<!-- 타이머 -->
+<script type = "text/javascript">
+	var timer = '', sw = false, timerInterval;
+	
+	function timerSetting(init_h, init_m, init_s){
+        var hours = (typeof $('#timer_h').val() !== 'undefined') ? parseInt($('#timer_h').val()) : init_h,
+            minutes = (typeof $('#timer_m').val() !== 'undefined') ? parseInt($('#timer_s').val()) : init_m,
+            seconds = (typeof $('#timer_s').val() !== 'undefined') ? parseInt($('#timer_m').val()) : init_s;
+        timer = '';
+        timer += ((hours <10)?  '0' : '' )+hours;
+        timer += ((minutes <10)? ':0' : ':')+minutes;
+        timer += ((seconds <10)? '<span class="sec-style">:0' : '<span class="sec-style">:')+seconds+'</span>';
+        $('.battle-timer').html(timer);
+        // console.log(timer);
+    }
+	
+	function timerReset(){
+        timer = '';
+        $('.battle-timer').text('00:00:00');
+    }
+	
+    function timerStart(){
+        timerInterval = setInterval("timerCalualte()", 1000);
+    }
+    
+    function timerStop(){
+        clearInterval(timerInterval);
+    }
+    
+    function timerCalualte(){
+        var splitStr = timer.split(':'),
+            seconds = parseInt(splitStr[2]),
+            minutes = parseInt(splitStr[1]),
+            hours = parseInt(splitStr[0]);
+        console.log(hours + ':' + minutes + ':' + seconds);
+        if(seconds == 0 && minutes == 0 && hours == 0){
+            clearInterval(timerInterval);
+            sw = false;
+            return 0;
+        }
+        if (minutes == 0 && seconds == 0 && hours != 0) {
+            hours--;
+            minutes = 59;
+            seconds = 60;
+        }
+
+        if (seconds == 0 ) {
+            minutes--;
+            seconds = 60;
+        }
+        seconds--;
+        timer = '';
+        timer += ((hours <10)?  '0' : '' )+hours;
+        timer += ((minutes <10)? ':0' : ':')+minutes;
+        timer += ((seconds <10)? '<span class="sec-style">:0' : '<span class="sec-style">:')+seconds+'</span>';
+        $('.battle-timer').html(timer);
+    }
+    $("div.con_2").on("click", "button#start", function () {
+    	var time_text = $("div.battle-timer").text();
+    	var deb_time = time_text.split('분')[0]
+    	var init_h = parseInt(deb_time / 60);
+    	var init_m = deb_time % 60;
+    	var init_s = 00;
+    	// var init_h = 3, init_m = 10, init_s = 00;
+    	console.log(init_h);
+    	console.log(init_m);
+    	var ngui, nwin;
+        if(typeof require !== 'undefined'){
+           ngui = require('nw.gui');
+           nwin = ngui.Window.get();
+           nwin.enterFullscreen();
+        }
+        timerSetting(init_h, init_m, init_s);
+        timerStart();
+        <!-- 
+        $(document).keydown(function(e){
+            if ( e.keyCode === 83 ) {
+                if(sw == false){
+                    sw = true;
+                    timerStart();
+                }
+                else 
+                    return -1;
+                    
+            }
+            if ( e.keyCode === 80 ) {
+                if( sw == true ){
+                    timerStop();
+                    sw = false;   
+                }
+            }
+            if ( e.keyCode === 82 ) {
+                if( sw == false)
+                    timerSetting();
+            }
+        });
+        -->
+    });
 </script>
