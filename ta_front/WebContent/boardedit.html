@@ -32,3 +32,27 @@
 		</form>
 	</div>
 </div>
+
+<script>
+$('button.boardsubmit').on('click', function(e){
+	e.preventDefault();
+	var board_type = $('#type').val();
+	var board_title = $('#title').val();
+	var board_contents = $('#contents').val();
+	//alert(board_title+board_contents);
+	  var backurl = '../ta_back/boardedit';
+		  	$.ajax({
+				url: backurl,
+				method: 'post',
+				data:{board_no: board_no,
+					board_title: board_title,
+					board_contents: board_contents
+				},
+				success:function(responseObj){
+					alert('수정성공');
+					window.location.href="./board.html";
+				}
+		  	});
+	
+});
+</script>

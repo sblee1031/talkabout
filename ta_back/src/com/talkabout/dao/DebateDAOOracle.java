@@ -66,7 +66,7 @@ public void pageSize(int size) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		//String select_SQL = "SELECT * FROM DEBATE";
-		String select_SQL = "SELECT * FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate) WHERE RNUM BETWEEN ? AND ?";
+		String select_SQL = "SELECT * FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) WHERE RNUM BETWEEN ? AND ? ";
 		List<Debate> list = new ArrayList();
 		
 		 int num_start_row = ((num_page_no-1) * num_page_size) + 1 ;

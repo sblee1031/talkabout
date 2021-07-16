@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.talkabout.dto.Board;
-import com.talkabout.exception.FindException;
+import com.talkabout.exception.ModifyException;
 import com.talkabout.service.BoardService;
 
 /**
@@ -33,8 +33,12 @@ public class BoardEditServlet extends HttpServlet {
 		//1. 요청전달데이터 얻기
 		request.setCharacterEncoding("utf-8");
 		String strboard_no = request.getParameter("board_no");
+		String board_title = request.getParameter("board_title");
+		String board_contents = request.getParameter("board_contents");
 		int board_no = Integer.parseInt(strboard_no);
 		System.out.println(board_no);
+		System.out.println(board_title);
+		System.out.println(board_contents);
 		BoardService service;
 		
 		//2.비즈니스로직 호출
@@ -42,16 +46,20 @@ public class BoardEditServlet extends HttpServlet {
 		BoardService.envProp = sc.getRealPath(sc.getInitParameter("env"));
 		service = BoardService.getInstance();
 		String path;
-		Map<String,Object> map = new HashMap<>();
+		//Map<String,Object> map = new HashMap<>();
 		try {
 			Board b = new Board();
-			b = service.BoardDetail(board_no);
-			map.put("boardDetail", b);
+			b.setBoard_no(board_no);
+			b.setBoard_title(board_title);
+			b.setBoard_contents(board_contents);
+			service.EditBoard(b);
+			//map.put("boardDetail", b);
 		
-		} catch(FindException e) {
+		} catch(ModifyException e) {
 			e.printStackTrace();
 		}
-		jsonStr = mapper.writeValueAsString(map);
+		jsonStr = mapper.writeValueAsString("성공");
+		System.out.println(jsonStr);
 		response.setContentType("application/json;charset=utf-8"); //응답형식지정
 		PrintWriter out = response.getWriter();
 		out.print(jsonStr);

@@ -34,9 +34,9 @@
 				</tr>
 				<tr>
 					<td colspan=4 class=text-right> 
-						<a href=# class="btn btn-xs btn-success" id="edit">수정</a>
-						<a href=# class="btn btn-xs btn-success" id="delete">삭제</a>
-						<a href=./board.html class="btn btn-xs btn-success">목록</a>
+						<a href="#" class="btn btn-xs btn-success" id="edit">수정</a>
+						<a href="#" class="btn btn-xs btn-success" id="delete">삭제</a>
+						<a href="./board.html" class="btn btn-xs btn-success">목록</a>
 					</td>
 				</tr>	
 			</table>
@@ -89,6 +89,7 @@
 </div>
 
 <script>
+var board_no; //번호 담는 객체
 		$('#delete').on('click', function(e){
 			 e.preventDefault();
 			// var board_no = $(this).attr('class');
@@ -108,6 +109,33 @@
 				},
 			});
 		});
+		
+		//수정버튼 ajax
+    	$('#edit').on('click', function(){
+    		   var htmlurl = './boardedit.html';
+    		   board_no = $('td.board_no').text();
+    		  // alert(board_no);
+    		  var backurl = '../ta_back/boardinfo';
+    		  	$.ajax({
+    				url: backurl,
+    				method: 'post',
+    				data:{board_no: board_no,
+    				},
+    				success:function(responseObj){
+    				var data = responseObj.boardDetail;
+    		  
+	          $('section').load(htmlurl, function () {
+	        	  $('#type').val(data.board_type);
+	        	  $('#title').val(data.board_title);
+	        	  $('#contents').val(data.board_contents);
+	         		 });
+	          
+    				},
+    		  	});
+    		
+    		});
+		
+
 		
 		/* $('#edit').on('click', function(){
 			console.log("여기");
