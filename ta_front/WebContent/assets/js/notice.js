@@ -48,6 +48,7 @@ $(function () {
 			console.log(responseData);
 			var contents = $('#noticontents').clone();
 			var wrap = $('div.board_list');
+//			var wrap = $('#');
 			var html = '';
 			  var lists = responseData.noticelist;
      		 $(lists).each(function (list_i, list) {

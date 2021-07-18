@@ -1,36 +1,34 @@
-$(function(){
-	$.ajax({
-		url:'../ta_back/boardlist',
-		method: 'post',
-		success:function(responseObj){
-		
-		//게시글 목록
-		var table = $('table.table');
-		var $tr10bj = $('tr.data1');
-		
-		
-		$(responseObj).each(function(i,e){
-			var $copyObj = $tr10bj.clone();
-			/* var lines = e.lines; //게시글 정보
+$(function () {
+  $.ajax({
+    url: "../ta_back/boardlist",
+    method: "post",
+    success: function (responseObj) {
+      //게시글 목록
+      var table = $("table.table");
+      var $tr10bj = $("tr.data1");
+
+      $(responseObj).each(function (i, e) {
+        var $copyObj = $tr10bj.clone();
+        /* var lines = e.lines; //게시글 정보
 			var lineSize = lines.length; */
-			//게시글 번호 , 타입 , 제목, 작성자, 날짜, 조회수
-				
-			$copyObj.find('td.board_no').html(e.board_no);
-			$copyObj.find('td.board_type').html(e.board_type);
-			$copyObj.find('td.board_title').html(e.board_title);
-			$copyObj.find('td.board_title').attr('class',e.board_no);
-			
-			$copyObj.find('td.board_mem').html(e.board_mem);
-			$copyObj.find('td.board_date').html(e.board_date);
-			$copyObj.find('td.board_views').html(e.board_views);
-			
-			$copyObj.show();
-			table.append($copyObj);
-		 });
-		}
-	});
-	
-	/*//게시글 상세페이지로 이동
+        //게시글 번호 , 타입 , 제목, 작성자, 날짜, 조회수
+
+        $copyObj.find("td.board_no").html(e.board_no);
+        $copyObj.find("td.board_type").html(e.board_type);
+        $copyObj.find("td.board_title").html(e.board_title);
+        $copyObj.find("td.board_title").attr("class", e.board_no);
+
+        $copyObj.find("td.board_mem").html(e.board_mem);
+        $copyObj.find("td.board_date").html(e.board_date);
+        $copyObj.find("td.board_views").html(e.board_views);
+
+        $copyObj.show();
+        table.append($copyObj);
+      });
+    },
+  });
+
+  /*//게시글 상세페이지로 이동
 	$('table.table').on('click', 'td', function(){
 		var board_no = $(this).attr('class');
 		console.log(board_no);
@@ -82,93 +80,86 @@ $(function(){
 		});
 	});
 });*/
-$('table.table').on('click', 'td', function(){
-		var board_no = $(this).attr('class');
-		console.log(board_no);
-		var htmlurl = './boardinfo.html';
-		var backurl = '../ta_back/boarcomlist';
-		$.ajax({
-			url: backurl,
-			method: 'post',
-			data:{board_no: board_no},
-			success:function(responseObj){
-			var htmlurl = './boardinfo.html';
-			
-	          
-			}
-		});
-	});
- 	//게시글 댓글
-	$('table.table').on('click', 'td', function(){
-		var board_no = $(this).attr('class');
-		console.log(board_no);
-		var htmlurl = './boardinfo.html';
-		var backurl = '../ta_back/boardviews';
-		$.ajax({
-			url: backurl,
-			method: 'post',
-			data:{board_no: board_no},
-			success:function(responseObj){
-				console.log(responseObj);
-				
-				var table=$('table [name=comment]');
-				var $tr10bj = $('tr.data2');
-				$('section').load(htmlurl, function () {
-				$(responseObj).each(function(i,e){
-					var $copyObj = $tr10bj.clone();
-					
-					//댓글 번호, 댓글 내용 , 작성자, 날짜
-					
-					$copyObj.find('td.com_no').html(e.com_no);
-					$copyObj.find('td.com_contents').html(e.com_no);
-					$copyObj.find('td.com_mem').html(e.com_no);
-					$copyObj.find('td.com_date').html(e.com_no);
-					
-					$copyObj.show();
-					table.append($copyObj);
-					});
-				});
-			},
-			
-			
-	  			
-	          });
-	});
-		
-	
-	//게시글 작성 페이지로 이동후 게시글 작성
-	$('a[name=boardwrite]').on('click','a',function(){
-		/*var board_mem = $(this).attr('class');*/
-		var htmlurl = './boardwrite.html';
-		var backurl = '../ta_back/boardwrite';
-		$.ajax({
-			url: backurl,
-			method: 'post',
-			success:function(responseObj){
-				var htrmlurl= './boardwrite.html'
-				$('section').load(htmlurl, function(){
-					$('input.btn1').on('click',function(){
-			 console.log( $('form.write input[name=type]').val());
-					 $.ajax({
-							url:'../ta_back/boardwrite',
-							method:'post',
-							data:{
-								board_type : $('form.write input[name=type]').val(),
-								board_title: $('form.write input[name=title]').val(),
-								board_contents:$('form.write textarea[name=contents]').val(),
-								board_mem: $('form.write input[name=member]').val()
-							},
-						success: function (responseObj) {
-							console.log(responseObj);
-						},
-						error: function(xhr){
-							alert(xhr.status);
-						},
-							
-						}); 
-		 			});
-				});
-			}
-		});
-	});
+  $("table.table").on("click", "td", function () {
+    var board_no = $(this).attr("class");
+    console.log(board_no);
+    var htmlurl = "./boardinfo.html";
+    var backurl = "../ta_back/boarcomlist";
+    $.ajax({
+      url: backurl,
+      method: "post",
+      data: { board_no: board_no },
+      success: function (responseObj) {
+        var htmlurl = "./boardinfo.html";
+      },
+    });
+  });
+  //게시글 댓글
+  $("table.table").on("click", "td", function () {
+    var board_no = $(this).attr("class");
+    console.log(board_no);
+    var htmlurl = "./boardinfo.html";
+    var backurl = "../ta_back/boardviews";
+    $.ajax({
+      url: backurl,
+      method: "post",
+      data: { board_no: board_no },
+      success: function (responseObj) {
+        console.log(responseObj);
+
+        var table = $("table [name=comment]");
+        var $tr10bj = $("tr.data2");
+        $("section").load(htmlurl, function () {
+          $(responseObj).each(function (i, e) {
+            var $copyObj = $tr10bj.clone();
+
+            //댓글 번호, 댓글 내용 , 작성자, 날짜
+
+            $copyObj.find("td.com_no").html(e.com_no);
+            $copyObj.find("td.com_contents").html(e.com_no);
+            $copyObj.find("td.com_mem").html(e.com_no);
+            $copyObj.find("td.com_date").html(e.com_no);
+
+            $copyObj.show();
+            table.append($copyObj);
+          });
+        });
+      },
+    });
+  });
+
+  //게시글 작성 페이지로 이동후 게시글 작성
+  $("a[name=boardwrite]").on("click", "a", function () {
+    /*var board_mem = $(this).attr('class');*/
+    var htmlurl = "./boardwrite.html";
+    var backurl = "../ta_back/boardwrite";
+    $.ajax({
+      url: backurl,
+      method: "post",
+      success: function (responseObj) {
+        var htrmlurl = "./boardwrite.html";
+        $("section").load(htmlurl, function () {
+          $("input.btn1").on("click", function () {
+            console.log($("form.write input[name=type]").val());
+            $.ajax({
+              url: "../ta_back/boardwrite",
+              method: "post",
+              data: {
+                board_type: $("form.write input[name=type]").val(),
+                board_title: $("form.write input[name=title]").val(),
+                board_contents: $("form.write textarea[name=contents]").val(),
+                board_mem: $("form.write input[name=member]").val(),
+              },
+              success: function (responseObj) {
+                console.log(responseObj);
+              },
+              error: function (xhr) {
+                alert(xhr.status);
+              },
+            });
+          });
+        });
+      },
+    });
+  });
 });

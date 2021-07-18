@@ -116,7 +116,8 @@ $(function(){
 						*/	    	  			
 
 	    	  			$('div.battle_topic').html(deb_Topic);
-	    	  			$('div.battle_time').html(deb_Time+"분");
+	    	  			$('div.battle-timer').html(deb_Time+"분");
+	    	  			// $('div.battle-timer').attr("id", deb_Time);
 	    	  			$('div.battle_vote').html(detail_A_Discuss + " : " + vote_A + " 표 / 중립" + " : " + vote_Center + " 표 / " + detail_B_Discuss + " : " + vote_B + " 표");
 	    	  			
 	    	  			$('img.profile_A').attr("src", mem_A_Thumb);
@@ -129,7 +130,6 @@ $(function(){
 						$('div.battle_topic').attr("id", detail_deb);
 	    	          });
 			    }
-            	
             },
           });
 		}
