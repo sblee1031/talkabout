@@ -9,3 +9,4 @@ boardDAO=com.talkabout.dao.BoardDAOOracle
 boardCommentDAO=com.talkabout.dao.BoardCommentDAOOracle
 noticeDAO=com.talkabout.dao.NoticeDAOOracle
 debatelikeDAO=com.talkabout.dao.DebateLikeDAOOracle
+adminDAO=com.talkabout.dao.AdminDAOOracle

@@ -32,36 +32,13 @@ public class AdminService {
 		return service;
 	}
 	
-//	public void signUp(Member m) throws AddException {
-//		dao.createMember(m);
-//	}
-//	public Member memberCheck(String social_no) throws FindException {
-//		return dao.selectByNo(social_no);
-//	}
+
 	public Admin adminInfo(int admin_no) throws FindException {
 		return dao.selectByNo(admin_no);
 	}
-	///////
-	public Admin adminInfo(Admin notice_admin) {
-		// TODO Auto-generated method stub
-		return null;
+	public Admin adLogin(String id, String pwd) throws FindException {
+		return dao.AdLogin(id, pwd);
 	}
-	////////
-	
-//	public void updateNick(Member m) throws FindException{
-//		dao.updateMember(m);
-//	}
-//	
-//	public Boolean chkNick(Member m) throws FindException{
-//		return dao.selectNick(m);
-//	}
-//	
-//	public void leaveMember(Member m) throws FindException{
-//		dao.deleteMember(m);
-//	}
-//	
-//	public Member searchNick(Member m) throws FindException{//닉네임 검색시, 멤버 번호 가져옴
-//		return dao.searchNick(m);
-//	}
+
 
 }
