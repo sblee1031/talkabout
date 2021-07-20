@@ -80,11 +80,125 @@ $(function () {
 		  noticeList();
 	  }else if(list=='자유게시판'){
 		  boardList();
+	  }else if(list=='토론모집'){
+		  deb_recruite();
+	  }else if(list=='토론배틀'){
+		  deb_battle();
+	  }else if(list=='토론결과'){
+		  deb_result();
 	  }
   });
  
   
 });//DOM 끝
+function deb_result(){
+	var method = "result";
+	  var data = { method: method };
+	  var url = "../ta_back/debatecommentselect";
+	  $.ajax({
+	    url: url,
+	    method: "post",
+	    data: data,
+	    //dataType: "json",
+	    success: function (resposeData) {
+	    	  console.log(resposeData);
+	    	  
+	  		var contents = $('#debcontents').clone();
+	  		var wrap = $('div.board_list');
+	  		var head = $('#deb_head').clone();
+	  		  head.show();
+	  		  head.find('div.notice_views').text('토론시간');
+	  		  wrap.html(head);
+	        $(resposeData.debatelist).each(function (i, e) {
+	      	  //console.log(i);
+	      	  var copyObj = contents.clone();
+	      	  
+	      	  	copyObj.find('#deb_no').text(e.debate_no);
+	  			copyObj.find('#deb_date').text(e.debate_date);
+	  			copyObj.find('#deb_title').text(e.debate_topic);
+	  			copyObj.find('#deb_title').attr('class',e.debate_topic);
+	  			copyObj.find('#deb_writer').text(resposeData.memberinfo[i].member_nickName);
+	  			copyObj.find('#deb_status').text(e.debate_status);
+	  			copyObj.find('#deb_time').text(e.debate_time);
+	  			copyObj.show();
+	  			
+	  			wrap.append(copyObj);
+	        });
+	    },
+	  });
+}
+function deb_battle(){
+	$.ajax({
+		url : '../ta_back/debatebattle',
+		method : 'get',
+		success:function(responseObj){
+			console.log(responseObj);
+			var contents = $('#debcontents').clone();
+			var wrap = $('div.board_list');
+			var head = $('#deb_head').clone();
+			  head.show();
+			  head.find('div.notice_views').text('시청자');
+			  wrap.html(head);
+	      $(responseObj.debateinfo).each(function (i, e) {
+	    	  //console.log(i);
+	    	  var copyObj = contents.clone();
+	    	  var deb_list = responseObj.debateinfo;
+			  var cnt_list = responseObj.voteinfo;
+	    	  	copyObj.find('#deb_no').text(e.debate_no);
+				copyObj.find('#deb_date').text(e.debate_date);
+				copyObj.find('#deb_title').text(e.debate_topic);
+				copyObj.find('#deb_title').attr('class',e.debate_topic);
+				copyObj.find('#deb_writer').text(e.debate_writer);
+				copyObj.find('#deb_status').text(e.debate_status);
+				copyObj.find('#deb_time').text(cnt_list[i]);
+				copyObj.show();
+				
+				wrap.append(copyObj);
+	      });
+		},
+	});
+}
+
+function deb_recruite(){
+	  var url = "../ta_back/debrecruit";
+	  var method = "listall";
+	  $.ajax({
+	    url: url,
+	    method: "get",
+	    data: { method: method,
+				page: 1,
+				pagesize: 1000,
+				},
+	    success: function (resposeData) {
+		//totalData = resposeData.row;
+		//paging(totalData, dataPerPage, pageCount, 1);
+	  console.log(resposeData);
+	  
+		var contents = $('#debcontents').clone();
+		var wrap = $('div.board_list');
+		var head = $('#deb_head').clone();
+		  head.show();
+		  head.find('div.notice_views').text('토론시간');
+		  wrap.html(head);
+      $(resposeData.debatelist).each(function (i, e) {
+    	  //console.log(i);
+    	  var copyObj = contents.clone();
+    	  
+    	  	copyObj.find('#deb_no').text(e.debate_no);
+			copyObj.find('#deb_date').text(e.debate_date);
+			copyObj.find('#deb_title').text(e.debate_topic);
+			copyObj.find('#deb_title').attr('class',e.debate_topic);
+			copyObj.find('#deb_writer').text(resposeData.memberinfo[i].member_nickName);
+			copyObj.find('#deb_status').text(e.debate_status);
+			copyObj.find('#deb_time').text(e.debate_time);
+			copyObj.show();
+			
+			wrap.append(copyObj);
+	  
+	      });
+	    },
+	  });
+}
 
 function boardList(){
 	  $.ajax({
@@ -97,11 +211,11 @@ function boardList(){
 //		      var $tr10bj = $("tr.data1");
 				var contents = $('#noticontents').clone();
 				var wrap = $('div.board_list');
-				var head = $('#head');
+				var head = $('#head').clone();
 				  head.show();
 				  wrap.html(head);
 		      $(responseObj.boardinfo).each(function (i, e) {
-		    	  console.log(i);
+		    	  //console.log(i);
 		    	  var copyObj = contents.clone();
 		    	  
 		    	  copyObj.find('#notice_no').text(e.board_no);
@@ -131,7 +245,7 @@ function noticeList(){
 			console.log(responseData);
 			var contents = $('#noticontents').clone();
 			var wrap = $('div.board_list');
-			var head = $('#head');
+			var head = $('#head').clone();
 			  var lists = responseData.noticelist;
 			  head.show();
 			  wrap.html(head);

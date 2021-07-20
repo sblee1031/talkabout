@@ -33,7 +33,6 @@ public class DebateService {
 	}
 	
 	public List<Debate> findAll() {
-	System.out.println("debateservice");
 		return dao.selectAll();
 	}
 	public Debate findByNo(int deb_no) {

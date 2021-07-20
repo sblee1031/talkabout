@@ -97,6 +97,14 @@ a {
     width: 10%;
 }
 
+.board_list .deb_date {
+    width: 20%;
+}
+.board_list .deb_title {
+    width: 30%;
+    text-align: center;
+}
+
 .board_list .notice_title {
     width: 40%;
     text-align: left;
