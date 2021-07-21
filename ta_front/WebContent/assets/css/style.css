@@ -40,7 +40,25 @@ a {
     text-align: center;
     font-size: 0;
 }
-
+.bt_edit{
+	display: inline-block;
+    min-width: 30px;
+    margin-left: 5px;
+    padding: 5px;
+    border: 1px solid #000;
+    border-radius: 2px;
+    font-size: 1rem;
+    cursor:pointer;
+}
+.edit {
+	display: inline-block;
+    min-width: 30px;
+    margin-left: 5px;
+    margin-right: 10px;
+    padding: 5px;
+    font-size: 1rem;
+    color: #000;
+}
 .bt_wrap a {
     display: inline-block;
     min-width: 80px;
@@ -49,7 +67,9 @@ a {
     border: 1px solid #000;
     border-radius: 2px;
     font-size: 1.4rem;
+    cursor:pointer;
 }
+
 
 .bt_wrap a:first-child {
     margin-left: 0;
@@ -106,13 +126,13 @@ a {
 }
 
 .board_list .notice_title {
-    width: 40%;
+    width: 30%;
     text-align: left;
     text-align: center;
 }
 
 .board_list .top .notice_title {
-	width: 40%;
+	width: 30%;
     text-align: center;
 }
 
@@ -126,6 +146,7 @@ a {
 
 .board_list .notice_views {
     width: 10%;
+    
 }
 
 .board_page {

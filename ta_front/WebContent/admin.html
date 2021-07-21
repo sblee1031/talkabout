@@ -267,12 +267,14 @@
               <div class="notice_title">제목</div>
               <div class="notice_writer">글쓴이</div>
               <div class="notice_date">작성일</div>
-              <div class="notice_views">조회</div>
+              <div class="notice_views" >조회</div>
+              <div class="edit" >수정</div>
+              <div class="edit" >삭제</div>
             </div>
             <div id="listContent"></div>
           </div>
           <div class="bt_wrap">
-            <a id="btnNoticeWrite" href="#" onclick="btnNoticeWrite()">작성</a>
+            <a id="btnNoticeWrite" onclick="btnNoticeWrite()">작성</a>
             <!-- <a href="edit.html" class="on">수정</a> -->
           </div>
 
@@ -284,6 +286,9 @@
               <div class="notice_writer">글쓴이</div>
               <div class="notice_date">작성일</div>
               <div class="notice_views">조회</div>
+              <div class="edit" >수정</div>
+              <div class="edit" >삭제</div>
+              
             </div>
            <div class="top" id ="deb_head" style="display: none;">
               <div class="notice_no" style="width:10%">토론번호</div>
@@ -301,13 +306,15 @@
             <div id="deb_status" class="notice_date"></div>
             <div id="deb_time" class="notice_views"></div>
           </div>
-          <div id="noticontents">
+          <div id="noticontents" style="display:none;">
             <div id="notice_no" class="notice_no"></div>
             <div id="notice_type" class="notice_type"></div>
             <div class="notice_title"><a id="notice_title" href="#"></a></div>
             <div id="notice_writer" class="notice_writer"></div>
             <div id="notice_date" class="notice_date"></div>
             <div id="notice_views" class="notice_views"></div>
+            <a class="bt_edit" id="btnNoticeEdit" >수정</a>
+            <a class="bt_edit" id="btnNoticeDelete" >삭제</a>
           </div>
         </div>
       </div>

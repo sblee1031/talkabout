@@ -268,6 +268,45 @@ function noticeList(){
 			});
 }
 
+$(document).on('click', '#btnNoticeEdit',function(){
+	var thisObj = $(this);
+	//console.log(thisObj.parent().find('#notice_no').text());
+	var notice_no = thisObj.parent().find('#notice_no').text();
+	$('#noticeWrite').show();
+	
+	var url = "../ta_back/notice";
+	var method = 'noticedetail';
+	  $.ajax({
+	    url: url,
+	    method: "post",
+	    data: {method : method,
+				notice_no : notice_no,
+		},
+	    success: function (responseData) {
+			var data = responseData.notice;
+			var addTrObj;
+			console.log(data.notice_no);
+			title=data.notice_title;
+			content=data.notice_contents;
+			$("#inputNotice_title").val(data.notice_title);
+			$("#ddNotice_no").html(data.notice_no);
+			$("#inputNotice_contents").html(data.notice_contents);
+			$("#ddNotice_admin").html(data.notice_admin);
+			$("#ddNotice_date").html(data.notice_date);
+			$("#ddNotice_views").html(data.notice_views);
+			addTrObj = $("#divnoticeDetail").clone();
+			addTrObj.show();
+			//$('#noticeWrite').hide();
+			//$('#noticeDetail').show();
+			$('#noticeList').hide();
+			//$('#noticeUpdate').hide();
+			//$("tr." + _no).after('<tr id="view"></tr>');
+			//$("#view").append(addTrObj);
+			
+		},
+	});	
+	
+});
 
 function logout(){
 	 var url = "../ta_back/admin";
