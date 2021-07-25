@@ -34,8 +34,8 @@
     <link rel="stylesheet" href="assets/css/templatemo.css" />
     <link rel="stylesheet" href="assets/css/custom.css" />
 
-    <!-- 노티스 CSS -->
-    <link rel="stylesheet" href="assets/css/noticecss.css" />
+    <!-- 어드민 CSS -->
+    <link rel="stylesheet" href="assets/css/admin.css" />
 
     <!-- Load fonts style after rendering the layout styles -->
     <link
@@ -182,9 +182,9 @@
             <div class="modal-content">
               <span class="close" id="close">&times;</span>
               <!-- 관리자계정 시작 -->
-              <p>관리자 로그인</p>
-              <input type="text" id="adminid" />
-              <input type="password" id="adminpw" />
+              <p style="text-align:center">관리자 로그인</p>
+              <input type="text" id="adminid" placeholder="아이디"/>
+              <input type="password" id="adminpw" placeholder="패스워드"/>
               <button type="button" id="btnLogin">관리자 로그인</button>
               <!-- 관리자계정 시작 -->
             </div>
@@ -229,12 +229,12 @@
         height: 80%;
       "
     >
-      <!-- 노티스 리스트 시작 -->
-      <div id="noticeList" class="board_wrap">
-        <div class="board_title">
-          <strong>관리자 페이지</strong>
-          <div style="text-size:30pt; float: right;"> 게시판 선택 : 
-          <select id="adminList" >
+      <!-- 관리자 페이지 고정 상단 시작 -->
+      <div class="board_title">
+        <strong>관리자 페이지</strong>
+        <div style="text-size: 30pt; float: right">
+          게시판 선택 :
+          <select id="adminList">
             <option value="">선택</option>
             <option value="notice">공지사항</option>
             <option value="board">자유게시판</option>
@@ -242,14 +242,17 @@
             <option value="debatebattle">토론배틀</option>
             <option value="debateresult">토론결과</option>
           </select>
-          </div>
         </div>
+      </div>
+      <!-- 관리자 페이지 고정 상단 끝 -->
+      <!-- 노티스 리스트 시작 -->
+      <div id="noticeList" class="board_wrap">
         <div class="board_search">
           <h4
             id="boardTitle"
             style="text-align: center; font-size: 2em; font-weight: 400"
           ></h4>
-          <hr>
+          <hr />
           <select id="typesearch" name="typesearch">
             <option name="all">전체</option>
             <option name="mainnotice">공지</option>
@@ -267,54 +270,52 @@
               <div class="notice_title">제목</div>
               <div class="notice_writer">글쓴이</div>
               <div class="notice_date">작성일</div>
-              <div class="notice_views" >조회</div>
-              <div class="edit" >수정</div>
-              <div class="edit" >삭제</div>
+              <div class="notice_views">조회</div>
+              <div class="edit">수정</div>
+              <div class="edit">삭제</div>
             </div>
             <div id="listContent"></div>
           </div>
           <div class="bt_wrap">
-            <a id="btnNoticeWrite" onclick="btnNoticeWrite()">작성</a>
+            <a id="btnNoticeWrite" >작성</a>
             <!-- <a href="edit.html" class="on">수정</a> -->
           </div>
 
-
-            <div class="top" id ="head" style="display: none;">
-              <div class="notice_no">번호</div>
-              <div class="notice_type">분류</div>
-              <div class="notice_title">제목</div>
-              <div class="notice_writer">글쓴이</div>
-              <div class="notice_date">작성일</div>
-              <div class="notice_views">조회</div>
-              <div class="edit" >수정</div>
-              <div class="edit" >삭제</div>
-              
-            </div>
-           <div class="top" id ="deb_head" style="display: none;">
-              <div class="notice_no" style="width:10%">토론번호</div>
-              <div class="deb_date">토론일자</div>
-              <div class="deb_title">주제</div>
-              <div class="notice_writer">글쓴이</div>
-              <div class="notice_date">진행상태</div>
-              <div class="notice_views">토론시간</div>
-            </div>
-           <div id="debcontents" style="display:none;">
-            <div id="deb_no" class="notice_no" style="width:10%"></div>
+          <div class="top" id="head" style="display: none">
+            <div class="notice_no">번호</div>
+            <div class="notice_type">분류</div>
+            <div class="notice_title">제목</div>
+            <div class="notice_writer">글쓴이</div>
+            <div class="notice_date">작성일</div>
+            <div class="notice_views">조회</div>
+            <div class="edit">수정</div>
+            <div class="edit">삭제</div>
+          </div>
+          <div class="top" id="deb_head" style="display: none">
+            <div class="notice_no" style="width: 10%">토론번호</div>
+            <div class="deb_date">토론일자</div>
+            <div class="deb_title">주제</div>
+            <div class="notice_writer">글쓴이</div>
+            <div class="notice_date">진행상태</div>
+            <div class="notice_views">토론시간</div>
+          </div>
+          <div id="debcontents" style="display: none">
+            <div id="deb_no" class="notice_no" style="width: 10%"></div>
             <div id="deb_date" class="deb_date"></div>
             <div class="deb_title"><a id="deb_title" href="#"></a></div>
             <div id="deb_writer" class="notice_writer"></div>
             <div id="deb_status" class="notice_date"></div>
             <div id="deb_time" class="notice_views"></div>
           </div>
-          <div id="noticontents" style="display:none;">
+          <div id="noticontents" style="display: none">
             <div id="notice_no" class="notice_no"></div>
             <div id="notice_type" class="notice_type"></div>
             <div class="notice_title"><a id="notice_title" href="#"></a></div>
             <div id="notice_writer" class="notice_writer"></div>
             <div id="notice_date" class="notice_date"></div>
             <div id="notice_views" class="notice_views"></div>
-            <a class="bt_edit" id="btnNoticeEdit" >수정</a>
-            <a class="bt_edit" id="btnNoticeDelete" >삭제</a>
+            <a class="bt_edit" id="btnNoticeEdit">수정</a>
+            <a class="bt_edit" id="btnNoticeDelete">삭제</a>
           </div>
         </div>
       </div>
@@ -354,105 +355,16 @@
           <div class="bt_wrap">
             <a href="notice.html" class="on">목록</a>
             <!-- <a href="write.html" class="on">댓글쓰기</a> -->
-            <a id="btnNoticeupdate" href="#" onclick="btnNoticeUpdate()"
+            <a id="btnNoticeupdate" onclick="btnNoticeUpdate()"
               >수정</a
             >
-            <a id="btnDeletenotice" href="#" onclick="btnDeleteNotice()"
+            <a id="btnDeletenotice" onclick="btnDeleteNotice()"
               >삭제</a
             >
           </div>
         </div>
       </div>
       <!-- 노티스 상세페이지 끝-->
-
-      <!-- 노티스 작성 시작-->
-      <div id="noticeWrite" class="board_wrap" style="display: none">
-        <div class="board_title">
-          <strong>공지사항</strong>
-        </div>
-        <div class="board_write_wrap">
-          <div class="board_write">
-            <div class="title">
-              <dl>
-                <dt>제목</dt>
-                <dd>
-                  <input
-                    id="inputNotice_title"
-                    type="text"
-                    placeholder="제목 입력"
-                  />
-                </dd>
-                <dd>
-                  <select id="search" name="search">
-                    <option value="전체">전체</option>
-                    <option value="공지">공지</option>
-                    <option value="업데이트">업데이트</option>
-                    <option value="이벤트">이벤트</option>
-                  </select>
-                </dd>
-              </dl>
-            </div>
-            <div class="info">
-              <!-- 작성상세정보 필요 -->
-            </div>
-            <div class="cont">
-              <textarea
-                id="inputNotice_contents"
-                placeholder="내용 입력"
-              ></textarea>
-            </div>
-          </div>
-          <div class="bt_wrap">
-            <a id="btn_save" href="#" onclick="btnSaveNotice()">등록</a>
-            <!-- 작성공지로 이동 필요-->
-            <a href="notice.html">취소</a>
-          </div>
-        </div>
-      </div>
-      <!-- 노티스 작성 끝-->
-
-      <!-- 노티스 수정 시작-->
-      <div id="noticeUpdate" class="board_wrap" style="display: none">
-        <div class="board_title">
-          <strong>공지사항</strong>
-        </div>
-        <div class="board_write_wrap">
-          <div class="board_write">
-            <div class="title">
-              <dl>
-                <dt>제목</dt>
-                <dd>
-                  <input
-                    id="inputNotice_title_update"
-                    type="text"
-                    placeholder="제목 입력"
-                  />
-                </dd>
-                <dd>
-                  <select id="search_3" name="search">
-                    <option value="전체">전체</option>
-                    <option value="공지">공지</option>
-                    <option value="업데이트">업데이트</option>
-                    <option value="이벤트">이벤트</option>
-                  </select>
-                </dd>
-              </dl>
-            </div>
-            <div class="info">
-              <!-- 작성상세정보 필요 -->
-            </div>
-            <div class="cont">
-              <textarea id="update_contents" placeholder="내용 입력"></textarea>
-            </div>
-          </div>
-          <div class="bt_wrap">
-            <a id="btn_update" href="#" onclick="btnUpdateNotice()">수정</a>
-            <!-- 작성공지로 이동 필요-->
-            <a href="notice.html">취소</a>
-            <!-- 노티스 수정 끝-->
-          </div>
-        </div>
-      </div>
     </section>
     <footer>
       <div>

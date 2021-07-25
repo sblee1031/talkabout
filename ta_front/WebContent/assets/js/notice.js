@@ -116,12 +116,6 @@ $(function () {
 
 });//DOM트리 끝
 
-function btnNoticeWrite() {
-	$('#noticeWrite').show();
-	$('#noticeDetail').hide();
-	$('#noticeList').hide();
-	$('#noticeUpdate').hide();
-}
 
 function btnSaveNotice() {
 	var notice_no = $("#ddNotice_no").text();
