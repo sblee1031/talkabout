@@ -74,7 +74,11 @@ function init() {
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  //console.log(profile);
+  var gSocial = profile.mS;
+  var gEmail = profile.Et;
+  var gThumb = profile.hJ;
+//  console.log(profile);
+//  console.log(profile.mS);
 
   var url = "../ta_back/login";
   //서버로 AJAX 요청, 응답
@@ -83,9 +87,9 @@ function onSignIn(googleUser) {
     method: "post",
     data: {
       social_type: "구글",
-      social_no: profile.LS,
-      email: profile.Nt,
-      thumb: profile.DJ,
+      social_no: gSocial,
+      email: gEmail,
+      thumb: gThumb,
     },
     success: function (responseData) {
       //console.log(responseData);
@@ -95,11 +99,11 @@ function onSignIn(googleUser) {
           // console.log(responseData.usercheck);
           $("#myinfodiv").hide();
           $("div.signup").show();
-          $("#email").val(profile.Nt);
+          $("#email").val(gEmail);
           $("#social_type").val("구글");
-          $("#social_no").val(profile.LS);
-          $("#thumb").val(profile.DJ);
-          $("#thumb_img").attr("src", profile.DJ);
+          $("#social_no").val(gSocial);
+          $("#thumb").val(gThumb);
+          $("#thumb_img").attr("src", gThumb);
           $("#close").trigger("click");
 
           $("#nickname").on("keyup", function (e) {
