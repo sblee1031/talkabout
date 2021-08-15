@@ -20,7 +20,7 @@
 - Sevlet : :토론제안, 토론자A,B 등록, 토론삭제, 토론조회,수정
 - Front : 구현된거 까지...
 
-# 210815 광복절
+#### 210815 광복절
 
 - TalkAbout SpringBoot 프로젝트 생성, DebateRecruit React 변경
 - Debate DTO변경사항(회원Member타입, 날짜 Date타입)으로 변경
