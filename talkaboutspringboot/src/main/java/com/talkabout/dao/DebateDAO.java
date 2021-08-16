@@ -13,6 +13,7 @@ public interface DebateDAO {
 	 * @return 전체 토론 리스 가져오기
 	 */
 	List<Debate> selectAll();
+	List<Debate> selectAll(String word);
 	/**
 	 * 
 	 * @param debate_no 토론 번호

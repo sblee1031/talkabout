@@ -27,8 +27,8 @@ public class DebateRecruitController {
 		List<Debate> list = new ArrayList<Debate>();
 		try {
 		if(optWord.isPresent()) {
-			list = service.findAll();
-//			list = service.findAll(optWord.get());
+//			list = service.findAll();
+			list = service.findAll(optWord.get());
 		}else {
 			list = service.findAll();
 		//	System.out.println(list.toString());

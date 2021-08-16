@@ -54,7 +54,7 @@ public void pageSize(int size) {
 	}
 	
 	public List<Debate> selectAll() {
-		List<Debate> list = new ArrayList();
+		List<Debate> list = new ArrayList<>();
 		SqlSession session = null;
 		try {
 			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
@@ -71,6 +71,93 @@ public void pageSize(int size) {
 		}
 		return list;
 	}
+	@Override
+	public List<Debate> selectAll(String word) {
+		List<Debate> list = new ArrayList<>();
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			list = session.selectList("com.talkabout.dto.DebateRecruitMapper.selectWord",word);
+		//	System.out.println(list);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return list;
+	}
+	@Override
+	public Debate selectByNo(int debate_no) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Debate> selectSearch(String column, String keyword) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void insertDebate(Debate deb, DebateDetail dd, String discuss1, String Discuss2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateDebateAll(Debate deb) throws ModifyException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateDebateAll(Debate deb, List<DebateDetail> dd, String discuss1, String discuss2)
+			throws ModifyException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateStatus(Debate status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateStartdate(Debate deb) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEnddate(Debate end_date) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateDiscussor(Debate deb_no, DebateDetail dd, Member m) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteDebate(Debate deb_no) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 	
 	public static void main(String[] args) {
@@ -150,72 +237,6 @@ public void pageSize(int size) {
 //		System.out.println(dao.selectByNo(3).toString());
 	}
 
-	@Override
-	public Debate selectByNo(int debate_no) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Debate> selectSearch(String column, String keyword) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void insertDebate(Debate deb, DebateDetail dd, String discuss1, String Discuss2) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateDebateAll(Debate deb) throws ModifyException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateDebateAll(Debate deb, List<DebateDetail> dd, String discuss1, String discuss2)
-			throws ModifyException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateStatus(Debate status) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateStartdate(Debate deb) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateEnddate(Debate end_date) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateDiscussor(Debate deb_no, DebateDetail dd, Member m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteDebate(Debate deb_no) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 

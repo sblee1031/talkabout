@@ -18,5 +18,12 @@ FROM debate deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
 ORDER BY deb.DEBATE_NO DESC
     <!-- SELECT * FROM customer WHERE id = #{aaa} -->
   </select>
+    <select id="selectWord" resultMap="debateResultMap">
+SELECT  *
+FROM debate deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+WHERE debate_topic like '%${word}%' OR debate_content like '%${word}%'
+ORDER BY deb.DEBATE_NO DESC
+    <!-- SELECT * FROM customer WHERE id = #{aaa} -->
+  </select>
 
 </mapper>

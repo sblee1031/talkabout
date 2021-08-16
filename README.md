@@ -25,6 +25,10 @@
 - TalkAbout SpringBoot 프로젝트 생성, DebateRecruit React 변경
 - Debate DTO변경사항(회원Member타입, 날짜 Date타입)으로 변경
 
+# 210816
+
+-Debate 검색기능, 작성하기 화면 구성. -작성 후 DB연결 필요
+
 ## 5. 토론배틀
 
 - DAO : 전체리스트 / select Two(주장 A, B) / select One / DebateDetail 생성 / 토론자 수정 / 실제입장시간 수정 / 근거 수정

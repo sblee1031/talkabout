@@ -19,6 +19,9 @@ public class DebateService {
 	public List<Debate> findAll() throws FindException {
 		return dao.selectAll();
 	}
+	public List<Debate> findAll(String optWord) throws FindException {
+		return dao.selectAll(optWord);
+	}
 	public Debate findByNo(int deb_no) {
 		return dao.selectByNo(deb_no);
 	}
