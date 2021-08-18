@@ -3,6 +3,8 @@ package com.talkabout.dto;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Debate {
@@ -24,7 +26,7 @@ public class Debate {
 	 */
 	
 	private int debate_no;
-	private Member debate_writer; // debate_writer.member_no
+	private int debate_writer; // debate_writer.member_no
 	private String debate_topic;
 	@JsonFormat(pattern = "yy/MM/dd HH:mm", timezone = "Asia/Seoul")
 	private Date debate_date;
@@ -43,7 +45,7 @@ public class Debate {
 	
 	
 	
-	public Debate(int debate_no, Member debate_writer, String debate_topic, Date debate_date, int debate_time,
+	public Debate(int debate_no, int debate_writer, String debate_topic, Date debate_date, int debate_time,
 			String debate_status, String debate_startDate, String debate_endDate, List<DebateDetail> detail_list,
 			List<DebateComment> comment_list, List<DebateLike> like_list, List<Audience> audience_list) {
 		super();
@@ -74,11 +76,11 @@ public class Debate {
 		this.debate_no = debate_no;
 	}
 
-	public Member getDebate_writer() {
+	public int getDebate_writer() {
 		return debate_writer;
 	}
 
-	public void setDebate_writer(Member debate_writer) {
+	public void setDebate_writer(int debate_writer) {
 		this.debate_writer = debate_writer;
 	}
 

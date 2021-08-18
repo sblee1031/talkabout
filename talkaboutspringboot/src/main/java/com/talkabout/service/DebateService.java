@@ -1,26 +1,39 @@
 package com.talkabout.service;
 
+import java.io.FileInputStream;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.Properties;
 
 import com.talkabout.dao.DebateDAO;
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.Member;
-import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
-@Service
-public class DebateService {
-	@Autowired
-	private DebateDAO dao;
 
-	public List<Debate> findAll() throws FindException {
-		return dao.selectAll();
+public class DebateService {
+	private DebateDAO dao;
+	private static DebateService service;
+	public static String envProp; //
+	private DebateService() {
+		Properties env = new Properties();
+		try {
+			env.load(new FileInputStream(envProp));
+			String className = env.getProperty("debateDAO");
+			Class c = Class.forName(className);
+			dao = (DebateDAO)c.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	public List<Debate> findAll(String optWord) throws FindException {
-		return dao.selectAll(optWord);
+	public static DebateService getInstance() {
+		if(service == null) {
+			service = new DebateService();
+		}
+		return service;
+	}
+	
+	public List<Debate> findAll() {
+		return dao.selectAll();
 	}
 	public Debate findByNo(int deb_no) {
 		return dao.selectByNo(deb_no);

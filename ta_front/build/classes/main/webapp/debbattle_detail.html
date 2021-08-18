@@ -1,0 +1,271 @@
+<div class = "battle_container" style="height: auto;width: auto;">
+	<div class = "con_1" style="display:inline-block; width: 450px; height: 900px; overflow-y: auto;margin:20px;">
+		<img class = "profile_A" style = "height: 15%;width: 40%;margin:0 auto;" alt="member_thumbnail" src="">
+		<div id = "" class = "nickname_A" style = "height: 3%;width: 40%;margin:0 auto;"></div>
+		<div style = "height: 80%;width: auto;">
+			<table style = "height: 100%;width : 100%;border: 1px solid black;">
+			    <tr style = "height: 5%;">
+			        <td colspan="2">근거 목록</td>
+			    </tr>
+			    <tr style = "height: 5%;">
+			        <td>근거 1</td>
+			        <td><button class = "btn_evid" value = "A1">등록</button></td>
+			    </tr>
+			    <tr style = "height: auto;">
+			        <td class = "evidence_A" colspan="2" style="overflow: hidden;"><input class= "evidence_A1" type="text" style="width: 100%;height: 100%; text-align: center;"></td>
+			    </tr>
+			    <tr style = "height: 5%;">
+			        <td>근거 2</td>
+			        <td><button class = "btn_evid" value = "A2">등록</button></td>
+			    </tr>
+			    <tr style = "height: auto;">
+			        <td class = "evidence_A2" colspan="2" style="overflow: hidden;"><input class= "evidence_A2" type="text" style="width: 100%;height: 100%; text-align: center;"></td>
+			    </tr>
+			    <tr style = "height: 5%;">
+			        <td>근거 3</td>
+			        <td><button class = "btn_evid" value = "A3">등록</button></td>
+			    </tr>
+			    <tr style = "height: auto;">
+			        <td class = "evidence_A3" colspan="2" style="overflow: hidden;"><input class= "evidence_A3" type="text" style="width: 100%;height: 100%; text-align: center;"></td>
+			    </tr>
+			</table>
+		</div>
+	</div>
+	<div class = "con_2" style="display:inline-block; width: 450px; height: 900px; overflow-y: auto;margin:20px;">
+		<div id = "" class = "battle_topic" style = "height: 10%;width: auto;border: 1px solid black;">호날두 vs 메시</div>
+		<!-- 
+		<div class = "battle_time" style = "height: 4%;width: auto;border: 1px solid black;">남은 시간</div> 
+		-->
+		<div id = "" class = "battle-timer" style = "height: 4%;width: auto;border: 1px solid black;">00:00<span class="sec-style" style="display: none;">:00</span></div>
+		<div class = "battle_vote" style = "height: 4%;width: auto;border: 1px solid black;">호날두 XX% / 중립 XX% / 메시 XX%</div>
+		<div id="discussorWindow" style="overflow: scroll; width: auto; height:30%;border: 1px solid black;">
+			<div>토론자 채팅</div>
+		</div>
+		<div style = "height: auto;width: auto;margin: 15px;">
+			<button id = "start" class = "btn_settime">시작</button>
+			<button id = "end" class = "btn_settime">종료</button>
+		</div>
+		
+		<div id="audienceWindow" style="overflow: scroll; width: auto; height:30%;border: 1px solid black;">
+			<div>중계방 채팅</div>
+		</div>
+		<div style = "height: auto;width: auto;margin: 15px;">
+			<button class = "btn_vote" value = "1">찬성</button>
+			<button class = "btn_vote" value = "2">중립</button>
+			<button class = "btn_vote" value = "3">반대</button>
+		</div>
+		<div style = "height: 5%;width: auto;margin: 15px;">
+			<input id="user" type="text" value = "A" style="text-align: center;width: 10%;" readonly="readonly">
+			<input id="textMessage" type="text">
+			<input onclick="sendMessage()" value = "전송" type="button">
+		</div>
+	</div>
+	<div class = "con_3" style="display:inline-block; width: 450px; height: 900px; overflow-y: auto;margin:20px;">
+		<img class = "profile_B" style = "height: 15%;width: 40%;margin:0 auto;" alt="member_thumbnail" src="">
+		<div id = "" class = "nickname_B" style = "height: 3%;width: 40%;margin:0 auto;"></div>
+		<div style = "height: 80%;width: auto;">
+			<table style = "height: 100%;width : 100%;border: 1px solid black;">
+			    <tr style = "height: 5%;">
+			        <td colspan="2">근거 목록</td>
+			    </tr>
+			    <tr style = "height: 5%;">
+			        <td>근거 1</td>
+			        <td><button class = "btn_evid" value = "B1">등록</button></td>
+			    </tr>
+			    <tr style = "height: auto;">
+			        <td class = "evidence_B1" colspan="2" style="overflow: hidden;"><input class= "evidence_B1" type="text" style="width: 100%;height: 100%; text-align: center;"></td>
+			    </tr>
+			    <tr style = "height: 5%;">
+			        <td>근거 2</td>
+			        <td><button class = "btn_evid" value = "B2">등록</button></td>
+			    </tr>
+			    <tr style = "height: auto;">
+			        <td class = "evidence_B2" colspan="2" style="overflow: hidden;"><input class= "evidence_B2" type="text" style="width: 100%;height: 100%; text-align: center;"></td>
+			    </tr>
+			    <tr style = "height: 5%;">
+			        <td>근거 3</td>
+			        <td><button class = "btn_evid" value = "B3">등록</button></td>
+			    </tr>
+			    <tr style = "height: auto;">
+			        <td class = "evidence_B3" colspan="2" style="overflow: hidden;"><input class= "evidence_B3" type="text" style="width: 100%;height: 100%; text-align: center;"></td>
+			    </tr>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="assets/js/chatting.js"></script>
+<script type="text/javascript">
+$("table").on("click", ".btn_evid", function () {
+	// evi_num[0] : 토론자 종류 A, B
+	// evi_num[1] : 근거 번호 1, 2, 3
+	var evi_num = $(this).attr("value");
+	var deb_no = $("div.battle_topic").attr("id");
+	
+	if (evi_num[0] == "A") {
+		var discussor_no = $("div.nickname_A").attr("id");	
+		if (evi_num[1] == "1") {
+			var text = $("input.evidence_A1").val();
+		} else if(evi_num[1] == "2") {
+			var text = $("input.evidence_A2").val();
+		} else {
+			var text = $("input.evidence_A3").val();
+		}
+	} else {
+		var discussor_no = $("div.nickname_B").attr("id");
+		if (evi_num[1] == "1") {
+			var text = $("input.evidence_B1").val();
+		} else if(evi_num[1] == "2") {
+			var text = $("input.evidence_B2").val();
+		} else {
+			var text = $("input.evidence_B3").val();
+		}
+	}
+	
+	var url = "../ta_back/setevidence";
+	$.ajax({
+	    url: url,
+	    method: "post",
+	    data: {
+	      deb_no : deb_no,
+	      discussor : evi_num[0],
+	      discussor_no : discussor_no,
+	      evi_num : evi_num[1],
+		  text : text
+	    },
+	    success: function (responseData) {
+	      var status = responseData.status
+	      if (status == 0) {
+	    	  alert("수정 실패");
+	      } else {
+	    	  alert("수정 성공");
+	      }
+	    },
+	});
+});
+
+$("div.con_2").on("click", ".btn_vote", function () {
+	var vote_type = $(this).attr("value");
+	var deb_no = $("div.battle_topic").attr("id");
+	var discussorA_no = $("div.nickname_A").attr("id");
+	var discussorB_no = $("div.nickname_B").attr("id");
+	
+	var url = "../ta_back/setvote";
+	$.ajax({
+	    url: url,
+	    method: "post",
+	    data: {
+	    	deb_no : deb_no,
+			vote_type : vote_type,
+			discussorA_no : discussorA_no,
+			discussorB_no : discussorB_no
+	    },
+	    success: function (responseData) {
+	      var status = responseData.status
+	      if (status == 0) {
+	    	  alert("토론자는 투표할 수 없습니다");
+	      } else {
+	    	  alert("투표 내역이 변경되었습니다");
+	      }
+	    },
+	});
+});
+</script>
+<!-- 타이머 -->
+<script type = "text/javascript">
+	var timer = '', sw = false, timerInterval;
+	
+	function timerSetting(init_h, init_m, init_s){
+        var hours = (typeof $('#timer_h').val() !== 'undefined') ? parseInt($('#timer_h').val()) : init_h,
+            minutes = (typeof $('#timer_m').val() !== 'undefined') ? parseInt($('#timer_s').val()) : init_m,
+            seconds = (typeof $('#timer_s').val() !== 'undefined') ? parseInt($('#timer_m').val()) : init_s;
+        timer = '';
+        timer += ((hours <10)?  '0' : '' )+hours;
+        timer += ((minutes <10)? ':0' : ':')+minutes;
+        timer += ((seconds <10)? '<span class="sec-style">:0' : '<span class="sec-style">:')+seconds+'</span>';
+        $('.battle-timer').html(timer);
+        // console.log(timer);
+    }
+	
+	function timerReset(){
+        timer = '';
+        $('.battle-timer').text('00:00:00');
+    }
+	
+    function timerStart(){
+        timerInterval = setInterval("timerCalualte()", 1000);
+    }
+    
+    function timerStop(){
+        clearInterval(timerInterval);
+    }
+    
+    function timerCalualte(){
+        var splitStr = timer.split(':'),
+            seconds = parseInt(splitStr[2]),
+            minutes = parseInt(splitStr[1]),
+            hours = parseInt(splitStr[0]);
+        console.log(hours + ':' + minutes + ':' + seconds);
+        if(seconds == 0 && minutes == 0 && hours == 0){
+            clearInterval(timerInterval);
+            sw = false;
+            return 0;
+        }
+        if (minutes == 0 && seconds == 0 && hours != 0) {
+            hours--;
+            minutes = 59;
+            seconds = 60;
+        }
+
+        if (seconds == 0 ) {
+            minutes--;
+            seconds = 60;
+        }
+        seconds--;
+        timer = '';
+        timer += ((hours <10)?  '0' : '' )+hours;
+        timer += ((minutes <10)? ':0' : ':')+minutes;
+        timer += ((seconds <10)? '<span class="sec-style">:0' : '<span class="sec-style">:')+seconds+'</span>';
+        $('.battle-timer').html(timer);
+    }
+    $("div.con_2").on("click", "button#start", function () {
+    	var time_text = $("div.battle-timer").text();
+    	var deb_time = time_text.split('분')[0]
+    	var init_h = parseInt(deb_time / 60);
+    	var init_m = deb_time % 60;
+    	var init_s = 00;
+    	// var init_h = 3, init_m = 10, init_s = 00;
+    	console.log(init_h);
+    	console.log(init_m);
+    	var ngui, nwin;
+        if(typeof require !== 'undefined'){
+           ngui = require('nw.gui');
+           nwin = ngui.Window.get();
+           nwin.enterFullscreen();
+        }
+        timerSetting(init_h, init_m, init_s);
+        timerStart();
+        <!-- 
+        $(document).keydown(function(e){
+            if ( e.keyCode === 83 ) {
+                if(sw == false){
+                    sw = true;
+                    timerStart();
+                }
+                else 
+                    return -1;
+                    
+            }
+            if ( e.keyCode === 80 ) {
+                if( sw == true ){
+                    timerStop();
+                    sw = false;   
+                }
+            }
+            if ( e.keyCode === 82 ) {
+                if( sw == false)
+                    timerSetting();
+            }
+        });
+        -->
+    });
+</script>
