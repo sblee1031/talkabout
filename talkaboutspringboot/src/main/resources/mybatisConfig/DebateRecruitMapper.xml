@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talkabout.dto.DebateRecruitMapper">
+<resultMap id="debateResultMap" type="debate"  autoMapping="true">
+		<association javaType="member" property="debate_writer" autoMapping="true">
+		 
+		</association>
+</resultMap>
+
+  <insert id="debInsert" parameterType="debate">
+  	INSERT INTO debate(debate_no, debate_writer, debate_topic, debate_content, debate_time, debate_startdate) VALUES
+(DEB_SEQ.nextval, ${debate_writer.member_no}, '${debate_topic}', '${debate_content}', ${debate_time},
+ TO_DATE('${debate_startDate}','YYYY-MM-DD HH24:MI:SS'))
+  </insert>
+    <insert id="ddInsert" parameterType="hashmap">
+  	INSERT INTO DEBATEDETAIL (detail_no, DETAIL_DEB , DISCUSS) VALUES
+(DD_SEQ.NEXTVAL, ${debate_no}, '${discuss}')
+  </insert>
+	<select id="debSeq" resultType="int">
+	SELECT DEB_SEQ.CURRVAL AS debate FROM DUAL
+	</select>
+	
+	
+  <select id="lastRow" resultType="string">
+   SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM debate ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
+  </select>
+
+  <select id="selectAll" parameterType="hashmap" resultMap="debateResultMap">
+SELECT  *
+FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row}
+  </select>
+    <select id="selectWord" resultMap="debateResultMap">
+SELECT  *
+FROM debate deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+WHERE debate_topic like '%${word}%' OR debate_content like '%${word}%'
+ORDER BY deb.DEBATE_NO DESC
+  </select>
+  <select id="selectByNo" parameterType="int" resultMap="debateResultMap">
+SELECT * FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+ WHERE DEBATE_NO = #{no}
+  </select>
+    <select id="ddselectByNo" parameterType="int" resultType="debatedetail">
+SELECT * FROM debatedetail 
+ WHERE detail_deb = #{no}
+  </select>
+
+</mapper>
