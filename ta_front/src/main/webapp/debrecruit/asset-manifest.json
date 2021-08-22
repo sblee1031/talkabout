@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "./debrecruit/static/css/main.9f8a66e7.chunk.css",
+    "main.js": "./debrecruit/static/js/main.f755e680.chunk.js",
+    "main.js.map": "./debrecruit/static/js/main.f755e680.chunk.js.map",
+    "runtime-main.js": "./debrecruit/static/js/runtime-main.bc1fdafc.js",
+    "runtime-main.js.map": "./debrecruit/static/js/runtime-main.bc1fdafc.js.map",
+    "static/css/2.5b9f8925.chunk.css": "./debrecruit/static/css/2.5b9f8925.chunk.css",
+    "static/js/2.831a7997.chunk.js": "./debrecruit/static/js/2.831a7997.chunk.js",
+    "static/js/2.831a7997.chunk.js.map": "./debrecruit/static/js/2.831a7997.chunk.js.map",
+    "index.html": "./debrecruit/index.html",
+    "static/css/2.5b9f8925.chunk.css.map": "./debrecruit/static/css/2.5b9f8925.chunk.css.map",
+    "static/css/main.9f8a66e7.chunk.css.map": "./debrecruit/static/css/main.9f8a66e7.chunk.css.map",
+    "static/js/2.831a7997.chunk.js.LICENSE.txt": "./debrecruit/static/js/2.831a7997.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bc1fdafc.js",
+    "static/css/2.5b9f8925.chunk.css",
+    "static/js/2.831a7997.chunk.js",
+    "static/css/main.9f8a66e7.chunk.css",
+    "static/js/main.f755e680.chunk.js"
+  ]
+}

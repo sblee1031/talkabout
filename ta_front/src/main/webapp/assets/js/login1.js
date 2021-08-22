@@ -29,14 +29,14 @@ $(function () {
 
   //시작시 로그인 여부 확인
 
-  var url = "../ta_back/login";
+  var url = "http://localhost:9999/ta_back/member/login";
   $.ajax({
     url: url,
     method: "post",
-    data: {},
+    data: {socialNo:"118153287897731040607"},
     success: function (responseData) {
       userdata = responseData;
-      //console.log(responseData.member);
+      console.log("최초로그인확인",responseData);
       //console.log(responseData.usercheck);
       if (responseData.logined == "logined") {
         //console.log(responseData.logined);
@@ -80,14 +80,14 @@ function onSignIn(googleUser) {
 //  console.log(profile);
 //  console.log(profile.mS);
 
-  var url = "../ta_back/login";
+  var url = "http://localhost:9999/ta_back/member/login";
   //서버로 AJAX 요청, 응답
   $.ajax({
     url: url,
     method: "post",
     data: {
       social_type: "구글",
-      social_no: gSocial,
+      socialNo: gSocial,
       email: gEmail,
       thumb: gThumb,
     },
@@ -110,7 +110,7 @@ function onSignIn(googleUser) {
             console.log("닉체크" + e);
             var data = $("#nickname").val();
             var chkhtml = $("span.signchkNick");
-            var url = "../ta_back/nickname";
+            var url = "http://localhost:9999/ta_back/nickname";
             $.ajax({
               url: url,
               method: "post",
@@ -156,7 +156,7 @@ function onSignInFailure(t) {
 //처음 실행하는 함수
 function changeNick() {
   var data = userdata.member;
-  var url = "../ta_back/nickname";
+  var url = "http://localhost:9999/ta_back/nickupdate";
   var inputNick = $("#mynickname").val();
   if (data.member_nickName == inputNick) {
     alert("변경 사항이 없습니다.");
@@ -176,7 +176,7 @@ function changeNick() {
 }
 
 function logined(responseData) {
-  console.log("logined : " + responseData);
+  console.log("logined : " ,responseData);
   $("div.signup").hide();
   $("#memberinfo").show();
   $("#login_thumb_img").attr("src", responseData.member.member_thumb);
@@ -187,24 +187,26 @@ function logined(responseData) {
   $("#myBtn").hide();
   //location.href = "./login.html";
   $("#close").trigger("click");
-	location.reload();
+	//location.reload();
 }
 
 function logout() {
   //$("#myinfodiv").hide();
-  var data;
-  var url = "../ta_back/logout";
+  console.log("로그아웃");
+  var data={socialNo:"0"};
+  var url = "http://localhost:9999/ta_back/member/logout";
   $.ajax({
     url: url,
     method: "post",
     data: data,
     //dataType: "json",
     success: function (data) {
+	console.log("->",data);
       $("div.signup").hide();
       $("#memberinfo").hide();
       $("#social").show();
       $("#myBtn").show();
-      window.location.href = "../ta_front/index.html";
+      //window.location.href = "../ta_front/index.html";
     },
   });
 }
@@ -214,7 +216,7 @@ function myinfo() {
     //$("#myinfodiv").hide();
     //닉네임 중복 함수
 
-    var url = "../ta_back/login";
+    var url = "http://localhost:9999/ta_back/member/login";
     var data = userdata.member;
     $.ajax({
       url: url,
@@ -242,7 +244,7 @@ function myinfo() {
       console.log("닉체크" + e);
       var data = $("#mynickname").val();
       var chkhtml = $("span.chkNick");
-      var url = "../ta_back/nickname";
+      var url = "http://localhost:9999/ta_back/nickcheck";
       $.ajax({
         url: url,
         method: "post",
@@ -265,7 +267,7 @@ function myinfo() {
 
 function leave() {
   var data = userdata.member;
-  var url = "../ta_back/leavemember";
+  var url = "http://localhost:9999/ta_back/leavemember";
   if (confirm("정말 탈퇴 하시겠습니까?") == true) {
     $.ajax({
       url: url,
@@ -299,7 +301,7 @@ $("div.signup").hide();
 $("body").on("click", "button.sign", function () {
   //폼 태그 전송 ajax
   var $data = $("#signupfrom").serialize();
-  var url = "../ta_back/signup";
+  var url = "http://localhost:9999/ta_back/signup";
   var data = $data;
   //console.log(data);
   var nickname = $("#nickname");
@@ -348,14 +350,14 @@ Kakao.Auth.createLoginButton({
       success: function (result) {
         //console.log("result : " + JSON.stringify(result));
 
-        var url = "../ta_back/login";
+        var url = "http://localhost:9999/ta_back/login";
         //서버로 AJAX 요청, 응답
         $.ajax({
           url: url,
           method: "post",
           data: {
             social_type: "카카오",
-            social_no: result.id,
+            socialNo: result.id,
             email: result.kakao_account.email,
             thumb: result.kakao_account.profile.profile_image_url,
           } /*id=id1&pwd=p1*/,
@@ -378,11 +380,11 @@ Kakao.Auth.createLoginButton({
                   console.log("닉체크" + e);
                   var data = $("#nickname").val();
                   var chkhtml = $("span.signchkNick");
-                  var url = "../ta_back/nickname";
+                  var url = "http://localhost:9999/ta_back/nickcheck";
                   $.ajax({
                     url: url,
                     method: "post",
-                    data: { nickName: data },
+                    data: { member_nickName: data },
                     success: function (reseponse) {
                       //console.log(reseponse);
                       nickBoolean = reseponse.chkNick;
