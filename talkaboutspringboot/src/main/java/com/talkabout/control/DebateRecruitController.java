@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.Member;
+import com.talkabout.dto.Pagination;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.FindException;
 import com.talkabout.service.DebateService;
@@ -29,21 +32,30 @@ public class DebateRecruitController {
 	
 	@GetMapping(value = {"/list","/list/{word}"})
 	public Map<String, Object> list(@PathVariable(name = "word") Optional<String> optWord , String pageNo, String pageSize){
-//		System.out.println("======");
-//		System.out.println(start + end);
-	
+		//		System.out.println("======");
+		System.out.println(pageNo + pageSize);
+		
 		Map<String, Object> result =new HashMap<String, Object>();
 		List<Debate> list = new ArrayList<Debate>();
+		Pagination page = new Pagination();
+		int lastRow;
 		try {
+			int startRow =page.startRow(Integer.parseInt(pageNo), Integer.parseInt(pageSize));
+			//System.out.println(startRow);
+			int endRow = page.endRow(Integer.parseInt(pageNo), Integer.parseInt(pageSize));
 		if(optWord.isPresent()) {
 //			list = service.findAll();
-			list = service.findAll(optWord.get());
+			list = service.findAll(optWord.get(),startRow, endRow);
+			lastRow = service.searchLastRow(optWord.get());
 		}else {
-			list = service.findAll();
+			list = service.findAll(startRow, endRow);
+			lastRow = service.lastRow();
 		//	System.out.println(list.toString());
 		}
 		result.put("status", 1);
 		result.put("debatelist", list);
+		result.put("lastRow", lastRow);
+//		result.put("logininfo", member)
 		}catch(FindException e) {
 			result.put("status", 0);
 			result.put("msg", e.getMessage());

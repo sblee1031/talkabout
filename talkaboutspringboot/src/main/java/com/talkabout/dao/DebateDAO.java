@@ -13,10 +13,12 @@ import com.talkabout.exception.ModifyException;
 public interface DebateDAO {
 	/**
 	 * 
+	 * @param endRow 
+	 * @param startRow 
 	 * @return 전체 토론 리스 가져오기
 	 */
-	List<Debate> selectAll() throws FindException;
-	List<Debate> selectAll(String word);
+	List<Debate> selectAll(int startRow, int endRow) throws FindException;
+	List<Debate> selectAll(String word,int startRow, int endRow) throws FindException;
 	/**
 	 * 
 	 * @param debate_no 토론 번호
@@ -79,6 +81,8 @@ public interface DebateDAO {
 	 */
 	
      int lastRow();
+     
+     int searchLastRow(String word);
      
      void pageNum(int page);
      

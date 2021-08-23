@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talkabout.dto.LoginMapper">
+<!-- 소셜번호로 조회 -->
+  <select id="selectByNo" resultType="member">
+   SELECT * FROM member WHERE member_social_no = '${socialNo}' AND member_able = 1
+  </select>
+
+  <insert id="signUp" parameterType="member">
+     INSERT INTO member VALUES 
+     (MEM_SEQ.nextval,'${member_social_type}','${member_social_no}','${member_nickName}'
+      ,'${member_gender}', '${member_email}', '${member_thumb}', '${member_birth}',1)
+  </insert>
+  
+  <update id="updateNick" parameterType="member">
+  UPDATE MEMBER SET MEMBER_NICKNAME = '${member_nickName}' WHERE MEMBER_NO = ${member_no}
+  </update>
+  
+  <!-- 닉네임 중복 체크 -->
+  <select id="checkNick" parameterType="member" resultType="int">
+  	SELECT member_nickname FROM member WHERE member_nickname = '${member_nickName}' 
+  </select>
+  
+  <!-- 탈퇴 -->
+  <update id="deleteMember" parameterType="member" >
+  UPDATE MEMBER SET member_able = 2 WHERE MEMBER_NO = #{member_no}
+  </update>
+</mapper>

@@ -23,8 +23,11 @@
 	</select>
 	
 	
-  <select id="lastRow" resultType="string">
+  <select id="lastRow" resultType="int">
    SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM debate ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
+  </select>
+    <select id="searchLastRow" parameterType="string" resultType="int">
+   SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM debate WHERE debate_topic like '%${word}%' OR debate_content like '%${word}%' ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
   </select>
 
   <select id="selectAll" parameterType="hashmap" resultMap="debateResultMap">
@@ -32,10 +35,10 @@ SELECT  *
 FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
 WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row}
   </select>
-    <select id="selectWord" resultMap="debateResultMap">
+    <select id="selectWord" parameterType="hashmap" resultMap="debateResultMap">
 SELECT  *
-FROM debate deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
-WHERE debate_topic like '%${word}%' OR debate_content like '%${word}%'
+FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate WHERE debate_topic like '%${word}%' OR debate_content like '%${word}%' ORDER BY DEBATE_NO DESC) deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row} 
 ORDER BY deb.DEBATE_NO DESC
   </select>
   <select id="selectByNo" parameterType="int" resultMap="debateResultMap">

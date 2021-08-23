@@ -16,7 +16,7 @@ import com.talkabout.dto.Member;
 import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
 
-@Repository("debateRecruitDAO")
+@Repository
 public class DebateDAOOracle implements DebateDAO {
 	
 	@Autowired
@@ -42,7 +42,24 @@ public void pageSize(int size) {
 		try {
 			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
 			lastrow = session.selectOne("com.talkabout.dto.DebateRecruitMapper.lastRow");
-			System.out.println(lastrow);
+//			System.out.println("게시물 총"+lastrow);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return lastrow;
+	}
+	public int searchLastRow(String word) { //검색 후 결과 개수
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			lastrow = session.selectOne("com.talkabout.dto.DebateRecruitMapper.searchLastRow",word);
+//			System.out.println("게시물 총"+lastrow);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
@@ -55,16 +72,14 @@ public void pageSize(int size) {
 		return lastrow;
 	}
 	
-	public List<Debate> selectAll() throws FindException {
+	@Override
+	public List<Debate> selectAll(int startRow, int endRow) throws FindException {
 		List<Debate> list = new ArrayList<>();
 		SqlSession session = null;
-		 int num_start_row = ((num_page_no-1) * num_page_size) + 1 ;
-		 int num_end_row   = (num_page_no * num_page_size) ;
-		 num_start_row =1;
-		 num_end_row = 5;
+		
 		 HashMap<String, Integer> map = new HashMap<>();
-		 map.put("num_start_row", num_start_row);
-		 map.put("num_end_row", num_end_row);
+		 map.put("num_start_row", startRow);
+		 map.put("num_end_row", endRow);
 		try {
 			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
 			list = session.selectList("com.talkabout.dto.DebateRecruitMapper.selectAll",map);
@@ -81,12 +96,17 @@ public void pageSize(int size) {
 		return list;
 	}
 	@Override
-	public List<Debate> selectAll(String word) {
+	public List<Debate> selectAll(String word,int startRow, int endRow) {
 		List<Debate> list = new ArrayList<>();
 		SqlSession session = null;
+
+		 HashMap<String, Object> map = new HashMap<>();
+		 map.put("word", word);
+		 map.put("num_start_row", startRow);
+		 map.put("num_end_row", endRow);
 		try {
 			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
-			list = session.selectList("com.talkabout.dto.DebateRecruitMapper.selectWord",word);
+			list = session.selectList("com.talkabout.dto.DebateRecruitMapper.selectWord",map);
 		//	System.out.println(list);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());

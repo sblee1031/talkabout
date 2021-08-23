@@ -18,11 +18,11 @@ public class DebateService {
 	@Autowired
 	private DebateDAO dao;
 
-	public List<Debate> findAll() throws FindException {
-		return dao.selectAll();
+	public List<Debate> findAll(int startRow, int endRow) throws FindException {
+		return dao.selectAll( startRow,  endRow);
 	}
-	public List<Debate> findAll(String optWord) throws FindException {
-		return dao.selectAll(optWord);
+	public List<Debate> findAll(String optWord,int startRow, int endRow) throws FindException {
+		return dao.selectAll(optWord, startRow,  endRow);
 	}
 	public Map<String, Object> findByNo(int deb_no) throws FindException {
 		return dao.selectByNo(deb_no);
@@ -53,12 +53,15 @@ public class DebateService {
 	public int lastRow() {//총 게시물 개수 구하기
 		return dao.lastRow();
 	}
-	public void pageNum(int page) {
-		dao.pageNum(page);
+	public int searchLastRow(String word) {//총 게시물 개수 구하기
+		return dao.searchLastRow(word);
 	}
-	public void pageSize(int size) {
-		dao.pageSize(size);
-	}
+//	public void pageNum(int page) {
+//		dao.pageNum(page);
+//	}
+//	public void pageSize(int size) {
+//		dao.pageSize(size);
+//	}
 	
 	public void setStartDate(Debate deb) {
 		dao.updateStartdate(deb);

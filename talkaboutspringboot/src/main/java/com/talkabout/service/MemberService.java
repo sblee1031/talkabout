@@ -3,32 +3,19 @@ package com.talkabout.service;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.talkabout.dao.MemberDAO;
 import com.talkabout.dto.Member;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.FindException;
-
+@Service
 public class MemberService {
+	
+	@Autowired
 	private MemberDAO dao;
-	private static MemberService service;
-	public static String envProp; //
-	private MemberService() {
-		Properties env = new Properties();
-		try {
-			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("memberDAO");
-			Class c = Class.forName(className);
-			dao = (MemberDAO)c.newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	public static MemberService getInstance() {
-		if(service == null) {
-			service = new MemberService();
-		}
-		return service;
-	}
+	
 	
 	public void signUp(Member m) throws AddException {
 		dao.createMember(m);
@@ -44,7 +31,7 @@ public class MemberService {
 		dao.updateMember(m);
 	}
 	
-	public Boolean chkNick(Member m) throws FindException{
+	public int chkNick(Member m) throws FindException{
 		return dao.selectNick(m);
 	}
 	
