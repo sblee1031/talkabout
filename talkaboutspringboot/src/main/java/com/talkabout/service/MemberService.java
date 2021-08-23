@@ -31,7 +31,7 @@ public class MemberService {
 		dao.updateMember(m);
 	}
 	
-	public int chkNick(Member m) throws FindException{
+	public Boolean chkNick(Member m) throws FindException{
 		return dao.selectNick(m);
 	}
 	

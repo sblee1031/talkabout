@@ -35,6 +35,7 @@
               name="mybirthday"
               max="9999-12"
               readonly
+              required="required"
           /></label>
         </li>
         <li>
@@ -71,7 +72,7 @@
         id="signupfrom"
         name="signupfrom"
         method="post"
-        action="../ta_back/signup"
+        action="../ta_back/member/signup"
       >
         <ol>
           <li>
@@ -79,14 +80,14 @@
               >소셜 타입<input
                 type="text"
                 id="social_type"
-                name="social_type"
+                name="member_social_type"
                 readonly
             /></label>
-            <input type="text" id="social_no" name="social_no" hidden />
+            <input type="text" id="social_no" name="member_social_no" hidden />
           </li>
           <li>
             <label
-              >이메일<input type="text" id="email" name="email" readonly
+              >이메일<input type="text" id="email" name="member_email" readonly
             /></label>
           </li>
           <li>
@@ -94,7 +95,7 @@
               >닉네임<input
                 type="text"
                 id="nickname"
-                name="nickname"
+                name="member_nickName"
                 required
             /><span class="signchkNick" >  닉네임을 입력해주세요^^</span></label>
           </li>
@@ -103,7 +104,7 @@
               >생년월일<input
                 type="month"
                 id="birthday"
-                name="birthday"
+                name="member_birth"
                 required
             /></label>
           </li>
@@ -111,7 +112,7 @@
             성별<label
               ><input
                 type="radio"
-                name="gender"
+                name="member_gender"
                 value="남자"
                 checked
               />남자</label
@@ -121,7 +122,7 @@
           </li>
           <li>
             썸네일 이미지
-            <input type="text" id="thumb" name="thumb" hidden /><br />
+            <input type="text" id="thumb" name="member_thumb" hidden /><br />
             <img style="width: 300px" id="thumb_img" src="" alt="thumbnail" />
           </li>
           <li><button class="sign" type="submit">회원 가입</button></li>

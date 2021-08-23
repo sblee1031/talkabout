@@ -53,8 +53,8 @@ ul.nav li a {
 ul.nav:hover li a {
   transform: scale(1);
   opacity: 0.2;
-  filter: blur(3px);
-  color: aliceblue;
+  filter: blur(0.5px);
+  /* color: rgb(0, 255, 128); */
 }
 ul.nav li a:hover {
   text-decoration: none;

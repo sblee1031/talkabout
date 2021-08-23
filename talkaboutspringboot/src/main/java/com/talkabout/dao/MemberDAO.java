@@ -27,7 +27,7 @@ public interface MemberDAO {
 	 */
 	void updateMember(Member m) throws FindException;
 	
-	int selectNick(Member m) throws FindException;
+	Boolean selectNick(Member m);
 	
 	void deleteMember(Member m)throws FindException;
 	

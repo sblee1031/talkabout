@@ -23,7 +23,7 @@ import com.talkabout.dto.Pagination;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.FindException;
 import com.talkabout.service.DebateService;
-@CrossOrigin("*")
+@CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000"})
 @RequestMapping("/debrecruit/**")
 @RestController
 public class DebateRecruitController {
@@ -31,7 +31,8 @@ public class DebateRecruitController {
 	private DebateService service;
 	
 	@GetMapping(value = {"/list","/list/{word}"})
-	public Map<String, Object> list(@PathVariable(name = "word") Optional<String> optWord , String pageNo, String pageSize){
+	public Map<String, Object> list(@PathVariable(name = "word") Optional<String> optWord , String pageNo, String pageSize, HttpSession session){
+		Member loginmem = (Member) session.getAttribute("logininfo");
 		//		System.out.println("======");
 		System.out.println(pageNo + pageSize);
 		
@@ -52,9 +53,17 @@ public class DebateRecruitController {
 			lastRow = service.lastRow();
 		//	System.out.println(list.toString());
 		}
+		if(loginmem==null) {
 		result.put("status", 1);
 		result.put("debatelist", list);
 		result.put("lastRow", lastRow);
+		result.put("logininfo", "non-member");
+		}else {
+			result.put("status", 1);
+			result.put("debatelist", list);
+			result.put("lastRow", lastRow);
+			result.put("logininfo", loginmem);
+		}
 //		result.put("logininfo", member)
 		}catch(FindException e) {
 			result.put("status", 0);
@@ -98,12 +107,14 @@ public class DebateRecruitController {
 			String discuss2 = (String)map.get("discuss2");
 			System.out.println(discuss1 + discuss2);
 			service.addDebate(deb, discuss1, discuss2);
+			result.put("deb", deb);
+			result.put("status", 1);
 		} catch (AddException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			result.put("status", 0);
 		}
-		result.put("deb", deb);
-		result.put("status", 0);
+		
 		return result;
 	}
 }

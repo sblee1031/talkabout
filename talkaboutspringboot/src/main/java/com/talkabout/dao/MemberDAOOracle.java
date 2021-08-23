@@ -74,20 +74,22 @@ public class MemberDAOOracle implements MemberDAO{
 	}
 
 	@Override
-	public int selectNick(Member m) throws FindException {
+	public Boolean selectNick(Member m)  {
 		SqlSession session = null;
+		Boolean check=false;
 		try {
 			
 			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
-			return session.selectOne("com.talkabout.dto.LoginMapper.checkNick", m);
+			check= session.selectOne("com.talkabout.dto.LoginMapper.checkNick", m);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
-			throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+//			throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
 		}finally{
 			if(session !=null) {
 				session.close();
 			}
 		}
+		return check;
 	}
 
 	@Override
@@ -96,7 +98,7 @@ public class MemberDAOOracle implements MemberDAO{
 		try {
 			
 			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
-			session.update("com.talkabout.dto.LoginMapper.signUp", m);
+			session.update("com.talkabout.dto.LoginMapper.deleteMember", m);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 			throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)

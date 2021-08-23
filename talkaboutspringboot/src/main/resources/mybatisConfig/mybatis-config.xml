@@ -33,8 +33,6 @@
   <mappers>
    <mapper resource="mybatisConfig/DebateRecruitMapper.xml"/> 
     <mapper resource="mybatisConfig/LoginMapper.xml"/>
-   <!--  <mapper resource="mybatisConfig/ProductMapper.xml"/>
-    <mapper resource="mybatisConfig/CustomerMapper.xml"/>
-    <mapper resource="mybatisConfig/OrderMapper.xml"/> -->
+    <mapper resource="mybatisConfig/AdminMapper.xml"/>
   </mappers>
 </configuration>
