@@ -228,7 +228,7 @@ function logout() {
       //window.location.href = "../ta_front/index.html";
     },
       xhrFields:{
-	withCredetials:true
+	withCredentials:true
 },
   });
 }

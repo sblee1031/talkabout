@@ -21,7 +21,7 @@ public class DebateDetail {
 	private String evi_one;
 	private String evi_two;
 	private String evi_three;
-	private int discussor; // discussor.member_no
+	private Member discussor; // discussor.member_no
 	private String in_time;
 
 	public DebateDetail() {
@@ -29,7 +29,7 @@ public class DebateDetail {
 	}
 
 	public DebateDetail(int detail_no, int detail_deb, String discuss, String evi_one, String evi_two,
-			String evi_three, int discussor, String in_time) {
+			String evi_three, Member discussor, String in_time) {
 		super();
 		this.detail_no = detail_no;
 		this.detail_deb = detail_deb;
@@ -89,11 +89,11 @@ public class DebateDetail {
 		this.evi_three = evi_three;
 	}
 
-	public int getDiscussor() {
+	public Member getDiscussor() {
 		return discussor;
 	}
 
-	public void setDiscussor(int discussor) {
+	public void setDiscussor(Member discussor) {
 		this.discussor = discussor;
 	}
 

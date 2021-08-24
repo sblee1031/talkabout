@@ -106,19 +106,19 @@ public class LoginController {
 		Member loginmem = (Member) session.getAttribute("logininfo");
 //		System.out.println("생성여부:"+session.isNew());
 //		System.out.println(loginmem.getMember_nickName());
-		System.out.println("생성시간:"+session.getCreationTime());
-		System.out.println("접근시간:"+session.getLastAccessedTime());
+//		System.out.println("생성시간:"+session.getCreationTime());
+//		System.out.println("접근시간:"+session.getLastAccessedTime());
 		System.out.println("로그아웃");
 //		HttpSession session = request.getSession();
 //		Member loginmem = (Member) session.getAttribute("logininfo");
-		System.out.println(session.getAttributeNames());
-		session.removeAttribute("logininfo");
-		System.out.println("지운후"+session.getAttributeNames());
+//		System.out.println(session.getAttributeNames());
+//		session.removeAttribute("logininfo");
+//		System.out.println("지운후"+session.getAttributeNames());
 		session.invalidate();
 		
 //		result.put("loginmem", loginmem);
 			result.put("status", 1);
-			result.put("session", session.getId()+" / "+session.getAttribute("logininfo"));
+//			result.put("session", session.getId()+" / "+session.getAttribute("logininfo"));
 			
 			return result;
 	}

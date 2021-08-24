@@ -23,7 +23,8 @@ import com.talkabout.dto.Pagination;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.FindException;
 import com.talkabout.service.DebateService;
-@CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000"})
+@CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000","http://localhost:9999"})
+//@CrossOrigin("*")
 @RequestMapping("/debrecruit/**")
 @RestController
 public class DebateRecruitController {

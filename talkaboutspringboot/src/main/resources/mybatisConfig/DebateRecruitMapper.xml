@@ -8,6 +8,11 @@
 		 
 		</association>
 </resultMap>
+<resultMap id="ddResultMap" type="debatedetail"  autoMapping="true">
+		<association javaType="member" property="discussor" autoMapping="true">
+		 
+		</association>
+</resultMap>
 
   <insert id="debInsert" parameterType="debate">
   	INSERT INTO debate(debate_no, debate_writer, debate_topic, debate_content, debate_time, debate_startdate) VALUES
@@ -18,6 +23,10 @@
   	INSERT INTO DEBATEDETAIL (detail_no, DETAIL_DEB , DISCUSS) VALUES
 (DD_SEQ.NEXTVAL, ${debate_no}, '${discuss}')
   </insert>
+  <update id="discussUpdate">
+  	
+  </update>
+  
 	<select id="debSeq" resultType="int">
 	SELECT DEB_SEQ.CURRVAL AS debate FROM DUAL
 	</select>
@@ -45,8 +54,9 @@ ORDER BY deb.DEBATE_NO DESC
 SELECT * FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
  WHERE DEBATE_NO = #{no}
   </select>
-    <select id="ddselectByNo" parameterType="int" resultType="debatedetail">
-SELECT * FROM debatedetail 
+    <select id="ddselectByNo" parameterType="int" resultMap="ddResultMap">
+SELECT * 
+FROM debatedetail dd  FULL OUTER JOIN MEMBER m ON (m.MEMBER_NO=dd.DISCUSSOR)
  WHERE detail_deb = #{no}
   </select>
 
