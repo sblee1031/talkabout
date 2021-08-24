@@ -3,8 +3,8 @@ var nickBoolean; //닉네임 중복여부 저장 변수
 $(function () {
 	
 	//시작시 로그인 여부 확인
-	console.log("userdata :",userdata);
-	console.log("DOM생성");
+	//console.log("userdata :",userdata);
+	//console.log("DOM생성");
   var url = "http://localhost:9999/ta_back/member/login";
   $.ajax({
     url: url,
@@ -12,7 +12,7 @@ $(function () {
     data: {socialNo:userdata},
     success: function (responseData) {
       userdata = responseData.member;
-      console.log("최초로그인확인",userdata);
+   //   console.log("최초로그인확인",userdata);
       console.log(responseData);
       if (responseData.logined == "logined") {
         //console.log(responseData.logined);
@@ -99,7 +99,7 @@ function onSignIn(googleUser) {
       thumb: gThumb,
     },
     success: function (responseData) {
-      console.log("구글응답 : ",responseData);
+     // console.log("구글응답 : ",responseData);
       //console.log(responseData.usercheck);
       if (responseData.usercheck == "non_member") {
         $("#section").load("logininfo.html", function () {
@@ -114,7 +114,7 @@ function onSignIn(googleUser) {
           $("#close").trigger("click");
 
           $("#nickname").on("keyup", function (e) {
-            console.log("닉체크" + e);
+            //console.log("닉체크" + e);
             var data = $("#nickname").val();
             var chkhtml = $("span.signchkNick");
             var url = "http://localhost:9999/ta_back/member/nickname";
@@ -123,7 +123,7 @@ function onSignIn(googleUser) {
               method: "post",
               data: { nickName: data },
               success: function (reseponse) {
-                console.log(reseponse);
+              //  console.log(reseponse);
                 nickBoolean = reseponse.chkNick;
                 if (reseponse.chkNick == null) {
                   chkhtml.text("사용 가능한 닉네임");
@@ -154,7 +154,7 @@ function onSignIn(googleUser) {
 } //구글로그인 끝
 
 function onSignInFailure(t) {
-  console.log(t);
+  console.log("->>",t);
 }
 
 /* function renderButton() {
@@ -331,7 +331,7 @@ $("div.signup").hide();
 //$("#myinfodiv").hide();
 
 $("body").on("click", "button.sign", function (e) {
-	
+	 e.preventDefault();
 	jQuery.fn.serializeObject = function() { 
       var obj = null; 
       try { 
@@ -353,7 +353,7 @@ const serializedValues2 = $('#signupfrom').serializeObject()
   //폼 태그 전송 ajax
   //var $data = $("#signupfrom").serializeObject();
   console.log(serializedValues2);
-  e.preventDefault();
+ 
   var url = "http://localhost:9999/ta_back/member/signup";
   var mem = serializedValues2;
   //console.log(data);
@@ -374,9 +374,7 @@ const serializedValues2 = $('#signupfrom').serializeObject()
   ) {
     alert("생년,월 을 입력해주세요.");
   } else{
-	
-}
-   $.ajax({
+	   $.ajax({
       url: url,
       method: "post",
 	 "headers": {
@@ -401,6 +399,9 @@ const serializedValues2 = $('#signupfrom').serializeObject()
         alert(xhr.status);
       },
     });
+	
+}
+///
  return false;
 });
 

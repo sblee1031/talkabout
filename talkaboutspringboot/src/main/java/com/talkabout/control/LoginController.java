@@ -42,36 +42,36 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	public Map<String, Object> login(HttpServletRequest request, @RequestParam String socialNo){
-		System.out.println("socialNo==>"+socialNo);
+//		System.out.println("socialNo==>"+socialNo);
 	
 		HttpSession session = request.getSession();
 
-		System.out.println("생성여부:"+session.isNew());
+//		System.out.println("생성여부:"+session.isNew());
 		Member loginmem = (Member) session.getAttribute("logininfo");
 //		System.out.println("session=>"+loginmem);
 //		System.out.println("=>"+session.getMaxInactiveInterval());
 		Map<String, Object> result = new HashMap<>();
-		result.put("session", session.getId()+" / "+session.getAttribute("logininfo"));
+//		result.put("session", session.getId()+" / "+session.getAttribute("logininfo"));
 		Member m = new Member();
 		if(loginmem == null) {
-			System.out.println("==============세션널");
+//			System.out.println("==============세션널");
 			
 				if(socialNo.equals("null")) {
-					System.out.println("======NotLogined");
+//					System.out.println("======NotLogined");
 					result.put("status", 0); //비회원
 					result.put("usercheck", "Not_logined");
 				}else {
 					try {
 					m =service.memberCheck(socialNo);
 					if(m == null) {
-						System.out.println("신규임==================");
+//						System.out.println("신규임==================");
 						result.put("status", 2);//신규회원
 						result.put("usercheck", "non_member");
 //						result.put("logined", "logined");
 //						result.put("member", m);
 						
 					}else {
-						System.out.println("기존회원임==================");
+//						System.out.println("기존회원임==================");
 //						session.invalidate();
 						session.setAttribute("logininfo", m);
 						result.put("status", 1);
@@ -86,8 +86,8 @@ public class LoginController {
 			}
 		
 		}else {
-			System.out.println(loginmem.getMember_email());
-			System.out.println("로그인한 회원임==================");
+//			System.out.println(loginmem.getMember_email());
+//			System.out.println("로그인한 회원임==================");
 			result.put("status", 1);//기존 로그인 한 회원
 			result.put("usercheck", "member");
 			result.put("logined", "logined");
@@ -100,24 +100,15 @@ public class LoginController {
 	@PostMapping("/logout")
 	public Map<String, Object> logout(HttpSession session){
 		Map<String, Object> result = new HashMap<>();
-//		HttpSession session = request.getSession();
 		
-//		System.out.println("생성여부:"+session.isNew());
 		Member loginmem = (Member) session.getAttribute("logininfo");
-//		System.out.println("생성여부:"+session.isNew());
-//		System.out.println(loginmem.getMember_nickName());
-//		System.out.println("생성시간:"+session.getCreationTime());
-//		System.out.println("접근시간:"+session.getLastAccessedTime());
 		System.out.println("로그아웃");
-//		HttpSession session = request.getSession();
-//		Member loginmem = (Member) session.getAttribute("logininfo");
-//		System.out.println(session.getAttributeNames());
-//		session.removeAttribute("logininfo");
-//		System.out.println("지운후"+session.getAttributeNames());
+//		HttpSession session = reqn.getAttributeNames());
 		session.invalidate();
 		
 //		result.put("loginmem", loginmem);
 			result.put("status", 1);
+			result.put("usercheck", "Not_logined");
 //			result.put("session", session.getId()+" / "+session.getAttribute("logininfo"));
 			
 			return result;
