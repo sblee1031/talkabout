@@ -201,7 +201,7 @@ public class DebateRecruitController {
 		//System.out.println(map.get("debateTime"));
 		deb.setDebate_no((int)map.get("debate_no"));
 		deb.setDebate_writer(loginmem);
-		deb.setDebate_time(Integer.parseInt((String)map.get("debateTime")));
+		deb.setDebate_time((int)map.get("debateTime"));
 		deb.setDebate_topic((String)map.get("debate_topic"));
 		deb.setDebate_content((String)map.get("debate_content"));
 		deb.setDebate_startDate((String)map.get("debateDate"));
