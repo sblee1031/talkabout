@@ -205,7 +205,7 @@ function logined(responseData) {
   $("#myBtn").hide();
   //location.href = "./login.html";
   $("#close").trigger("click");
-	window.location.href = "../ta_front/index.html";
+	window.location.href = "http://localhost:8888/ta_front/index.html";
 }
 
 function logout() {
@@ -225,7 +225,7 @@ function logout() {
       $("#memberinfo").hide();
       $("#social").show();
       $("#myBtn").show();
-      //window.location.href = "../ta_front/index.html";
+      window.location.href = "http://localhost:8888/ta_front/index.html";
     },
       xhrFields:{
 	withCredentials:true

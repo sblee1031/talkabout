@@ -23,14 +23,27 @@
   	INSERT INTO DEBATEDETAIL (detail_no, DETAIL_DEB , DISCUSS) VALUES
 (DD_SEQ.NEXTVAL, ${debate_no}, '${discuss}')
   </insert>
-  <update id="discussUpdate">
-  	
+    <update id="debUpdate" parameterType="debate">
+  	UPDATE debate SET debate_topic = '${debate_topic}'
+  	, debate_time = ${debate_time}
+  	, debate_content = '${debate_content}' 
+  	, debate_startdate = TO_DATE('${debate_startDate}','YYYY-MM-DD HH24:MI:SS')
+  	WHERE debate_no = ${debate_no}
+  </update>
+  <update id="ddUpdate" parameterType="debatedetail">
+  	UPDATE debatedetail SET discuss = '${discuss}' WHERE detail_no = ${detail_no}
+  </update>
+  
+   <update id="discussorUpdate" parameterType="debatedetail">
+  	UPDATE debatedetail SET discussor = ${discussor.member_no} WHERE detail_no = ${detail_no}
+  </update>
+     <update id="discussorCancle" parameterType="debatedetail">
+  	UPDATE debatedetail SET discussor = '' WHERE detail_no = ${detail_no}
   </update>
   
 	<select id="debSeq" resultType="int">
 	SELECT DEB_SEQ.CURRVAL AS debate FROM DUAL
 	</select>
-	
 	
   <select id="lastRow" resultType="int">
    SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM debate ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
@@ -59,5 +72,9 @@ SELECT *
 FROM debatedetail dd  FULL OUTER JOIN MEMBER m ON (m.MEMBER_NO=dd.DISCUSSOR)
  WHERE detail_deb = #{no}
   </select>
+
+<delete id="debDelete" parameterType="int">
+DELETE debate WHERE debate_no = #{debNo}
+</delete>
 
 </mapper>
