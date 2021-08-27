@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talkabout.dto.BoardMapper"> 
+	<resultMap id="boardResultMap" type = "board" autoMapping="true">
+		<id column="board_no"	property="board_no"/>
+		<association property="board_member" javaType="member" autoMapping="true">
+		</association>
+		<collection property="comment_list" ofType="boardcomment" autoMapping="true">
+		    <id column="com_no"	property="com_no"/> 
+		 	<association property="com_member" javaType="member" autoMapping="true">
+			</association>
+		</collection>
+		<!-- <collection property="like_list" ofType="boardlike">
+		<id column="boardlike_no" property="boardlike_no"/>
+		</collection> -->
+		<collection property="like_list" ofType="boardlike" autoMapping="true">
+			<id column="boardlike_no"	property="boardLike_no"/>
+			<association property="boardLike_member" javaType="member" autoMapping="true">
+			    <id column="blm.member_no" property="member_no"/>
+			    <result column="blm.member_nickname" property="member_nickName"/>
+		</association>
+		</collection>
+		 
+	</resultMap>
+	
+	<!-- 검색기능 -->
+	<select id="selectByBoardType" parameterType = "java.util.HashMap" resultMap="boardResultMap">
+		SELECT * FROM BOARD board JOIN Member mem ON (board.BOARD_MEM = mem.member_no) WHERE board_type = #{type}
+		and (board_title LIKE '%${word}%' or board_contents LIKE '%${word}%')
+		ORDER BY board_no ASC;
+	</select>
+	
+	<!-- 자유게시판 목록 -->
+	<select id="selectAll" resultMap = "boardResultMap">
+		SELECT * FROM BOARD board JOIN Member mem ON (board.BOARD_MEM = mem.member_no) ORDER BY board_no DESC
+	</select>
+	
+	<!-- 게시글 상세보기 -->
+	<select id="selectByBoardNo" parameterType="int" resultMap = "boardResultMap">
+		<!-- SELECT * FROM BOARD board JOIN Member mem ON (board.BOARD_MEM = mem.member_no) WHERE board_no = #{board_no} -->
+		 SELECT board.*
+		, mem.* 
+		, boardcom.*
+		, bl.boardlike_no
+        , blm.member_no "blm.member_no"
+        , blm.member_nickname "blm.member_nickname"
+		
+		FROM 
+			BOARD board 
+			JOIN Member mem ON (board.BOARD_MEM = mem.member_no) 
+			left JOIN BOARDCOMMENT boardcom ON (board.BOARD_NO = boardcom.com_board) 
+			left JOIN boardlike bl ON (board.board_no=bl.boardlike_board)
+            left JOIN member blm ON (bl.boardlike_mem = blm.member_no)
+		WHERE board_no = #{board_no}
+	</select>
+	
+	<!-- 게시글 작성 -->
+	<insert id="insert" parameterType= "board">
+	 	INSERT INTO BOARD  VALUES(BOARD_SEQ.NEXTVAL, #{board_type}, #{board_title}, #{board_contents}, sysdate, 0, #{board_member.member_no})
+	</insert>
+	
+	<!-- 게시글 수정 -->
+	<update id="update" parameterType="board">
+	 	UPDATE BOARD
+	 	<set>
+	 		<if test="Board_type != null and !Board_type.equals=''">Board_type=#{board_type},</if>
+	 		<if test="Board_title != null and !Board_title.equals=''">Board_title=#{board_title},</if>
+	 		<if test="Board_contents != null and !Board_contents.equals=''">Board_contents=#{board_contents},</if>
+	 	</set>
+	 	WHERE board_no = #{board_no}
+	</update>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateCount" parameterType="int">
+		UPDATE BOARD SET board_views = board_views+1 WHERE board_no = #{board_no}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteByBoardNo" parameterType="int">
+	 	DELETE BOARD WHERE board_no = #{board_no}
+	</delete>
+</mapper>
