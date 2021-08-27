@@ -50,7 +50,7 @@ $(function() {
 
 			var trDebates = "";
 			$(lists).each(function(list_i, list) {
-				trDebates += '<tr class="' + list.debate_no +' '+'table-light" >';
+				trDebates += '<tr class="' + list.debate_no + ' ' + 'table-light" >';
 				trDebates += '<td class="debate_no">' + list.debate_no + "</td>";
 				trDebates +=
 					'<td class="' +
@@ -210,6 +210,9 @@ function reload() {
 
 				var like_count = responseData.dabateone.like_count;
 				var detaillist = responseData.dabateone.detail_list;
+				var discuss1_vote = responseData.vote_left;
+				var discuss2_vote = responseData.vote_right;
+				var discuss_neutrality = responseData.vote_middle;
 				console.log("추천수" + like_count);
 				/*$(detaillist).each(function (i, e) {
 					alert(detaillist[i].discuss);
@@ -225,21 +228,21 @@ function reload() {
 					'<img class="discussormem" src="' + debate_img + '" alt="t제안자사진"> <span class="debmem_name">등록자 :' + debate_writer + '</span>' +
 					'</div>' +
 					'<div class="result_discuss">' +
-					'<h3 style="font-size: 50px; margin-top: 40px;">' + debate_topic + '</h3>' +
+					'<h3 style="font-size: 50px; margin-top: 40px; margin-right: 98px;">' + debate_topic + '</h3>' +
 					'</div>' +
 					'</div>' +
 					'<div style="margin-top: 25px;">' +
 					'<ul class="ul_debinfo">' +
 					'<span>토론등록일 : </span>' +
-					'<li class="debinfo">6월 13일</li>' +
+					'<li class="debinfo"> 6월 13일</li>' +
 					'<span>토론시작일 : </span>' +
 					'<li class="debinfo">' + debate_date_startdate + '</li>' +
 					'<span>토론종료일 : </span>' +
-					'<li class="debinfo">' + debate_date_enddate + '</li>' +
+					'<li class="debinfo"> ' + debate_date_enddate + '</li>' +
 					'<span>추천수 : </span>' +
-					'<li class="debinfo">' + like_count + "개" + '</li>' +
+					'<li class="debinfo"> ' + like_count + "개" + '</li>' +
 					'<span>토론시간 : </span>' +
-					'<li class="debinfo">180분</li>' +
+					'<li class="debinfo"> 180분</li>' +
 					'</ul>' +
 					'</div>' +
 					'</div>' +
@@ -313,6 +316,18 @@ function reload() {
 					'</div>' +
 					'</div>';
 
+				//투표결과
+				var total = discuss1_vote + discuss2_vote + discuss_neutrality;
+				if (total != 0) {
+					var discuss1_voterate = discuss1_vote / total * 100;
+					var discuss2_voterate = discuss2_vote / total * 100;
+					var neutrality_voterate = discuss_neutrality / total * 100;
+				} else {
+					var discuss1_voterate = 0;
+					var discuss2_voterate = 0;
+					var neutrality_voterate = 0;
+				}
+
 				detailboard += '<div class="ratingbox">' +
 					'<span class="heading">User Rating</span>' +
 
@@ -320,42 +335,43 @@ function reload() {
 
 					'<div class="row">' +
 					'<div class="side">' +
-					'<div>'+debate_discuss+'</div>' +
+					'<div>' + debate_discuss + '</div>' +
 					'</div>' +
 					'<div class="middle">' +
 					'<div class="bar-container">' +
-					'<div class="bar-5"></div>' +
+					'<div class="bar-5" style="width :' + discuss1_voterate + '%;"></div>' +
 					'</div>' +
 					'</div>' +
 					' <div class="side right">' +
-					'<div>150</div>' +
+					'<div>' + discuss1_vote + '</div>' +
 					'</div>' +
 					'<div class="side">' +
-					'<div>'+debate_discuss2+'</div>' +
+					'<div>' + debate_discuss2 + '</div>' +
 					'</div>' +
 					'<div class="middle">' +
 					'<div class="bar-container">' +
-					'<div class="bar-4"></div>' +
+					'<div class="bar-4" style="width :' + discuss2_voterate + '%;"></div>' +
 					'</div>' +
 					'</div>' +
 					'<div class="side right">' +
-					'<div>63</div>' +
+					'<div>' + discuss2_vote + '</div>' +
 					'</div>' +
 					' <div class="side">' +
 					'<div>중립</div>' +
 					' </div>' +
 					'<div class="middle">' +
 					'<div class="bar-container">' +
-					'<div class="bar-3"></div>' +
+					'<div class="bar-3" style="width :' + neutrality_voterate + '%;"></div>' +
 					'</div>' +
 					'</div>' +
 					'<div class="side right">' +
-					'<div>15</div>' +
+					'<div>' + discuss_neutrality + '</div>' +
 					' </div>' +
+					'<div  style="text-align: right; padding-right: 57px;">total : ' + total + '</div>' +
 					'</div>' +
 					'</div>';
 
-				detailboard += '<div style=" margin: 17px; border-radius: 23px;background-color: beige;">';
+				detailboard += '<div style=" margin: 17px; border-radius: 23px;background-color: #DEF7DE;">';
 
 				var commentlist = responseData.commentlist;
 				console.log(commentlist);
@@ -365,7 +381,7 @@ function reload() {
 
 
 
-					detailboard += '<div class="comment_box" style="margin-bottom: 10px; width=1255px;">' +
+					detailboard += '<div class="comment_box">' +
 						'<div id="comment_box">' +
 						'<img id="comment_profile_img" src="' + commentlist[i].com_mem.member_thumb + '" alt="댓글프로필사진">' +
 						'<span id="comment_user_id">' + commentlist[i].com_mem.member_nickName + '</span>' +
@@ -377,18 +393,18 @@ function reload() {
 					var com_usernickname = commentlist[i].com_mem.member_nickName;
 
 					if (login_nickname == com_usernickname) {
-						detailboard += ' <button class="com_delete" value="' + commentlist[i].com_no + '" style="width:53px; height: 50px; background-color: antiquewhite; border-radius: 15px;">삭제</button>' +
+						detailboard += ' <button class="btn btn-primary com_delete" value="' + commentlist[i].com_no + '" style="width:60px; height: 50px;  border-radius: 15px;">삭제</button>' +
 							'</div>';
 					} else {
-						detailboard += ' <button class="com_delete" value="' + commentlist[i].com_no + '" style="width:53px; display:none; height: 50px; background-color: antiquewhite; border-radius: 15px;">삭제</button>' +
+						detailboard += ' <button class="btn btn-primary com_delete" value="' + commentlist[i].com_no + '" style="width:60px; display:none; height: 50px; border-radius: 15px;">삭제</button>' +
 							'</div>';
 					}
 
 				});
 				detailboard += '</div>';
 				detailboard += '<div style="margin-top:50px; margin-bottom: 15px;">' +
-					'<span style="height: 100px;font-weight: 700;">' + login_nickname + '</span> <input class="comment_content" type="text" placeholder="댓글을 입력하세요 " style="width: 816px; height: 100px; margin-bottom:20px; border-radius: 20px; overflow: hidden;">' +
-					'<button class="com_insert" type="button" style="width: 100px;  height: 100px; background-color: antiquewhite; border-radius: 15px;">입력</button>' +
+					'<span style="height: 100px;font-weight: 700;">' + login_nickname + '</span> <input class="form-control comment_content" type="text" placeholder="댓글을 입력하세요 " aria-describedby="button-addon2" style="display : inline-block; width : 85%; margin-bottom : 10px">' +
+					'<button class="btn btn-primary com_insert" type="button" id="button-addon2" ">입력</button>' +
 					'</div>' +
 					'</div>';
 
