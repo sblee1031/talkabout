@@ -25,7 +25,7 @@
 }
 .nav-link{
 	color: green;
-	font-size: xx-large;s
+	font-size: xx-large;
 }
 .nav-item:hover {
 	background-color: green;
@@ -65,23 +65,28 @@ table {
 #debateList {
 	font-style: normal;
 	color: black;
-	background-color: white;
+	background-color: rgb(255, 255, 255);
 	border-style: none;
-	border: 1px solid black;
 	font-size: x-large;
 	text-align: center;
-	width: 50%;
+	margin : 0px;
+	width: 98%;
+	border-spacing: 0 10px;
+    border-collapse: separate;
 }
-
+td.debate_no{
+	height: 80px;
+	font-weight: 800;
+}
 #tablehead {
 	font-style: normal;
 	color: white;
 	background: black;
 	border: 1px solid black;
 	font-size: x-large;
-	border-bottom: 5px solid #afd793;
 	text-align: center;
 	width: 50%;
+	height: 84px;
 }
 
 #tablecommentList {

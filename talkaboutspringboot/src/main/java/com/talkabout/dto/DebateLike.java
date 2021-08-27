@@ -1,0 +1,51 @@
+package com.talkabout.dto;
+
+public class DebateLike {
+	/*
+	 * Table : 토론결과 좋아요 테이블
+	 * 
+	 * deblike_no : 토론결과 좋아요 번호(PK)
+	 * deblike_deb : 토론번호(FK, Debate 테이블 참조)
+	 * deblike_mem : 회원번호(FK, Member 테이블 참조)
+	 */
+	private int deblike_no;
+	private DebateSungho deblike_deb; // deblike_deb.debate_no
+	private Member deblike_mem; // deblike_mem.member_no 
+	
+	
+	
+	public DebateLike() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public DebateLike(int deblike_no, DebateSungho deblike_deb, Member deblike_mem) {
+		this.deblike_no = deblike_no;
+		this.deblike_deb = deblike_deb;
+		this.deblike_mem = deblike_mem;
+	}
+
+	public int getDeblike_no() {
+		return deblike_no;
+	}
+
+	public void setDeblike_no(int deblike_no) {
+		this.deblike_no = deblike_no;
+	}
+
+	public DebateSungho getDeblike_deb() {
+		return deblike_deb;
+	}
+
+	public void setDeblike_deb(DebateSungho deblike_deb) {
+		this.deblike_deb = deblike_deb;
+	}
+
+	public Member getDeblike_mem() {
+		return deblike_mem;
+	}
+
+	public void setDeblike_mem(Member deblike_mem) {
+		this.deblike_mem = deblike_mem;
+	}
+}
