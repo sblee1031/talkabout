@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTDMapper3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talkabout.dto.NoticeCommentMapper">	
+	<resultMap id="noticeCommentResultMap" type = "noticecomment" autoMapping="true">
+		<association javaType="member" property="com_mem" autoMapping="true">
+		</association>
+	</resultMap>
+	
+	<select id="selectAll" parameterType="int" resultMap="noticeCommentResultMap">
+		SELECT * 
+		FROM NOTICECOMMENT noticeComment 
+		JOIN Member mem ON (noticeComment.COM_MEM = mem.member_no) 
+		where com_notice = #{com_notice} 
+		ORDER BY com_no ASC
+	</select>
+	<select id="selectOne" parameterType="int" resultMap="noticeCommentResultMap">
+		SELECT com_notice, com_contents, com_no, mem.* 
+		FROM NOTICECOMMENT noticeComment 
+		JOIN Member mem ON (noticeComment.COM_MEM = mem.member_no)  
+		WHERE com_no = #{com_no}
+	</select>
+	
+	<insert id="insertNC" parameterType="NoticeComment">
+		INSERT INTO NOTICECOMMENT 
+		VALUES (NC_SEQ.NEXTVAL, #{com_notice}, SYSDATE, #{com_contents}, #{com_mem.member_no})
+	</insert>
+	 	
+	<update id="updateNC" parameterType="NoticeComment">
+		UPDATE NOTICECOMMENT 
+		SET com_contents=#{com_contents}
+		where com_no=#{com_no}
+	</update>
+	
+	<delete id="deleteNC" parameterType="int">
+		DELETE FROM NOTICECOMMENT 
+		WHERE com_no = #{com_no}
+	</delete>
+</mapper>

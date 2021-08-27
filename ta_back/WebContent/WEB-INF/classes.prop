@@ -1,6 +1,0 @@
-#classes.prop
-audienceDAO=com.talkabout.dao.AudienceDAOOracle
-debateDAO=com.talkabout.dao.DebateDAOOracle
-debateDetailDAO=com.talkabout.dao.DebateDetailDAOOracle
-loginDAO=com.talkabout.dao.LoginDAOOracle
-memberDAO=com.talkabout.dao.MemberDAOOracle
