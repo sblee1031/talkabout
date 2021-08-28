@@ -9,18 +9,13 @@ $(function() {
 		data: {},
 		success: function(responseData) {
 			userdata = responseData;
-			//console.log(userdata);
-			//console.log(responseData.usercheck);
+
 			if (responseData.logined == "logined") {
-				//로그인 여부 확인
-				//console.log(responseData.logined);
-				//$("#write").show();
+
 				$("#debcom_writer").val(userdata.member.member_nickName);
 				$("#insert_btn").show();
 			} else {
 				//로그인 안된 상태
-				//console.log("회원정보없음" + responseData);
-				// $("#write").hide();
 			}
 		},
 		xhrFields: {
@@ -28,16 +23,12 @@ $(function() {
 		},
 	});
 
-	//해당댓글번호로 조회
+
 	console.log('토론결과조회'); //,boardlist완료
-	var method = "result";
-	var data = { method: method };
 	var url = "http://localhost:9999/ta_back/resultlist";
 	$.ajax({
 		url: url,
 		method: "get",
-		//data: data,
-		//dataType: "json",
 		success: function(resposeData) {
 			//console.log(resposeData.logininfo.member_nickName);
 			//var login_Nickname =resposeData.logininfo.member_nickName;
@@ -67,7 +58,7 @@ $(function() {
 					'<td class="debate_status">' + list.debate_status + "</td>";
 				trDebates += "</tr>";
 			});
-			/*var pagelist = '<tr><td><nav aria-label="Page navigation example">' +
+			var pagelist = '<nav aria-label="Page navigation example">' +
 				'<ul class="pagination">' +
 				'<li class="page-item_prev"><a class="page-link" href="#">Previous</a></li>';
 
@@ -79,7 +70,7 @@ $(function() {
 
 			pagelist += '<li class="page-item_next"><a class="page-link" href="#">Next</a></li>' +
 				'</ul>' +
-				'</nav></td></tr>';
+				'</nav>';
 			if (resposeData.pageMaker.prev == true) {
 				$(document).ready('li.page-item_prev').show();
 				console.log("성공");
@@ -105,7 +96,7 @@ $(function() {
 				console.log("실패");
 			}
 			$('div.paginglist').append(pagelist);
-			*/
+			
 			trContent.append(trDebates);
 			console.log(resposeData);
 
@@ -116,9 +107,6 @@ $(function() {
 	});
 
 	$("#debateList").on("click", "#debate_no", function() {
-		$("#view").remove(); //기존 상세페이지가 열려 있으면 지우기
-		$("tr.list").remove(); //기존 상세페이지가 열려 있으면 지우기
-
 		deb_no = $(this).attr("class");
 		var url = "http://localhost:9999/ta_back/resultlist/" + deb_no;
 		var trContent = $("#debateList");
@@ -144,9 +132,9 @@ $(function() {
 				},
 			});
 		});
+		
 		$(document).on("click", ".com_delete", function() { //댓글 삭제
-			alert("삭제버튼 클릭");
-			var com_no = $(this).val()
+			var com_no = $(this).val();
 			var url = "http://localhost:9999/ta_back/resultlist/resultreply/" + com_no;
 			$.ajax({
 				url: url,
@@ -164,7 +152,84 @@ $(function() {
 			});
 		});
 	});
-}); //Dom끝
+		$('.searchbutton').click(function(){ //단어검색기능
+		var word = $('.form-control.searchinput').val();
+		console.log(word);
+		var url = "http://localhost:9999/ta_back/resultlist/search/"+word;
+		$.ajax({
+		url: url,
+		method: "get",
+		success: function(resposeData) {
+			console.log(resposeData);
+			var lists = resposeData.debatelistbyword;
+			var trContent = $("#debateList");
+			$('.table-light').empty();
+			var trDebates = "";
+			$(lists).each(function(list_i, list) {
+				trDebates += '<tr class="' + list.debate_no + ' ' + 'table-light" >';
+				trDebates += '<td class="debate_no">' + list.debate_no + "</td>";
+				trDebates +=
+					'<td class="' +
+					list.debate_no +
+					'" id="debate_no"><a class="atitle" href="#" style="text-decoration: none; color: black;font-weight: 600;">' +
+					list.debate_topic +
+					"</a></td>";
+				trDebates +=
+					'<td class="debate_writer">' +
+					list.debate_writer.member_nickName +
+					"</td>";
+				trDebates += '<td class="debate_time">' + list.debate_time + "</td>";
+				trDebates +=
+					'<td class="debate_status">' + list.debate_status + "</td>";
+				trDebates += "</tr>";
+			});
+			
+			trContent.append(trDebates);
+		},
+		xhrFields: {
+			withCredentials: true
+		},
+	});
+	});
+	$(document).on("click", ".page-link", function() { //페이징처리 버튼 이동구현
+		var pagenum = $(this).html();
+		var url = "http://localhost:9999/ta_back/resultlist/list/"+pagenum;
+		$.ajax({
+		url: url,
+		method: "get",
+		success: function(resposeData) {
+			console.log(resposeData);
+			var lists = resposeData.debatelist;
+			var trContent = $("#debateList");
+			$('.table-light').empty();
+			var trDebates = "";
+			$(lists).each(function(list_i, list) {
+				trDebates += '<tr class="' + list.debate_no + ' ' + 'table-light" >';
+				trDebates += '<td class="debate_no">' + list.debate_no + "</td>";
+				trDebates +=
+					'<td class="' +
+					list.debate_no +
+					'" id="debate_no"><a class="atitle" href="#" style="text-decoration: none; color: black;font-weight: 600;">' +
+					list.debate_topic +
+					"</a></td>";
+				trDebates +=
+					'<td class="debate_writer">' +
+					list.debate_writer.member_nickName +
+					"</td>";
+				trDebates += '<td class="debate_time">' + list.debate_time + "</td>";
+				trDebates +=
+					'<td class="debate_status">' + list.debate_status + "</td>";
+				trDebates += "</tr>";
+			});
+			
+			trContent.append(trDebates);
+		},
+		xhrFields: {
+			withCredentials: true
+		},
+	});
+	});
+	});
 
 function reload() {
 	var url = "http://localhost:9999/ta_back/resultlist/" + deb_no;
@@ -217,8 +282,6 @@ function reload() {
 				/*$(detaillist).each(function (i, e) {
 					alert(detaillist[i].discuss);
 				});*/
-
-
 
 				var detailboard = '<article>' +
 					'<div class="resultdetailbox">' +

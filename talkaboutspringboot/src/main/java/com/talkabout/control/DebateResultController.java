@@ -50,13 +50,24 @@ public class DebateResultController {
 		Member logininfo = (Member)session.getAttribute("logininfo");
 		Map<String, Object> map = new HashMap<>();
 		List<DebateSungho> debatelist = service.listallWithPaging(cri);
-		int totalListCount = service.listallWithPaging(cri).size();
+		int totalListCount = service.debresultlistall().size();
 		map.put("logininfo", logininfo); //로그인정보
 		map.put("debatelist", debatelist);//게시글 리스트 
-//		map.put("pageMaker", new PageDTOsungho(cri, totalListCount));//페이징처리
+		map.put("pageMaker", new PageDTOsungho(cri, totalListCount));//페이징처리
 		return map;
 	}
-
+	@GetMapping(value = "/resultlist/list/{pageno}")
+	public Map<String, Object> getlistbypageno(DebateSungho cri, HttpSession session,@PathVariable(required = false) int pageno) throws FindException {
+		Member logininfo = (Member)session.getAttribute("logininfo");
+		cri.setPage_num(pageno);
+		Map<String, Object> map = new HashMap<>();
+		List<DebateSungho> debatelist = service.listallWithPaging(cri);
+		int totalListCount = service.debresultlistall().size();
+		map.put("logininfo", logininfo); //로그인정보
+		map.put("debatelist", debatelist);//게시글 리스트 
+		map.put("pageMaker", new PageDTOsungho(cri, totalListCount));//페이징처리
+		return map;
+	}
 	@GetMapping(value = "/resultlist/{boardno}")
 	public Map<String, Object> getone(@PathVariable int boardno,HttpSession session) throws FindException {
 		Member logininfo = (Member)session.getAttribute("logininfo");
@@ -112,6 +123,14 @@ public class DebateResultController {
 			result.put("status", 2);
 			result.put("msg", "댓글 삭제 실패");
 		}
+		return result;
+	}
+	
+	@GetMapping(value = "/search/{word}")
+	public Map<String,Object> getlistbyword(@PathVariable String word )throws FindException{
+		Map<String, Object> result = new HashMap<>();
+		List<DebateSungho> debatelistbyword = service.Getlistbyword(word);
+		result.put("debatelistbyword", debatelistbyword);
 		return result;
 	}
 }

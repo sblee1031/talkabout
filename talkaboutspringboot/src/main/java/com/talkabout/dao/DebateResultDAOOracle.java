@@ -190,4 +190,18 @@ public class DebateResultDAOOracle implements DebateResultDAO {
 			session.close();
 		}
 	}
+
+	@Override
+	public List<DebateSungho> Getlistbyword(String word) throws FindException {
+		SqlSession session = null;
+		try {
+			session = sessionFactory.openSession();
+			return session.selectList("com.talkabout.dto.DebateResultMapper.Getlistbyword", word);
+
+		} catch (Exception e) {
+			throw new FindException("검색결과가 없습니다");
+		} finally {
+			session.close();
+		}
+	}
 }

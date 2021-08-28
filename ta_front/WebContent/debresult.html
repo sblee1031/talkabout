@@ -544,8 +544,7 @@ div.ratingbox {
 		</div>
 	</nav>
 
-	<section id="section" class="container"
-		style="overflow: auto; text-align: center; height: 100%">
+	<section id="section" class="container"style=" text-align: center; min-height: 100%;">
 
 		<input type="hidden" id="debcom_id" name="debcom_id" />
 		<div class="debateboardlistbox" align="center">
@@ -558,18 +557,21 @@ div.ratingbox {
 					<th>토론 시간</th>
 					<th>진행 상태</th>
 				</tr>
-
 			</table>
-			<div class="paginglist">
-			<div>
+			<div class="input-group mb-3">
+     		<input type="text" class="form-control searchinput" required="required" style="width:162px; flex: 0 1 auto;" aria-describedby="button-addon2">
+      		<button class="btn btn-primary searchbutton" style="border-top-right-radius:0.4rem; border-bottom-right-radius:0.4rem;" type="button" id="button-addon2">검색</button>
+			<div class="paginglist" style="margin-left: 370px;height: 40px;">
+			</div>
+  			</div>
 
 					<!-- Links -->
 	</section>
-	<footer class="card text-white bg-primary mb-3" style="position:relative; margin-top:10px; left:0; bottom:0; height:100px;">
+	<footer class="card text-white bg-primary" style="position:relative; margin-top:10px; left:0; bottom:0; height:100px;">
       <div><a>Copyright ⓒ </a><a
           class="navbar-brand text-success logo h1 align-self-center"
-          style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;"
-        >
+          style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+
           Talk About
         </a><br><a>경기도 성남시 분당구 성남대로 34 하나프라자 6층</a></div>
 	</footer>

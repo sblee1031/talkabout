@@ -87,4 +87,11 @@ public interface DebateResultDAO {
 	public int GetVoteResult_left(int deb_no)throws FindException;
 	public int GetVoteResult_right(int deb_no)throws FindException;
 	public int GetVoteResult_middle(int deb_no)throws FindException;
+	/**
+	 * 단어검색
+	 * @param word 글자로 검색
+	 * @return
+	 * @throws FindException
+	 */
+	public List<DebateSungho> Getlistbyword(String word)throws FindException;
 }

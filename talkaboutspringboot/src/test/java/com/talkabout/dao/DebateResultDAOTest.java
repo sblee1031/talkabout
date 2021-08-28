@@ -79,9 +79,9 @@ class DebateResultDAOTest {
 		dao.deleteComment(35);
 		
 	}
-	@Test
-	public void getvotetest() throws FindException{
-		dao.GetVoteResult(1);
-	}
-
+//	@Test
+//	public void TestGetlistByWord()throws FindException{
+//		List<DebateSungho>list= dao.Getlistbyword("호");
+//		System.out.println(list);
+//	}
 }
