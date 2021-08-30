@@ -81,10 +81,10 @@ function init() {
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  var gSocial = profile.mS;
-  var gEmail = profile.Et;
-  var gThumb = profile.hJ;
-//  console.log(profile);
+  var gSocial = profile.US;
+  var gEmail = profile.Ht;
+  var gThumb = profile.wJ;
+  console.log("구글정보=>>",profile);
 //  console.log(profile.mS);
 
   var url = "http://localhost:9999/ta_back/member/login";
@@ -99,7 +99,7 @@ function onSignIn(googleUser) {
       thumb: gThumb,
     },
     success: function (responseData) {
-     // console.log("구글응답 : ",responseData);
+     //console.log("구글응답 : ",responseData);
       //console.log(responseData.usercheck);
       if (responseData.usercheck == "non_member") {
         $("#section").load("logininfo.html", function () {

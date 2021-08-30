@@ -46,9 +46,9 @@
 <script>var Alert = ReactBootstrap.Alert;</script> -->
     
      <link rel="stylesheet" href="ta/css/nav.css" /> 
-    <link rel="stylesheet" href="ta/css/bootstrap.min.css" />
+<!--     <link rel="stylesheet" href="ta/css/bootstrap.min.css" />
     <link rel="stylesheet" href="ta/css/bootstrap-grid.min.css" />
-    <link rel="stylesheet" href="ta/css/bootstrap-reboot.min.css" />
+    <link rel="stylesheet" href="ta/css/bootstrap-reboot.min.css" /> -->
     
     <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/templatemo.css" />   
@@ -77,11 +77,21 @@
         background-color: lightgrey;
         text-align: center;
       }
+
+
       footer {
+      	position: absolute;
         background-color: #ffcc00;
         text-align: center;
         width: 100%;
 
+      }
+            @media(min-width: 700px) { 
+      	footer{
+      	position:relative;
+      	background-color: black;
+      	}
+      	
       }
       #live {
         background-color: brown;
@@ -218,7 +228,7 @@
       <!-- Links -->
 
     </section>
-    <footer>
+    <footer style="left: 0; bottom: 0; width: 100%;">
       <div><a>Copyright ⓒ </a><a
           class="navbar-brand text-success logo h1 align-self-center"
         >

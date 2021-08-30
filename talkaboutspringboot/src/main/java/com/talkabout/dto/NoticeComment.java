@@ -2,6 +2,8 @@ package com.talkabout.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class NoticeComment {
 	/*
 	 * Table : 공지사항 댓글 테이블
@@ -13,13 +15,17 @@ public class NoticeComment {
 	 * com_mem : 회원번호(FK, Member 테이블 참조)
 	 */
 	private int com_no;
-	private Notice com_notice; // com_notice.notice_no
+	private int com_notice; // com_notice.notice_no
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private Date com_date;
 	private String com_contents;
 	private Member com_mem; // com_mem.member_no
-	//private NoticeOffi com_noticeOffi;
 	
-	public NoticeComment(int com_no, Notice com_notice, Date com_date, String com_contents, Member com_mem) {
+	public NoticeComment() {
+		super();
+	}
+	
+	public NoticeComment(int com_no, int com_notice, Date com_date, String com_contents, Member com_mem) {
 		super();
 		this.com_no = com_no;
 		this.com_notice = com_notice;
@@ -36,11 +42,11 @@ public class NoticeComment {
 		this.com_no = com_no;
 	}
 
-	public Notice getCom_notice() {
+	public int getCom_notice() {
 		return com_notice;
 	}
 
-	public void setCom_notice(Notice com_notice) {
+	public void setCom_notice(int com_notice) {
 		this.com_notice = com_notice;
 	}
 
@@ -67,4 +73,6 @@ public class NoticeComment {
 	public void setCom_mem(Member com_mem) {
 		this.com_mem = com_mem;
 	}
+
+	
 }

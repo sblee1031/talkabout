@@ -45,7 +45,7 @@ public interface BoardDAO {
 	 * @param b
 	 * @throws ModifyException
 	 */
-	void update(Board binfo) throws ModifyException;
+	void update(int board_no) throws ModifyException;
 	
 	/**
 	 * 게시글 조회수 카운트

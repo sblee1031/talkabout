@@ -1,36 +1,19 @@
 package com.talkabout.service;
 
-import java.io.FileInputStream;
-import java.util.Properties;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.talkabout.dao.AdminDAO;
-import com.talkabout.dao.MemberDAO;
 import com.talkabout.dto.Admin;
-import com.talkabout.dto.Member;
-import com.talkabout.exception.AddException;
+import com.talkabout.dto.Notice;
 import com.talkabout.exception.FindException;
-
+@Service
 public class AdminService {
+	
+	@Autowired
 	private AdminDAO dao;
-	private static AdminService service;
-	public static String envProp; //
-	private AdminService() {
-		Properties env = new Properties();
-		try {
-			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("adminDAO");
-			Class c = Class.forName(className);
-			dao = (AdminDAO)c.newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	public static AdminService getInstance() {
-		if(service == null) {
-			service = new AdminService();
-		}
-		return service;
-	}
 	
 
 	public Admin adminInfo(int admin_no) throws FindException {
@@ -39,6 +22,18 @@ public class AdminService {
 	public Admin adLogin(String id, String pwd) throws FindException {
 		return dao.AdLogin(id, pwd);
 	}
-
-
+	
+//notice
+	public List<Notice> noticeFindAll(int startRow, int endRow) throws FindException {
+		return dao.noticeFindAll( startRow,  endRow);
+	}
+	public List<Notice> noticeFindAll(String optWord,int startRow, int endRow) throws FindException {
+		return dao.noticeFindAll(optWord, startRow,  endRow);
+	} 
+	public int noticeLastRow() {//총 게시물 개수 구하기
+		return dao.noticeLastRow();
+	}
+	public int noticeSearchLastRow(String word) {//총 게시물 개수 구하기
+		return dao.noticeSearchLastRow(word);
+	}
 }

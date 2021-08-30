@@ -73,6 +73,10 @@ FROM debatedetail dd  FULL OUTER JOIN MEMBER m ON (m.MEMBER_NO=dd.DISCUSSOR)
  WHERE detail_deb = #{no}
   </select>
 
+<select id="checkDeb" parameterType="int" resultType="debatedetail">
+	select detail_deb, discussor from debatedetail where detail_deb = #{deb_no}
+</select>
+
 <delete id="debDelete" parameterType="int">
 DELETE debate WHERE debate_no = #{debNo}
 </delete>
