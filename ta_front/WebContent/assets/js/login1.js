@@ -5,6 +5,7 @@ $(function () {
 	//시작시 로그인 여부 확인
 	//console.log("userdata :",userdata);
 	//console.log("DOM생성");
+
   var url = "http://localhost:9999/ta_back/member/login";
   $.ajax({
     url: url,
@@ -81,10 +82,10 @@ function init() {
 
 function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  var gSocial = profile.PS;
-  var gEmail = profile.Et;
-  var gThumb = profile.uJ;
-//  console.log(profile);
+ console.log(profile);
+  var gSocial = profile.US;
+  var gEmail = profile.Ht;
+  var gThumb = profile.wJ;
 //  console.log(profile.mS);
 
   var url = "http://localhost:9999/ta_back/member/login";
