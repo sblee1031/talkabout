@@ -1,0 +1,90 @@
+ <!-- 노티스 작성 시작-->
+      <div id="noticeWrite" class="board_wrap" style="display: none">
+        <div class="board_title">
+          <strong>공지사항</strong>
+        </div>
+        <div class="board_write_wrap">
+          <div class="board_write">
+            <div class="title">
+              <dl>
+                <dt>제목</dt>
+                <dd>
+                  <input
+                    id="inputNotice_title"
+                    type="text"
+                    placeholder="제목 입력"
+                  />
+                </dd>
+                <dd>
+                  <span>타입 : </span>
+                  <select id="search" name="search">
+                    <option value="전체">전체</option>
+                    <option value="공지">공지</option>
+                    <option value="업데이트">업데이트</option>
+                    <option value="이벤트">이벤트</option>
+                  </select>
+                </dd>
+              </dl>
+            </div>
+            <div class="info">
+              <!-- 작성상세정보 필요 -->
+            </div>
+            <div class="cont">
+              <textarea
+                id="inputNotice_contents"
+                placeholder="내용 입력"
+              ></textarea>
+            </div>
+          </div>
+          <div class="bt_wrap">
+            <a id="btnNoticesave" onclick="btnSaveNotice()">등록</a>
+            <!-- 작성공지로 이동 필요-->
+            <a href="admin.html">취소</a>
+          </div>
+        </div>
+      </div>
+      <!-- 노티스 작성 끝-->
+
+      <!-- 노티스 수정 시작-->
+      <div id="noticeUpdate" class="board_wrap" style="display: none">
+        <div class="board_title">
+          <strong>공지사항 수정</strong>
+        </div>
+        <div class="board_write_wrap">
+          <div class="board_write">
+          <div class="title"><dt>글 번호</dt><dt id="no"></dt></div>
+            <div class="title">
+              <dl>
+                <dt>제목</dt>
+                <dd>
+                  <input
+                    id="inputNotice_title_update"
+                    type="text"
+                    placeholder="제목 입력"
+                  />
+                </dd>
+                <dd>
+                  <select id="select" name="search">
+                    <option value="전체">전체</option>
+                    <option value="공지">공지</option>
+                    <option value="업데이트">업데이트</option>
+                    <option value="이벤트">이벤트</option>
+                  </select>
+                </dd>
+              </dl>
+            </div>
+            <div class="info">
+              <!-- 작성상세정보 필요 -->
+            </div>
+            <div class="cont">
+              <textarea id="update_contents" placeholder="내용 입력"></textarea>
+            </div>
+          </div>
+          <div class="bt_wrap">
+            <a id="btn_update" onclick="btnUpdateNotice()">수정</a>
+            <!-- 작성공지로 이동 필요-->
+            <a onclick="btnNoticeUpdateCancle()">취소</a>
+          </div>
+        </div>
+      </div>
+            <!-- 노티스 수정 끝-->

@@ -1,0 +1,21 @@
+INDEX VERSION 1.131+E:\JAVA_WORK\Worksapce\talkabout\.metadata\.plugins\org.eclipse.jdt.core
+2655310788.index
+489408304.index
+4073631159.index
+1102226877.index
+2970263172.index
+769271706.index
+12619151.index
+395326781.index
+482580299.index
+1039347805.index
+1257068310.index
+2459753851.index
+1938704437.index
+965971924.index
+4051931668.index
+2998227262.index
+2867619126.index
+2503696852.index
+3829792037.index
+1548685089.index

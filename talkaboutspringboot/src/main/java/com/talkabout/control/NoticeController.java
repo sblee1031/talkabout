@@ -28,7 +28,10 @@ import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
 import com.talkabout.service.NoticeService;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+
+@CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000","http://localhost:9999"})
+
+
 @RestController
 @RequestMapping("/notice")
 public class NoticeController {
@@ -86,6 +89,10 @@ public class NoticeController {
 	// http://localhost:9999/back/notice
     @PostMapping
     public Map<String, Object> insertNotice(@RequestBody Notice notice) {
+<<<<<<< HEAD
+=======
+    	System.out.println(notice.toString());
+>>>>>>> Lee
     	Map<String, Object> result = new HashMap<>();
     	
     	try {
@@ -103,7 +110,11 @@ public class NoticeController {
     // 
     @PutMapping("/{notice_no}")
     public Map<String, Object> updateNotice(@PathVariable int notice_no, @RequestBody Notice notice) {
+<<<<<<< HEAD
     	
+=======
+//    	System.out.println(notice_no);
+>>>>>>> Lee
     	Map<String, Object> result = new HashMap<>();
     	try {
     		Notice updateNotice = noticeService.findByNo(notice_no);

@@ -149,8 +149,6 @@ public class Member{
 		this.member_able = member_able;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Member [member_no=" + member_no + ", member_social_type=" + member_social_type + ", member_social_no="
@@ -158,7 +156,6 @@ public class Member{
 				+ ", member_email=" + member_email + ", member_thumb=" + member_thumb + ", member_birth=" + member_birth
 				+ ", member_able=" + member_able + "]";
 	}
-	
 	
 	
 }

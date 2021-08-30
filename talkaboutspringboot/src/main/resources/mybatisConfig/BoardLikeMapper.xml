@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.talkabout.dto.BoardLikeMapper"> 
+  <!-- 	<resultMap id="boardLikeResultMap" type = "boardlike" autoMapping="true">
+		<association javaType="member" property="boardlike_member" autoMapping="true">
+		</association>
+	</resultMap> -->
+  	<insert id="insert" parameterType="boardlike">
+  		INSERT INTO BOARDLIKE VALUES (BL_SEQ.NEXTVAL,#{boardlike_board},#{boardlike_member})
+  	</insert>
+  	<delete id="deleteByBoardLikeNo" parameterType="int">
+  		DELETE BOARDLIKE WHERE boardlike_no = #{boardlike_no}
+  	</delete>
+  </mapper>

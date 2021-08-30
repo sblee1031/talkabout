@@ -41,7 +41,6 @@ public class DatabaseConfiguration {
 		return sqlSessionFactoryBean.getObject();
 	}
 
-	//ajax
-	//(responseDate){
-	//responseDate[0].notis_no ==공지번호
-}
+
+	
+	}

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML Layouts</title>
+    <!--jquery 스크립트-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+       <!-- 로그인 js 시작 -->
+    <meta
+      name="google-signin-client_id"
+      content="241916072602-heae1rac9sjh4t615b0k7i0iso0m842o.apps.googleusercontent.com"
+    />
+      <!--    <script
+      src="https://apis.google.com/js/platform.js?onload=renderButton"
+      async
+      defer
+    ></script> -->
+
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+
+    <!-- 로그인 js 끝 -->
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+    <script>
+
+    </script>
+    <!-- 아이콘 -->
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="assets/img/favicon.ico"
+    />
+
+    <!-- 부트스트랩 -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/templatemo.css" />
+    <link rel="stylesheet" href="assets/css/custom.css" />
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="assets/css/debresult.css" />
+    <style type = text/css>
+    .row{margin:0pxauto; width:600px;}
+    h2{text-align:center}
+    </style>
+    <style>
+     
+      
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+      }
+      header {
+        background-color: lightgrey;
+        text-align: center;
+      }
+      footer {
+        background-color: #ffcc00;
+        text-align: center;
+
+        position: absolute;
+
+        left: 0;
+
+        bottom: 0;
+
+        width: 100%;
+        height: 10%;
+      }
+      #live {
+        background-color: brown;
+        float: left;
+      }
+      #login {
+        background-color: darkturquoise;
+        float: right;
+      }
+      span.board_index {
+        font-size: 30pt;
+        margin-right: 5%;
+      }
+      /* The Modal (background) */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0); /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+      }
+
+      /* Modal Content/Box */
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+      }
+      /* The Close Button */
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a
+          class="navbar-brand text-success logo h1 align-self-center"
+          href="index.html"
+        >
+          Talk About
+        </a>
+
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          data-bs-toggle="collapse"e
+          data-bs-target="#templatemo_main_nav"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="
+            align-self-center
+            collapse
+            navbar-collapse
+            flex-fill
+            d-lg-flex
+            justify-content-lg-between
+          "
+          id="templatemo_main_nav"
+        >
+          <div class="flex-fill">
+            <ul
+              class="nav navbar-nav d-flex justify-content-between mx-lg-auto"
+            >
+              <li class="nav-item">
+                <a class="nav-link" href="notice.html">공지사항</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="board.html">자유게시판</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="debrecruit.html">토론 모집</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="debbattle.html">토론 배틀</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="debresult.html">토론 결과</a>
+              </li>
+            </ul>
+          </div>
+
+      <!-- modal 시작 -->
+      <button id="myBtn">로그인</button>
+
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close" id="close">&times;</span>
+           <!-- 소셜계정 선택 시작 -->
+    <div id="social" style="text: center; margin-block: inherit">
+      <li id="GgCustomLogin" style="list-style-type: none">
+         <a href="javascript:void(0)">
+       <!--  <button onclick="init()"> -->
+          <!-- <p id="my-signin2"></p> -->
+          <img style="width:220px" src="assets/img/loginbt_google.png">
+        </a>
+      </li>
+      <br />
+      <a id="kakao-login-btn"></a>
+      <!-- <button class="api-btn" onclick="unlinkApp()">앱 탈퇴하기</button> -->
+      <br />
+              
+    </div>
+    
+        <!-- 소셜계정 선택 끝 -->
+          <p>소셜로그인..</p>
+        </div>
+      </div>
+      <!-- The Modal END -->
+		 <!-- 로고인 완료 화면 시작 -->
+    <div id="memberinfo" style="text-align: center; display: none">
+      <ul>
+        <li style="list-style-type: none">
+          <img
+            style="width: 30px"
+            id="login_thumb_img"
+            src=""
+            alt="mythumbnail"
+          />
+          <span id="member_nickname" style="font-size: 10pt"></span>
+        </li>
+      </ul>
+      <a class="myinfo" href="#" onclick="myinfo()">마이페이지</a>
+      <button class="logout" type="button" onclick="logout()">로그아웃</button>
+       
+    </div>
+
+    <!-- 로그인 완료 화면 끝 -->
+          <div class="navbar align-self-center d-flex">
+            <div
+              class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3"
+            >
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputMobileSearch"
+                  placeholder="Search ..."
+                />
+                <div class="input-group-text">
+                  <i class="fa fa-fw fa-search"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+		<section style="overflow-y:auto; height:80%; display:inline">
+			<div class= contatiner style="margin-top:3%">
+				<h2>자유게시판 </h2>
+					<div style="overflow-y:auto;">
+						<table class="table table-hover" style="text-align:center">
+							<thead>
+								<tr>
+									<td>
+										<a href = "./boardwrite.html" class="btn btn-sm btn-success">글쓰기</a>
+										<!-- <button class="btn btn-sm btn-success">글쓰기</button> -->
+									</td>
+								</tr>
+								<tr>
+									<th style="width:10%;">번호</th>
+									<th style="width:10%;">타입</th>
+									<th>제목</th>
+									<th>닉네임</th>
+									<th>날짜</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+							<tbody>
+								 <tr class="data1" style="display:none">
+									<td class="board_no" style= "width:5%;"><a class= "board_no_dtl" href = ""></a></td>
+									<td class="board_type"></td>
+									<td class="board_title" id="board_title">	</td>
+									<td class="board_mem"></td>
+									<td class="board_date"></td>
+									<td class="board_views"></td>
+								</tr>
+							</tbody>
+							<hr>
+							<tr>
+							<form>
+								<fieldset>
+									<td class= text-left>
+										<select class="input-sm" name="type">
+											<option Value="board_type">타입</option>
+											<option Value="board_title">제목</option>
+											<option value="board_contents">내용</option>
+										</select>
+									</td>
+									<td>
+										<input type=text size=15 class=input-sm name="contents"/>
+									</td>
+									<td>
+										<input type=submit value="검색" name="search"class="btn btn-sm btn-primary" style="text-align:left"/>
+									</td>
+								</fieldset>
+							</form>
+								<td>
+								</td>
+								<td>
+								</td>
+								<td class=text-right>
+									<a href= ./boardwrite.html class="btn btn-sm btn-primary" >이전</a>
+									<a href= ./boardwrite.html class="btn btn-sm btn-primary" >다음</a>
+								</td>
+							</tr>
+						</table>
+
+					</div>
+			</div>
+		</section>
+	<footer style="position:relative; left:0; bottom:0; height:150px;">
+      <div><a>Copyright ⓒ </a><a
+          class="navbar-brand text-success logo h1 align-self-center"
+        >
+          Talk About
+        </a><br><a>경기도 성남시 분당구 성남대로 34 하나프라자 6층</a></div>
+	</footer> 
+     <script src="assets/js/login1.js"></script>
+     <script>
+     $(function(){
+    	 var response;
+    	 $('#copytable').hide();
+    	 $('#copytbody').hide();
+    	//게시글 목록
+    		$.ajax({
+    			url:'../ta_back/boardlist',
+    			method: 'post',
+    			success:function(responseObj){
+    				response=responseObj;
+    			var table = $('table.table');
+    			var $tr10bj = $('tr.data1');
+    			
+    			var boardinfo = responseObj.boardinfo;
+    			var nick_list = responseObj.nicklist;
+    			$(boardinfo).each(function(i,e){
+    				var $copyObj = $tr10bj.clone();
+    				/* var lines = e.lines; //게시글 정보
+    				var lineSize = lines.length; */
+    				//게시글 번호 , 타입 , 제목, 작성자, 날짜, 조회수
+    					
+    				$copyObj.find('td.board_no').html(i+1);
+    				$copyObj.find('td.board_no').attr('id', i+1);
+    				$copyObj.find('td.board_type').html(e.board_type);
+    				$copyObj.find('td.board_title').html(e.board_title);
+    				$copyObj.find('td.board_title').attr('class',e.board_no);
+    				
+    				$copyObj.find('td.board_mem').html(nick_list[i]);
+    				$copyObj.find('td.board_date').html(e.board_date);
+    				$copyObj.find('td.board_views').html(e.board_views);
+    				
+    				$copyObj.show();
+    				table.append($copyObj);
+    			 });
+    			}
+    		});
+    	//게시글 검색 (아직 구현안됨)
+    		$('table.table').on('click', 'td>input[name=search]', function(e){
+           	 e.preventDefault();
+           	 console.log('검색버튼클');
+           	$.ajax({
+           		url:'../ta_back/boardsearch',
+           		method:'post',
+           		data:{type : $('select[name=type]').val(),
+           				contents : $('input[name=contents]').val()},
+           		success:function(responseObj){
+           			console.log(responseObj);
+           			var tbody = $('tbody');
+           			var table = $('table.table');
+           			var thead = $('thead');
+           			var $tr10bj =  $('#copytable');
+           			table.remove();
+           			$(responseObj).each(function(i,e){
+           				console.log(i);
+           				var $copyObj = $tr10bj.clone();
+           					
+           				$copyObj.find('td.board_no').html(e.board_no);
+           				$copyObj.find('td.board_type').html(e.board_type);
+           				$copyObj.find('td.board_title').html(e.board_title);
+           				$copyObj.find('td.board_title').attr('class',e.board_no);
+           				
+           				$copyObj.find('td.board_mem').html(e.board_mem);
+           				$copyObj.find('td.board_date').html(e.board_date);
+           				$copyObj.find('td.board_views').html(e.board_views);
+           				
+           				$copyObj.show();
+           				table.append(thead);
+           				table.append($copyObj);	
+           				});
+           			}
+           		});
+            });
+    		
+    		//게시글 상세페이지로 이동
+    		$('table.table').on('click', '#board_title', function(){
+    			var board_no = $(this).attr('class');
+    			var board_no2 = $('td#id').text();
+    			/* console.log(board_no2);
+    			console.log(board_no); */
+    			var htmlurl = './boardinfo.html';
+    			var backurl = '../ta_back/boardinfo';
+    			$.ajax({
+    				url: backurl,
+    				method: 'post',
+    				data:{board_no: board_no},
+    				success:function(responseObj){
+    				var data = responseObj.boardDetail;
+    				
+    		          var htmlurl = './boardinfo.html';
+    		          $('section').load(htmlurl, function () {
+    		        	//json
+    		  			var board_no = data.board_no;
+    		  			var board_type = data.board_type;
+    		  			var board_title = data.board_title;
+    		  			var board_contents = data.board_contents;
+    		  			var board_mem = data.board_mem;
+    		  			var board_date = data.board_date;
+    		  			var board_views = data.board_views;
+    		  			
+    		  			
+    		  			$('td.board_no').html(board_no);
+    		  			$('td.board_type').html(board_type);
+    		  			$('td.board_title').html(board_title);
+    		  			$('td.board_contents').html(board_contents);
+    		  			$('td.board_mem').html(board_mem);
+    		  			$('td.board_date').html(board_date);
+    		  			$('td.board_views').html(board_views); 
+    		  			$('div.boardinfo').show();
+    		  			
+    		  			//조회수 증가 ajax
+		    			var backurl = '../ta_back/boardviews';
+		    			$.ajax({
+		    				url: backurl,
+		    				method: 'post',
+		    				data:{board_no: board_no},
+		    				success:function(responseObj){
+		    					//console.log('조회수 : '+responseObj);
+		    				},
+		    			});
+    		  			//조회수 증가 ajax 끝.
+		    			
+    		          });
+    				}
+    			});
+    			//게시글 댓글
+    			$.ajax({
+            		url: '../ta_back/boardcomlist',
+            		method: 'post',
+            	 	data:{board_no : board_no},
+            	 	success:function(responseObj){
+            	 		console.log(responseObj);
+            	 		var table=$('#comment');
+            	 		var $tr20bj = $('tr.data2');
+            	 		var lists = responseObj.boardcomlist;
+            	 		$(lists).each(function(i,e){
+            	 			var $comcopyObj= $tr20bj.clone();
+            	 			//console.log($comcopyObj);
+            	 			//console.log(e.com_no);
+            	 			//console.log(i);
+            	 			$comcopyObj.find('td.com_no').html(e.com_no);
+        					$comcopyObj.find('td.com_contents').html(e.com_contents);
+        					$comcopyObj.find('td.com_mem').html(e.com_mem);
+        					$comcopyObj.find('td.com_date').html(e.com_date);
+        					
+        					$comcopyObj.show();
+        					table.append($comcopyObj);
+            	 		});
+            	 	}
+            	 });
+    		});
+    		
+
+    		
+    	});
+         
+ 
+     </script>
+     <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> 
+ 
+
+</body>
+</html>

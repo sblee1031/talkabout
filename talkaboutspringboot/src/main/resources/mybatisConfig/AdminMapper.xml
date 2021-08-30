@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talkabout.dto.AdminMapper">
+	<!-- 로그인 시작 -->
+  <select id="login" parameterType="admin" resultType="admin">
+   SELECT * FROM admin WHERE admin_id = '${admin_id}' AND admin_pwd = '${admin_pwd}'
+  </select>
+  <select id="selectById" resultType="admin">
+   SELECT * FROM admin WHERE admin_id = '#{admin_id}'
+  </select>
+  <!-- 로그인 끝 -->
+  <!-- 공지사항시작 -->
+    <select id="noticeLastRow" resultType="int">
+   SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM notice ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
+  </select>
+  	<select id="noticeList" parameterType="hashmap" resultType="notice">
+  	SELECT  *
+FROM ( SELECT ROWNUM AS RNUM, notice.* FROM notice ORDER BY notice_no DESC)
+WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row}
+	</select>
+  
+  
+  <!-- 공지사항끝 -->
+  
+
+</mapper>
