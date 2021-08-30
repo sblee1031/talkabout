@@ -30,7 +30,18 @@ $(function () {
 	 withCredentials:true
     },
   });
-	
+  
+// 모달 버튼에 이벤트를 건다.
+$('#openModalBtn').on('click', function(){
+$('#modalBox').modal('show');
+});
+// 모달 안의 취소 버튼에 이벤트를 건다.
+$('#closeModalBtn').on('click', function(){
+$('#modalBox').modal('hide');
+});
+
+
+/*	
   // Get the modal
   var modal = document.getElementById("myModal");
 
@@ -55,7 +66,7 @@ $(function () {
     if (event.target == modal) {
       modal.style.display = "none";
     }
-  };
+  };*/
 
 
 }); //dom 끝 괄호
@@ -154,7 +165,7 @@ function onSignIn(googleUser) {
 } //구글로그인 끝
 
 function onSignInFailure(t) {
-  console.log("->>",t);
+  //console.log("->>",t);
 }
 
 /* function renderButton() {
