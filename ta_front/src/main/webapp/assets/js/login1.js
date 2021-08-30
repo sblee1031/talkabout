@@ -386,7 +386,14 @@ const serializedValues2 = $('#signupfrom').serializeObject()
       success: function (responseData) {
         userdata = responseData;
         console.log("회원가입 응답",responseData);
-        if (responseData.usercheck == "non_member") {
+/*        if(responseData.status ==1){
+		alert('가입성공! ');
+		window.location.href = "../ta_front/index.html";
+}else{
+	alert('가입 실패');
+	window.location.href = "../ta_front/index.html";
+}*/
+       if (responseData.usercheck == "non_member") {
           alert("잘못된 접근입니다.");
         } else if (responseData.usercheck == "member") {
           logined(responseData);

@@ -115,15 +115,23 @@ public class LoginController {
 	}
 	@PostMapping("/signup")
 	public Map<String, Object> signUp(HttpSession session, @RequestBody Member mem){
+		session.removeAttribute("logininfo");
 		System.out.println("signup");
 		System.out.println(mem);
 		Map<String, Object> result = new HashMap<>();
 		try {
 			service.signUp(mem);
 			result.put("status", 1);
-			session.setAttribute("logininfo", mem);
 			result.put("usercheck", "member");
-			result.put("member", mem);
+			Member dbMember = new Member();
+			try {
+				dbMember =service.memberCheck(mem.getMember_social_no());
+			} catch (FindException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			session.setAttribute("logininfo", dbMember);
+			result.put("member", dbMember);
 			
 		} catch (AddException e) {
 			e.printStackTrace();
