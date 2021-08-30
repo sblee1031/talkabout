@@ -40,7 +40,7 @@ public class LoginController {
 		return result;
 	}
 	
-	@PostMapping("/login")
+	@PostMapping("/login")//
 	public Map<String, Object> login(HttpServletRequest request, @RequestParam String socialNo){
 //		System.out.println("socialNo==>"+socialNo);
 	
