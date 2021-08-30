@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+<style type="text/css">      
+ body {font-size:12px; font-family:돋음}
+ td {border-bottom:1px solid #dedede; padding:7px 2px 5px 2px; vertical-align:middle;}
+ .title {cursor:pointer;}
+ .conts {line-height:1.8; padding:10px;}
+ img {margin-top:-2px;}
+</style>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(function () {
+$('#contents tr').hide(); 
+$('#contents').find('.title').parent().show();
+$('#contents .title').parent().click(function(){
+$('#contents tr').hide();
+$('#contents').find('.title').parent().show();
+$('#contents').find('.title').css('background-color', '#fff');  
+var tr = $('#contents tr');
+var rindex = $(this).parent().children().index(this);
+$(this).children().css('background-color', '#f7f7f7'); 
+for(var i = rindex; i < rindex + 2; i++){ 
+$(tr[i]).show();
+}
+});
+});
+</script>
+
+<title>Untitled Document</title>
+</head>
+<body>
+ <table id="contents" width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+ <tr>
+       <td class="title"><img src="images/n_01.gif" border="0" align="absmiddle" />
+       테이블 행 펼치고 접기_1 클릭
+       </td>
+ </tr>
+ <tr>
+       <td class="conts">
+       첫번째 행의 내용입니다.
+       </td>
+ </tr>
+ <tr>
+       <td class="title"><img src="images/n_02.gif" border="0" align="absmiddle" />
+       테이블 행 펼치고 접기_2 클릭
+       </td>
+ </tr>
+ <tr>
+       <td class="conts">
+       두번째 행의 내용입니다.
+       </td>
+ </tr>
+</table>
+ </BODY>
+</HTML>
+
+

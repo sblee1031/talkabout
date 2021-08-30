@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talkabout.dto.AdminMapper">
+<!-- adLogin -->
+<select id="AdLogin" parameterType="java.util.HashMap" resultType="Admin">
+SELECT * FROM Admin WHERE admin_id = '${id}' and admin_pwd = '${pwd}'
+</select>
+
+<!-- 글쓰기, 답글쓰기 -->
+<!-- <insert id="insert" parameterType="repboard">
+INSERT INTO repboard(board_no, parent_no, board_id, board_title, board_content, board_viewcount)
+VALUES (board_seq.NEXTVAL, #{parentNo}, #{boardC.id}, #{boardTitle}, #{boardContent}, 0)
+</insert> -->
+
+<!-- 검색 -->
+<!-- <select id="selectAll" resultType="repboard">
+SELECT level, repboard.*, board_id "boardC.id"
+FROM repboard
+START WITH parent_no = 0
+CONNECT BY PRIOR board_no = parent_no
+ORDER SIBLINGS BY board_no DESC
+</select> -->
+
+<!-- 단어로 검색 -->
+<!-- <select id="selectByWord" resultType="repboard">
+SELECT repboard.*, board_id "boardC.id"
+FROM repboard
+WHERE board_title LIKE '%${word}%'
+OR board_content LIKE '%${word}%'
+</select> -->
+
+<!-- 게시글 번호로 검색 -->
+<!-- <select id="selectByNo" parameterType="int" resultType="repboard">
+SELECT repboard.*, board_id "boardC.id"
+FROM repboard
+WHERE board_no = '${boardNo}'
+</select> -->
+
+<!-- 조회수 증가 -->
+<!-- <update id="plusViewcount">
+UPDATE repboard SET board_viewcount = board_viewcount+1 WHERE board_no=#{boardNo}
+</update> -->
+
+<!-- 글수정 -->
+<!-- <update id="update" parameterType="repboard">
+UPDATE repboard
+SET  board_title=#{boardTitle},board_content = #{boardContent}
+WHERE board_no = #{boardNo} AND board_id = #{boardC.id}
+</update> -->
+
+<!-- 글삭제 -->
+<!-- <delete id="deleteWrite" parameterType="repboard">
+DELETE FROM repboard
+WHERE board_no = #{boardNo} AND board_id=#{boardC.id}
+</delete> -->
+
+<!-- 댓글삭제 -->
+<!-- <delete id="deleteReply" parameterType="int">
+DELETE FROM repboard
+WHERE board_no IN(
+  SELECT board_no
+  FROM ( 
+    SELECT rownum r, a.*
+    FROM (
+       SELECT *
+       FROM repboard
+       ORDER BY board_no desc
+     ) a  
+  START WITH parent_no = #{board_no} 
+  CONNECT BY PRIOR board_no = parent_no
+)
+)
+</delete> -->
+
+</mapper>
