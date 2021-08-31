@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+		<!-- <setting name="mapUnderscoreToCamelCase" value="true" /> -->
+	</settings>
+	<typeAliases>
+		 <typeAlias type="com.talkabout.dto.Admin" alias="admin" />
+		 <typeAlias type="com.talkabout.dto.Debate" alias="debate" />
+		 <typeAlias type="com.talkabout.dto.DebateSungho" alias="debatesungho" />
+		 <typeAlias type="com.talkabout.dto.DebateDetail" alias="debatedetail" />
+		 <typeAlias type="com.talkabout.dto.DebateDetailSungho" alias="debatedetailsungho" />
+		 <typeAlias type="com.talkabout.dto.Member" alias="member" />
+		 <typeAlias type="com.talkabout.dto.DebateComment" alias="debatecomment" />
+		 <typeAlias type="com.talkabout.dto.DebateCommentSungho" alias="debatecommentsungho" />
+	</typeAliases>
+	<mappers>
+	<mapper resource="mybatisConfig/DebateRecruitMapper.xml" />
+		<mapper resource="mybatisConfig/AdminMapper.xml" /> 
+		<mapper resource="mybatisConfig/DebateResultMapper.xml" />
+		<!-- <mapper resource="mybatisConfig/DebateRecruitMapper.xml"/>  -->
+    <mapper resource="mybatisConfig/LoginMapper.xml"/>
+	</mappers>
+</configuration>

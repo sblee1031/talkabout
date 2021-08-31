@@ -6,6 +6,20 @@ var currentpage = 1;
 var endpage;
 var login_nickname;
 $(function() {
+	    ClassicEditor //에디터
+        .create( document.querySelector('#editor'), config={toolbar:[]})
+         .then(editor => { 
+          console.log( editor ); 
+          editor.isReadOnly = true; // make the editor read-only right after initialization
+     	  
+         } )         
+        .catch( error => {
+            console.error( error );
+        } );
+    var text=`<h4>토론결과</h4><p> 현재 토크어바웃 에서 종료된 토론 목록입니다. 로그인 하시면 토론 결과에 대한 댓글을 달 수 있습니다.
+토론에 대해 양측의 의견을 확인하시고 토론댓글에 본인의 생각을 달아보세요</p><p><a href="https://bleepcoder.com/ko/ckeditor5/467992611/how-to-disable-and-enable-ckeditor-5">https://bleepcoder.com/ko/ckeditor5/467992611/how-to-disable-and-enable-ckeditor-5</a></p><p>&nbsp;</p><figure class="media"><oembed url="https://youtu.be/qIinYt5nUII"></oembed></figure>`;
+    $('#editor').html(text);
+    
 	$.ajax({
 		url: url,
 		method: "post",
@@ -26,8 +40,6 @@ $(function() {
 		},
 	});
 
-
-	//,boardlist완료
 	var url = "http://localhost:9999/ta_back/resultlist";
 	$.ajax({
 		url: url,
@@ -113,7 +125,7 @@ $(function() {
 		var url = "http://localhost:9999/ta_back/resultlist/" + deb_no;
 		var trContent = $("#debateList");
 		reload();
-
+ 
 		$(document).on("click", ".com_insert", function() { //댓글 입력
 			var url = "http://localhost:9999/ta_back/resultlist/resultreply/" + deb_no;
 			var content = $(".comment_content").val();
@@ -132,7 +144,7 @@ $(function() {
 						alert("댓글작성실패")
 					}
 				},error : function(error) {
-					alert("로그인안되서 오류가 났으니 로그인해주시기 바랍니다");
+					alert("로그인해주시기 바랍니다");
 }
 	
 			});
@@ -268,9 +280,6 @@ function reload() {
 			if (responseData.logininfo == null || responseData.logininfo != null) {
 				//$("div.debateboardlistbox").empty();
 				$('#section').empty();
-				//$("div.debateboardlistbox").load("http://localhost:8888/ta_front/resultdetail.html");
-				
-				//console.log("test"+responseData.dabateone.debate_writer.member_nickName);
 				var debate_no = responseData.dabateone.debate_no;
 				var debate_img = responseData.dabateone.debate_mem.member_thumb;
 				var debate_writer = responseData.dabateone.debate_mem.member_nickName;
@@ -329,15 +338,10 @@ function reload() {
 					'</ul>' +
 					'</div>' +
 					'</div>' +
+					'<div id="editor2"></div>'+ //에디터
 					//토론내용content
-					'<br>' +
-					'<div class="card border-primary mb-3" style="max-width: 100%;margin: 3%;text-align: initial;">' +
-					'<div class="card-header">Header</div>' + 
-					'<div class="card-body">' +
-					'<h4 class="card-title">Success card title</h4>' + 
-					discuss_content +
-					'</div>'+
-					'</div>';
+					'<br>';
+					
 				/*	'<!-- 여기까지 토픽 -->*/
 				var detaillist = responseData.dabateone.detail_list;
 
@@ -406,7 +410,7 @@ function reload() {
 				}
 
 				detailboard += '<div class="ratingbox">' +
-					'<span class="heading">Vote status</span>' +
+					'<span class="heading">투표결과</span>' +
 
 					'<hr style="border:3px solid #f1f1f1">' +
 
@@ -490,6 +494,18 @@ function reload() {
 				detailboard += '</div>'
 				detailboard += '</article>';
 				$('#section').append(detailboard);
+				ClassicEditor //에디터
+        .create( document.querySelector('#editor2'), config={toolbar:[]})
+         .then(editor => { 
+          console.log( editor ); 
+          editor.isReadOnly = true; // make the editor read-only right after initialization
+		
+         } )         
+        .catch( error => {
+            console.error( error );
+        } );
+    var text=discuss_content;
+    $('#editor2').html(text);
 				console.log(responseData);
 
 				//var debate_nickname = responseData.dabateone.debate_mem.member_nickName;

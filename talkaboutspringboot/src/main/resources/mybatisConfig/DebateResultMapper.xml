@@ -48,7 +48,6 @@
 		from DEBATE d left join MEMBER m ON d.DEBATE_WRITER = m.MEMBER_NO
 		left join DEBATEDETAIL dt on dt.DETAIL_Deb = d.debate_no
 		left join member m2 on dt.DISCUSSOR = m2.member_no
-		left join DEBATELIKE dl on dl.DEBLIKE_DEB = d.debate_no
 		WHERE d.DEBATE_NO =#{debate_no}
 		<!-- order by dc.com_no -->
 	</select>

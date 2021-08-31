@@ -28,12 +28,12 @@
 <link rel="apple-touch-icon" href="assets/img/apple-icon.png" />
 <link rel="shortcut icon" type="image/x-icon"
 	href="assets/img/favicon.ico" />
-
+<!-- 에디터 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="ta/css/bootstrap.css" />
-<!-- <link rel="stylesheet" href="assets/css/templatemo.css" /> -->
-<!-- <link rel="stylesheet" href="assets/css/custom.css" /> -->
-<!-- <link rel="stylesheet" href="assets/css/debresult.css" /> -->
+
 
 <!-- Load fonts style after rendering the layout styles -->
 <link rel="stylesheet"
@@ -47,7 +47,7 @@ html, body {
 }
 
 header {
-	background-color: lightgrey;
+	background-color: black;
 	text-align: center;
 }
 
@@ -137,12 +137,13 @@ ul span {
 .debateboarderbox {
 	display: inline-block;
 	margin-right: 0px;
+	width: 100%;
 }
 
 .boardheader {
 	display: flex;
 	 background-color: cornsilk;
-    margin-top: 29px;
+    margin:3%;
     border-radius: 17px;
 }
 
@@ -169,7 +170,7 @@ ul span {
 .ul_debinfo {
 	display: flex;
 	list-style: none;
-	margin: 0;
+	margin: 3%;
 	padding: 0;
 }
 
@@ -202,14 +203,14 @@ ul span {
 
 .discussor_name {
 	font-size: 17px;
-	color: gray;
+	color: black;
 	font-weight: 700;
 	margin-left: 10px;
 }
 
 .discussor_name_opponent {
 	font-size: 17px;
-	color: gray;
+	color: black;
 	font-weight: 700;
 	margin-right: 37px;
 	margin-left: 19px;
@@ -398,9 +399,18 @@ div.ratingbox {
   }
   /* Hide the right column on small screens */
   .right {
-    display: show\;
+    display: show;
   }
 }
+.ck-blurred{
+margin:3%;
+
+}
+.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable, .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners {
+    border-radius: var(--ck-border-radius);
+    border-radius: 1%;
+
+    }
 </style>
 </head>
 
@@ -460,10 +470,8 @@ div.ratingbox {
 									src="assets/img/loginbt_google.png">
 							</a></li> <br /> <a id="kakao-login-btn"></a>
 							<!-- <button class="api-btn" onclick="unlinkApp()">앱 탈퇴하기</button> -->
-							<br />
-
+							<br/>
 						</div>
-
 						<!-- 소셜계정 선택 끝 -->
 						<p>소셜로그인..</p>
 					</div>
@@ -498,7 +506,7 @@ div.ratingbox {
 		</div>
 	</nav>
 
-	<section id="section" class="container"style=" text-align: center; min-height: 100%;">
+	<section id="section" class="container"style=" text-align: center; min-height: 100%; margin-top:2%">
 
 		<input type="hidden" id="debcom_id" name="debcom_id" />
 		<div class="debateboardlistbox" align="center">
@@ -518,7 +526,7 @@ div.ratingbox {
 			<div class="paginglist" style="margin-left: 290px;height: 40px;">
 			</div>
   			</div>
-
+			<div id="editor"></div>
 					<!-- Links -->
 	</section>
 	<footer class="card text-white bg-primary" style="position:relative; margin-top:10px; left:0; bottom:0; height:100px;">
@@ -529,7 +537,7 @@ div.ratingbox {
           Talk About
         </a><br><a>경기도 성남시 분당구 성남대로 34 하나프라자 6층</a></div>
 	</footer>
-
+ 
 	<script src="assets/js/debresultcomment.js"></script>
 	<script src="assets/js/login1.js"></script>
 	<script src="https://apis.google.com/js/platform.js?onload=init" async
