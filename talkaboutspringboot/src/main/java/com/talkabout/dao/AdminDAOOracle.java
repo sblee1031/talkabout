@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.talkabout.dto.Admin;
+import com.talkabout.dto.Board;
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.Notice;
 import com.talkabout.exception.FindException;
+import com.talkabout.exception.ModifyException;
 @Repository
 public class AdminDAOOracle implements AdminDAO{
 	@Autowired
@@ -112,4 +114,81 @@ public class AdminDAOOracle implements AdminDAO{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public List<Board> boardFindAll(int startRow, int endRow) throws FindException {
+		List<Board> list = new ArrayList<>();
+		SqlSession session = null;
+		
+		 HashMap<String, Integer> map = new HashMap<>();
+		 map.put("num_start_row", startRow);
+		 map.put("num_end_row", endRow);
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			list = session.selectList("com.talkabout.dto.AdminMapper.boardList",map);
+		//	System.out.println(list);
+		}catch (Exception e) {
+			//System.out.println(e.getMessage());
+			throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<Board> boardFindAll(String word, int startRow, int endRow) throws FindException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int boardLastRow() {
+		int lastrow =0; 
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			lastrow = session.selectOne("com.talkabout.dto.AdminMapper.boardLastRow");
+//			System.out.println("게시물 총"+lastrow);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return lastrow;
+	}
+
+	@Override
+	public int boardSearchLastRow(String word) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void approve(int deb_no) throws ModifyException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.update("com.talkabout.dto.AdminMapper.aprove",deb_no);
+//			System.out.println("게시물 총"+lastrow);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		
+	}
+	
+	
 }

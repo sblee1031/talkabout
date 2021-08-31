@@ -3,7 +3,7 @@
     <div id="myinfodiv" >
       <h1>마이페이지</h1>
      <!-- <form> --> 
-      <ul>
+      <ul class="myInfoUl">
         <li>
           <label
             >소셜 타입 : <a
@@ -24,8 +24,11 @@
               type="text"
               id="mynickname"
               name="mynickname"
-              required
-         / ><span class="chkNick" >  닉네임 중복</span></label>
+              required />
+         <span class="text"></span>
+         <span class="line"></span>
+         
+         <span class="chkNick" >  닉네임 중복</span></label>
         </li>
         <li>
           <label
@@ -57,24 +60,31 @@
             alt="mythumbname"
             hidden
           /><br />
-          <img style="width: 300px" id="mythumb_img" src="" />
+          <img class="rounded-circle" style="width: 300px;margin-top:20px" id="mythumb_img" src="" />
         </li>
-          <button class="update" onclick="changeNick()">정보변경</button
-          ><button class="leave" onclick="leave()">탈퇴하기</button>
       </ul>
+      <button class="update btn btn-primary" onclick="changeNick()">정보변경</button>
+      <button class="leave btn btn-danger" onclick="leave()">탈퇴하기</button>
     </div>
     <!-- 마이페이지 끝 -->
 
     <!-- 회원가입 화면 시작 -->
     <div class="signup" style="display: none">
-    <h1>환영합니다. 닉네임과 생년월을 입력해주세요.</h1>
-      <form
+    	<h3>환영합니다. 닉네임과 생년월을 입력해주세요.</h3>
+    	<div class="contain">
+    	    		<div class="card">
+			<div class="imgBx">
+				<img id="thumb_img" src="" style="width: 250px;
+  height: 200px;" >
+			</div>
+			<div class="content">
+				<form
         id="signupfrom"
         name="signupfrom"
         method="post"
         action="../ta_back/member/signup"
       >
-        <ol>
+        <ul class="signUpUl">
           <li>
             <label
               >소셜 타입<input
@@ -91,13 +101,19 @@
             /></label>
           </li>
           <li>
-            <label
-              >닉네임<input
+          <div class="col">
+            <label class="nickNameLabel"
+              ><input
                 type="text"
                 id="nickname"
                 name="member_nickName"
                 required
-            /><span class="signchkNick" >  닉네임을 입력해주세요^^</span></label>
+            />
+         <span class="text">닉네임 입력</span>
+         <span class="line"></span>
+         <span class="signchkNick" ></span>
+            <!-- <span class="signchkNick" >  닉네임을 입력해주세요^^</span> --></label>
+            </div>
           </li>
           <li>
             <label
@@ -121,12 +137,16 @@
             >
           </li>
           <li>
-            썸네일 이미지
-            <input type="text" id="thumb" name="member_thumb" hidden /><br />
-            <img style="width: 300px" id="thumb_img" src="" alt="thumbnail" />
+            <!-- 썸네일 이미지 -->
+            <input type="text" id="thumb" name="member_thumb" hidden/><br />
+            <!-- <img class="img-thumbnail rounded-circle" style="max-height: 300px;margin-top:20px" id="thumb_img" src="" alt="thumbnail" /> -->
           </li>
-          <li><button class="sign" type="submit">회원 가입</button></li>
-        </ol>
+          
+        </ul>
+        <button class="sign btn btn-info" type="submit">회원 가입</button>
       </form>
+			</div>
+		</div>
     </div>
+    
     <!-- 회원가입 화면 끝 -->

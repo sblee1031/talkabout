@@ -31,14 +31,7 @@ $(function () {
     },
   });
   
-// 모달 버튼에 이벤트를 건다.
-$('#openModalBtn').on('click', function(){
-$('#modalBox').modal('show');
-});
-// 모달 안의 취소 버튼에 이벤트를 건다.
-$('#closeModalBtn').on('click', function(){
-$('#modalBox').modal('hide');
-});
+
 
 
 /*	
@@ -115,6 +108,7 @@ function onSignIn(googleUser) {
       if (responseData.usercheck == "non_member") {
         $("#section").load("logininfo.html", function () {
           // console.log(responseData.usercheck);
+          $('#modalClose').click();
           $("#myinfodiv").hide();
           $("div.signup").show();
           $("#email").val(gEmail);
@@ -446,15 +440,16 @@ Kakao.Auth.createLoginButton({
           success: function (data) {
             if (data.usercheck == "non_member") {
               $("#section").load("logininfo.html", function () {
+				$('#modalClose').click();
                 $("#myinfodiv").hide();
                 $("div.signup").show();
                 $("#email").val(result.kakao_account.email);
                 $("#social_type").val("카카오");
                 $("#social_no").val(result.id);
-                $("#thumb").val(result.kakao_account.profile.profile_image_url);
+                $("#thumb").val(result.properties.profile_image);
                 $("#thumb_img").attr(
                   "src",
-                  result.kakao_account.profile.profile_image_url
+                  result.properties.profile_image
                 );
                 $("#close").trigger("click");
 

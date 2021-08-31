@@ -49,7 +49,7 @@
 			<!-- modal 시작 -->
 
 				<!-- Button trigger modal -->
-				<button type="button" class="login btn btn-primary"
+				<button type="button" id="myBtn" class="login btn btn-primary"
 					data-toggle="modal" data-target="#exampleModal">로그인</button>
 
 				<!-- Modal -->
@@ -80,7 +80,7 @@
 
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
+								<button type="button" id="modalClose" class="btn btn-secondary"
 									data-dismiss="modal">Close</button>
 
 							</div>
@@ -89,17 +89,19 @@
 				</div>
 
 				<!-- 로고인 완료 화면 시작 -->
-			<div id="memberinfo" style="text-align: center; display: none">
-				<ul>
-					<li style="list-style-type: none"><img style="width: 30px"
-						id="login_thumb_img" src="" alt="mythumbnail" /> <span
-						id="member_nickname" style="font-size: 10pt"></span></li>
-				</ul>
-				<a class="myinfo" href="#" onclick="myinfo()">마이페이지</a>
-				<button class="logout" type="button" onclick="logout()">로그아웃</button>
-			</div>
+				<div id="memberinfo" style="display: none">
+					<ul>
+						<li style="list-style-type: none"><img class="rounded-circle"
+							style="width: 30px" id="login_thumb_img" src="" alt="mythumbnail" />
+							<span id="member_nickname" style="font-size: 10pt"></span></li>
 
-		</nav>
+					</ul>
+					<button class="myinfo btn btn-primary" onclick="myinfo()"
+						style="margin-right: 5px">마이페이지</button>
+					<button class="logout btn btn-success" onclick="logout()">로그아웃</button>
+				</div>
+
+			</nav>
     </div>
 
     <div id="container">

@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.talkabout.dao.AdminDAO;
 import com.talkabout.dto.Admin;
+import com.talkabout.dto.Board;
 import com.talkabout.dto.Notice;
 import com.talkabout.exception.FindException;
+import com.talkabout.exception.ModifyException;
 @Service
 public class AdminService {
 	
@@ -35,5 +37,23 @@ public class AdminService {
 	}
 	public int noticeSearchLastRow(String word) {//총 게시물 개수 구하기
 		return dao.noticeSearchLastRow(word);
+	}
+//board
+	public List<Board> boardFindAll(int startRow, int endRow) throws FindException {
+		return dao.boardFindAll( startRow,  endRow);
+	}
+	public List<Board> boardFindAll(String optWord,int startRow, int endRow) throws FindException {
+		return dao.boardFindAll(optWord, startRow,  endRow);
+	} 
+	public int boardLastRow() {//총 게시물 개수 구하기
+		return dao.boardLastRow();
+	}
+	public int boardSearchLastRow(String word) {//총 게시물 개수 구하기
+		return dao.boardSearchLastRow(word);
+	}
+	
+//debate_approve
+	public void approve(int deb_no) throws ModifyException{
+		dao.approve(deb_no);
 	}
 }

@@ -3,6 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.talkabout.dto.AdminMapper">
+<resultMap id="boardResultMap" type = "board" autoMapping="true">
+		<id column="board_no"	property="board_no"/>
+		<association property="board_member" javaType="member" autoMapping="true">
+		</association>
+	</resultMap>
+
+
+
 	<!-- 로그인 시작 -->
   <select id="login" parameterType="admin" resultType="admin">
    SELECT * FROM admin WHERE admin_id = '${admin_id}' AND admin_pwd = '${admin_pwd}'
@@ -11,6 +19,7 @@
    SELECT * FROM admin WHERE admin_id = '#{admin_id}'
   </select>
   <!-- 로그인 끝 -->
+  
   <!-- 공지사항시작 -->
     <select id="noticeLastRow" resultType="int">
    SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM notice ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
@@ -20,9 +29,22 @@
 FROM ( SELECT ROWNUM AS RNUM, notice.* FROM notice ORDER BY notice_no DESC)
 WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row}
 	</select>
-  
-  
   <!-- 공지사항끝 -->
   
+    <!-- 자유게시판 -->
+    	<select id="boardList" parameterType="hashmap" resultMap="boardResultMap">
+  	SELECT  *
+FROM ( SELECT ROWNUM AS RNUM, board.* FROM board ORDER BY board_no DESC) board JOIN Member mem ON (board.BOARD_MEM = mem.member_no)
+WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row}
+ORDER BY board_no DESC
+	</select>
+	    <select id="boardLastRow" resultType="int">
+   SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM board ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
+  </select>
+   <!-- 자유게시판 끝 -->
+   <!-- 토론 승인  -->
+   <update id="aprove" parameterType="int">
+   	UPDATE DEBATE SET debate_status = '승인' WHERE debate_no=#{no}
+   </update>
 
 </mapper>

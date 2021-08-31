@@ -138,6 +138,7 @@ public class BoardController {
 //	}
 	@DeleteMapping("/{board_no}")
 	public Map<String, Object> remove (@PathVariable int board_no,  HttpSession session){
+		System.out.println(board_no);
 		Map<String, Object> result = new HashMap<String, Object>();
 //		board.setBoard_no(board_no);
 		Member logininfo = (Member)session.getAttribute("logininfo");
