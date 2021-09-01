@@ -63,4 +63,7 @@ public class DebateResultService {
 	public int GetVoteResult_middle(int deb_no)throws FindException{
 		return dao.GetVoteResult_middle(deb_no);
 	}
+	public List<DebateSungho> Getlistbyword(String word)throws FindException{
+		return dao.Getlistbyword(word);
+	}
 }

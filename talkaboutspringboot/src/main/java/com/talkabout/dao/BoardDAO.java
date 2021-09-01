@@ -16,7 +16,8 @@ public interface BoardDAO {
 	 * @return List<Board>
 	 * @throws FindException
 	 */
-	public List<Board> boardSearch(String type, String content) throws FindException;
+	public List<Board> selectAll(int startRow, int endRow) throws FindException;
+	public List<Board> boardSearch(String word, int startRow, int endRow) throws FindException;
 	
 	/**
 	 * 게시글 리스트 보기
@@ -45,7 +46,7 @@ public interface BoardDAO {
 	 * @param b
 	 * @throws ModifyException
 	 */
-	void update(int board_no) throws ModifyException;
+	void update(Board board) throws ModifyException;
 	
 	/**
 	 * 게시글 조회수 카운트
@@ -60,5 +61,13 @@ public interface BoardDAO {
 	 * @throws DeleteException
 	 */
 	void deleteByBoardNo(int Board_no) throws DeleteException;
+	
+	int lastRow();
+	
+	int searchLastRow(String word);
+	
+	void pageNum(int page);
+	
+	void pageSize(int size);
 	
 }

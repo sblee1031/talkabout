@@ -32,7 +32,7 @@ import com.talkabout.exception.ModifyException;
 import com.talkabout.service.BoardCommentService;
 
 
-@RequestMapping("/boardcomment/*")
+@RequestMapping("/boardcomment/**")
 @CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000","http://localhost:9999"})
 //@CrossOrigin(origins="*")
 @RestController
@@ -59,13 +59,17 @@ public class BoardCommentController {
 //		return result;
 //	}
 	@GetMapping("/list/{com_board}")
-	public Map<String, Object> list(@PathVariable int com_board){
+	public Map<String, Object> list(@PathVariable int com_board, HttpSession session){
 		Map<String, Object>	result = new HashMap<>();
 		List<BoardComment> list = new ArrayList<>();
+		Member logininfo = (Member)session.getAttribute("logininfo");
 		try {
 			list = service.BoardComList(com_board);
+			//List<BoardComment> commentlist = service.BoardComList(com_board);
 			result.put("status", 1);
 			result.put("boardcommentlist", list);
+			result.put("memberlist", logininfo);
+			//result.put("commentlist", commentlist);
 		}catch(FindException e) {
 			result.put("status", 0);
 			result.put("msg", e.getMessage());
@@ -123,11 +127,14 @@ public class BoardCommentController {
 //		return responseEntity;
 //	}
 	@DeleteMapping("/{com_no}")
-	public Map<String, Object>	remove(@PathVariable int com_no){
+	public Map<String, Object>	remove(@PathVariable int com_no, HttpSession session){
 		Map<String, Object> result = new HashMap<String, Object>();
+		Member logininfo = (Member)session.getAttribute("logininfo");
+
 		try {
 			service.DeleteBoardCom(com_no);
 			result.put("status", 1);
+			result.put("memberlist", logininfo);
 		}catch(DeleteException e) {
 			e.printStackTrace();
 			result.put("status", 0);

@@ -14,6 +14,8 @@ public class BoardLike {
 	private Board boardLike_board; // boardLike_board.board_no
 	private Member boardLike_member; // boardLike_mem.member_no 
 
+	private int board_no; //새로만든
+	
 	public int getBoardLike_no() {
 		return boardLike_no;
 	}
@@ -36,6 +38,14 @@ public class BoardLike {
 
 	public void setBoardLike_member(Member boardLike_member) {
 		this.boardLike_member = boardLike_member;
+	}
+
+	public int getBoard_no() {
+		return board_no;
+	}
+
+	public void setBoard_no(int board_no) {
+		this.board_no = board_no;
 	}
 	
 	

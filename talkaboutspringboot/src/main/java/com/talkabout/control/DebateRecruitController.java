@@ -168,7 +168,7 @@ public class DebateRecruitController {
 					if(dd1.getDiscussor()==null | dd2.getDiscussor()==null) {
 						result.put("status", 1);
 					}else {
-						System.out.println("메일발송");
+						//System.out.println("메일발송");
 						mailService.sendMail("psyy2244@gmail.com", "talkabout1234",
 								deb, dd1, dd2);
 					}

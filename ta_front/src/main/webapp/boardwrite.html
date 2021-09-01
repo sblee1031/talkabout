@@ -10,7 +10,7 @@
       name="google-signin-client_id"
       content="241916072602-heae1rac9sjh4t615b0k7i0iso0m842o.apps.googleusercontent.com"
     />
-      <!--    <script
+   <!--  <script
       src="https://apis.google.com/js/platform.js?onload=renderButton"
       async
       defer
@@ -19,36 +19,54 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script>
 	 $(function(){
-		 $('#boardsubmit').on('click',function(e){
+		 $('.write').on('click',function(e){
 			 e.preventDefault();
-			 console.log( $('form.write input[name=type]').val());
-			 $.ajax({
-					url:'../ta_back/boardwrite',
-					method:'post',
-					data:{
-						board_type : $('form.write input[name=type]').val(),
-						board_title: $('form.write input[name=title]').val(),
-						board_contents:$('form.write textarea[name=contents]').val(),
+			 console.log( $('.board_type').val());
+			 console.log( $('.board_title').val());
+			 console.log( $('.board_contents').val());
+			 
+			 if($('.board_type').val() != "" && $('.board_title').val() != "" && $('.board_contents').val() !=""){
+				 $.ajax({
+						url:'http://localhost:9999/ta_back/board/write',
+						method:'post',
+						data:{
+							board_type : $('.board_type').val(),
+							board_title: $('.board_title').val(),
+							board_contents:$('.board_contents').val(),
+							
+						},
+					success: function (responseData) {//처리에
+						/* console.log(responseData);
+						console.log("here");
+						var status = responseData.status;
+						console.log(status);
+						alert("성공했다고이자슥아"); */
+						var status= responseData.status;
+						/* console.log('성공' + status); */
+						if(status==1){
+							alert("성공입니다.");
+							window.location.href="./board.html";
+						}else{
+							alert("로그인하세요.");
+							window.location.href="./board.html";
+						}
+						
 					},
-				success: function (responseData) {
-					/* console.log(responseData);
-					console.log("here");
-					var status = responseData.status;
-					console.log(status);
-					alert("성공했다고이자슥아"); */
-					var status= responseData.status;
-					if(status==1){
-					window.location.href="./board.html";
-					}else{
-						alert("로그인하세요.");
-					}
-					
-				},
-				error: function(xhr){
-					alert(xhr.status);
-				}
-					
-				}); 
+					error: function(xhr){//통신에러/
+						/* alert(xhr.status); */
+						/* console.log('에러입니당'); */
+						alert("관리자에게 문의하세요.");
+						window.location.href="./index.html";
+					},
+	    			xhrFields:{
+	    				withCredentials:true
+	    			},
+						
+					});
+			 }else{
+				 alert("빈칸이 있다 채워라");
+				 window.location.href="./boardwrite.html";
+			 }
 		 });
 		 
 	 });
@@ -69,9 +87,8 @@
     />
 
     <!-- 부트스트랩 -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/templatemo.css" />
-    <link rel="stylesheet" href="assets/css/custom.css" />
+    <link rel="stylesheet" href="ta/css/bootstrap.css" />
+    
 
     <!-- Load fonts style after rendering the layout styles -->
     <link
@@ -84,8 +101,6 @@
 h2 {text-align:center}
 </style>
 <style>
-    
-      
       body {
         width: 100%;
         height: 100%;
@@ -124,7 +139,7 @@ h2 {text-align:center}
       .modal {
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
+        z-index: 100; /* Sit on top */
         left: 0;
         top: 0;
         width: 100%; /* Full width */
@@ -141,6 +156,7 @@ h2 {text-align:center}
         padding: 20px;
         border: 1px solid #888;
         width: 50%; /* Could be more or less, depending on screen size */
+        z-index: 200;
       }
       /* The Close Button */
       .close {
@@ -155,6 +171,246 @@ h2 {text-align:center}
         text-decoration: none;
         cursor: pointer;
       }
+      @import url('https: //fonts.googleapis.com/css?family=Poppins: 400,500,600,700,800&display=swap');
+@font-face {
+  font-family: Jua;
+  src: url("./fonts/BMJUA_ttf.ttf")
+}
+*
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  overflow-x: hidden;
+}
+
+section
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding: 20px;
+  width: 100%;
+  background: #fff;
+
+}
+
+section::before
+{
+  content: '';
+  position: absolute;
+  top:30%;
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(#ffeb3b, #e91e63);
+  border-radius: 50%;
+  transform: translate(-420px, -180px);
+}
+
+section::after
+{
+  content: '';
+  position: absolute;
+  bottom: 10%;
+  right: 30%;
+  width: 350px;
+  height: 350px;
+  background: linear-gradient(#2196f3, #83d8ff);
+  border-radius: 50%;
+  transform: translate(400px, 180px);
+}
+.container1
+{
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height:750px;
+  max-width: 1000px;
+  padding: 50px;
+  background: rgba(120, 194, 173, 0.7);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hideen;
+  backdrop-filter: blur(25px);
+}
+.container1::before
+{
+  content: '';
+  position: abolute;
+  top: 0;
+  left: -40%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+  transform: skewX(-15deg);
+
+}
+
+.container1 h1
+{
+  width: 100%;
+  text-align: center;
+  color: rgba(250,250,250);
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.container1 .row100
+{
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+}
+
+.container1 .row100 .col
+{
+  position: relative;
+  width: 100%;
+  padding: 0 10px;
+  margin: 30px 0 20px;
+}
+
+.container1 .row100 .col .inputBox
+{
+  position: relative;
+  width: 100%;
+  height: 40px;
+  color: rgba(51,51,51);
+}
+
+.container1 .row100 .col .inputBox input/* ,
+.container1 .row100 .col .inputBox textarea */
+{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  padding: 0 10px;
+  z-index: 20;
+  color: #000;
+  background: rgba(255,255,255,0.5);
+}
+
+.container1 .row100 .col .inputBox textarea
+{	margin-top: 50px;
+	position: relative;
+	width:100%;
+	height: 340px;
+	background: rgba(255,255,255,0.5);
+	box-shadow: none;
+	border:none;
+	outline: none;
+	font-size: 20px;
+	padding: 0 10px;
+	z-index: 20;
+	color: rgba(51,51,51);
+	resize: none;
+}
+
+.container1 .row100 .col .inputBox .text
+{
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 40px;
+  font-size: 18px;
+  padding: 0 10px;
+  display: block;
+  transition: 0.5s;
+  pointer-events: none;
+  
+}
+
+.container1 .row100 .col .inputBox input:focus + .text,
+.container1 .row100 .col .inputBox input:valid + .text/* , 
+.container1 .row100 .col .inputBox textarea:focus + .text,
+.container1 .row100 .col .inputBox textarea:valid + .text */
+{
+  top: -35px;
+  left: -10px;
+}
+
+.container1 .row100 .col .inputBox .line 
+{
+  position: absolute;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #fff;
+  transition: 0.5s;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.container1 .row100 .col .inputBox input:focus ~ .line,
+.container1 .row100 .col .inputBox input:valid ~ .line
+{
+  height: 100%;
+}
+
+.container1 .row100 .col .inputBox .textarea
+{
+  position: relative;
+  width: 100%;
+  height: 100px;
+  padding: 10px 0;
+
+}
+
+/* .container1 .row100 .col .inputBox textarea:focus ~ .line,
+.container1 .row100 .col .inputBox textarea:valid  ~ .line
+{
+  height: 100%;
+} */
+
+.container1 .row100 .col input[type="submit"]
+{
+  position: relative;
+  top:320px;
+  border: none;
+  padding: 10px 40px;
+  cursor: pointer;
+  outline: none;
+  background: #fff;
+  color: rgba(51,51,51);
+  font-weight: 600;
+  font-size: 20px;
+  border-radius: 2px;
+}
+
+@media (max-width: 768px)
+{
+  section::before
+  {
+    transform: translate(-200px, -180px);
+  }
+  section::after
+  {
+    transform: translate(220px,180px);
+  }
+  .container1
+  {
+    padding: 20px;
+  }
+  .container1 h2
+  {
+    font-size: 28px;
+  }
+}
     </style>
   
 </head>
@@ -215,7 +471,7 @@ h2 {text-align:center}
           </div>
 
       <!-- modal 시작 -->
-      <button id="myBtn">로그인</button>
+      <button class="btn btn-outline-success" id="myBtn">로그인</button>
 
       <!-- The Modal -->
       <div id="myModal" class="modal">
@@ -282,45 +538,48 @@ h2 {text-align:center}
         </div>
       </div>
     </nav>
-		<section>
-			<div class = container style="margin-top: 3%"><h2>글쓰기</h2>
-				<div class = row>
-				<form class="write" method = "post" >
-					<table class = table>
-						<tr>
-							<td width=15% class-right>타입</td>
-							<td width=85%>
-								<input type = text size=15 class=input-sm name=type>
-							</td>
-						</tr>
-						<tr>
-							<td width=15% class-right>제목</td>
-							<td width=85%>
-							<input type = text size=45 class= input-sm name=title>
-							</td>
-						</tr>
-						<tr>
-							<td width=15% class-right>내용</td>
-							<td width=85%>
-							<textarea cols=50 rows=10 name=contents style="margin: 0px; width: 640px; height=700px;"></textarea>
-							</td>
-						</tr>
-						<tr>
-							<td colspan=2 class=text-center>
-							<!-- <input type=submit class=btn1 btn-md btn-danger value=글쓰기> -->
-							<button class="btn btn-lg btn-success" id="boardsubmit">등록</button>
-							<!-- <input type=button class=btn2 btn-md btn-info value=취소> -->
-							<a href=./board.html class="btn btn-lg btn-success">취소</a>
-							</td>
-						</tr>
-					</table>
-				</form>
+		<section id="section">
+			<div class="container1">
+			<h1 style="color: rgba(51,51,51);">자유게시판</h1>
+		<div class="row100">
+			<div class="col">
+				<div class="inputBox">
+					<input class="board_title bootstrap1 bootstrap2"type="text" name="" required="required">
+					<span class="text" style="color: rgba(51,51,51);">제목</span>
+					<span class="line"></span>
 				</div>
 			</div>
+			<div class="col">
+				<div class="inputBox">
+					<input class="board_type" type="text" name="" required="required">
+					<span class="text" style="color: rgba(51,51,51);">타입</span>
+					<span class="line"></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="row100">
+			<div class="col">
+				<div class="inputBox textarea">
+					<textarea class="board_contents" required="required"></textarea>
+					<span class="text" style="font-size: 30px; color: rgba(51,51,51);">내용</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="row100">
+			<div class="col">
+				<input class="write btn btn-success" type="submit" value="작성">
+				<input class="cancel btn btn-success	" type="submit" value="취소">
+			</div>
+		</div>
+	</div>
 		</section>
-	<footer>
+	<!-- <footer>
 	      <div>FOOTER 영역</div>
-	</footer> 
+	</footer>  -->
 	<script src="assets/js/login1.js"></script>
+	<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> 	  
+	
 </body>
 </html>

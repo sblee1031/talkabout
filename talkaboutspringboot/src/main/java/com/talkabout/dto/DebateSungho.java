@@ -46,6 +46,8 @@ public class DebateSungho {
 	private Member debate_mem; //토론자
 	private List<DebateCommentSungho> comment_list;
 	private int like_count;
+	
+	private String debate_content; //내용가져오기
 	/*
 		또는 Debate 테이블에 좋아요 수를 나타내는 컬럼 추가하고 
 		DebateLike 테이블에 행이 추가될 때마다 Debate 테이블의 좋아요 수도 1씩 증가 
@@ -225,8 +227,13 @@ public class DebateSungho {
 	public void setLike_count(int like_count) {
 		this.like_count = like_count;
 	}
+	public String getDebate_content() {
+		return debate_content;
+	}
 
-
+	public void setDebate_content(String debate_content) {
+		this.debate_content = debate_content;
+	}
 
 	@Override
 	public String toString() {

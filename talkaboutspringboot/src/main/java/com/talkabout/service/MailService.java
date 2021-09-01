@@ -23,21 +23,21 @@ public class MailService {
 
 	public static void sendMail(String _email, String _password, Debate deb, DebateDetail dd1, DebateDetail dd2) {
 
-		System.out.println("Start JavaMail ~!");
+		System.out.println("=========Start TalkAbout Mail ~!");
 		String subject = "새로운 토론이 요청되었습니다.";
 		String fromMail = "psyy2244@gmail.com";
 		String fromName = "TA관리자";
 		String toMail = "leebbong001@naver.com"; // 콤마(,) 나열 가능 // mail contents
-
+//, andykr1234@gmail.com , ajs9518@gmail.com, choim940328@gmail.com
 		StringBuffer contents = new StringBuffer();
 		contents.append("<h1>새로운 토론이 요청되었습니다.</h1>\n");
 		contents.append("<h2> 관리자님의 승인을 기다립니다.</h2>\n<hr/>");
-		contents.append("<h3>주제 : ");
-		contents.append(deb.getDebate_topic()+"</h3>\n");
-		contents.append("<h3>토론 진행 시간 : "+deb.getDebate_time()+"분</h3>\n");
-		contents.append("<h3>시작시간 : "+deb.getDebate_startDate()+"</h3>\n");
-		contents.append("<h2>토론자1 : "+dd1.getDiscussor().getMember_nickName()+"</h2>\n");
-		contents.append("<h2>토론자2 : "+dd2.getDiscussor().getMember_nickName()+"</h2>\n");
+		contents.append("<h2>주제 : ");
+		contents.append(deb.getDebate_topic()+"</h2>\n");
+		contents.append("<h2>토론 진행 시간 : "+deb.getDebate_time()+"분</h2>\n");
+		contents.append("<h2>시작시간 : "+deb.getDebate_startDate()+"</h2>\n");
+		contents.append("<h1>토론자1 : "+dd1.getDiscussor().getMember_nickName()+"</h1>\n");
+		contents.append("<h1>토론자2 : "+dd2.getDiscussor().getMember_nickName()+"</h1>\n");
 		contents.append("<p>언제나 화이팅</p><br>"); // mail properties
 
 		Properties props = new Properties();
@@ -65,6 +65,7 @@ public class MailService {
 			t.sendMessage(message, message.getAllRecipients());
 			t.close();
 			System.out.println("메일발송 성공!");
+			System.out.println("=========End TalkAbout Mail ~!");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
