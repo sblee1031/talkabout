@@ -1,51 +1,32 @@
-<section>
-	<div class= contatiner style="margin-top:3%">
-		<h2>자유게시판 </h2>
-			<div>
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<td>
-								<a href = "./boardwrite.html" class="btn btn-sm btn-success">글쓰기</a>
-							</td>
-						</tr>
-						<tr>
-							<th>번호</th>
-							<th>타입</th>
-							<th>제목</th>
-							<th>작성자</th>
-							<th>날짜</th>
-							<th>조회수</th>
-						</tr>
-					</thead>
-					<tbody>
-						 <tr class="data1" style="display:none">
-							<td class="board_no"><a class= "board_no_dtl" href = ""></a></td>
-							<td class="board_type"></td>
-							<td class="board_title">	</td>
-							<td class="board_mem"></td>
-							<td class="board_date"></td>
-							<td class="board_views"></td>
-						</tr>
-					</tbody>
-					<hr>
-					<tr>
-						<td class= text-left>
-							검색:
-							<select class=input-sm>
-								<option>타입</option>
-								<option>제목</option>
-								<option>내용</option>
-							</select>
-							<input type=text size 15 class=input-sm>
-							<input type=button value=찾기 class="btn btn-sm btn-danger">
-						</td>
-						<td class=text-right>
-							<a href= ./boardwrite.html class="btn btn-sm btn-primary">이전</a>
-							<a href= ./boardwrite.html class="btn btn-sm btn-primary">다음</a>
-						</td>
-					</tr>
-				</table>
+<div class= "container" style="margin-top:3%;">
+				<h2>자유게시판 </h2>
+					<div style="overflow-y:auto;">
+					<a href = "./boardwrite.html" class="btn btn-sm btn-outline-primary" style="position: relative; right: -1010px">글쓰기</a>
+						<table class="table table-hover" style="text-align:center; margin-top: 10px">
+							<thead>
+								<tr class="table-primary">
+									<th style="width:10%;">번호</th>
+									<th style="width:10%;">타입</th>
+									<th>제목</th>
+									<th>닉네임</th>
+									<th>날짜</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+							<tbody>
+								 <tr class="data3" style="display:none">
+									<td class="board_no" style= "width:5%;"></td>
+									<td class="board_type"></td>
+									<td class="board_title"></td>
+									<td class="board_mem"></td>
+									<td class="board_date"></td>
+									<td class="board_views"></td>
+								</tr>
+							</tbody>
+						</table>
+						<input type=text size=15 class="board_search_contents input-sm" name="contents" style="margin-left: 100px;"/>
+						<input type=submit value="검색" name="search"class="board_search btn btn-sm btn-primary" style="text-align:left"/>
+						<a href= ./boardwrite.html class="btn btn-sm btn-primary" style="margin-left: 255px;">이전</a>
+						<a href= ./boardwrite.html class="btn btn-sm btn-primary" >다음</a>
+					</div>
 			</div>
-	</div>
-</section>

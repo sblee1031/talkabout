@@ -30,7 +30,8 @@ public class Board {
 	private Member board_member; // board_mem.member_no
 //	private Member board_mem;
 	List<BoardComment> comment_list;
-	List<BoardLike> like_list; 
+	List<BoardLike> like_list;
+	int boardlike_count;
 	
 	// 게시글번호,회원번호 체크?
 	
@@ -122,4 +123,11 @@ public class Board {
 	public void setLike_list(List<BoardLike> like_list) {
 		this.like_list = like_list;
 	}	
+	public int getBoardlike_count() {
+		return boardlike_count;
+	}
+
+	public void setBoardlike_count(int boardlike_count) {
+		this.boardlike_count = boardlike_count;
+	}
 }

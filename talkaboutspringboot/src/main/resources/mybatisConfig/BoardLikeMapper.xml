@@ -3,12 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.talkabout.dto.BoardLikeMapper"> 
-  <!-- 	<resultMap id="boardLikeResultMap" type = "boardlike" autoMapping="true">
-		<association javaType="member" property="boardlike_member" autoMapping="true">
+  <!-- <resultMap id="boardLikeResultMap" type = "boardlike" autoMapping="true">
+		<association javaType="member" property="boardLike_member" autoMapping="true">
+		</association>
+		<association javaType="board" property="boardLike_board" autoMapping="true">
 		</association>
 	</resultMap> -->
   	<insert id="insert" parameterType="boardlike">
-  		INSERT INTO BOARDLIKE VALUES (BL_SEQ.NEXTVAL,#{boardlike_board},#{boardlike_member})
+  		INSERT INTO BOARDLIKE VALUES (BL_SEQ.NEXTVAL,#{board_no},#{boardLike_member.member_no})
   	</insert>
   	<delete id="deleteByBoardLikeNo" parameterType="int">
   		DELETE BOARDLIKE WHERE boardlike_no = #{boardlike_no}

@@ -1,31 +1,38 @@
-<div class = container style="margin-top: 3%"><h2>글쓰기</h2>
+<div class = container style="margin-top: 3%">
+	<h2>글 수저하기</h2>
 	<div class = row>
-		<form class="write" method = "post" >
+		<form class="write">
 			<table class = table>
 				<tr>
-					<td width=15% class-right>타입</td>
+					<td width=20% class-right>번호</td>
 					<td width=85%>
-						<input type = text size=15 class=input-sm name=type id="type">
+						<input class="board_no input-sm" type = text size=15 class=input-sm name=type id="type" style="cursor: auto">
 					</td>
 				</tr>
 				<tr>
-					<td width=15% class-right>제목</td>
+					<td width=20% class-right>타입</td>
 					<td width=85%>
-					<input type = text size=45 class= input-sm name=title id="title">
+						<input class="board_type input-sm" type = text size=15 class=input-sm name=type id="type" style="cursor: auto">
 					</td>
 				</tr>
 				<tr>
-					<td width=15% class-right>내용</td>
+					<td width=20% class-right>제목</td>
 					<td width=85%>
-					<textarea cols=50 rows=10 name=contents style="margin: 0px; width: 640px; height=700px;" id="contents"></textarea>
+					<input class="board_title input-sm" type = text size=45 class= input-sm name=title id="title">
+					</td>
+				</tr>
+				<tr>
+					<td width=20% class-right>내용</td>
+					<td width=85%>
+					<textarea class="board_contents" cols=50 rows=10 name=contents style="margin: 0px; width: 640px; height:700px;" id="contents"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td colspan=2 class=text-center>
 					<!-- <input type=submit class=btn1 btn-md btn-danger value=글쓰기> -->
-					<button class="boardsubmit">등록</button>
+					<button class="board_edit btn btn-xs btn-outline-primary">수정</button>
 					<!-- <input type=button class=btn2 btn-md btn-info value=취소> -->
-					<a href=./board.html class="btn btn-xs btn-success">취소</a>
+					<a href=./board.html class="btn btn-xs btn-outline-primary">취소</a>
 					</td>
 				</tr>
 			</table>
@@ -34,25 +41,39 @@
 </div>
 
 <script>
-$('button.boardsubmit').on('click', function(e){
+$('button.board_edit').on('click', function(e){
 	e.preventDefault();
-	var board_type = $('#type').val();
-	var board_title = $('#title').val();
-	var board_contents = $('#contents').val();
+	var board_no_string= $('.board_no').val();
+	var board_no = parseInt(board_no_string, 10);
+	var board_type = $('.board_type').val();
+	var board_title = $('.board_title').val();
+	var board_contents = $('.board_contents').val();
 	//alert(board_title+board_contents);
-	  var backurl = '../ta_back/boardedit';
+	  var backurl = 'http://localhost:9999/ta_back/board/' + board_no;
 		  	$.ajax({
 				url: backurl,
-				method: 'post',
-				data:{board_no: board_no,
-					board_title: board_title,
-					board_contents: board_contents
+				method: 'put',
+				data:{board_type: $('.board_type').val(),
+					board_title: $('.board_title').val(),
+					board_contents: $('.board_contents').val(),
 				},
 				success:function(responseObj){
-					alert('수정성공');
-					window.location.href="./board.html";
-				}
+					var status= responseObj.status;
+					if(status==1){
+						alert('수정성공');
+						window.location.href="./board.html";
+					}else{
+						alert("실패 혹은 로그인 안해서?");
+						window.location.href="./board.html";
+					}
+					
+				},
+				
+			 xhrFields:{
+		          withCredentials:true
+	          },
 		  	});
+		  	return false
 	
 });
 </script>

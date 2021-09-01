@@ -31,7 +31,7 @@ public class BoardCommentDAOTest {
 	
 	@Test
 	void test1() throws FindException{
-		java.util.List<BoardComment> list = dao.selectAll(3);
+		java.util.List<BoardComment> list = dao.selectAll(1);
 		
 	}
 }

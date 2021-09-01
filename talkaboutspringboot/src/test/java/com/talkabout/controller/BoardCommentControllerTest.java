@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.talkabout.exception.DeleteException;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 public class BoardCommentControllerTest {
@@ -35,6 +37,23 @@ public class BoardCommentControllerTest {
 			ResultHandler resultHandler = MockMvcResultHandlers.print(); 
 			resultActions.andDo(resultHandler);
 		}catch (Exception e){
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+	@Test
+	@DisplayName("댓글 삭제")
+	void test1() throws DeleteException{
+		MockHttpServletRequestBuilder requestBuilder;
+		String uri = "/boardcomment/102";
+		requestBuilder = MockMvcRequestBuilders.delete(uri);
+		try {
+			ResultActions resultActions = mockMvc.perform(requestBuilder);
+			ResultMatcher ok = MockMvcResultMatchers.status().isOk();
+			resultActions.andExpect(ok);
+			ResultHandler resultHandler = MockMvcResultHandlers.print();
+			resultActions.andDo(resultHandler);
+		}catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}

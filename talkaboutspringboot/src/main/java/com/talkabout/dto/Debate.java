@@ -32,6 +32,7 @@ public class Debate {
 	private String debate_status;
 	private String debate_startDate;
 	private String debate_endDate;
+	private String debate_content;
 	List<DebateDetail> detail_list;
 	List<DebateComment> comment_list;
 	List<DebateLike> like_list; 
@@ -44,7 +45,7 @@ public class Debate {
 	
 	
 	public Debate(int debate_no, Member debate_writer, String debate_topic, Date debate_date, int debate_time,
-			String debate_status, String debate_startDate, String debate_endDate, List<DebateDetail> detail_list,
+			String debate_status, String debate_startDate, String debate_endDate,String debate_content, List<DebateDetail> detail_list,
 			List<DebateComment> comment_list, List<DebateLike> like_list, List<Audience> audience_list) {
 		super();
 		this.debate_no = debate_no;
@@ -59,14 +60,21 @@ public class Debate {
 		this.comment_list = comment_list;
 		this.like_list = like_list;
 		this.audience_list = audience_list;
+		this.debate_content = debate_content;
+	}
+
+	public String getDebate_content() {
+		return debate_content;
+	}
+
+	public void setDebate_content(String debate_content) {
+		this.debate_content = debate_content;
 	}
 
 	public Debate() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	
 
 	public int getDebate_no() {
 		return debate_no;
@@ -168,7 +176,9 @@ public class Debate {
 	public String toString() {
 		return "Debate [debate_no=" + debate_no + ", debate_writer=" + debate_writer + ", debate_topic=" + debate_topic
 				+ ", debate_date=" + debate_date + ", debate_time=" + debate_time + ", debate_status=" + debate_status
-				+ ", debate_startDate=" + debate_startDate + ", debate_endDate=" + debate_endDate + "]";
+				+ ", debate_startDate=" + debate_startDate + ", debate_endDate=" + debate_endDate + ", debate_content="
+				+ debate_content + ", detail_list=" + detail_list + ", comment_list=" + comment_list + ", like_list="
+				+ like_list + ", audience_list=" + audience_list + "]";
 	}
 	
 	

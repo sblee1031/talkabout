@@ -13,11 +13,17 @@
       <typeAlias type="com.talkabout.dto.BoardComment" alias="boardcomment"/>
       <typeAlias type="com.talkabout.dto.BoardLike" alias="boardlike"/>
       <typeAlias type="com.talkabout.dto.Debate" alias="debate"/>
+      <typeAlias type="com.talkabout.dto.DebateSungho" alias="debatesungho" />
+      <typeAlias type="com.talkabout.dto.DebateDetail" alias="debatedetail" />
+      <typeAlias type="com.talkabout.dto.DebateDetailSungho" alias="debatedetailsungho" />
 	  <typeAlias type="com.talkabout.dto.Member" alias="member"/>
+	  <typeAlias type="com.talkabout.dto.DebateComment" alias="debatecomment" />
+	  <typeAlias type="com.talkabout.dto.DebateCommentSungho" alias="debatecommentsungho" />
    </typeAliases>
    <mappers>
    	<mapper resource="mybatisConfig/AdminMapper.xml"/>
    	<mapper resource="mybatisConfig/DebateRecruitMapper.xml"/>
+    <mapper resource="mybatisConfig/DebateResultMapper.xml" />
    	<mapper resource="mybatisConfig/BoardCommentMapper.xml"/>
     <mapper resource="mybatisConfig/BoardMapper.xml"/>
     <mapper resource="mybatisConfig/BoardLikeMapper.xml"/>

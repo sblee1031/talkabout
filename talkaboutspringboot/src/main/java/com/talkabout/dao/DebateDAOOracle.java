@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.Member;
+import com.talkabout.exception.DeleteException;
 import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
 
@@ -23,19 +24,19 @@ public class DebateDAOOracle implements DebateDAO {
 	//@Qualifier("Underscore")
 	private SqlSessionFactory sqlSessionFactory;
 
-public int num_page_size; //1페이지당 사이즈
-public int num_page_no = 1; //페이지번호
+//public int num_page_size; //1페이지당 사이즈
+//public int num_page_no = 1; //페이지번호
 public int lastrow; // row개수
 
-public void pageSize(int size) {
-	this.num_page_size = size;
-	//System.out.println("페이지 사이즈 : "+num_page_size);
-}
-
-	public void pageNum(int page) {
-		this.num_page_no = page;
-		//System.out.println("페이지번호 : "+num_page_no);
-	}
+//public void pageSize(int size) {
+//	this.num_page_size = size;
+//	//System.out.println("페이지 사이즈 : "+num_page_size);
+//}
+//
+//	public void pageNum(int page) {
+//		this.num_page_no = page;
+//		//System.out.println("페이지번호 : "+num_page_no);
+//	}
 	//마지막 row 가져오기
 	public int lastRow() {
 		SqlSession session = null;
@@ -146,12 +147,6 @@ public void pageSize(int size) {
 	}
 
 	@Override
-	public List<Debate> selectSearch(String column, String keyword) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void insertDebate(Debate deb, String discuss1, String discuss2) {
 		// TODO Auto-generated method stub
 		SqlSession session = null;
@@ -177,7 +172,105 @@ public void pageSize(int size) {
 			}
 		}
 	}
+	@Override
+	public void deleteDebate(String deb) throws DeleteException {
+		SqlSession session = null;
+		try {
+			int debNo = Integer.parseInt(deb);
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.delete("com.talkabout.dto.DebateRecruitMapper.debDelete",debNo);
+			Map<String,Object> map = new HashMap<>();
+			//	System.out.println(list);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new DeleteException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		
+	}
+	@Override
+	public void updateDebate(Debate deb, DebateDetail dd1, DebateDetail dd2) throws ModifyException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.update("com.talkabout.dto.DebateRecruitMapper.debUpdate",deb);
+			session.update("com.talkabout.dto.DebateRecruitMapper.ddUpdate",dd1);
+			session.update("com.talkabout.dto.DebateRecruitMapper.ddUpdate",dd2);
+			//System.out.println("==="+debNo);
+			//	System.out.println(list);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		
+	}
+	@Override
+	public void updateDiscussor(Debate deb_no, DebateDetail dd, Member m) throws ModifyException{
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.update("com.talkabout.dto.DebateRecruitMapper.discussorUpdate",dd);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new ModifyException(e.getMessage()); 
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+	}
 
+	@Override
+	public void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m)  throws ModifyException{
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.update("com.talkabout.dto.DebateRecruitMapper.discussorCancle",dd);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new ModifyException(e.getMessage()); 
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		
+	}
+	@Override
+	public List<DebateDetail> checkDeb(int deb_no) throws FindException {
+		SqlSession session = null;
+		List<DebateDetail> list = new ArrayList<>(); 
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			list = session.selectList("com.talkabout.dto.DebateRecruitMapper.checkDeb",deb_no);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new FindException(e.getMessage()); 
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<Debate> selectSearch(String column, String keyword) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	@Override
 	public void updateDebateAll(Debate deb) throws ModifyException {
 		// TODO Auto-generated method stub
@@ -209,23 +302,7 @@ public void pageSize(int size) {
 		
 	}
 
-	@Override
-	public void updateDiscussor(Debate deb_no, DebateDetail dd, Member m) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void deleteDebate(Debate deb_no) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 
@@ -306,6 +383,9 @@ public void pageSize(int size) {
 //		}
 //		System.out.println(dao.selectByNo(3).toString());
 	}
+
+
+
 
 
 

@@ -11,6 +11,7 @@ import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.Member;
 import com.talkabout.exception.AddException;
+import com.talkabout.exception.DeleteException;
 import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
 @Service
@@ -31,21 +32,24 @@ public class DebateService {
 	public void addDebate(Debate deb,  String discuss1, String discuss2) throws AddException{
 		dao.insertDebate(deb, discuss1,discuss2);
 	}
-	public void addDiscussor(Debate deb_no, DebateDetail dd, Member m) {
+	public void addDiscussor(Debate deb_no, DebateDetail dd, Member m) throws ModifyException{
 		dao.updateDiscussor(deb_no, dd, m);
 	}
-	public void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m) {
+	public void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m) throws ModifyException{
 		dao.cancleDiscussor(deb_no, dd, m);
 	}
 	public void updateDebateAll(Debate deb, List<DebateDetail> dd, String discuss1,String discuss2) throws ModifyException{
 		dao.updateDebateAll(deb, dd,discuss1,discuss2);
 	}
+	public void updateDebate(Debate deb, DebateDetail dd1,DebateDetail dd2) throws ModifyException{
+		dao.updateDebate(deb, dd1,dd2);
+	}
 	
 	public void updateStatus(Debate status) {
 		dao.updateStatus(status);
 	}
-	public void deleteDebate(Debate deb_no) {
-		dao.deleteDebate(deb_no);
+	public void deleteDebate(String debNo) throws DeleteException {
+		dao.deleteDebate(debNo);
 	}
 	public List<Debate> selectSearch(String column, String keyword){
 		return dao.selectSearch(column, keyword);
@@ -62,7 +66,9 @@ public class DebateService {
 //	public void pageSize(int size) {
 //		dao.pageSize(size);
 //	}
-	
+	public List<DebateDetail> checkDeb(int deb_no) throws FindException  {
+		return dao.checkDeb(deb_no);
+	}
 	public void setStartDate(Debate deb) {
 		dao.updateStartdate(deb);
 	}
