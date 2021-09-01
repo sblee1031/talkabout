@@ -63,22 +63,10 @@
 	<select id="getlistWithPaging"
 		resultMap="debateSunghoResultmap2">
 <![CDATA[
-SELECT *
- FROM
-    (
-        SELECT 
-            ROWNUM AS RNUM, T1.*
-        FROM
-            debate T1
-        WHERE
-            ROWNUM <= (#{page_num} * #{amount})
-            order by  debate_no desc
-    )
-     left join member m on debate_writer = m.MEMBER_NO
- WHERE
-    (#{page_num}-1)*#{amount} < RNUM  and debate_status = '종료'
-    order by RNUM
-    ]]>
+    SELECT  *
+FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate where debate_status = '종료' ORDER BY DEBATE_NO DESC) deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+WHERE RNUM BETWEEN ((#{page_num}-1)*#{amount}+1) AND (#{page_num} * #{amount})
+ ]]>
 	</select>
 
 	<insert id="insertComment" parameterType="debatecommentsungho">
