@@ -28,4 +28,5 @@ public interface AdminDAO {
     
     //debate approve
     void approve(int deb_no) throws ModifyException;
+    void disapprove(int deb_no) throws ModifyException;
 }

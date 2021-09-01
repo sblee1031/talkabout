@@ -37,8 +37,7 @@ import com.talkabout.service.DebateService;
 @RequestMapping("/admin/**")
 @RestController
 public class AdminController {
-	@Autowired
-	private DebateService debService;
+	
 	@Autowired
 	private AdminService service;
 	@Autowired
@@ -46,13 +45,13 @@ public class AdminController {
 	
 	@PostMapping(value = "/login")
 	public Map<String, Object> adminLogin(@RequestBody Admin ad, HttpSession session) throws FindException{
-		Admin logininfo = (Admin)session.getAttribute("logininfo");
+		Admin logininfo = (Admin)session.getAttribute("admininfo");
 //		System.out.println(ad.getAdmin_id()+ ad.getAdmin_pwd());
 		Map<String, Object> result =new HashMap<String, Object>();
 		Admin loginAdmin = new Admin();
 		try {
 			loginAdmin=service.adLogin(ad.getAdmin_id(), ad.getAdmin_pwd());
-			session.setAttribute("logininfo", loginAdmin);
+			session.setAttribute("admininfo", loginAdmin);
 			result.put("status", 1);
 			result.put("loginInfo", loginAdmin.getAdmin_id());
 		} catch (Exception e) {
@@ -66,7 +65,7 @@ public class AdminController {
 	
 	@GetMapping(value = {"/notice/list","/notice/list/{word}"})
 	public Map<String, Object> list(@PathVariable(name = "word") Optional<String> optWord , String pageNo, String pageSize, HttpSession session){
-		Admin loginmem = (Admin) session.getAttribute("logininfo");
+		Admin loginmem = (Admin) session.getAttribute("admininfo");
 		//		System.out.println("======");
 //		System.out.println(pageNo + pageSize);
 		
@@ -152,6 +151,20 @@ public class AdminController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			service.approve(board_no);
+			result.put("status", 1);
+			
+		}catch(ModifyException e){
+			e.printStackTrace();
+			result.put("status", 0);
+			result.put("msg", e.getMessage());
+		}
+		return result;
+	}
+	@PutMapping("/disapprove/{board_no}")
+	public Map<String, Object> disapprove (@PathVariable int board_no,  HttpSession session){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			service.disapprove(board_no);
 			result.put("status", 1);
 			
 		}catch(ModifyException e){

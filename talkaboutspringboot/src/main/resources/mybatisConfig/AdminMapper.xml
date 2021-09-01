@@ -46,5 +46,8 @@ ORDER BY board_no DESC
    <update id="aprove" parameterType="int">
    	UPDATE DEBATE SET debate_status = '승인' WHERE debate_no=#{no}
    </update>
+   <update id="disaprove" parameterType="int">
+   	UPDATE DEBATE SET debate_status = '모집중' WHERE debate_no=#{no}
+   </update>
 
 </mapper>

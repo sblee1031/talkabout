@@ -189,6 +189,24 @@ public class AdminDAOOracle implements AdminDAO{
 		}
 		
 	}
+
+	@Override
+	public void disapprove(int deb_no) throws ModifyException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.update("com.talkabout.dto.AdminMapper.disaprove",deb_no);
+//			System.out.println("게시물 총"+lastrow);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+	}
 	
 	
 }

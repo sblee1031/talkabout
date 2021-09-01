@@ -33,36 +33,13 @@ $(function () {
   
 
 
-
-/*	
-  // Get the modal
-  var modal = document.getElementById("myModal");
-
-  // Get the button that opens the modal
-  var btnmodal = document.getElementById("myBtn");
-
-  // Get the <span> element that closes the modal
-  var span11 = document.getElementsByClassName("close")[0];
-
-  // When the user clicks on the button, open the modal
-  btnmodal.onclick = function () {
-    modal.style.display = "block";
-  };
-
-  // When the user clicks on <span> (x), close the modal
-  span11.onclick = function () {
-    modal.style.display = "none";
-  };
-
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };*/
-
-
 }); //dom 끝 괄호
+
+
+$(document).on("click", "#adminLogin", function (e) {
+	window.location.href='http://localhost:8888/ta_front/admin.html';	
+	});
+
 
 //로그인 js시작
 function init() {

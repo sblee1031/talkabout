@@ -56,4 +56,7 @@ public class AdminService {
 	public void approve(int deb_no) throws ModifyException{
 		dao.approve(deb_no);
 	}
+	public void disapprove(int deb_no) throws ModifyException{
+		dao.disapprove(deb_no);
+	}
 }
