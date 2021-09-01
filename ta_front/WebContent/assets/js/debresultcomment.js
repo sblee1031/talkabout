@@ -200,6 +200,7 @@ $(function() {
 				});
 
 				trContent.append(trDebates);
+				$('.paginglist').hide();
 			},
 			xhrFields: {
 				withCredentials: true
