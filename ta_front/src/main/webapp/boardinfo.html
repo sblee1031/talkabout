@@ -105,6 +105,7 @@ $(function(){
                     var status = responseData.status;
                     if(status==1){
                         alert("댓글 작성 완료");
+                        window.location.href="./board.html";
                     }else{
                         alert("로그인 하고 와라");
                     }
@@ -113,6 +114,7 @@ $(function(){
                     alert(xhr.status);
                 },
         });
+        
         //return false;
     });
     //댓글 작성 끝
@@ -166,6 +168,7 @@ $(function(){
                     var hrmlurl = './boardinfo.html';
                     var backurl = 'http://localhost:9999/ta_back/board/' + board_no;
                     alert("성공이다 쉐리야");
+                    window.location.href="./board.html";
                 }else{
                     alert("로그인해라 쉐리야");
                     window.location.href="./index.html";
