@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.talkabout.dto.Admin;
 import com.talkabout.dto.Board;
+import com.talkabout.dto.Debate;
+import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.Member;
 import com.talkabout.dto.Notice;
 import com.talkabout.dto.Pagination;
@@ -31,13 +33,17 @@ import com.talkabout.exception.ModifyException;
 import com.talkabout.service.AdminService;
 import com.talkabout.service.BoardService;
 import com.talkabout.service.DebateService;
+import com.talkabout.service.MailService;
 
 @CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000","http://localhost:9999"})
 //@CrossOrigin("*")
 @RequestMapping("/admin/**")
 @RestController
 public class AdminController {
-	
+	@Autowired
+	private MailService mailService;
+	@Autowired
+	private DebateService debService;
 	@Autowired
 	private AdminService service;
 	@Autowired
@@ -152,7 +158,26 @@ public class AdminController {
 		try {
 			service.approve(board_no);
 			result.put("status", 1);
-			
+			try {
+				List<DebateDetail> list = new ArrayList<>();
+				list = debService.checkDeb(board_no);
+				Map<String, Object> debate =new HashMap<String, Object>();
+				debate = debService.findByNo(board_no);
+				if(list.get(0)!=null &list.get(1)!=null) {
+					Debate deb = (Debate)debate.get("debate");
+					DebateDetail dd1 = (DebateDetail)((List<DebateDetail>)debate.get("detail")).get(0);
+					DebateDetail dd2 = (DebateDetail)((List<DebateDetail>)debate.get("detail")).get(1);
+					if(dd1.getDiscussor()==null | dd2.getDiscussor()==null) {
+						result.put("status", 1);
+					}else {
+						//System.out.println("메일발송");
+//						mailService.sendMail(deb, dd1, dd2);
+						mailService.approveMail(deb, dd1, dd2);
+					}
+				}
+			} catch (FindException e) {
+				//throw new FindException(e.getMessage());
+			}
 		}catch(ModifyException e){
 			e.printStackTrace();
 			result.put("status", 0);
