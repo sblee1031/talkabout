@@ -41,11 +41,13 @@ public class BoardDAOOracle implements BoardDAO{
 		//System.out.println("페이지 번호 : " + num_page_no);
 	}
 	//마지막 row 가져오기
+	@Override
 	public int lastRow() {
 		SqlSession session = null;
 		try {
 			session = sqlSessionFactory.openSession();
-			lastrow = session.selectOne("com.talkbabout.dto.BoardMapper.lastRow");
+			lastrow = session.selectOne("com.talkabout.dto.BoardMapper.lastRow");
+			
 		}catch (Exception e){
 			System.out.println(e.getMessage());
 		}finally {
@@ -53,6 +55,7 @@ public class BoardDAOOracle implements BoardDAO{
 				session.close();
 			}
 		}
+		System.out.println(lastrow + "----------------------------------");
 		return lastrow;
 	}
 	public int searchLastRow(String word) {
@@ -101,7 +104,7 @@ public class BoardDAOOracle implements BoardDAO{
 		map.put("num_end_row", endRow);
 		try {
 			session = sqlSessionFactory.openSession();
-		    list = session.selectList("com.talkabout.dto.BoardMapper.selectWord", word);
+		    list = session.selectList("com.talkabout.dto.BoardMapper.selectWord", map);
 		}catch(Exception e) {
 			//throw new FindException(e.getMessage());
 			System.out.println(e.getMessage());
