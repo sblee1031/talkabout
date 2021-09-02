@@ -86,13 +86,9 @@ public interface DebateDAO {
      int lastRow();
      
      int searchLastRow(String word);
-
-     /**
-      * 토론자 1,2 선정시 토론 승인을 위한 체크 메서드
-      * @param deb_no
-      * @return
-      * @throws FindException
-      */
-     List<DebateDetail> checkDeb(int deb_no) throws FindException;
+     
+     void pageNum(int page);
+     
+     void pageSize(int size);
 
 }

@@ -29,7 +29,6 @@ import com.talkabout.exception.DeleteException;
 import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
 import com.talkabout.service.DebateService;
-import com.talkabout.service.MailService;
 @CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000","http://localhost:9999"})
 //@CrossOrigin("*")
 @RequestMapping("/debrecruit/**")
@@ -37,8 +36,6 @@ import com.talkabout.service.MailService;
 public class DebateRecruitController {
 	@Autowired
 	private DebateService service;
-	@Autowired
-	private MailService mailService;
 	
 	@GetMapping(value = {"/list","/list/{word}"})
 	public Map<String, Object> list(@PathVariable(name = "word") Optional<String> optWord , String pageNo, String pageSize, HttpSession session){
@@ -136,7 +133,7 @@ public class DebateRecruitController {
 		return result;
 	}
 	@PutMapping(value="/discussor")
-	public Map<String, Object> discussorUpdate( HttpSession session , @RequestBody Map<String, Object> map) throws ModifyException, FindException{
+	public Map<String, Object> discussorUpdate( HttpSession session , @RequestBody Map<String, Object> map) throws ModifyException{
 		Map<String, Object> result =new HashMap<String, Object>();
 		Member loginmem = (Member) session.getAttribute("logininfo");
 		
@@ -145,39 +142,12 @@ public class DebateRecruitController {
 		dd.setDiscussor(loginmem);
 //		String str = (String)map.get("dd_no");
 		int loginNum = (int)map.get("member_no");
-		int deb_no = (int)map.get("deb_no");
-		
 		if(loginmem.getMember_no() != loginNum) {
 			throw new ModifyException("잘못된 접근 입니다.");
 		}
 		try {
 			service.addDiscussor(null, dd, null);
 			result.put("status", 1);
-			List<DebateDetail> list = new ArrayList<>();
-			try {
-				list = service.checkDeb(deb_no);
-				Map<String, Object> debate =new HashMap<String, Object>();
-				debate = service.findByNo(deb_no);
-				if(list.get(0)!=null &list.get(1)!=null) {
-//					System.out.println("메일발송"+((Debate)debate.get("debate")).getDebate_topic());
-//					System.out.println("메일발송"+((List<DebateDetail>)debate.get("detail")).get(0));
-//					System.out.println("메일발송"+((List<DebateDetail>)debate.get("detail")).get(1));
-					Debate deb = (Debate)debate.get("debate");
-					DebateDetail dd1 = (DebateDetail)((List<DebateDetail>)debate.get("detail")).get(0);
-					DebateDetail dd2 = (DebateDetail)((List<DebateDetail>)debate.get("detail")).get(1);
-					if(dd1.getDiscussor()==null | dd2.getDiscussor()==null) {
-						result.put("status", 1);
-					}else {
-						System.out.println("메일발송");
-						mailService.sendMail("psyy2244@gmail.com", "talkabout1234",
-								deb, dd1, dd2);
-					}
-				}
-			} catch (FindException e) {
-				// TODO Auto-generated catch block
-				//throw new FindException(e.getMessage());
-				
-			}
 		} catch (ModifyException e) {
 			e.printStackTrace();
 			result.put("status", 0);

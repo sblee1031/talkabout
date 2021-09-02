@@ -30,7 +30,11 @@ $(function () {
 	 withCredentials:true
     },
   });
-	
+  
+
+
+
+/*	
   // Get the modal
   var modal = document.getElementById("myModal");
 
@@ -55,7 +59,7 @@ $(function () {
     if (event.target == modal) {
       modal.style.display = "none";
     }
-  };
+  };*/
 
 
 }); //dom 끝 괄호
@@ -104,6 +108,7 @@ function onSignIn(googleUser) {
       if (responseData.usercheck == "non_member") {
         $("#section").load("logininfo.html", function () {
           // console.log(responseData.usercheck);
+          $('#modalClose').click();
           $("#myinfodiv").hide();
           $("div.signup").show();
           $("#email").val(gEmail);
@@ -154,7 +159,7 @@ function onSignIn(googleUser) {
 } //구글로그인 끝
 
 function onSignInFailure(t) {
-  console.log("->>",t);
+  //console.log("->>",t);
 }
 
 /* function renderButton() {
@@ -386,7 +391,14 @@ const serializedValues2 = $('#signupfrom').serializeObject()
       success: function (responseData) {
         userdata = responseData;
         console.log("회원가입 응답",responseData);
-        if (responseData.usercheck == "non_member") {
+/*        if(responseData.status ==1){
+		alert('가입성공! ');
+		window.location.href = "../ta_front/index.html";
+}else{
+	alert('가입 실패');
+	window.location.href = "../ta_front/index.html";
+}*/
+       if (responseData.usercheck == "non_member") {
           alert("잘못된 접근입니다.");
         } else if (responseData.usercheck == "member") {
           logined(responseData);
@@ -428,15 +440,16 @@ Kakao.Auth.createLoginButton({
           success: function (data) {
             if (data.usercheck == "non_member") {
               $("#section").load("logininfo.html", function () {
+				$('#modalClose').click();
                 $("#myinfodiv").hide();
                 $("div.signup").show();
                 $("#email").val(result.kakao_account.email);
                 $("#social_type").val("카카오");
                 $("#social_no").val(result.id);
-                $("#thumb").val(result.kakao_account.profile.profile_image_url);
+                $("#thumb").val(result.properties.profile_image);
                 $("#thumb_img").attr(
                   "src",
-                  result.kakao_account.profile.profile_image_url
+                  result.properties.profile_image
                 );
                 $("#close").trigger("click");
 

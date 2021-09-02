@@ -66,9 +66,7 @@ public class DebateService {
 //	public void pageSize(int size) {
 //		dao.pageSize(size);
 //	}
-	public List<DebateDetail> checkDeb(int deb_no) throws FindException  {
-		return dao.checkDeb(deb_no);
-	}
+	
 	public void setStartDate(Debate deb) {
 		dao.updateStartdate(deb);
 	}

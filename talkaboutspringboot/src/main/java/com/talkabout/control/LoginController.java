@@ -23,7 +23,7 @@ import com.talkabout.exception.AddException;
 import com.talkabout.exception.FindException;
 import com.talkabout.service.MemberService;
 
-@CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000"})
+@CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000","http://localhost:9999"})
 //@CrossOrigin("*")
 @RequestMapping("/member/**")
 @RestController
@@ -57,7 +57,7 @@ public class LoginController {
 //			System.out.println("==============세션널");
 			
 				if(socialNo.equals("null")) {
-//					System.out.println("======NotLogined");
+					System.out.println("======NotLogined");
 					result.put("status", 0); //비회원
 					result.put("usercheck", "Not_logined");
 				}else {

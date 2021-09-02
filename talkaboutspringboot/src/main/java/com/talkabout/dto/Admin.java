@@ -10,11 +10,6 @@ public class Admin {
 	private String admin_id;
 	private String admin_pwd;
 
-	public Admin() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	public Admin(String admin_id, String admin_pwd) {
 		super();
 		this.admin_id = admin_id;

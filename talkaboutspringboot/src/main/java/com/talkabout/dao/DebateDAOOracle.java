@@ -24,19 +24,19 @@ public class DebateDAOOracle implements DebateDAO {
 	//@Qualifier("Underscore")
 	private SqlSessionFactory sqlSessionFactory;
 
-//public int num_page_size; //1페이지당 사이즈
-//public int num_page_no = 1; //페이지번호
+public int num_page_size; //1페이지당 사이즈
+public int num_page_no = 1; //페이지번호
 public int lastrow; // row개수
 
-//public void pageSize(int size) {
-//	this.num_page_size = size;
-//	//System.out.println("페이지 사이즈 : "+num_page_size);
-//}
-//
-//	public void pageNum(int page) {
-//		this.num_page_no = page;
-//		//System.out.println("페이지번호 : "+num_page_no);
-//	}
+public void pageSize(int size) {
+	this.num_page_size = size;
+	//System.out.println("페이지 사이즈 : "+num_page_size);
+}
+
+	public void pageNum(int page) {
+		this.num_page_no = page;
+		//System.out.println("페이지번호 : "+num_page_no);
+	}
 	//마지막 row 가져오기
 	public int lastRow() {
 		SqlSession session = null;
@@ -247,24 +247,6 @@ public int lastrow; // row개수
 		}
 		
 	}
-	@Override
-	public List<DebateDetail> checkDeb(int deb_no) throws FindException {
-		SqlSession session = null;
-		List<DebateDetail> list = new ArrayList<>(); 
-		try {
-			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
-			list = session.selectList("com.talkabout.dto.DebateRecruitMapper.checkDeb",deb_no);
-		}catch (Exception e) {
-			System.out.println(e.getMessage());
-			throw new FindException(e.getMessage()); 
-		}finally{
-			//DB연결 해제
-			if(session !=null) {
-				session.close();
-			}
-		}
-		return list;
-	}
 	
 	@Override
 	public List<Debate> selectSearch(String column, String keyword) {
@@ -383,7 +365,6 @@ public int lastrow; // row개수
 //		}
 //		System.out.println(dao.selectByNo(3).toString());
 	}
-
 
 
 
