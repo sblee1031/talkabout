@@ -4,6 +4,8 @@ package com.talkabout.dto;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Board {
 	/*
 	 * Table : 자유게시판 테이블
@@ -22,20 +24,23 @@ public class Board {
 	private String board_type;
 	private String board_title;
 	private String board_contents;
-	private String board_date;
+	@JsonFormat(pattern = "yy/MM/dd HH:mm", timezone = "Asia/Seoul")
+	private Date board_date;
 	private int board_views;
-	private int board_mem; // board_mem.member_no
+	private Member board_member; // board_mem.member_no
 //	private Member board_mem;
 	List<BoardComment> comment_list;
-	List<BoardLike> like_list; 
+	List<BoardLike> like_list;
+	int boardlike_count;
+	
 	// 게시글번호,회원번호 체크?
 	
 	public Board() {
 		super();
 	}	
 	
-	public Board(int board_no, String board_type, String board_title, String board_contents, String board_date,
-			int board_views, int board_mem, List<BoardComment> comment_list, List<BoardLike> like_list) {
+	public Board(int board_no, String board_type, String board_title, String board_contents, Date board_date,
+			int board_views, Member board_member, List<BoardComment> comment_list, List<BoardLike> like_list) {
 		super();
 		this.board_no = board_no;
 		this.board_type = board_type;
@@ -43,7 +48,7 @@ public class Board {
 		this.board_contents = board_contents;
 		this.board_date = board_date;
 		this.board_views = board_views;
-		this.board_mem = board_mem;
+		this.board_member = board_member;
 		this.comment_list = comment_list;
 		this.like_list = like_list;
 	}
@@ -53,8 +58,8 @@ public class Board {
 		this.board_title = board_title;
 		this.board_contents = board_contents;
 	}
-	public Board(int board_no, String board_type, String board_title, String board_contents, String board_date,
-			int board_views, int board_mem) {
+	public Board(int board_no, String board_type, String board_title, String board_contents, Date board_date,
+			int board_views, Member board_member) {
 		super();
 		this.board_no = board_no;
 		this.board_type = board_type;
@@ -62,7 +67,7 @@ public class Board {
 		this.board_contents = board_contents;
 		this.board_date = board_date;
 		this.board_views = board_views;
-		this.board_mem = board_mem;
+		this.board_member = board_member;
 	}
 	public int getBoard_no() {
 		return board_no;
@@ -88,10 +93,10 @@ public class Board {
 	public void setBoard_contents(String board_contents) {
 		this.board_contents = board_contents;
 	}
-	public String getBoard_date() {
+	public Date getBoard_date() {
 		return board_date;
 	}
-	public void setBoard_date(String board_date) {
+	public void setBoard_date(Date board_date) {
 		this.board_date = board_date;
 	}
 	public int getBoard_views() {
@@ -100,11 +105,11 @@ public class Board {
 	public void setBoard_views(int board_views) {
 		this.board_views = board_views;
 	}
-	public int getBoard_mem() {
-		return board_mem;
+	public Member getBoard_member() {
+		return board_member;
 	}
-	public void setBoard_mem(int board_mem) {
-		this.board_mem = board_mem;
+	public void setBoard_member(Member board_member) {
+		this.board_member = board_member;
 	}
 	public List<BoardComment> getComment_list() {
 		return comment_list;
@@ -118,4 +123,11 @@ public class Board {
 	public void setLike_list(List<BoardLike> like_list) {
 		this.like_list = like_list;
 	}	
+	public int getBoardlike_count() {
+		return boardlike_count;
+	}
+
+	public void setBoardlike_count(int boardlike_count) {
+		this.boardlike_count = boardlike_count;
+	}
 }

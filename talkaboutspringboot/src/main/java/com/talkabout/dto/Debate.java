@@ -3,8 +3,6 @@ package com.talkabout.dto;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Debate {
@@ -26,7 +24,7 @@ public class Debate {
 	 */
 	
 	private int debate_no;
-	private int debate_writer; // debate_writer.member_no
+	private Member debate_writer; // debate_writer.member_no
 	private String debate_topic;
 	@JsonFormat(pattern = "yy/MM/dd HH:mm", timezone = "Asia/Seoul")
 	private Date debate_date;
@@ -34,6 +32,7 @@ public class Debate {
 	private String debate_status;
 	private String debate_startDate;
 	private String debate_endDate;
+	private String debate_content;
 	List<DebateDetail> detail_list;
 	List<DebateComment> comment_list;
 	List<DebateLike> like_list; 
@@ -45,8 +44,8 @@ public class Debate {
 	
 	
 	
-	public Debate(int debate_no, int debate_writer, String debate_topic, Date debate_date, int debate_time,
-			String debate_status, String debate_startDate, String debate_endDate, List<DebateDetail> detail_list,
+	public Debate(int debate_no, Member debate_writer, String debate_topic, Date debate_date, int debate_time,
+			String debate_status, String debate_startDate, String debate_endDate,String debate_content, List<DebateDetail> detail_list,
 			List<DebateComment> comment_list, List<DebateLike> like_list, List<Audience> audience_list) {
 		super();
 		this.debate_no = debate_no;
@@ -61,6 +60,15 @@ public class Debate {
 		this.comment_list = comment_list;
 		this.like_list = like_list;
 		this.audience_list = audience_list;
+		this.debate_content = debate_content;
+	}
+
+	public String getDebate_content() {
+		return debate_content;
+	}
+
+	public void setDebate_content(String debate_content) {
+		this.debate_content = debate_content;
 	}
 
 	public Debate() {
@@ -76,11 +84,11 @@ public class Debate {
 		this.debate_no = debate_no;
 	}
 
-	public int getDebate_writer() {
+	public Member getDebate_writer() {
 		return debate_writer;
 	}
 
-	public void setDebate_writer(int debate_writer) {
+	public void setDebate_writer(Member debate_writer) {
 		this.debate_writer = debate_writer;
 	}
 
@@ -168,7 +176,9 @@ public class Debate {
 	public String toString() {
 		return "Debate [debate_no=" + debate_no + ", debate_writer=" + debate_writer + ", debate_topic=" + debate_topic
 				+ ", debate_date=" + debate_date + ", debate_time=" + debate_time + ", debate_status=" + debate_status
-				+ ", debate_startDate=" + debate_startDate + ", debate_endDate=" + debate_endDate + "]";
+				+ ", debate_startDate=" + debate_startDate + ", debate_endDate=" + debate_endDate + ", debate_content="
+				+ debate_content + ", detail_list=" + detail_list + ", comment_list=" + comment_list + ", like_list="
+				+ like_list + ", audience_list=" + audience_list + "]";
 	}
 	
 	

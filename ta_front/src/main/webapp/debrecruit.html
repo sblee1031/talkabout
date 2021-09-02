@@ -1,267 +1,137 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <title>HTML Layouts</title>
-    <!--jquery 스크립트-->
+<head>
+<meta charset="UTF-8" />
+<title>Talk About</title>
+
+<link rel="stylesheet" href="ta/css/nav.css" /> 
+<link rel="stylesheet" href="ta/css/bootstrap.min.css" /> 
+
+<!--jquery 스크립트-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
        <!-- 로그인 js 시작 -->
     <meta
       name="google-signin-client_id"
       content="241916072602-heae1rac9sjh4t615b0k7i0iso0m842o.apps.googleusercontent.com"
     />
-      <!--    <script
-      src="https://apis.google.com/js/platform.js?onload=renderButton"
-      async
-      defer
-    ></script> -->
-
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
-
-    <!-- 로그인 js 끝 -->
-    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
-    <script>
-
-    </script>
-    <!-- 아이콘 -->
-    <link rel="apple-touch-icon" href="assets/img/apple-icon.png" />
+<!-- TA로고 -->
     <link
       rel="shortcut icon"
       type="image/x-icon"
       href="assets/img/favicon.ico"
     />
-
-    <!-- 부트스트랩 -->
-<!--     <link rel="stylesheet" href="assets/css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="assets/css/templatemo.css" />
-    <link rel="stylesheet" href="assets/css/custom.css" />
-    <link rel="stylesheet" href="assets/css/debresult.css" />
-    <!-- Load fonts style after rendering the layout styles -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
-    />
-    <link rel="stylesheet" href="assets/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="assets/css/debrecruit.css" />
-    <style>
-    #debateList {
-	font-style: normal;
-	color: black;
-	background-color: white;
-	border-style: none;
-	border: 1px solid black;
-/* 	font-size: x-large; */
-	text-align: center;
-	width: 100%;
-	}
-      html,
-      body {
-        width: 100%;
-        height: 100%;
-       
-      }
-      header {
-        background-color: lightgrey;
-        text-align: center;
-      }
-      footer {
-        background-color: #ffcc00;
-        text-align: center;
-        width: 100%;
-
-      }
-      #live {
-        background-color: brown;
-        float: left;
-      }
-      #login {
-        background-color: darkturquoise;
-        float: right;
-      }
-      span.board_index {
-        font-size: 30pt;
-        margin-right: 5%;
-      }
-      /* The Modal (background) */
-      .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0, 0, 0); /* Fallback color */
-        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-      }
-
-      /* Modal Content/Box */
-      .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border: 1px solid #888;
-        width: 50%; /* Could be more or less, depending on screen size */
-      }
-      /* The Close Button */
-      .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-      }
-      .close:hover,
-      .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light shadow">
-      <div class="container d-flex justify-content-between align-items-center">
-        <a
-          class="navbar-brand text-success logo h1 align-self-center"
-          href="index.html"
-        >
-          Talk About
-        </a>
-
-        <button
-          class="navbar-toggler border-0"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#templatemo_main_nav"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div
-          class="
-            align-self-center
-            collapse
-            navbar-collapse
-            flex-fill
-            d-lg-flex
-            justify-content-lg-between
-          "
-          id="templatemo_main_nav"
-        >
-          <div class="flex-fill">
-            <ul
-              class="nav navbar-nav d-flex justify-content-between mx-lg-auto"
-            >
-              <li class="nav-item">
-                <a class="nav-link" href="notice.html">공지사항</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="board.html">자유게시판</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="debrecruit.html">토론 모집</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="debbattle.html">토론 배틀</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="debresult.html">토론 결과</a>
-              </li>
-            </ul>
-          </div>
-
-      <!-- modal 시작 -->
-      <button id="myBtn">로그인</button>
-
-      <!-- The Modal -->
-      <div id="myModal" class="modal">
-        <!-- Modal content -->
-        <div class="modal-content">
-          <span class="close" id="close">&times;</span>
-           <!-- 소셜계정 선택 시작 -->
-    <div id="social" style="text-align: center; margin-block: inherit">
-      <li id="GgCustomLogin" style="list-style-type: none">
-         <a href="javascript:void(0)">
-       <!--  <button onclick="init()"> -->
-          <!-- <p id="my-signin2"></p> -->
-          <img style="width:220px" src="assets/img/loginbt_google.png">
-        </a>
-      </li>
-      <br />
-      <a id="kakao-login-btn"></a>
-      <!-- <button class="api-btn" onclick="unlinkApp()">앱 탈퇴하기</button> -->
-      <br />
-              
-    </div>
     
-        <!-- 소셜계정 선택 끝 -->
-          <p>소셜로그인..</p>
-        </div>
-      </div>
-      <!-- The Modal END -->
-		 <!-- 로고인 완료 화면 시작 -->
-    <div id="memberinfo" style="text-align: center; display: none">
-      <ul>
-        <li style="list-style-type: none">
-          <img
-            style="width: 30px"
-            id="login_thumb_img"
-            src=""
-            alt="mythumbnail"
-          />
-          <span id="member_nickname" style="font-size: 10pt"></span>
-        </li>
-      </ul>
-      <a class="myinfo" href="#" onclick="myinfo()">마이페이지</a>
-      <button class="logout" type="button" onclick="logout()">로그아웃</button>
-       
+<!-- 토론모집 js파일 -->
+     <script src="assets/js/debaterecruit.js"></script>
+
+</head>
+
+
+<body>
+
+<div id="wrapper">
+
+    <div id="header">
+    	<nav class="nav" >
+			<a class="navMain" href="index.html"> Talk About </a>
+			<ul class="nav">
+				<li class=""><a class=""
+					href="http://localhost:8888/ta_front/notice.html">공지사항</a></li>
+				<li class=""><a class=""
+					href="http://localhost:8888/ta_front/board.html">자유게시판</a></li>
+				<li class=""><a class=""
+					href="http://localhost:8888/ta_front/debrecruit.html">토론 모집</a></li>
+				<li class=""><a class=""
+					href="http://localhost:8888/ta_front/debbattle.html">토론 배틀</a></li>
+				<li class=""><a class=""
+					href="http://localhost:8888/ta_front/debresult.html">토론 결과</a></li>
+			</ul>
+					
+			<!-- modal 시작 -->
+
+				<!-- Button trigger modal -->
+				<button type="button" id="myBtn" class="login btn btn-primary"
+					data-toggle="modal" data-target="#exampleModal">로그인</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">로그인 해주세요.</h5>
+								
+							</div>
+							<div class="modal-body">
+
+								<!-- 소셜계정 선택 시작 -->
+								<div id="social"
+									style="text-align: center; margin-block: inherit">
+									<li id="GgCustomLogin" style="list-style-type: none"><a
+										href="javascript:void(0)"> <!--  <button onclick="init()"> -->
+											<!-- <p id="my-signin2"></p> --> <img style="width: 220px"
+											src="assets/img/loginbt_google.png">
+									</a></li> <br /> <a id="kakao-login-btn"></a>
+									<!-- <button class="api-btn" onclick="unlinkApp()">앱 탈퇴하기</button> -->
+									<br />
+
+								</div>
+
+								<!-- 소셜계정 선택 끝 -->
+
+							</div>
+							<div class="modal-footer">
+							<button type="button" id="adminLogin" class="btn btn-info"
+									>관리자</button>
+								<button type="button" id="modalClose" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 로고인 완료 화면 시작 -->
+				<div id="memberinfo" style="display: none">
+					<ul>
+						<li style="list-style-type: none"><img class="rounded-circle"
+							style="width: 30px" id="login_thumb_img" src="" alt="mythumbnail" />
+							<span id="member_nickname" style="font-size: 10pt"></span></li>
+
+					</ul>
+					<button class="myinfo btn btn-primary" onclick="myinfo()"
+						style="margin-right: 5px">마이페이지</button>
+					<button class="logout btn btn-success" onclick="logout()">로그아웃</button>
+				</div>
+
+			</nav>
     </div>
 
-    <!-- 로고인 완료 화면 끝 -->
-          <div class="navbar align-self-center d-flex">
-            <div
-              class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3"
-            >
-              <div class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="inputMobileSearch"
-                  placeholder="Search ..."
-                />
-                <div class="input-group-text">
-                  <i class="fa fa-fw fa-search"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+    <div id="container">
+		
+		<section id="section" style="text-align: center; padding-bottom:70px; position:relative; ">
 
-    <section id="section" style=" text-align: center; border-style: solid;">
+		</section>
 
+	</div>
 
-   
-    
-      <!-- Links -->
-
-    </section>
-    <footer>
-      <div><a>Copyright ⓒ </a><a
-          class="navbar-brand text-success logo h1 align-self-center"
-        >
-          Talk About
-        </a><br><a>경기도 성남시 분당구 성남대로 34 하나프라자 6층</a></div>
+    <footer id="footer">
+    			<div>
+			<a>Copyright ⓒ </a><a
+				class="navbar-brand text-success logo h1 align-self-center">
+				Talk About </a><br>
+			<a>경기도 성남시 분당구 성남대로 34 하나프라자 6층</a>
+		</div>
     </footer>
-     <script src="assets/js/login1.js"></script>
-     <script src="assets/js/debaterecruit2.js"></script>
-     <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> 	  
-  </body>
+
+</div>
+<script src="ta/js/bootstrap.min.js"></script>
+<script src="assets/js/login1.js"></script>
+	<script src="https://apis.google.com/js/platform.js?onload=init" async
+		defer></script>
+</body>
+
 </html>

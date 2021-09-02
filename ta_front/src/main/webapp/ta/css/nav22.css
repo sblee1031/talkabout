@@ -1,0 +1,366 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#wrapper {
+  position: relative;
+  min-height: 100%;
+}
+
+#container {
+  padding: 20px;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 70px;
+  background: #c1f05554;
+  text-align: center;
+}
+
+#live {
+  background-color: brown;
+  float: left;
+}
+
+#login {
+  background-color: darkturquoise;
+  float: right;
+}
+
+span.board_index {
+  font-size: 30pt;
+  margin-right: 5%;
+}
+/* The Modal (background) */
+.modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0); /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+      }
+
+ /* Modal Content/Box */
+      .modal-content {
+        justify-content:center;
+        align-items:center; 
+         position:fixed;   
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+      }
+The Close Button
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-success:hover,
+.btn-success:focus {
+  color: blue;
+  text-decoration: none;
+  cursor: pointer;
+} 
+
+body {
+  margin: 0;
+  padding: 0;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* background: #c1f05554 ; */
+}
+nav.nav {
+  background: #c1f05554;
+  text-align: center;
+}
+nav.nav a.navMain {
+  color: #19692c;
+  font-size: 2.5em;
+  font-weight: 700;
+  text-decoration: none;
+  margin: 20px 60px;
+  margin-left: 130px;
+  padding: 5px;
+}
+
+nav.nav a.navMain:hover {
+  color: #13e443;
+  font-size: 2.8em;
+  text-decoration: none;
+  font-weight: 700;
+  transition: 1s;
+  opacity: 1.2;
+}
+ul.nav {
+  margin-left: 4%;
+  margin-right: 1%;
+  padding: 0;
+  display: flex;
+}
+.nav .login {
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 40px;
+}
+ul.nav li {
+  list-style: none;
+  margin: 10px 40px;
+  transition: 0.5s;
+  margin-top: 20px;
+}
+ul.nav li a {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 2em;
+  font-family: sans-serif;
+  color: rgb(25, 76, 88);
+  text-transform: lowercase;
+  transition: 0.7s;
+}
+ul.nav:hover li a {
+  transform: scale(1);
+  opacity: 0.2;
+  filter: blur(0.5px);
+  color: rgba(0, 0, 0, 0.582);
+}
+ul.nav li a:hover {
+  text-decoration: none;
+  transform: scale(1.5);
+  opacity: 1;
+  filter: blur(0);
+}
+ul.nav li a:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #777777c5;
+  transition: transform 0.5s;
+  transform-origin: right;
+  transform: scaleX(0);
+  z-index: -1;
+}
+ul.nav li a:hover:before {
+  transition: transform 0.5s;
+  transform-origin: left;
+  transform: scaleX(1);
+}
+#memberinfo {
+  margin: 10px 2%;
+}
+/* 마이페이지*/
+.myInfoUl{
+	margin : 30px 0px;
+	margin-left:40%;
+	margin-right:auto;
+}
+.myInfoUl li{
+ list-style: none;
+ margin: 10px;
+ font-size:15pt;
+ text-align:left;
+}
+#myinfodiv .update{
+	margin-right:10px;
+}
+#mynickname{
+width:200px;
+  height: 100%;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  font-size: 15pt;
+  padding: 0 10px;
+  z-index: 1;
+  text-align:center;
+ background-color:rgba(106, 245, 113, 0.404);
+}
+#mybirthday{
+	  border: none;
+}
+#myBtn{
+	margin-left:70px;
+}
+
+/* 신규 가입 페이지*/
+ #signupfrom{
+ margin-top:10px;
+/*  margin-left:40%; */
+}
+.signUpUl li{
+	list-style:none;
+ margin: 10px;
+ font-size:15pt;
+ text-align:left;
+}
+
+#social_type , #email{
+  border: none;
+  outline: none;
+  text-align:center;
+} 
+
+.col {
+  position: relative;
+  width: 300px;
+  padding: 0 10px;
+  margin: 30px 0 20px;
+}
+li .nickNameLabel {
+  position: relative;
+
+  width: 100%;
+  height: 40px;
+  color: rgba(35, 35, 36, 0.658);
+}
+#nickname,
+.col .inputBox textarea {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  padding: 0 10px;
+  z-index: 1;
+  color: rgb(27, 11, 11);
+}
+
+.nickNameLabel .text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 40px;
+  font-size: 15pt;
+  font-weight: 700;
+  padding: 0 10px;
+  display: block;
+  transition: 0.5s;
+  pointer-events: none;
+  margin-left: 70px;
+}
+
+#nickname:focus + .text,
+#nickname:valid + .text,
+.col .inputBox textarea:focus + .text,
+.col .inputBox textarea:valid + .text {
+  top: -35px;
+  left: -10px;
+}
+
+.nickNameLabel .line {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: rgba(106, 245, 113, 0.404);
+  transition: 0.5s;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+#nickname:focus ~ .line,
+#nickname:valid ~ .line {
+  height: 100%;
+}
+li label input{
+	margin-left:20px;
+}
+
+/* 카드형  */
+
+.contain{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 30px;
+  margin-top: 20px;
+}  
+.contain .card
+{
+  position: relative;
+  max-width: 800px;
+  height: 250px;
+  background: #fff;
+  margin: 30px 10px;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  transition: 0.3s ease-in-out;
+}
+.contain .card:hover
+{
+  height: 650px;
+}
+.contain .card .imgBx
+{
+  position: relative;
+  width: 260px;
+  height: 220px;
+  top: -60px;
+  left: 80px;
+  z-index: 1;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+.contain .card .imgBx img
+{
+  max-width: 100%;
+  height: 100%;
+  border-radius: 4px;
+}
+.contain .card .content 
+{
+  position: relative;
+  margin-top: -140px;
+  padding: 10px 15px;
+  text-align: center;
+  color: #111;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+}
+.contain .card:hover .content
+{
+  visibility: visible;
+  opacity: 1;
+  margin-top: -40px;
+  transition-delay: 0.3s;
+}

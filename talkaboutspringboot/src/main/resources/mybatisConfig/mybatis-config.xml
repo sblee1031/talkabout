@@ -5,15 +5,51 @@
 <configuration>
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL" />
-		<!-- <setting name="mapUnderscoreToCamelCase" value="true" /> -->
 	</settings>
 	<typeAliases>
-		 <typeAlias type="com.talkabout.dto.Admin" alias="admin" />
-		 <typeAlias type="com.talkabout.dto.Debate" alias="debate" />
-		 <typeAlias type="com.talkabout.dto.DebateDetail" alias="debatedetail" />
+	<typeAlias type="com.talkabout.dto.Admin" alias="admin" />
+		<typeAlias type="com.talkabout.dto.Debate" alias="debate" />
+		<typeAlias type="com.talkabout.dto.Member" alias="member" />
+		<typeAlias type="com.talkabout.dto.DebateSungho"
+			alias="debatesungho" />
+		<typeAlias type="com.talkabout.dto.DebateDetail"
+			alias="debatedetail" />
+		<typeAlias type="com.talkabout.dto.DebateDetailSungho"
+			alias="debatedetailsungho" />
+		<typeAlias type="com.talkabout.dto.Notice" alias="notice" />
+		<typeAlias type="com.talkabout.dto.NoticeComment"
+			alias="noticecomment" />
+		<typeAlias type="com.talkabout.dto.DebateComment"
+			alias="debatecomment" />
+		<typeAlias type="com.talkabout.dto.DebateCommentSungho"
+			alias="debatecommentsungho" />
+
+		<typeAlias type="com.talkabout.dto.Board" alias="board" />
+		<typeAlias type="com.talkabout.dto.BoardComment"
+			alias="boardcomment" />
+		<typeAlias type="com.talkabout.dto.BoardLike"
+			alias="boardlike" />
+		<typeAlias type="com.talkabout.dto.Audience" alias="audience" />
 	</typeAliases>
+	<!-- <environments default="development"> <environment id="development"> 
+		<transactionManager type="JDBC"/> <dataSource type="POOLED"> <property name="driver" 
+		value="${driver}"/> <property name="url" value="${url}"/> <property name="username" 
+		value="${username}"/> <property name="password" value="${password}"/> <property 
+		name="driver" value="oracle.jdbc.driver.OracleDriver"/> <property name="url" 
+		value="jdbc:oracle:thin:@localhost:1521:xe"/> <property name="username" value="hr"/> 
+		<property name="password" value="hr"/> </dataSource> </environment> </environments> -->
 	<mappers>
-		<mapper resource="mybatisConfig/AdminMapper.xml" /> 
-		<mapper resource="mybatisConfig/DebateMapper.xml" />
+	
+		<mapper resource="mybatisConfig/AdminMapper.xml" />
+		<mapper resource="mybatisConfig/BoardCommentMapper.xml" />
+		<mapper resource="mybatisConfig/BoardMapper.xml" />
+		<mapper resource="mybatisConfig/BoardLikeMapper.xml" />
+		<mapper resource="mybatisConfig/DebateResultMapper.xml" />
+		<mapper resource="mybatisConfig/NoticeMapper.xml" />
+		<mapper resource="mybatisConfig/NoticeCommentMapper.xml" />
+		<mapper resource="mybatisConfig/DebateRecruitMapper.xml" />
+		<mapper resource="mybatisConfig/LoginMapper.xml" />
+		<mapper resource="mybatisConfig/AdminMapper.xml" />
+		<mapper resource="mybatisConfig/DebateBattleMapper.xml"/>
 	</mappers>
 </configuration>

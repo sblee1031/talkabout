@@ -1,8 +1,9 @@
 package com.talkabout.service;
 
-import java.io.FileInputStream;
 import java.util.List;
-import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.talkabout.dao.NoticeDAO;
 import com.talkabout.dto.Notice;
@@ -10,67 +11,46 @@ import com.talkabout.exception.AddException;
 import com.talkabout.exception.DeleteException;
 import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
+import com.talkabout.exception.RemoveException;
 
+@Service
 public class NoticeService {
-	private NoticeDAO dao;
-	private static NoticeService service;
-	public static String envProp;//
-	private NoticeService() {
-		Properties env = new Properties();
-		//env.load(new FileInputStream("classes.prop"));
-		try {
-		env.load(new FileInputStream(envProp));
-		String className = env.getProperty("noticeDAO");
-		Class c = Class.forName(className);
-		dao = (NoticeDAO)c.newInstance();
-		} catch (Exception e) {
-		e.printStackTrace();
-		}
+	
+	@Autowired
+	private NoticeDAO noticeDAO;
+	
+	/**	전체 리스트 출력 */
+	public List<Notice> findAll() throws FindException{
+		return noticeDAO.selectAll();
 	}
-	public static NoticeService getInstance() {
-		if(service == null) {
-			service = new NoticeService();
-		}
-		return service;
+	
+	/**	리스트 1개 출력 by deb_no, mem_no */
+	public Notice findByNo(int notice_no) throws FindException{
+		return noticeDAO.selectOne(notice_no);
 	}
-	public List<Notice> NoticeTypeSearch(String type, String keyword) throws FindException{
-		return dao.selectSearch(type, keyword);
+	
+	/**	검색 리스트 출력 */
+	public List<Notice> findByWord(String word) throws FindException{
+		return noticeDAO.selectSearch(word);
 	}
-	public List<Notice> NoticeList() throws FindException{
-		return dao.selectAll();
+	
+	/**	Notice 생성 */
+	public void insertNotice(Notice notice) throws AddException{
+		noticeDAO.insertNotice(notice);
 	}
-	public void WriteNotice(Notice noti) throws AddException{
-		dao.insertNotice(noti);
+	
+	/**	Notice 수정 */
+	public void updateNotice(Notice notice) throws ModifyException{
+		noticeDAO.updateNotice(notice);
 	}
-	public void EditNotice(Notice noti) throws ModifyException{
-		dao.updateNotice(noti);
+	
+	/**	Notice 삭제  */
+	public void deleteNotice(int notice_no) throws DeleteException{
+		noticeDAO.deleteNotice(notice_no);
 	}
-	public void DeleteNotice(int noti_no) throws DeleteException{
-		dao.deleteNotice(noti_no);
+	
+	/**	조회수 수정 */
+	public void updateviews(Notice notice) throws ModifyException{
+		noticeDAO.updateCount(notice);
 	}
-	//조회수
-//	public void NoticeViews(int Notice_no) throws ModifyException{
-//		dao.updateCount(Notice_no);
-//	}
-	public List<Notice> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public List<Notice> findAll() { //추가
-		// TODO Auto-generated method stub
-		return dao.selectAll();
-	}
-	public int lastRow() {//총 게시물 개수 구하기
-		return dao.lastRow();
-	}
-	public void pageNum(int page) {
-		dao.pageNum(page);
-	}
-	public void pageSize(int size) {
-		dao.pageSize(size);
-	}
-	public Notice selectByNo(int notice_no) throws FindException {
-		return dao.selectByNo(notice_no);
-	}
-
 }

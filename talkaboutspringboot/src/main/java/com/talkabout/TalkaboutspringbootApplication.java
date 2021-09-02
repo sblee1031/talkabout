@@ -8,8 +8,6 @@ public class TalkaboutspringbootApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TalkaboutspringbootApplication.class, args);
-		
-		
 	}
 
 }

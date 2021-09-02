@@ -1,4 +1,0 @@
-#Tomcat publish data
-#Wed Jun 30 10:03:34 KST 2021
-org.eclipse.jst.jee.server\:ta_back=C\:\\TK\\utility\\apache_tomcat\\apache-tomcat-9.0.48\\wtpwebapps\\ta_back
-org.eclipse.jst.jee.server\:ta_front=C\:\\TK\\utility\\apache_tomcat\\apache-tomcat-9.0.48\\wtpwebapps\\ta_front

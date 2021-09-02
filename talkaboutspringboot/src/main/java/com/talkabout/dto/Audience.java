@@ -14,6 +14,10 @@ public class Audience {
 	private int audi_mem; // audi_mem.member_no
 	private int vote;
 	
+	public Audience() {
+		super();
+	}
+
 	public Audience(int audi_no, int audi_deb, int audi_mem, int vote) {
 		super();
 		this.audi_no = audi_no;

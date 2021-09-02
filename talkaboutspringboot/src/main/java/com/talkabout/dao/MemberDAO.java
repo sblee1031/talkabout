@@ -17,7 +17,7 @@ public interface MemberDAO {
 	 * @return
 	 * @throws FindException
 	 */
-	Member selectByNo(String social_no) throws FindException;
+	Member selectByNo(String socialNo) throws FindException;
 	
 	Member selectByNo(int member_no) throws FindException;
 	/**
@@ -27,7 +27,7 @@ public interface MemberDAO {
 	 */
 	void updateMember(Member m) throws FindException;
 	
-	Boolean selectNick(Member m) throws FindException;
+	Boolean selectNick(Member m);
 	
 	void deleteMember(Member m)throws FindException;
 	

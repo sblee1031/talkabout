@@ -15,61 +15,55 @@ public class BoardComment {
 	private int com_no;
 	private String com_date;
 	private String com_contents;
-	private int com_mem; // com_mem.member_no
+	private Member com_member; // com_mem.member_no
 	private int com_board; // com_board.board_no
-	
-	public BoardComment() {
-		super();
-	}	
-	
-	public BoardComment(int com_no, int com_board, String com_date, String com_contents, int com_mem) {
+	public BoardComment(int com_no, String com_date, String com_contents, Member com_member, int com_board) {
 		super();
 		this.com_no = com_no;
-		this.com_board = com_board;
 		this.com_date = com_date;
 		this.com_contents = com_contents;
-		this.com_mem = com_mem;
-		
+		this.com_member = com_member;
+		this.com_board = com_board;
 	}
-
+	public BoardComment() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public int getCom_no() {
 		return com_no;
 	}
-
 	public void setCom_no(int com_no) {
 		this.com_no = com_no;
 	}
-
 	public String getCom_date() {
 		return com_date;
 	}
-
 	public void setCom_date(String com_date) {
 		this.com_date = com_date;
 	}
-
 	public String getCom_contents() {
 		return com_contents;
 	}
-
 	public void setCom_contents(String com_contents) {
 		this.com_contents = com_contents;
 	}
-
-	public int getCom_mem() {
-		return com_mem;
+	public Member getCom_member() {
+		return com_member;
 	}
-
-	public void setCom_mem(int com_mem) {
-		this.com_mem = com_mem;
+	public void setCom_member(Member com_member) {
+		this.com_member = com_member;
 	}
-
 	public int getCom_board() {
 		return com_board;
 	}
-
 	public void setCom_board(int com_board) {
 		this.com_board = com_board;
 	}
+	@Override
+	public String toString() {
+		return "BoardComment [com_no=" + com_no + ", com_date=" + com_date + ", com_contents=" + com_contents
+				+ ", com_member=" + com_member + ", com_board=" + com_board + "]";
+	}
+	
 	
 }

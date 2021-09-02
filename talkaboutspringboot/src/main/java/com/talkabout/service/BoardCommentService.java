@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.util.List;
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.talkabout.dao.BoardCommentDAO;
 import com.talkabout.dao.MemberDAO;
 import com.talkabout.dto.BoardComment;
@@ -12,28 +15,11 @@ import com.talkabout.exception.DeleteException;
 import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
 
+@Service
 public class BoardCommentService {
+	@Autowired
 	private BoardCommentDAO dao;
-	private static BoardCommentService service;
-	public static String envProp; //
-	private BoardCommentService() {
-		Properties env = new Properties();
-		try {
-			//env.load(new FileInputStream("classes.prop"));
-			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("boardCommentDAO");
-			Class c = Class.forName(className);
-			dao = (BoardCommentDAO)c.newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	public static BoardCommentService getInstance() {
-		if(service == null) {
-			service = new BoardCommentService();
-		}
-		return service;
-	}
+
 	public List<BoardComment> MyBoradComseach(int com_board, int com_mem) throws FindException{
 		return dao.myBoardComSearch(com_board, com_mem);
 	}

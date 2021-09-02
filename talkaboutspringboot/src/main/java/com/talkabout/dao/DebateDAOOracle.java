@@ -1,545 +1,311 @@
 package com.talkabout.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.talkabout.dto.Debate;
 import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.Member;
+import com.talkabout.exception.DeleteException;
+import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
-import com.talkabout.sql.MyConnection;
 
+@Repository
 public class DebateDAOOracle implements DebateDAO {
 	
-	public DebateDAOOracle() {
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		lastRow();
-		System.out.println("JDBC 드라이버 로드 성공");
-	}
-public int num_page_size; //1페이지당 사이즈
-public int num_page_no = 1; //페이지번호
+	@Autowired
+	//@Qualifier("Underscore")
+	private SqlSessionFactory sqlSessionFactory;
+
+//public int num_page_size; //1페이지당 사이즈
+//public int num_page_no = 1; //페이지번호
 public int lastrow; // row개수
 
-public void pageSize(int size) {
-	this.num_page_size = size;
-	//System.out.println("페이지 사이즈 : "+num_page_size);
-}
-
-	public void pageNum(int page) {
-		this.num_page_no = page;
-		//System.out.println("페이지번호 : "+num_page_no);
-	}
+//public void pageSize(int size) {
+//	this.num_page_size = size;
+//	//System.out.println("페이지 사이즈 : "+num_page_size);
+//}
+//
+//	public void pageNum(int page) {
+//		this.num_page_no = page;
+//		//System.out.println("페이지번호 : "+num_page_no);
+//	}
 	//마지막 row 가져오기
 	public int lastRow() {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String select_SQL = "SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM debate ORDER BY ROWNUM DESC) WHERE ROWNUM = 1";
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-			pstmt = con.prepareStatement(select_SQL);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				lastrow = rs.getInt("rnum");
-				//System.out.println("총 게시글게수 : "+lastrow);
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			lastrow = session.selectOne("com.talkabout.dto.DebateRecruitMapper.lastRow");
+//			System.out.println("게시물 총"+lastrow);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
 			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();	
-		} finally {
-			//DB연결해제
-			MyConnection.close(con, pstmt, rs);
+		}
+		return lastrow;
+	}
+	public int searchLastRow(String word) { //검색 후 결과 개수
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			lastrow = session.selectOne("com.talkabout.dto.DebateRecruitMapper.searchLastRow",word);
+//			System.out.println("게시물 총"+lastrow);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
 		}
 		return lastrow;
 	}
 	
-	public List<Debate> selectAll() {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		//String select_SQL = "SELECT * FROM DEBATE";
-		String select_SQL = "SELECT * FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) WHERE RNUM BETWEEN ? AND ? ";
-		List<Debate> list = new ArrayList();
+	@Override
+	public List<Debate> selectAll(int startRow, int endRow) throws FindException {
+		List<Debate> list = new ArrayList<>();
+		SqlSession session = null;
 		
-		 int num_start_row = ((num_page_no-1) * num_page_size) + 1 ;
-		 int num_end_row   = (num_page_no * num_page_size) ;
-		 
+		 HashMap<String, Integer> map = new HashMap<>();
+		 map.put("num_start_row", startRow);
+		 map.put("num_end_row", endRow);
 		try {
-			con = MyConnection.getConnection();
-			pstmt = con.prepareStatement(select_SQL);
-//			System.out.println("넘버 : "+num_page_no);
-//			System.out.println("start_row"+num_start_row+" end_row : "+  num_end_row);
-			pstmt.setInt(1, num_start_row);
-			pstmt.setInt(2, num_end_row);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				int debate_no = rs.getInt("DEBATE_NO");
-				int debate_writer = rs.getInt("DEBATE_WRITER");
-				String debate_topic = rs.getString("DEBATE_TOPIC");
-				Date debate_date = rs.getDate("DEBATE_DATE");
-				int debate_time = rs.getInt("DEBATE_TIME");
-				String debate_status = rs.getString("DEBATE_STATUS");
-				String debate_startdate = rs.getString("DEBATE_STARTDATE");
-				String debate_enddate = rs.getString("DEBATE_ENDDATE");
-				
-				Debate d = new Debate(debate_no, debate_writer, debate_topic, debate_date, debate_time, debate_status, debate_startdate, debate_enddate, null, null, null, null);
-				list.add(d);
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			list = session.selectList("com.talkabout.dto.DebateRecruitMapper.selectAll",map);
+		//	System.out.println(list);
+		}catch (Exception e) {
+			//System.out.println(e.getMessage());
+			throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
 			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();	
-		} finally {
-			//DB연결해제
-			MyConnection.close(con, pstmt, rs);
-		}		
+		}
 		return list;
 	}
+	@Override
+	public List<Debate> selectAll(String word,int startRow, int endRow) {
+		List<Debate> list = new ArrayList<>();
+		SqlSession session = null;
 
-	public Debate selectByNo(int debate_no) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String select_SQL = "SELECT * FROM DEBATE WHERE DEBATE_NO = ?";
-		Debate d = null;
+		 HashMap<String, Object> map = new HashMap<>();
+		 map.put("word", word);
+		 map.put("num_start_row", startRow);
+		 map.put("num_end_row", endRow);
 		try {
-			con = MyConnection.getConnection();
-			pstmt = con.prepareStatement(select_SQL);
-			pstmt.setInt(1, debate_no);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				int deb_no = rs.getInt("DEBATE_NO");
-				int debate_writer = rs.getInt("DEBATE_WRITER");
-				String debate_topic = rs.getString("DEBATE_TOPIC");
-				Date debate_date = rs.getDate("debate_date");
-				
-				//System.out.println("시간 : "+debate_date);
-				int debate_time = rs.getInt("DEBATE_TIME");
-				String debate_status = rs.getString("DEBATE_STATUS");
-				String debate_startdate = rs.getString("DEBATE_STARTDATE");
-				String debate_enddate = rs.getString("DEBATE_ENDDATE");
-				
-				
-//				d = new Debate(debate_date);
-//			}
-				d = new Debate(debate_no, debate_writer, debate_topic, debate_date, debate_time, debate_status, debate_startdate, debate_enddate, null, null, null, null);
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			list = session.selectList("com.talkabout.dto.DebateRecruitMapper.selectWord",map);
+		//	System.out.println(list);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
 			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();	
-		} finally {
-			//DB연결해제
-			MyConnection.close(con, pstmt, rs);
-		}		
-		return d;
+		}
+		return list;
+	}
+	@Override
+	public Map<String, Object> selectByNo(int debate_no) throws FindException {
+		Map<String, Object> map = new HashMap<>();
+		Debate deb = new Debate();
+		DebateDetail dd = new DebateDetail();
+		List<DebateDetail> ddList = new ArrayList<>();
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			deb = session.selectOne("com.talkabout.dto.DebateRecruitMapper.selectByNo",debate_no);
+			ddList = session.selectList("com.talkabout.dto.DebateRecruitMapper.ddselectByNo",debate_no);
+			map.put("debate", deb);
+			map.put("detail", ddList);
+		//	System.out.println(list);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return map;
+	}
+
+	@Override
+	public void insertDebate(Debate deb, String discuss1, String discuss2) {
+		// TODO Auto-generated method stub
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.insert("com.talkabout.dto.DebateRecruitMapper.debInsert",deb);
+			int debNo = session.selectOne("com.talkabout.dto.DebateRecruitMapper.debSeq");
+			Map<String,Object> map = new HashMap<>();
+			map.put("debate_no", debNo);
+			map.put("discuss", discuss1);
+			session.insert("com.talkabout.dto.DebateRecruitMapper.ddInsert",map);
+			map.put("discuss", discuss2);
+			session.insert("com.talkabout.dto.DebateRecruitMapper.ddInsert",map);
+			//System.out.println("==="+debNo);
+			//	System.out.println(list);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+	}
+	@Override
+	public void deleteDebate(String deb) throws DeleteException {
+		SqlSession session = null;
+		try {
+			int debNo = Integer.parseInt(deb);
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.delete("com.talkabout.dto.DebateRecruitMapper.debDelete",debNo);
+			Map<String,Object> map = new HashMap<>();
+			//	System.out.println(list);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new DeleteException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		
+	}
+	@Override
+	public void updateDebate(Debate deb, DebateDetail dd1, DebateDetail dd2) throws ModifyException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.update("com.talkabout.dto.DebateRecruitMapper.debUpdate",deb);
+			session.update("com.talkabout.dto.DebateRecruitMapper.ddUpdate",dd1);
+			session.update("com.talkabout.dto.DebateRecruitMapper.ddUpdate",dd2);
+			//System.out.println("==="+debNo);
+			//	System.out.println(list);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		
+	}
+	@Override
+	public void updateDiscussor(Debate deb_no, DebateDetail dd, Member m) throws ModifyException{
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.update("com.talkabout.dto.DebateRecruitMapper.discussorUpdate",dd);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new ModifyException(e.getMessage()); 
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m)  throws ModifyException{
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.update("com.talkabout.dto.DebateRecruitMapper.discussorCancle",dd);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new ModifyException(e.getMessage()); 
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		
+	}
+	@Override
+	public List<DebateDetail> checkDeb(int deb_no) throws FindException {
+		SqlSession session = null;
+		List<DebateDetail> list = new ArrayList<>(); 
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			list = session.selectList("com.talkabout.dto.DebateRecruitMapper.checkDeb",deb_no);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			throw new FindException(e.getMessage()); 
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return list;
 	}
 	
 	@Override
-	public void insertDebate(Debate deb, DebateDetail dd, String discuss1, String discuss2) {
-		//DB연결
-				Connection con = null;
-				try {
-					con = MyConnection.getConnection();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				String InsertSQL = "INSERT INTO debate(debate_no, debate_writer, debate_topic, debate_date, debate_time) VALUES (DEB_SEQ.nextval,?,?,"
-						+ "To_Date('"+deb.getDebate_date()+"','yyyy-mm-dd hh24:mi') ,?)";
-				String seqSQL = "SELECT DEB_SEQ.CURRVAL AS debate FROM DUAL";
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-				try {
-					pstmt = con.prepareStatement(InsertSQL);
-					pstmt.setInt(1, deb.getDebate_writer());
-					pstmt.setString(2, deb.getDebate_topic());
-					pstmt.setInt(3, deb.getDebate_time());
-					int result = pstmt.executeUpdate();
-//					System.out.println("result : "+ result);
-					
-					pstmt = con.prepareStatement(seqSQL);
-					rs = pstmt.executeQuery();
-					rs.next();
-					int seq = rs.getInt(1); // debate_no pk값
-					
-					
-					DebateDetailDAOOracle detail = new DebateDetailDAOOracle();
-					dd.setDetail_deb(seq);
-					dd.setDiscuss(discuss1); //주장1 
-					detail.insert(dd);
-					//System.out.println("주장1 입력");
-					
-					dd.setDetail_deb(seq);
-					dd.setDiscuss(discuss2); //주장2
-					detail.insert(dd);
-					//System.out.println("주장2 입력");
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}finally{
-					//DB연결 해제
-					MyConnection.close(con, pstmt, rs);
-				}
+	public List<Debate> selectSearch(String column, String keyword) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void updateDebateAll(Debate deb) throws ModifyException {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateDebateAll(Debate deb, List<DebateDetail> dd, String discuss1,String discuss2) throws ModifyException {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		
-		String updateAllSQL = "UPDATE debate SET ";
-		String updateAllSQL2 = "WHERE debate_no = ? ";
-		String updateAllSQL3 = "UPDATE debatedetail SET discuss = ? WHERE detail_no = ? ";
-		DebateDAOOracle dao;
-		Debate dbDebate = null;
-		try {
-			
-			dao = new DebateDAOOracle();
-			dbDebate = dao.selectByNo(deb.getDebate_no());
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		boolean flag = false; //변경할 값이 있는 경우 true
-		
-		String debate_topic = deb.getDebate_topic();		
-		if( debate_topic != null && !debate_topic.equals("") && !debate_topic.equals(dbDebate.getDebate_topic())) {
-			updateAllSQL += "debate_topic = '" + debate_topic + "'";
-			flag = true;
-		}		
-		
-		int debate_time = deb.getDebate_time();		
-		if( debate_time != 0 &&  debate_time!=dbDebate.getDebate_time()) {
-			if(flag) {
-				updateAllSQL += ",";
-			}		
-			updateAllSQL += "debate_time = '" + debate_time + "'";
-			flag = true;
-		}		
-			
-		Date debate_date = dbDebate.getDebate_date();		
-		if( debate_date != null && !debate_date.equals("")&& !debate_date.equals(dbDebate.getDebate_date())) {
-			if(flag) {
-				updateAllSQL += ",";
-			}	
-			updateAllSQL += "debate_date = '" + debate_date + "'";
-			flag = true;
-		}
-
-		
-		if(!flag) {
-			throw new ModifyException("수정할 내용이 없습니다");
-		}
-		
-		try {
-			con = MyConnection.getConnection();
-			pstmt = con.prepareStatement(updateAllSQL+updateAllSQL2);
-			pstmt.setInt(1, deb.getDebate_no());
-			pstmt.executeUpdate();
-			
-			int[] ddarray = new int[2];
-			int i=0;
-			for (DebateDetail debateDetail : dd) {
-				ddarray[i]=debateDetail.getDetail_no();
-				i++;
-			}
-			pstmt = con.prepareStatement(updateAllSQL3);
-			pstmt.setString(1, discuss1);
-			pstmt.setInt(2, ddarray[0]);
-			int rs = pstmt.executeUpdate();
-			System.out.println(rs);
-			System.out.println("주장 "+ discuss1);
-			pstmt = con.prepareStatement(updateAllSQL3);
-			
-			pstmt.setString(1, discuss2);
-			pstmt.setInt(2, ddarray[1]);
-			rs = pstmt.executeUpdate();
-			System.out.println(rs);
-			System.out.println("주장 "+ discuss2);
-			
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			MyConnection.close(con, pstmt, null);
-		}
+	public void updateDebateAll(Debate deb, List<DebateDetail> dd, String discuss1, String discuss2)
+			throws ModifyException {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void updateStatus(Debate status) {
-		//DB연결
-		Connection con = null;
-		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		String updateStatus = "UPDATE debate SET debate_status = ? WHERE debate_no = ?";
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		//Member l = null;
-		try {
-			pstmt = con.prepareStatement(updateStatus);
-			pstmt.setString(1, status.getDebate_status());
-			pstmt.setInt(2, status.getDebate_no());
-			
-			pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			
-		}finally{
-			//DB연결 해제
-			MyConnection.close(con, pstmt, rs);
-		}
+		// TODO Auto-generated method stub
 		
 	}
+
 	@Override
 	public void updateStartdate(Debate deb) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		// TODO Auto-generated method stub
 		
-		String update_SQL = "UPDATE debate SET debate_startdate = sysdate WHERE debate_no = ?";
-		
-		try {
-			con = MyConnection.getConnection();
-			pstmt = con.prepareStatement(update_SQL);
-			// pstmt.setString(1, deb.getDebate_startDate());
-			pstmt.setInt(1, deb.getDebate_no());
-			
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally{
-			//DB연결 해제
-			MyConnection.close(con, pstmt, rs);
-		}
 	}
 
 	@Override
-	public void updateEnddate(Debate deb) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+	public void updateEnddate(Debate end_date) {
+		// TODO Auto-generated method stub
 		
-		String update_SQL = "UPDATE debate SET debate_enddate = sysdate WHERE debate_no = ?";
-		
-		try {
-			con = MyConnection.getConnection();
-			pstmt = con.prepareStatement(update_SQL);
-			// pstmt.setString(1, deb.getDebate_endDate());
-			// System.out.println("테스트 구간 : " + deb.getDebate_endDate());
-			pstmt.setInt(1, deb.getDebate_no());
-			
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally{
-			//DB연결 해제
-			MyConnection.close(con, pstmt, rs);
-		}
-	}
-	@Override
-	public void updateDebateAll(Debate deb) throws ModifyException {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		
-		String updateAllSQL = "UPDATE debate SET ";
-		String updateAllSQL2 = "WHERE debate_no = ? ";
-		
-		DebateDAOOracle dao;
-		Debate dbDebate = null;
-		try {
-			
-			dao = new DebateDAOOracle();
-			dbDebate = dao.selectByNo(deb.getDebate_no());
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		boolean flag = false; //변경할 값이 있는 경우 true
-		
-		String debate_topic = deb.getDebate_topic();		
-		if( debate_topic != null && !debate_topic.equals("") && !debate_topic.equals(dbDebate.getDebate_topic())) {
-			updateAllSQL += "debate_topic = '" + debate_topic + "'";
-			flag = true;
-		}		
-		
-		int debate_time = deb.getDebate_time();		
-		if( debate_time != 0 &&  debate_time!=dbDebate.getDebate_time()) {
-			if(flag) {
-				updateAllSQL += ",";
-			}		
-			updateAllSQL += "debate_time = '" + debate_time + "'";
-			flag = true;
-		}		
-			
-		Date debate_date = dbDebate.getDebate_date();		
-		if( debate_date != null && !debate_date.equals("")&& !debate_date.equals(dbDebate.getDebate_date())) {
-			if(flag) {
-				updateAllSQL += ",";
-			}	
-			updateAllSQL += "debate_date = '" + debate_date + "'";
-			flag = true;
-		}
-
-		
-		if(!flag) {
-			throw new ModifyException("수정할 내용이 없습니다");
-		}
-		
-		try {
-			con = MyConnection.getConnection();
-			pstmt = con.prepareStatement(updateAllSQL+updateAllSQL2);
-			pstmt.setInt(1, deb.getDebate_no());
-			pstmt.executeUpdate();
-		}catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			MyConnection.close(con, pstmt, null);
-		}
-		
-	}
-	
-	@Override
-	public void updateDiscussor(Debate deb_no, DebateDetail dd, Member m) {// 토론자 등록
-		//DB연결
-		Connection con = null;
-		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		String updateStatus = "UPDATE debatedetail SET discussor = ? WHERE detail_deb = ? and discuss = ?";
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		//Member l = null;
-		try {
-			pstmt = con.prepareStatement(updateStatus);
-			pstmt.setInt(1, m.getMember_no());
-			pstmt.setInt(2, deb_no.getDebate_no());
-			pstmt.setString(3, dd.getDiscuss());
-			
-			pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			
-		}finally{
-			//DB연결 해제
-			MyConnection.close(con, pstmt, rs);
-		}
-	}
-	public void cancleDiscussor(Debate deb_no, DebateDetail dd, Member m) {// 토론자 취소
-		//DB연결
-		Connection con = null;
-		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		String updateStatus = "UPDATE debatedetail SET discussor = 0 WHERE detail_deb = ? and discuss = ?";
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		//Member l = null;
-		try {
-			pstmt = con.prepareStatement(updateStatus);
-			//pstmt.setInt(1, m.getMember_no());
-			pstmt.setInt(1, deb_no.getDebate_no());
-			pstmt.setString(2, dd.getDiscuss());
-			
-			pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			
-		}finally{
-			//DB연결 해제
-			MyConnection.close(con, pstmt, rs);
-		}
 	}
 
-	@Override
-	public void deleteDebate(Debate deb_no) {
-		//DB연결
-				Connection con = null;
-				try {
-					con = MyConnection.getConnection();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				String deleteSQL = "DELETE debate WHERE debate_no = ?";
-				
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-				//Member l = null;
-				try {
-					pstmt = con.prepareStatement(deleteSQL);
-					pstmt.setInt(1, deb_no.getDebate_no());
-					
-					pstmt.executeUpdate();
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-					
-				}finally{
-					//DB연결 해제
-					MyConnection.close(con, pstmt, rs);
-				}
-	}
-	
-	public List<Debate> selectSearch(String column, String keyword){//컬럼 분류
-	      Connection con = null;
-	      PreparedStatement pstmt = null;
-	      ResultSet rs = null;
-	      String select_SQL = "";
-	      if (column.equals("TOPIC")) {
-	         select_SQL = "select * from debate where DEBATE_TOPIC LIKE '%' || ? || '%'";
-	      } else if (column.equals("WRITER")) {
-	         select_SQL = "select * from debate where DEBATE_WRITER LIKE '%' || ? || '%'";
-	      } 
-	      List<Debate> list = new ArrayList();
-	      try {
-	         con = MyConnection.getConnection();
-	         pstmt = con.prepareStatement(select_SQL);
-	         pstmt.setString(1, keyword);
-	         rs = pstmt.executeQuery();
-	         while(rs.next()) {
-	            int debate_no = rs.getInt("DEBATE_NO");
-	            int debate_writer = rs.getInt("DEBATE_WRITER");
-	            String debate_topic = rs.getString("DEBATE_TOPIC");
-	            Date debate_date = rs.getDate("DEBATE_DATE");
-	            int debate_time = rs.getInt("DEBATE_TIME");
-	            String debate_status = rs.getString("DEBATE_STATUS");
-	            String debate_startdate = rs.getString("DEBATE_STARTDATE");
-	            String debate_enddate = rs.getString("DEBATE_ENDDATE");
 
-	            Debate d = new Debate(debate_no, debate_writer, debate_topic, debate_date, debate_time, debate_status, debate_startdate, debate_enddate, null, null, null, null);
-	            list.add(d);
-	         }
-	         
-	      } catch (SQLException e) {
-	         e.printStackTrace();   
-	      } finally {
-	         //DB연결해제
-	         MyConnection.close(con, pstmt, rs);
-	      }
-	      return list;
-	   }
+
+
+
 	
 	public static void main(String[] args) {
 		
@@ -617,6 +383,10 @@ public void pageSize(int size) {
 //		}
 //		System.out.println(dao.selectByNo(3).toString());
 	}
+
+
+
+
 
 
 

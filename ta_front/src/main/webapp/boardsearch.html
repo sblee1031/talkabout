@@ -1,51 +1,169 @@
-<section>
-	<div class= contatiner style="margin-top:3%">
-		<h2>자유게시판 </h2>
-			<div>
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<td>
-								<a href = "./boardwrite.html" class="btn btn-sm btn-success">글쓰기</a>
-							</td>
-						</tr>
-						<tr>
-							<th>번호</th>
-							<th>타입</th>
-							<th>제목</th>
-							<th>작성자</th>
-							<th>날짜</th>
-							<th>조회수</th>
-						</tr>
-					</thead>
-					<tbody>
-						 <tr class="data1" style="display:none">
-							<td class="board_no"><a class= "board_no_dtl" href = ""></a></td>
-							<td class="board_type"></td>
-							<td class="board_title">	</td>
-							<td class="board_mem"></td>
-							<td class="board_date"></td>
-							<td class="board_views"></td>
-						</tr>
-					</tbody>
-					<hr>
-					<tr>
-						<td class= text-left>
-							검색:
-							<select class=input-sm>
-								<option>타입</option>
-								<option>제목</option>
-								<option>내용</option>
-							</select>
-							<input type=text size 15 class=input-sm>
-							<input type=button value=찾기 class="btn btn-sm btn-danger">
-						</td>
-						<td class=text-right>
-							<a href= ./boardwrite.html class="btn btn-sm btn-primary">이전</a>
-							<a href= ./boardwrite.html class="btn btn-sm btn-primary">다음</a>
-						</td>
+<div class= "container" style="margin-top:3%;">
+	<h2>자유게시판 </h2>
+		<div style="overflow-y:auto;">
+		<!-- href = "./boardwrite.html"  -->
+		<a  class="board_write btn btn-sm btn-outline-primary" style="position: relative; right: -1180px">글쓰기</a>
+			<table class="table table-hover" style="text-align:center; margin-top: 10px">
+				<thead>
+					<tr class="table-primary">
+						<th style="width:10%;">번호</th>
+						<th style="width:10%;">타입</th>
+						<th>제목</th>
+						<th>닉네임</th>
+						<th>날짜</th>
+						<th>조회수</th>
 					</tr>
-				</table>
+				</thead>
+				<tbody id="view">
+					 <tr class="data1" style="display:none">
+						<td class="board_no" style= "width:5%;"></td>
+						<td class="board_type"></td>
+						<td class="board_title" style="cursor: pointer;"></td>
+						<td class="board_mem"></td>
+						<td class="board_date"></td>
+						<td class="board_views"></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<table class="clone" style="display:none">
+			<thead></thead>
+				<tbody id="view" style="display:none">
+					 <tr class="data1" style="display:none">
+						<td class="board_no" style= "width:5%;"></td>
+						<td class="board_type"></td>
+						<td class="board_title" style="cursor: pointer;"></td>
+						<td class="board_mem"></td>
+						<td class="board_date"></td>
+						<td class="board_views"></td>
+					</tr>
+				</tbody>
+			</table>
+			<input type=text size=15 class="board_search_contents input-sm" name="contents" style="margin-left: 100px;"/>
+			<input type=submit value="검색" name="search" class="board_search btn btn-sm btn-primary" style="text-align:left"/>
+			<div style="display: inline-block; margin-left: 240px">
+			<div id="paging"></div>
+			<!--   <ul class="pagination">
+			    <li class="page-item disabled">
+			      <a class="page-link" href="#">&laquo;</a>
+			    </li>
+			    <li class="page-item active">
+			      <a class="page-link"  id="paging" href="#"></a>
+			    </li>
+			    <li class="page-item">
+			      <a class="page-link" href="#">&raquo;</a>
+			    </li>
+			  </ul> -->
 			</div>
-	</div>
-</section>
+		</div>
+</div>
+<script>
+var totalData;    // 총 데이터 수
+var dataPerPage = 5;    // 한 페이지에 나타낼 데이터 수
+var pageCount = 5;        // 한 화면에 나타낼 페이지 수
+
+function paging(totalData, dataPerPage, pageCount, currentPage){
+    
+    console.log("currentPage : " + currentPage);
+    
+    var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
+	console.log('토탈페이지 :'+totalPage);
+    var pageGroup = Math.ceil(currentPage/pageCount);    // 페이지 그룹
+    
+    console.log("pageGroup : " + pageGroup);
+    
+    var last = pageGroup * pageCount;    // 화면에 보여질 마지막 페이지 번호
+    if(last > totalPage)
+        last = totalPage;
+    var first = last - (pageCount-1);    // 화면에 보여질 첫번째 페이지 번호
+	if(first<1)
+	first = 1;
+    var next = last+1;
+    var prev = first-1;
+    
+    console.log("last : " + last);
+    console.log("first : " + first);
+    console.log("next : " + next);
+    console.log("prev : " + prev);
+
+    var $pingingView = $("#paging");
+    
+    var html = "<ul class='pagination'>";
+    
+    if(prev > 0)
+        html += "<li class='page-item'><a class='page-link' href=# id='prev'><</a> </li>";
+    
+    for(var i=first; i <= last; i++){
+        html += "<li class='page-item'><a class='page-link' href='#' id=" + i + ">" + i + "</a> </li>";
+    }
+    
+    if(last < totalPage)
+        html += "<li class='page-item'><a class='page-link' href=# id='next'>></a> </li></ul>";
+    
+    $("#paging").html(html);    // 페이지 목록 생성
+    $("#paging a").css("color", "black");
+    $("#paging a#" + currentPage).css({"text-decoration":"none", 
+                                       "color":"red", 
+                                       "font-weight":"bold"});    // 현재 페이지 표시
+                                       
+    $("#paging a").click(function(){//페이지 번호 클릭시 렌더링 코드
+        
+        var $item = $(this);
+        var $id = $item.attr("id");
+        var selectedPage = $item.text();
+        
+        if($id == "next")    selectedPage = next;
+        if($id == "prev")    selectedPage = prev;
+        
+        paging(totalData, dataPerPage, pageCount, selectedPage);
+		
+        var word = $('input.board_search_contents').val();
+        $.ajax({
+            url:'http://localhost:9999/ta_back/board/list/'+word+'?pageNo='+selectedPage+'&pageSize=5',
+			method: 'get',
+			success:function(responseObj){
+				console.log('selectedPage',selectedPage );
+				totalData=responseObj.lastRow;
+				paging(totalData, dataPerPage, pageCount, selectedPage);
+				response=responseObj;
+                var table = $('table.table');
+                var tbody = $('table.table > #view');
+              	 
+                var $tr10bj = $('table.clone > #view >tr.data1');
+                var $cloneTbody= $('#clone');
+                tbody.empty();
+                var lists = response.boardlist;
+                var nick_list = responseObj.nicklist;
+                $(lists).each(function(i,e){
+              	//console.log("인덱스", i);
+				var $copyObj = $tr10bj.clone();
+				/* var lines = e.lines; //게시글 정보
+				var lineSize = lines.length; */
+				//게시글 번호 , 타입 , 제목, 작성자, 날짜, 조회수
+				//console.log(e.board_no);
+					
+				$copyObj.find('td.board_no').html(e.board_no);
+				$copyObj.find('td.board_type').html(e.board_type);
+				$copyObj.find('td.board_title').html(e.board_title);
+				//$copyObj.find('td.board_title').attr('class',e.board_no);
+				
+				$copyObj.find('td.board_mem').html(e.board_member.member_nickName);
+				$copyObj.find('td.board_date').html(e.board_date);
+				$copyObj.find('td.board_views').html(e.board_views);
+				
+				$copyObj.show();
+				tbody.append($copyObj);
+			 });
+                
+            },
+            xhrFields:{
+				withCredentials:true
+			},
+        });
+        
+        
+        
+    });// $("#paging a") 끝.
+                                       
+}
+</script>

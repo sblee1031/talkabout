@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talkabout.dto.BoardCommentMapper">
+	<resultMap id="boardCommentResultMap" type = "boardcomment" autoMapping="true">
+		<id column="com_no" property="com_no"/>
+		<association javaType="member" property="com_member" autoMapping="true">
+		</association>
+	</resultMap>
+	<select id="myBoardComSearch" parameterType="java.util.HashMap" resultMap="boardCommentResultMap">
+		SELECT * FROM BOARDCOMMENT boardComment JOIN Member mem ON (boardcomment.COM_MEM = mem.member_no) WHERE com_board = #{com_board} and com_mem = #{com_mem} ORDER BY com_no ASC
+	</select>
+	<select id="selectAll" parameterType="int" resultMap="boardCommentResultMap">
+		SELECT * FROM BOARDCOMMENT boardComment JOIN Member mem ON (boardcomment.COM_MEM = mem.member_no) where com_board = #{com_board} ORDER BY com_no ASC
+	</select>
+	<select id="selectByComNo" parameterType="int" resultMap="boardCommentResultMap">
+		SELECT com_board, com_contents, com_no, mem.* FROM BOARDCOMMENT boardComment JOIN Member mem ON (boardcomment.COM_MEM = mem.member_no)  WHERE com_no = #{com_no}
+	</select>
+	<insert id="insert" parameterType="BoardComment">
+		INSERT INTO BOARDCOMMENT VALUES (BC_SEQ.NEXTVAL, #{com_board}, sysdate, #{com_contents}, #{com_member.member_no})
+	</insert>
+	<update id="update" parameterType="BoardComment">
+		UPDATE BOARDCOMMENT SET
+		<set>
+			<if test="Com_contents != null and !Com_contents.equals=''">com_contents=#{com_contents},</if>
+		</set>
+		where com_no=#{com_no}
+	</update>
+	<delete id="deleteByNo" parameterType="int">
+		DELETE BOARDCOMMENT WHERE com_no = #{com_no}
+	</delete>
+</mapper>
