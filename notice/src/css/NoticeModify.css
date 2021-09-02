@@ -1,0 +1,71 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+body {
+    background: url(https://miricanvas.zendesk.com/hc/article_attachments/900002313963/_________7_.png) no-repeat top / cover;
+    height: 700px;
+    font-family: sans-serif;
+    overflow-y: hidden;
+}
+
+.bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 5);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+form {
+    width: 450px;
+    margin: 150px auto;
+}
+
+input, textarea {
+    color: #1abc9c;
+    /* color:#FFF; */
+    background-color: transparent;
+    border:2px solid #1abc9c;
+    box-shadow: inset 0 1px 5px #1abc9c;
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 25px;
+    border-radius: 7px;
+    margin-bottom: 15px;
+    outline: none;
+    transition: all .3s ease;
+}
+
+form ::placeholder {
+    color: rgba(26, 188, 156, .5);
+}
+
+textarea {
+    height: 200px;
+    resize: vertical;
+}
+
+.submit {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 22px;
+    border-radius: 7px;
+    font-weight: 700;
+    border: none;
+    background-color: #1abc9c;
+    color: #FFF;
+    text-transform: uppercase;
+    cursor:pointer;
+    transition: all .3s ease;
+}
+
+.submit:hover {
+    background-color: rgba(26, 188, 156, .5);
+    box-shadow: none;
+}
