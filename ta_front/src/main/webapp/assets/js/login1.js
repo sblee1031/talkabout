@@ -65,9 +65,9 @@ function onSignIn(googleUser) {
   var gSocial = profile.US;
   var gEmail = profile.Ht;
   var gThumb = profile.wJ;
-  console.log("구글정보=>>",profile);
+ console.log("구글정보=>>",profile);
 //  console.log(profile.mS);
-
+$('#modalClose').click();
   var url = "http://localhost:9999/ta_back/member/login";
   //서버로 AJAX 요청, 응답
   $.ajax({
@@ -403,7 +403,7 @@ Kakao.Auth.createLoginButton({
       success: function (result) {
        console.log(result);
         //console.log("result : " + JSON.stringify(result));
-
+$('#modalClose').click();
         var url = "http://localhost:9999/ta_back/member/login";
         //서버로 AJAX 요청, 응답
         $.ajax({
@@ -416,9 +416,10 @@ Kakao.Auth.createLoginButton({
             thumb: result.kakao_account.profile.profile_image_url,
           } /*id=id1&pwd=p1*/,
           success: function (data) {
+	
+				
             if (data.usercheck == "non_member") {
               $("#section").load("logininfo.html", function () {
-				$('#modalClose').click();
                 $("#myinfodiv").hide();
                 $("div.signup").show();
                 $("#email").val(result.kakao_account.email);
