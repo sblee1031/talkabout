@@ -131,7 +131,6 @@ public int lastrow; // row개수
 			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
 			deb = session.selectOne("com.talkabout.dto.DebateRecruitMapper.selectByNo",debate_no);
 			ddList = session.selectList("com.talkabout.dto.DebateRecruitMapper.ddselectByNo",debate_no);
-			System.out.println(ddList.toString());
 			map.put("debate", deb);
 			map.put("detail", ddList);
 		//	System.out.println(list);

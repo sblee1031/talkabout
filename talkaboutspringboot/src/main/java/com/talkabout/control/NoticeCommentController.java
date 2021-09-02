@@ -27,7 +27,8 @@ import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
 import com.talkabout.service.NoticeCommentService;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000","http://localhost:9999"})
+//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/noticecomment")
 public class NoticeCommentController {

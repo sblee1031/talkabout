@@ -9,7 +9,7 @@ public class DebateLike {
 	 * deblike_mem : 회원번호(FK, Member 테이블 참조)
 	 */
 	private int deblike_no;
-	private DebateSungho deblike_deb; // deblike_deb.debate_no
+	private Debate deblike_deb; // deblike_deb.debate_no
 	private Member deblike_mem; // deblike_mem.member_no 
 	
 	
@@ -19,7 +19,7 @@ public class DebateLike {
 		// TODO Auto-generated constructor stub
 	}
 
-	public DebateLike(int deblike_no, DebateSungho deblike_deb, Member deblike_mem) {
+	public DebateLike(int deblike_no, Debate deblike_deb, Member deblike_mem) {
 		this.deblike_no = deblike_no;
 		this.deblike_deb = deblike_deb;
 		this.deblike_mem = deblike_mem;
@@ -33,11 +33,11 @@ public class DebateLike {
 		this.deblike_no = deblike_no;
 	}
 
-	public DebateSungho getDeblike_deb() {
+	public Debate getDeblike_deb() {
 		return deblike_deb;
 	}
 
-	public void setDeblike_deb(DebateSungho deblike_deb) {
+	public void setDeblike_deb(Debate deblike_deb) {
 		this.deblike_deb = deblike_deb;
 	}
 

@@ -19,11 +19,11 @@ public class BoardService {
 	@Autowired
 	private BoardDAO dao;
 
-	public List<Board> BoardSearch(String type, String contents) throws FindException{
-		return dao.boardSearch(type, contents);
+	public List<Board> BoardSearch(String word, int startRow, int endRow) throws FindException{
+		return dao.boardSearch(word, startRow, endRow);
 	}
-	public List<Board> BoardList() throws FindException{
-		return dao.selectAll();
+	public List<Board> BoardList(int startRow, int endRow) throws FindException{
+		return dao.selectAll(startRow, endRow);
 	}
 	public Board BoardDetail(int board_no) throws FindException{
 		return dao.selectByBoardNo(board_no);
@@ -31,13 +31,19 @@ public class BoardService {
 	public void AddBoard(Board b) throws AddException{
 		dao.insert(b);
 	}
-	public void EditBoard(int board_no) throws ModifyException{
-		dao.update(board_no);
+	public void EditBoard(Board board) throws ModifyException{
+		dao.update(board);
 	}
 	public void	DeleteBoard(int Board_no) throws DeleteException{
 		dao.deleteByBoardNo(Board_no);
 	}
 	public void CountBoardView(int Board_no) throws ModifyException{
 		dao.updateCount(Board_no);
+	}
+	public int lastRow() {
+		return dao.lastRow();
+	}
+	public int searchLastRow(String word) {
+		return dao.searchLastRow(word);
 	}
 }

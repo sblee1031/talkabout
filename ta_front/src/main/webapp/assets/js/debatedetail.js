@@ -3,6 +3,7 @@ $(function(){
 		url : '../ta_back/debatebattle',
 		method : 'get',
 		success:function(responseObj){
+			console.log(responseObj);
 			var deb_list = responseObj.debateinfo;
 			var cnt_list = responseObj.voteinfo;
 			
@@ -42,9 +43,7 @@ $(function(){
             },
             success: function (responseObj) {
 				var status = responseObj.status;
-				if (status == 0) {
-			    	alert("로그인이 필요합니다");
-			    } else {
+				
 			    	var vote_data = responseObj.detail_vote;
 	            	var deb_data = responseObj.detail_debate;
 	            	var detail_Adata = responseObj.detail_discussorA;
@@ -129,7 +128,7 @@ $(function(){
 	    	  			$('input#user').attr("value", login_mem_no);
 						$('div.battle_topic').attr("id", detail_deb);
 	    	          });
-			    }
+			    
             },
           });
 		}

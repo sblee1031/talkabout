@@ -1,5 +1,6 @@
 package com.talkabout.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,19 +27,28 @@ public class BoardDAOOracle implements BoardDAO{
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	//DB커넥트
 	
-	public int num_page_size;
-	public int num_page_no;
-	public int lastrow;
+	public int num_page_size; //1페이지당 사이즈
+	public int num_page_no = 1; //페이지번호
+	public int lastrow; //row개수
 	
 	public void pageSize(int size) {
 		this.num_page_size = size;
+		//System.out.println("페이지 사이즈 : "+num_page_size);
+	}
+	@Override
+	public void pageNum(int page) {
+		this.num_page_no = page;
+		//System.out.println("페이지 번호 : " + num_page_no);
 	}
 	//마지막 row 가져오기
+	@Override
 	public int lastRow() {
 		SqlSession session = null;
 		try {
+//			System.out.println("DAO");
 			session = sqlSessionFactory.openSession();
-			lastrow = session.selectOne("com.talkbabout.dto.BoardMapper.lastRow");
+			lastrow = session.selectOne("com.talkabout.dto.BoardMapper.lastRow");
+//			System.out.println("lastrow" +lastrow);
 		}catch (Exception e){
 			System.out.println(e.getMessage());
 		}finally {
@@ -48,24 +58,63 @@ public class BoardDAOOracle implements BoardDAO{
 		}
 		return lastrow;
 	}
-	//자유게시판 검색
 	@Override
-	public List<Board> boardSearch(String type, String contents) throws FindException {
+	public int searchLastRow(String word) {
 		SqlSession session = null;
 		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			lastrow = session.selectOne("com.talkabout.dto.BoardMapper.searchLastRow",word);
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+		return lastrow;
+	}
+	@Override
+	public List<Board> selectAll(int startRow, int endRow) throws FindException{
+		List<Board> list = new ArrayList<>();
+		SqlSession session = null;
+		
+		HashMap<String, Integer> map = new HashMap<>();
+		map.put("num_start_row", startRow);
+		map.put("num_end_row", endRow);
+		try {
 			session = sqlSessionFactory.openSession();
-			HashMap<String, String> map = new HashMap<>();
-			map.put("type", type);
-			map.put("contents", contents);
-			return session.selectList("com.talkabout.dto.BoardMapper.selectByBoardType", map);
+			list = session.selectList("com.talkabout.dto.BoardMapper.selectAll",map);
 		}catch(Exception e) {
 			throw new FindException(e.getMessage());
-			
 		}finally {
 			if(session !=null) {
 				session.close();
 			}
 		}
+		return list;
+	}
+	//자유게시판 검색
+	@Override
+	public List<Board> boardSearch(String word, int startRow, int endRow) throws FindException {
+		List<Board> list = new ArrayList<>();
+		SqlSession session = null;
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("word", word);
+		map.put("num_start_row", startRow);
+		map.put("num_end_row", endRow);
+		try {
+			session = sqlSessionFactory.openSession();
+		    list = session.selectList("com.talkabout.dto.BoardMapper.selectWord", word);
+		}catch(Exception e) {
+			//throw new FindException(e.getMessage());
+			System.out.println(e.getMessage());
+		}finally {
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return list;
 	}
 	//자유게시판 리스트
 	@Override
@@ -92,6 +141,7 @@ public class BoardDAOOracle implements BoardDAO{
 			session = sqlSessionFactory.openSession();
 			//Board b = 
 				return session.selectOne("com.talkabout.dto.BoardMapper.selectByBoardNo", board_no);
+				
 //			if(b==null) {
 //				throw new FindException("게시글이 없습니다." + board_no);
 //			}
@@ -127,11 +177,11 @@ public class BoardDAOOracle implements BoardDAO{
 	
 	//자유게시판 수정
 	@Override
-	public void update(int board_no) throws ModifyException {
+	public void update(Board board) throws ModifyException {
 		SqlSession session = null;
 		try {
 			session = sqlSessionFactory.openSession();
-			session.update("com.talkabout.dto.BoardMapper.update",board_no);
+			session.update("com.talkabout.dto.BoardMapper.update",board);
 		} catch(Exception e) {
 			throw new ModifyException(e.getMessage());
 		}finally {
@@ -174,6 +224,7 @@ public class BoardDAOOracle implements BoardDAO{
 			}
 		}
 	}
+	
 	
 	
 }

@@ -50,6 +50,7 @@ public class DebateResultController {
 		Member logininfo = (Member)session.getAttribute("logininfo");
 		Map<String, Object> map = new HashMap<>();
 		List<DebateSungho> debatelist = service.listallWithPaging(cri);
+		System.out.println("debatelist"+debatelist);
 		int totalListCount = service.debresultlistall().size();
 		map.put("logininfo", logininfo); //로그인정보
 		map.put("debatelist", debatelist);//게시글 리스트 

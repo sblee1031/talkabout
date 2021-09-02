@@ -30,35 +30,16 @@ $(function () {
 	 withCredentials:true
     },
   });
-	
-  // Get the modal
-  var modal = document.getElementById("myModal");
-
-  // Get the button that opens the modal
-  var btnmodal = document.getElementById("myBtn");
-
-  // Get the <span> element that closes the modal
-  var span11 = document.getElementsByClassName("close")[0];
-
-  // When the user clicks on the button, open the modal
-  btnmodal.onclick = function () {
-    modal.style.display = "block";
-  };
-
-  // When the user clicks on <span> (x), close the modal
-  span11.onclick = function () {
-    modal.style.display = "none";
-  };
-
-  // When the user clicks anywhere outside of the modal, close it
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };
+  
 
 
 }); //dom 끝 괄호
+
+
+$(document).on("click", "#adminLogin", function (e) {
+	window.location.href='http://localhost:8888/ta_front/admin.html';	
+	});
+
 
 //로그인 js시작
 function init() {
@@ -84,9 +65,9 @@ function onSignIn(googleUser) {
   var gSocial = profile.US;
   var gEmail = profile.Ht;
   var gThumb = profile.wJ;
-  console.log("구글정보=>>",profile);
+ console.log("구글정보=>>",profile);
 //  console.log(profile.mS);
-
+$('#modalClose').click();
   var url = "http://localhost:9999/ta_back/member/login";
   //서버로 AJAX 요청, 응답
   $.ajax({
@@ -104,6 +85,7 @@ function onSignIn(googleUser) {
       if (responseData.usercheck == "non_member") {
         $("#section").load("logininfo.html", function () {
           // console.log(responseData.usercheck);
+          $('#modalClose').click();
           $("#myinfodiv").hide();
           $("div.signup").show();
           $("#email").val(gEmail);
@@ -141,6 +123,7 @@ function onSignIn(googleUser) {
         });
       } else if (responseData.usercheck == "member") {
         userdata = responseData.member;
+         $('#modalClose').click();
         logined(responseData);
       }
     },
@@ -154,7 +137,7 @@ function onSignIn(googleUser) {
 } //구글로그인 끝
 
 function onSignInFailure(t) {
-  console.log("->>",t);
+  //console.log("->>",t);
 }
 
 /* function renderButton() {
@@ -386,7 +369,14 @@ const serializedValues2 = $('#signupfrom').serializeObject()
       success: function (responseData) {
         userdata = responseData;
         console.log("회원가입 응답",responseData);
-        if (responseData.usercheck == "non_member") {
+/*        if(responseData.status ==1){
+		alert('가입성공! ');
+		window.location.href = "../ta_front/index.html";
+}else{
+	alert('가입 실패');
+	window.location.href = "../ta_front/index.html";
+}*/
+       if (responseData.usercheck == "non_member") {
           alert("잘못된 접근입니다.");
         } else if (responseData.usercheck == "member") {
           logined(responseData);
@@ -413,7 +403,7 @@ Kakao.Auth.createLoginButton({
       success: function (result) {
        console.log(result);
         //console.log("result : " + JSON.stringify(result));
-
+$('#modalClose').click();
         var url = "http://localhost:9999/ta_back/member/login";
         //서버로 AJAX 요청, 응답
         $.ajax({
@@ -426,6 +416,8 @@ Kakao.Auth.createLoginButton({
             thumb: result.kakao_account.profile.profile_image_url,
           } /*id=id1&pwd=p1*/,
           success: function (data) {
+	
+				
             if (data.usercheck == "non_member") {
               $("#section").load("logininfo.html", function () {
                 $("#myinfodiv").hide();
@@ -433,10 +425,10 @@ Kakao.Auth.createLoginButton({
                 $("#email").val(result.kakao_account.email);
                 $("#social_type").val("카카오");
                 $("#social_no").val(result.id);
-                $("#thumb").val(result.kakao_account.profile.profile_image_url);
+                $("#thumb").val(result.properties.profile_image);
                 $("#thumb_img").attr(
                   "src",
-                  result.kakao_account.profile.profile_image_url
+                  result.properties.profile_image
                 );
                 $("#close").trigger("click");
 
@@ -465,6 +457,7 @@ Kakao.Auth.createLoginButton({
               });
             } else if (data.usercheck == "member") {
               userdata = data;
+               $('#modalClose').click();
               logined(data);
             }
           },

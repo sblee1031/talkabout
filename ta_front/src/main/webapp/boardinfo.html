@@ -4,7 +4,7 @@
 			<table class=table>
 				<tr>
 					<td>
-						<a href=# class="btn btn-xs btn-success">좋아요</a>
+						<button class="boardlike btn btn-xs btn-success">좋아요</button>
 					</td>
 				</tr>
 				<tr>
@@ -23,7 +23,7 @@
 					<td class="success text-center" width=25%>타입</td>
 					<td class="board_type"width=25% class=text-center></td>
 					<td class="success text-center" width=25%>좋아요</td>
-					<td class="boardlike_no" width=25% class=text-center></td>
+					<td class="boardlike" width=25% class=text-center></td>
 				</tr>
 				<tr>
 					<td class="success text-center" width=25%>제목</td>
@@ -34,9 +34,9 @@
 				</tr>
 				<tr>
 					<td colspan=4 class=text-right> 
-						<a href="#" class="btn btn-xs btn-success" id="edit">수정</a>
-						<a href="#" class="btn btn-xs btn-success" id="delete">삭제</a>
-						<a href="./board.html" class="btn btn-xs btn-success">목록</a>
+						<a href="#" class="board_edit btn btn-xs btn-success" style="display: none;">수정</a>
+						<a href="#" class="board_delete btn btn-xs btn-success" style="display: none;">삭제</a>
+						<a href="./board.html" class="btn btn-xs btn-success">목록으로</a>
 					</td>
 				</tr>	
 			</table>
@@ -53,31 +53,24 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="data2">
+					<tr class="data2" style="display: none;">
 						<td class="com_no"></td>
 						<td class="com_contents"></td>
 						<td class="com_date"></td>
 						<td class="com_mem"></td>
-					</tr>
-					<div id="recomment"></div>
-					<tr class="data3" style="display:none;">
-						<td class="com_no"></td>
-						<td class="com_contents"></td>
-						<td class="com_date"></td>
-						<td class="com_mem"></td>
+						<td class="com_delete"><input type="submit" value="삭제" class="com_delete_button btn btn-xs btn-outline-success" style="display:none;"/></td>
 					</tr>
 				</tbody>
-				<hr>
+				
 				<tr>
 					<form class="write">
 						<fieldset>
+							<td></td>
 							<td>
+								<input type=text size=70 class="add_contents input-sm" id="addcontents" style="width: 100%;"/>
 							</td>
 							<td>
-								<input type=text size=70 class=input-sm id="addcontents"/>
-							</td>
-							<td>
-								<input type=submit id="addcomment" value="작성" name="search"class="btn btn-sm btn-primary" style="text-align:left"/>
+								<input type=submit id="addcomment" value="작성" name="search" class="comment_write btn btn-sm btn-primary" style="text-align:left"/>
 							</td>
 							<td>
 							</td>
@@ -89,133 +82,154 @@
 </div>
 
 <script>
-var board_no; //번호 담는 객체
-		$('#delete').on('click', function(e){
-			 e.preventDefault();
-			// var board_no = $(this).attr('class');
-			var board_no = $('td.board_no').text();
-			var htmlurl = './board.html';
-			var backurl = '../ta_back/boarddelete';
-			alert("정말로 삭제하시겠습니까?");
-			$.ajax({
-				url:backurl,
-				method:'post',
-				data:{board_no:board_no},
-				susccess:function(responseObj){
-					window.location.href("./board.html");
-				},
-				error: function(xhr){
-					alert(xhr.status);
-				},
-			});
-		});
-		
-		//수정버튼 ajax
-    	$('#edit').on('click', function(){
-    		   var htmlurl = './boardedit.html';
-    		   board_no = $('td.board_no').text();
-    		  // alert(board_no);
-    		  var backurl = '../ta_back/boardinfo';
-    		  	$.ajax({
-    				url: backurl,
-    				method: 'post',
-    				data:{board_no: board_no,
-    				},
-    				success:function(responseObj){
-    				var data = responseObj.boardDetail;
-    		  
-	          $('section').load(htmlurl, function () {
-	        	  $('#type').val(data.board_type);
-	        	  $('#title').val(data.board_title);
-	        	  $('#contents').val(data.board_contents);
-	         		 });
-	          
-    				},
-    		  	});
-    		
-    		});
-		
+$(function(){
+    //댓글 작성
+    $('.comment_write').on('click', function(){
+        var board_no = $('td.board_no').text();
+        var com_contents = $('.add_contents').val();
+        console.log(com_contents);
 
-		
-		/* $('#edit').on('click', function(){
-			console.log("여기");
-			var board_no = $('td.board_no').text();
-			var htmlurl = './boardedit.html';
-			var backurl = '../ta_back/boardedit';
-			alert('정말로 수정하시겠습니까?');
-			$.ajax({
-				url:backurl,
-				method:'post',
-				data:{board_no:board_no},
-				success:function(responseObj){
-					var data = responseObj.boardDetail;
-					
-					$('section').load(htmlurl, function(){
-						var board_type = data.board_type;
-						var board_title = data.board_title;
-						var board_contents = data.board_contents;
-						
-						$('input#type').html(board_type);
-						$('input#title').html(board_title);
-						$('input#contents').html(board_contents);
-						$('div.boardedit')show();
-					
-					});
-				}
-				
-			});
-		}); */
-		$('#addcomment').on('click', function(){
-			var board_no = $('td.board_no').text();
-			var com_contents = $('#addcontents').val();
-			console.log(com_contents);
-			$.ajax({
-				url:'../ta_back/boardcomwrite',
-				method:'post',
-				data:{
-					com_board : board_no,
-					com_contents : com_contents,
-				},
-				success:function (responseData){
-					var status = responseData.status;
-					if(status==1){
-						
-						$.ajax({
-		            		url: '../ta_back/boardcomlist',
-		            		method: 'post',
-		            	 	data:{board_no : board_no},
-		            	 	success:function(responseObj){
-		            	 		console.log(responseObj);
-		            	 		var div = $('#recomment');
-		            	 		var table=$('#comment');
-		            	 		var $tr20bj = $('tr.data3');
-		            	 		var $tr30bj = $('tr.data2');
-		            	 		$tr30bj.remove();
-		            	 		var lists = responseObj.boardcomlist;
-		            	 		$(lists).each(function(i,e){
-		            	 			var $comcopyObj= $tr20bj.clone();
-		            	 			//console.log($comcopyObj);
-		            	 			//console.log(e.com_no);
-		            	 			//console.log(i);
-		            	 			$comcopyObj.find('td.com_no').html(e.com_no);
-		        					$comcopyObj.find('td.com_contents').html(e.com_contents);
-		        					$comcopyObj.find('td.com_mem').html(e.com_mem);
-		        					$comcopyObj.find('td.com_date').html(e.com_date);
-		        					
-		        					$comcopyObj.show();
-		        					table.append($comcopyObj);
-		            	 		});
-		            	 		
-		            	 	}
-		            	 });
-					}else{
-						alert("로그인해라");
-					}
-				},
-				error:function(xhr){
-					alert(xhr.status);
-				}
-			});
-		});
-	
+        $.ajax({
+            url:'http://localhost:9999/ta_back/boardcomment/write', //글쓰기성공->글상세보기 요청->글목록 요청? 
+            method:'post',
+            data:{
+                com_board : board_no,
+                com_contents : com_contents,
+            },
+            xhrFields:{
+    				withCredentials:true
+    			},
+                success:function(responseData){
+                    var status = responseData.status;
+                    if(status==1){
+                        alert("댓글 작성 완료");
+                    }else{
+                        alert("로그인 하고 와라");
+                    }
+                },
+                error:function(xhr){
+                    alert(xhr.status);
+                },
+        });
+        //return false;
+    });
+    //댓글 작성 끝
+
+    //게시글 삭제
+    $('.board_delete').on('click', function(e){
+        e.preventDefault();
+        var board_no = $('td.board_no').text();
+        console.log($('td.board_no').text());
+        var htmlurl = './board.html';
+        var backurl = 'http://localhost:9999/ta_back/board/'+ board_no;
+        alert("정말로" + $('td.board_no').text()+"번 게시글을 삭제하시겠습니까?");
+
+        $.ajax({
+            url:backurl,
+            method:'delete',
+            success:function(responseObj){
+                var status = responseObj.status;
+                if(status == 1){
+                    window.location.href="./board.html";
+                }else if (status == 3 && status == 0){
+                    alert("로그인하고 와라");
+                    window.location.href="./index.html";
+                }
+            },
+            error: function(xhr){
+                alert(xhr.status);
+            },
+            xhrFields:{
+                withCredentials:true
+            },
+        });
+        //return false;
+    });
+    //게시글 삭제 끝
+
+    //좋아요 증가
+    $('.boardlike').on('click', function(){
+        var board_no = $('td.board_no').text();
+        var boardlike_board =$('td.board_no').text();
+
+        $.ajax({
+            url:'http://localhost:9999/ta_back/boardlike/' + boardlike_board,
+            method:'post',
+            data:{
+                board_no : boardlike_board
+            },
+            success:function(responseData){
+                var status = responseData.status;
+                if(status==1){
+                    var hrmlurl = './boardinfo.html';
+                    var backurl = 'http://localhost:9999/ta_back/board/' + board_no;
+                    alert("성공이다 쉐리야");
+                }else{
+                    alert("로그인해라 쉐리야");
+                    window.location.href="./index.html";
+                }
+            },
+            error:function(xhr){
+                alert(xhr.status);
+            },
+            xhrFields:{
+                withCredentials:true
+            },
+        });
+        //return false;
+    });
+    //좋아요 증가 끝
+/* 	#comment > tbody:nth-child(2) > tr:nth-child(7) > td.com_no */
+	//댓글 삭제
+    $('input.com_delete_button').on('click', function(){
+        var com_no = $(this).parents('tr.data2').find('td.com_no').text();
+        console.log(com_no);
+        alert(com_no+"댓글 맞제?");
+
+        $.ajax({
+            url:'http://localhost:9999/ta_back/boardcomment/' + com_no,
+            method:'delete',
+            success:function(responseData){
+                var status = responseData.status;
+                if(status==1){
+                    alert("성공이다잉");
+                }else{
+                    alert("로그인하고 와라 좀!");
+                    //window.location.href="./index.html";
+                }
+            },
+            error:function(xhr){
+                alert(xhr.status);
+            },
+            xhrFields:{
+                withCredentials:true
+            },
+        });
+        //return false;
+    });
+    //댓글 삭제 끝
+//});
+    //수정시 글 작성 폼에 들어갈 전역변수
+    //$(function(){
+	    var board_no = $('td.board_no').text();
+	    console.log(board_no);
+	    var board_type = $('td.board_type').text();
+	    console.log(board_type);
+	    var board_title = $('td.board_title').text();
+	    console.log(board_title);
+	    var board_contents = $('td.board_contents').text();
+	    console.log(board_contents);
+	    //게시글 수정페이지 'section' 로드
+	    $('.board_edit').on('click', function(){
+	        var htmlurl = './boardedit.html'
+	        var backurl = 'http://localhost:9999/ta_back/board/'+board_no;
+	        $('section').load(htmlurl, function(){
+	        	$('td input.board_no').val(board_no);
+	            $('td input.board_type').val(board_type);
+	            $('td input.board_title').val(board_title);
+	            $('td textarea.board_contents').val(board_contents);
+	        });
+	    });
+    });
+    //게시글 수정페이지 'section' 로드 끝
 </script>

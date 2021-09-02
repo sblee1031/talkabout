@@ -7,40 +7,36 @@
 		<id column="board_no"	property="board_no"/>
 		<association property="board_member" javaType="member" autoMapping="true">
 		</association>
-		<collection property="comment_list" ofType="boardcomment" autoMapping="true">
-		    <id column="com_no"	property="com_no"/> 
-		 	<association property="com_member" javaType="member" autoMapping="true">
-			</association>
-		</collection>
-		<!-- <collection property="like_list" ofType="boardlike">
-		<id column="boardlike_no" property="boardlike_no"/>
-		</collection> -->
-		<collection property="like_list" ofType="boardlike" autoMapping="true">
-			<id column="boardlike_no"	property="boardLike_no"/>
-			<association property="boardLike_member" javaType="member" autoMapping="true">
-			    <id column="blm.member_no" property="member_no"/>
-			    <result column="blm.member_nickname" property="member_nickName"/>
-		</association>
-		</collection>
+
 		 
 	</resultMap>
+	<select id="lastRow" resultType="int">
+	 SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM board ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
+	</select>
+	<select id="searchLastRow" parameterType="string" resultType="int">
+		SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM board WHERE board_type Like '%${word}%' or board_title LIKE '%${word}%' or board_contents LIKE '%${word}%' ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
+	</select>
 	
 	<!-- 검색기능 -->
-	<select id="selectByBoardType" parameterType = "java.util.HashMap" resultMap="boardResultMap">
-		SELECT * FROM BOARD board JOIN Member mem ON (board.BOARD_MEM = mem.member_no) WHERE board_type = #{type}
-		and (board_title LIKE '%${word}%' or board_contents LIKE '%${word}%')
-		ORDER BY board_no ASC;
+	<select id="selectWord" parameterType = "java.util.HashMap" resultMap="boardResultMap">
+		SELECT * 
+		FROM (SELECT ROWNUM AS RNUM, board.* FROM board WHERE board_type Like '%${word}%' or board_title LIKE '%${word}%' or board_contents LIKE '%${word}%' ORDER BY board_no ASC) BOARD JOIN Member mem ON (board.BOARD_MEM = mem.member_no) 
+		WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row}
+		ORDER BY board_no DESC
 	</select>
 	
 	<!-- 자유게시판 목록 -->
-	<select id="selectAll" resultMap = "boardResultMap">
-		SELECT * FROM BOARD board JOIN Member mem ON (board.BOARD_MEM = mem.member_no) ORDER BY board_no DESC
+	<select id="selectAll" parameterType="hashmap" resultMap = "boardResultMap">
+		SELECT * 
+		FROM (SELECT ROWNUM AS RNUM, board.* FROM board ORDER BY board_no ASC) BOARD JOIN Member mem ON (board.BOARD_MEM = mem.member_no) 
+		WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row}
+		ORDER BY RNUM DESC
 	</select>
 	
 	<!-- 게시글 상세보기 -->
 	<select id="selectByBoardNo" parameterType="int" resultMap = "boardResultMap">
 		<!-- SELECT * FROM BOARD board JOIN Member mem ON (board.BOARD_MEM = mem.member_no) WHERE board_no = #{board_no} -->
-		 SELECT board.*
+		<!--  SELECT board.*
 		, mem.* 
 		, boardcom.*
 		, bl.boardlike_no
@@ -53,6 +49,13 @@
 			left JOIN BOARDCOMMENT boardcom ON (board.BOARD_NO = boardcom.com_board) 
 			left JOIN boardlike bl ON (board.board_no=bl.boardlike_board)
             left JOIN member blm ON (bl.boardlike_mem = blm.member_no)
+		WHERE board_no = #{board_no} -->
+		 SELECT board.*
+		, mem.*
+		,(select count (*) from boardlike where boardlike_board= #{board_no}) "boardlike_count"
+		FROM 
+			BOARD board 
+			JOIN Member mem ON (board.BOARD_MEM = mem.member_no) 
 		WHERE board_no = #{board_no}
 	</select>
 	
@@ -62,14 +65,19 @@
 	</insert>
 	
 	<!-- 게시글 수정 -->
-	<update id="update" parameterType="board">
+	<!-- <update id="update" parameterType="board">
 	 	UPDATE BOARD
 	 	<set>
-	 		<if test="Board_type != null and !Board_type.equals=''">Board_type=#{board_type},</if>
-	 		<if test="Board_title != null and !Board_title.equals=''">Board_title=#{board_title},</if>
-	 		<if test="Board_contents != null and !Board_contents.equals=''">Board_contents=#{board_contents},</if>
+	 		<if test="board_type != null and !board_type.equals=''">Board_type=#{board_type},</if>
+	 		<if test="board_title != null and !board_title.equals=''">Board_title=#{board_title},</if>
+	 		<if test="board_contents != null and !board_contents.equals=''">Board_contents=#{board_contents},</if>
 	 	</set>
 	 	WHERE board_no = #{board_no}
+	</update> -->
+	<update id="update" parameterType = "board">
+		UPDATE board
+		SET board_title = #{board_title}, board_type = #{board_type}, board_contents = #{board_contents}
+		WHERE board_no = #{board_no}
 	</update>
 	
 	<!-- 조회수 증가 -->

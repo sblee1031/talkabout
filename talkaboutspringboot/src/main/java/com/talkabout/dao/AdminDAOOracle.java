@@ -1,6 +1,8 @@
 package com.talkabout.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -8,34 +10,203 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.talkabout.dto.Admin;
+import com.talkabout.dto.Board;
+import com.talkabout.dto.Debate;
+import com.talkabout.dto.Notice;
 import com.talkabout.exception.FindException;
-
+import com.talkabout.exception.ModifyException;
 @Repository
-public class AdminDAOOracle implements AdminDAO {
-	
+public class AdminDAOOracle implements AdminDAO{
 	@Autowired
-	private SqlSessionFactory sessionFactory;
-
+	private SqlSessionFactory sqlSessionFactory;
 	@Override
 	public Admin selectByNo(int admin_no) throws FindException {
-		// TODO Auto-generated method stub
+		SqlSession session = null;
+		Admin ad = new Admin();
+		try {
+			session = sqlSessionFactory.openSession();
+			HashMap<Integer, Integer> map = new HashMap<>();
+//			ad = session.select
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+//			throw new FindException(e.getMessage());
+		}finally {
+			if(session !=null) {
+				session.close();
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public Admin AdLogin(String id, String pwd) throws FindException {
 		SqlSession session = null;
+		Admin loginAdmin = new Admin();
 		try {
-			session = sessionFactory.openSession();
-			HashMap<String, String> map = new HashMap<>();
-			map.put("id", id);
-			map.put("pwd", pwd);
-			return session.selectOne("com.talkabout.dto.AdminMapper.AdLogin",map); //이부분 잘 모르겠음
+			Admin ad = new Admin();
+			ad.setAdmin_id(id);
+			ad.setAdmin_pwd(pwd);
+			session = sqlSessionFactory.openSession();
+			HashMap<Integer, Integer> map = new HashMap<>();
+			loginAdmin = session.selectOne("com.talkabout.dto.AdminMapper.login", ad);
 		}catch(Exception e) {
-			throw new FindException(e.getMessage() + "올바르지 않은 ID입니다." + id + pwd);
+			System.out.println(e.getMessage());
+//			throw new FindException(e.getMessage());
 		}finally {
-			if(session != null) session.close();
+			if(session !=null) {
+				session.close();
+			}
 		}
+		return loginAdmin;
+	}
+	@Override
+	public int noticeLastRow() {
+		int lastrow =0; 
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			lastrow = session.selectOne("com.talkabout.dto.AdminMapper.noticeLastRow");
+//			System.out.println("게시물 총"+lastrow);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return lastrow;
+	}
+	
+	@Override
+	public List<Notice> noticeFindAll(int startRow, int endRow) throws FindException {
+		List<Notice> list = new ArrayList<>();
+		SqlSession session = null;
+		
+		 HashMap<String, Integer> map = new HashMap<>();
+		 map.put("num_start_row", startRow);
+		 map.put("num_end_row", endRow);
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			list = session.selectList("com.talkabout.dto.AdminMapper.noticeList",map);
+		//	System.out.println(list);
+		}catch (Exception e) {
+			//System.out.println(e.getMessage());
+			throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return list;
 	}
 
+	@Override
+	public List<Notice> noticeFindAll(String word, int startRow, int endRow) throws FindException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int noticeSearchLastRow(String word) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Board> boardFindAll(int startRow, int endRow) throws FindException {
+		List<Board> list = new ArrayList<>();
+		SqlSession session = null;
+		
+		 HashMap<String, Integer> map = new HashMap<>();
+		 map.put("num_start_row", startRow);
+		 map.put("num_end_row", endRow);
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			list = session.selectList("com.talkabout.dto.AdminMapper.boardList",map);
+		//	System.out.println(list);
+		}catch (Exception e) {
+			//System.out.println(e.getMessage());
+			throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<Board> boardFindAll(String word, int startRow, int endRow) throws FindException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int boardLastRow() {
+		int lastrow =0; 
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			lastrow = session.selectOne("com.talkabout.dto.AdminMapper.boardLastRow");
+//			System.out.println("게시물 총"+lastrow);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		return lastrow;
+	}
+
+	@Override
+	public int boardSearchLastRow(String word) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void approve(int deb_no) throws ModifyException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.update("com.talkabout.dto.AdminMapper.aprove",deb_no);
+//			System.out.println("게시물 총"+lastrow);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+		
+	}
+
+	@Override
+	public void disapprove(int deb_no) throws ModifyException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession(); //jdbc MyConnetion 역할.
+			session.update("com.talkabout.dto.AdminMapper.disaprove",deb_no);
+//			System.out.println("게시물 총"+lastrow);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			//throw new FindException(e.getMessage()); //콘솔에 예외 종류, 내용, 줄번호 출력 (가공예외)
+		}finally{
+			//DB연결 해제
+			if(session !=null) {
+				session.close();
+			}
+		}
+	}
+	
+	
 }

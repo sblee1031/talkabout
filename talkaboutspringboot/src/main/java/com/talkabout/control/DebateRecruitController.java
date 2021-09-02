@@ -91,7 +91,7 @@ public class DebateRecruitController {
 		try {
 			Map<String, Object> map =new HashMap<String, Object>();
 			map = service.findByNo(debNo);
-		System.out.println("=>"+map.toString());
+		//	System.out.println(list.toString());
 			result.put("debate", map);
 			if(loginmem==null) {
 				System.out.print("세션널");
@@ -159,24 +159,18 @@ public class DebateRecruitController {
 				Map<String, Object> debate =new HashMap<String, Object>();
 				debate = service.findByNo(deb_no);
 				if(list.get(0)!=null &list.get(1)!=null) {
-//					System.out.println("메일발송"+((Debate)debate.get("debate")).getDebate_topic());
-//					System.out.println("메일발송"+((List<DebateDetail>)debate.get("detail")).get(0));
-//					System.out.println("메일발송"+((List<DebateDetail>)debate.get("detail")).get(1));
 					Debate deb = (Debate)debate.get("debate");
 					DebateDetail dd1 = (DebateDetail)((List<DebateDetail>)debate.get("detail")).get(0);
 					DebateDetail dd2 = (DebateDetail)((List<DebateDetail>)debate.get("detail")).get(1);
 					if(dd1.getDiscussor()==null | dd2.getDiscussor()==null) {
 						result.put("status", 1);
 					}else {
-						System.out.println("메일발송");
-						mailService.sendMail("psyy2244@gmail.com", "talkabout1234",
-								deb, dd1, dd2);
+						//System.out.println("메일발송");
+						mailService.sendMail(deb, dd1, dd2);
 					}
 				}
 			} catch (FindException e) {
-				// TODO Auto-generated catch block
 				//throw new FindException(e.getMessage());
-				
 			}
 		} catch (ModifyException e) {
 			e.printStackTrace();

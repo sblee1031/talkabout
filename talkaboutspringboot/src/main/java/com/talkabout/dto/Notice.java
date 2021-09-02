@@ -1,7 +1,8 @@
 package com.talkabout.dto;
 
 import java.util.Date;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Notice {
 	/*
@@ -23,30 +24,25 @@ public class Notice {
 	private String notice_title;
 	private String notice_contents;
 	private String notice_admin;
-	private String notice_date;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+	private Date notice_date;
 	private int notice_views;
-	 // notice_admin.admin_id
-	List<NoticeComment> comment_list;
-	List<NoticeLike> like_list;
 	
-	public Notice(int notice_no, String notice_type, String notice_title, String notice_contents, String notice_admin, String notice_date,
-			int notice_views, List<NoticeComment> comment_list, List<NoticeLike> like_list) {
+	public Notice() {
+		super();
+	}
+
+	public Notice(int notice_no, String notice_type, String notice_title, String notice_contents, String notice_admin,
+			Date notice_date, int notice_views) {
 		super();
 		this.notice_no = notice_no;
 		this.notice_type = notice_type;
 		this.notice_title = notice_title;
 		this.notice_contents = notice_contents;
+		this.notice_admin = notice_admin;
 		this.notice_date = notice_date;
 		this.notice_views = notice_views;
-		this.notice_admin = notice_admin;
-		this.comment_list = comment_list;
-		this.like_list = like_list;
 	}
-	public Notice() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 
 	public int getNotice_no() {
 		return notice_no;
@@ -80,11 +76,19 @@ public class Notice {
 		this.notice_contents = notice_contents;
 	}
 
-	public String getNotice_date() {
+	public String getNotice_admin() {
+		return notice_admin;
+	}
+
+	public void setNotice_admin(String notice_admin) {
+		this.notice_admin = notice_admin;
+	}
+
+	public Date getNotice_date() {
 		return notice_date;
 	}
 
-	public void setNotice_date(String notice_date) {
+	public void setNotice_date(Date notice_date) {
 		this.notice_date = notice_date;
 	}
 
@@ -95,29 +99,4 @@ public class Notice {
 	public void setNotice_views(int notice_views) {
 		this.notice_views = notice_views;
 	}
-
-	public String getNotice_admin() {
-		return notice_admin;
-	}
-
-	public void setNotice_admin(String notice_admin) {
-		this.notice_admin = notice_admin;
-	}
-
-	public List<NoticeComment> getComment_list() {
-		return comment_list;
-	}
-
-	public void setComment_list(List<NoticeComment> comment_list) {
-		this.comment_list = comment_list;
-	}
-
-	public List<NoticeLike> getLike_list() {
-		return like_list;
-	}
-
-	public void setLike_list(List<NoticeLike> like_list) {
-		this.like_list = like_list;
-	} 
-	
 }

@@ -24,7 +24,7 @@ public class Member{
 	private String member_birth;
 	private int member_able;
 	
-	
+
 	
 
 
