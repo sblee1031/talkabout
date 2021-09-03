@@ -1,0 +1,80 @@
+.wrapper {
+  display: inline-block;
+  width: 100%;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 750px;
+  text-align: center;
+}
+.discussor1,
+.discussor2,
+.chatting {
+  border: solid;
+  display: inline-block;
+  width: 32%;
+  height: 100%;
+  padding: 10px;
+}
+.chatting {
+  margin: 0px 10px;
+}
+#user {
+  width: 30px;
+}
+.table {
+  height: 100%;
+}
+div.discussor1 > table > tbody > tr:nth-child(1) > td:nth-child(1),
+div.discussor1 > table > tbody > tr:nth-child(3) > td:nth-child(1),
+div.discussor1 > table > tbody > tr:nth-child(5) > td:nth-child(1),
+div.discussor2 > table > tbody > tr:nth-child(1) > td:nth-child(1),
+div.discussor2 > table > tbody > tr:nth-child(3) > td:nth-child(1),
+div.discussor2 > table > tbody > tr:nth-child(5) > td:nth-child(1) {
+  text-align: left;
+  font-size: 15pt;
+  font-weight: 800;
+  height: 30px;
+}
+div.discussor1 > table > tbody > tr:nth-child(1) > td:nth-child(2),
+div.discussor1 > table > tbody > tr:nth-child(3) > td:nth-child(2),
+div.discussor1 > table > tbody > tr:nth-child(5) > td:nth-child(2),
+div.discussor2 > table > tbody > tr:nth-child(1) > td:nth-child(2),
+div.discussor2 > table > tbody > tr:nth-child(3) > td:nth-child(2),
+div.discussor2 > table > tbody > tr:nth-child(5) > td:nth-child(2) {
+  text-align: right;
+}
+div.discussor1 > table > tbody > tr > td > textarea,
+div.discussor2 > table > tbody > tr > td > textarea {
+  height: 100%;
+  width: 100%;
+}
+
+.vote_div_group .btn,
+.set_time-group .btn {
+  margin: 5px 10px;
+}
+
+div.chatting > table > tbody > tr:nth-child(1) > td,
+div.chatting > table > tbody > tr:nth-child(2) > td,
+div.chatting > table > tbody > tr:nth-child(4) > td,
+div.chatting > table > tbody > tr:nth-child(6) > td {
+  height: 5%;
+}
+div.chatting > table > tbody > tr:nth-child(3) > td,
+div.chatting > table > tbody > tr:nth-child(5) > td {
+  height: 30%;
+}
+
+#user {
+  width: 80px;
+  text-align: center;
+  margin-top: 5px;
+}
+#textMessage {
+  margin-top: 5px;
+  width: 100%;
+}
+div.chatting > table > tbody > tr:nth-child(7) > td:nth-child(3) > button {
+  margin-top: 7px;
+}

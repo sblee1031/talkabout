@@ -1,20 +1,21 @@
-import './App.css';
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import logo from "./logo.svg";
+import "./App.css";
+import { BrowserRouter, Route } from "react-router-dom";
+import Battle from "./component/battle";
+import "./component/css/bootstrap.css";
 import { Container } from "react-bootstrap";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Container>
-          <Switch>
-            <Route path="/ta_front/debbattle.html">
-              
-            </Route>
-          </Switch>
-        </Container>
-      </div>
-    </BrowserRouter>
+    <div className="App">
+      <Container>
+        <BrowserRouter>
+          <Route path="/">
+            <Battle />
+          </Route>
+        </BrowserRouter>
+      </Container>
+    </div>
   );
 }
 
