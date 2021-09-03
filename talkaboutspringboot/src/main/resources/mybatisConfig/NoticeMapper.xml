@@ -6,7 +6,7 @@
 	<select id="selectList" resultType="com.talkabout.dto.Notice">
     	SELECT * 
     	FROM notice
-    	ORDER BY notice_no
+    	ORDER BY notice_no DESC
 	</select>
    
 	<select id="selectOne" parameterType="int" resultType="com.talkabout.dto.Notice">

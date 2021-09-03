@@ -7,9 +7,10 @@
 			<association javaType="member" property="debate_writer" autoMapping="true"></association>
 	</resultMap>
 	<resultMap id="ddResultMap" type="debatedetail"  autoMapping="true">
-			<association javaType="member" property="discussor" autoMapping="true"></association>
+			<association javaType="member" property="discussor" autoMapping="true">
+				
+			</association>
 	</resultMap>
-	<!-- column은 DB의 출력하는 칼럼명, property는 Key값 -->
 	<resultMap type="HashMap" id="cntResulMap">
 		<id column="vote" property="vote" />
 		<id column="cnt" property="cnt" />
@@ -22,7 +23,7 @@
 		- selectByDeb  : selectOne By 토론번호(deb_no), 회원번호(mem_no)
 		- selectCnt : 해당 토론에 대한 각 투표수 카운트 By 토론번호(deb_no), 투표번호(vote_no) 
 		- insertVote ㅣ 멤버가 처음 토론참여 시 Audience 행 추가 By 토론번호(deb_no), 회원번호(mem_no) / vote default 2 
-		- updateVote : 투표 버튼을 클릭 시 해당 vote 값으로 update By Audience 객체
+		- updateVote : 투표 버튼을 클릭 시 해당 vote 값으로 update By audi_no(PK), vote_no(투표값 / 1 : 주장 A, 2 : 중립, 3 : 주장 B)
 	-->
 	<select id="selectAllAud" resultType="com.talkabout.dto.Audience">
     	SELECT * 
@@ -41,31 +42,38 @@
 		ORDER BY audi_no
 	</select>
 	<select id="selectCnt" parameterType="hashmap" resultMap="cntResulMap">
-		SELECT * 
-		FROM Audience
-		WHERE audi_deb = #{deb_no} and audi_mem = #{mem_no}
-		ORDER BY audi_no
+		SELECT vote, count(vote) as cnt 
+		FROM audience 
+		where AUDI_DEB = #{deb_no} AND VOTE = #{vote_no}
+		GROUP BY vote
 	</select>
 	<insert id="insertVote" parameterType="hashmap">
 		INSERT INTO AUDIENCE 
-		VALUES (AUDI_SEQ.NEXTVAL, #{deb_no}, #{mem_no}, 2);
+		VALUES (AUDI_SEQ.NEXTVAL, #{deb_no}, #{mem_no}, 2)
 	</insert>
-	<update id="updateVote" parameterType="com.talkabout.dto.Audience">
+	<update id="updateVote" parameterType="hashmap">
 		UPDATE AUDIENCE 
-		SET VOTE = #{vote} 
+		SET VOTE = #{vote_no} 
 		WHERE AUDI_NO = #{audi_no}
 	</update>
 	
 	<!--
 		Debate
-		- selectAllDeb : 전체 리스트 출력 JOIN DebateDetail
-		- updateStatus : 토론 종료 버튼 클릭 시 debate_status update
-		- updateEndDate : 토론 종료 버튼 클릭 시 debate_enddate update
+		- selectAllDeb : 전체 리스트 출력
+		- selectByDebNo : selectOne By 토론번호(debate_no, PK)
+		- updateStatus : 토론 종료 버튼 클릭 시 debate_status update By Debate 객체
+		- updateEndDate : 토론 종료 버튼 클릭 시 debate_enddate update By Debate 객체
 	-->
 	<select id="selectAllDeb" resultMap="debateResultMap">
     	SELECT * 
     	FROM Debate
     	ORDER BY debate_no
+	</select>
+	<select id="selectByDebNo" parameterType="int" resultMap="debateResultMap">
+		SELECT * 
+		FROM Debate
+       	WHERE debate_no = #{deb_no}
+       	ORDER BY debate_no
 	</select>
 	<update id="updateStatus" parameterType="com.talkabout.dto.Debate">
 		UPDATE Debate 
@@ -74,13 +82,14 @@
 	</update>
 	<update id="updateEndDate" parameterType="com.talkabout.dto.Debate">
 		UPDATE Debate 
-		SET debate_endDate = #{debate_endDate} 
+		SET debate_endDate = TO_DATE(SYSDATE,'YYYY-MM-DD HH24:MI:SS')
 		WHERE debate_no = #{debate_no}
 	</update>
 	
 	<!--
 		DebateDetail 
 		- selectTwoByDeb : 주장 A, B 행 가져오기 By 토론번호(deb_no)
+		- selectByDetailNo : selectOne By 상세번호(detail_no, PK)
 		- selectDetailByDeb : selectOne By 토론번호(deb_no), 토론자(discussor)
 		- updateIntime : 토론실제시작시간 Update By DebateDetail 객체
 		- updateEvidence : 근거 Update By DebateDetail 객체, 근거 번호(evi_no)
@@ -91,15 +100,21 @@
 		WHERE detail_deb = #{deb_no}
 		ORDER BY detail_no
 	</select>
-	<select id="selectDetailByDeb" parameterType="hashmap" resultMap="ddResultMap">
+	<select id="selectByDetailNo" parameterType="int" resultMap="ddResultMap">
 		SELECT * 
 		FROM DebateDetail
-		WHERE detail_deb = #{deb_no} and discussor = #{mem_no}
-		ORDER BY detail_no
+       	WHERE detail_no = #{detail_no}
+       	ORDER BY detail_no
+	</select>
+	<select id="selectDetailByDeb" parameterType="hashmap" resultMap="ddResultMap">
+		SELECT * 
+		FROM debatedetail dd 
+		JOIN MEMBER m ON (m.MEMBER_NO=dd.DISCUSSOR)
+		WHERE detail_deb = #{deb_no} and discussor = #{discussor}
 	</select>
 	<update id="updateIntime" parameterType="com.talkabout.dto.DebateDetail">
 		UPDATE DebateDetail 
-		SET in_time = #{in_time} 
+		SET in_time = TO_DATE(SYSDATE,'YYYY-MM-DD HH24:MI:SS') 
 		WHERE detail_no = #{detail_no}
 	</update>
 	<update id="updateEvidence" parameterType="hashmap">
