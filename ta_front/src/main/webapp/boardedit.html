@@ -62,39 +62,61 @@
 		resize: vertical;
 	}
 	
-	.write
+	.edit
 	{
-		width: 100%;
+		width: 40%;
 		padding: 10px 0;
 		font-size: 22px;
 		border-radius: 7px;
 		font-weight: 700;
 		border: none;
-		background-color: #1abc9c;
-		color: #fff;
+		background-color: #fff;
+		color: #1abc9c;
 		text-transform: uppercase;
 		cursor: pointer;
 		transition: all .3s ease;
+		margin-left: 80px;
+	}
+	.edit_cancel
+	{
+		width: 40%;
+		padding: 10px 0;
+		font-size: 22px;
+		border-radius: 7px;
+		font-weight: 700;
+		border: none;
+		background-color: #fff;
+		color: #1abc9c;
+		text-transform: uppercase;
+		cursor: pointer;
+		transition: all .3s ease;
+		
 	}
 	
-	.write:hover
+	.edit:hover
 	{
 		background-color: rgba(26, 188, 156, .5);
+		color: #fff;
+		box-shadow: none;
+	}
+	.edit_cancel:hover
+	{
+		background-color: rgba(26, 188, 156, .5);
+		color: #fff;
 		box-shadow: none;
 	}
 </style>
-<body>
-	<div class="bg">
-		<h2>글 수정하기</h2>
-	</div>
+
+	<div class="bg"></div>
 	<form>
 		<input class="board_no" type="text" name="no" style="display: none;"/>
 		<input class="board_type" type="text" name="Type" placeholder="Type"/>
 		<input class="board_title" type="text" name="Title" placeholder="Title"/>
 		<textarea class="board_contents" type="text" name="message" placeholder="Text"></textarea>
+		<input class="edit_cancel" type="submit" value="취소">
 		<input class="edit" type="submit" value="수정">
 	</form>
-</body>
+
 <script>
 $('.edit').on('click', function(e){
 	e.preventDefault();

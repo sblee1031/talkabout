@@ -64,22 +64,45 @@
 	
 	.write
 	{
-		width: 100%;
+		width: 40%;
 		padding: 10px 0;
 		font-size: 22px;
 		border-radius: 7px;
 		font-weight: 700;
 		border: none;
-		background-color: #1abc9c;
-		color: #fff;
+		background-color: #fff;
+		color: #1abc9c;
 		text-transform: uppercase;
 		cursor: pointer;
 		transition: all .3s ease;
+		margin-left: 80px;
+	}
+	.back
+	{
+		width: 40%;
+		padding: 10px 0;
+		font-size: 22px;
+		border-radius: 7px;
+		font-weight: 700;
+		border: none;
+		background-color: #fff;
+		color: #1abc9c;
+		text-transform: uppercase;
+		cursor: pointer;
+		transition: all .3s ease;
+		
 	}
 	
 	.write:hover
 	{
 		background-color: rgba(26, 188, 156, .5);
+		color: #fff;
+		box-shadow: none;
+	}
+	.back:hover
+	{
+		background-color: rgba(26, 188, 156, .5);
+		color: #fff;
 		box-shadow: none;
 	}
 </style>
@@ -89,7 +112,10 @@
 		<input class="board_type" type="text" name="name" placeholder="Type">
 		<input class="board_title" type="text" name="email" placeholder="Title">
 		<textarea class="board_contents" type="text" name="message" placeholder="Text"></textarea>
+		<input class="back" type="submit" value="취소">
 		<input class="write" type="submit" value="작성">
+		
+		
 	</form>
 </body>
 <script>
@@ -142,6 +168,9 @@
 			 alert("빈칸이 있다 채워라");
 			 window.location.href="./boardwrite.html";
 		 }
+	 });
+	 $('.back').on('click', function(){
+		window.location.href="./board.html"; 
 	 });
 	 
  });
