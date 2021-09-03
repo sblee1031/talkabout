@@ -1,6 +1,8 @@
-import { Table, button } from "react-bootstrap";
+import { Table, button, Image } from "react-bootstrap";
 import "./css/battle.css";
+
 export default function battle(props) {
+  console.log("props : ",props);
   return (
     <>
       <div className="wrapper">
@@ -8,7 +10,17 @@ export default function battle(props) {
           <Table hover>
             <thead className="table-info">
               <tr>
-                <td colspan="2">근거 목록</td>
+                <td colspan="2">
+                  <div>
+                  <Image
+                    src={"http://k.kakaocdn.net/dn/E1SPk/btq7PTNrZT0/Kd0PxOFVNqK7F8w6M6wRaK/img_640x640.jpg"}
+                    style={{ height: "120px", marginLeft: "20px" }}
+                    alt={"썸네일"}
+                    roundedCircle
+                  /><br></br>
+                    토론자 A : {"앙리"}
+                  </div>
+                </td>
               </tr>
             </thead>
             <tbody className="table-light">
@@ -137,7 +149,17 @@ export default function battle(props) {
           <Table hover>
             <thead className="table-secondary">
               <tr>
-                <td colspan="2">근거 목록</td>
+                <td colspan="2">
+                  <div>
+                  <Image
+                    src={"http://k.kakaocdn.net/dn/bqciso/btq4dKTf6Qu/NX3jJ6l74awvHHKr32vCRK/img_640x640.jpg"}
+                    style={{ height: "120px", marginLeft: "20px" }}
+                    alt={"썸네일"}
+                    roundedCircle
+                  /><br></br>
+                    토론자 B : {"앙리"}
+                  </div>
+                </td>
               </tr>
             </thead>
             <tbody className="table-light">

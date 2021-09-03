@@ -1,13 +1,65 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.write,
+.write:hover {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+.header .divButton {
+  text-align: right;
+  margin: 20px;
+}
+div.disDiscuss {
+  width: 100%;
+}
+
+.labelDiscuss {
+  display: inline-block;
+  font-size: 25px;
+  font-weight: 600;
+  width: 20%;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.vs {
+  margin: 10px;
+  font-size: 30pt;
+  font-weight: 600;
+  width: 10%;
+}
+div.debDate {
+  text-align: center;
+  margin: 20px;
+}
+.labelDebDate {
+  font-size: 20px;
+  font-weight: 600;
+  margin-right: 50px;
+}
+.react-datepicker-wrapper,
+#selectDebate_time {
+  margin: 10px;
+  max-width: 240px;
+}
+.ck.ck-editor {
+  overflow: hidden;
+}
+.ck-editor__editable {
+  overflow-y: hidden;
+  min-height: 300px;
+}
+.react-datepicker__header {
+  background-color: rgb(174, 235, 104) !important;
 }
