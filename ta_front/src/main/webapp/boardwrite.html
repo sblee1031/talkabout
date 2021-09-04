@@ -120,6 +120,7 @@
 </body>
 <script>
  $(function(){
+	 //게시글 작성
 	 $('.write').on('click',function(e){
 		 e.preventDefault();
 		 console.log( $('.board_type').val());
@@ -136,16 +137,12 @@
 						board_contents:$('.board_contents').val(),
 						
 					},
-				success: function (responseData) {//처리에
-					/* console.log(responseData);
-					console.log("here");
-					var status = responseData.status;
-					console.log(status);
-					alert("성공했다고이자슥아"); */
+				success: function (responseData) {
+					
 					var status= responseData.status;
 					/* console.log('성공' + status); */
 					if(status==1){
-						alert("성공입니다.");
+						alert("작성완료입니다.");
 						window.location.href="./board.html";
 					}else{
 						alert("로그인하세요.");
@@ -165,7 +162,7 @@
 					
 				});
 		 }else{
-			 alert("빈칸이 있다 채워라");
+			 alert("빈칸을 채워 주시길 바랍니다.");
 			 window.location.href="./boardwrite.html";
 		 }
 	 });
