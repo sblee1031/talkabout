@@ -78,3 +78,9 @@ div.chatting > table > tbody > tr:nth-child(5) > td {
 div.chatting > table > tbody > tr:nth-child(7) > td:nth-child(3) > button {
   margin-top: 7px;
 }
+.discussor1message {
+  text-align: left;
+}
+.discussor2message {
+  text-align: right;
+}

@@ -10,11 +10,9 @@ function App() {
       <div className="App">
         <Container>
           <Switch>
-            <Route path="/ta_front/debbattle.html">
-              <DebateBattleList />
+            <Route path="/ta_front/debbattle.html" component={DebateBattleList}>
             </Route>
-            <Route path="/ta_front/debbattle/:no">
-              <DebateBattleDetail />
+            <Route path="/ta_front/debbattle/:no" component={DebateBattleDetail}>
             </Route>
           </Switch>
         </Container>
