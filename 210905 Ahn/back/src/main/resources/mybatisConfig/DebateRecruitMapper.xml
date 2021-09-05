@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talkabout.dto.DebateRecruitMapper">
+<resultMap id="debateResultMap" type="debate"  autoMapping="true">
+		<association javaType="member" property="debate_writer" autoMapping="true">
+		 
+		</association>
+</resultMap>
+<resultMap id="ddResultMap" type="debatedetail"  autoMapping="true">
+		<association javaType="member" property="discussor" autoMapping="true">
+		 
+		</association>
+</resultMap>
+
+  <insert id="debInsert" parameterType="debate">
+  	INSERT INTO debate(debate_no, debate_writer, debate_topic, debate_content, debate_time, debate_startdate) VALUES
+(DEB_SEQ.nextval, ${debate_writer.member_no}, '${debate_topic}', '${debate_content}', ${debate_time},
+ TO_DATE('${debate_startDate}','YYYY-MM-DD HH24:MI:SS'))
+  </insert>
+    <insert id="ddInsert" parameterType="hashmap">
+  	INSERT INTO DEBATEDETAIL (detail_no, DETAIL_DEB , DISCUSS) VALUES
+(DD_SEQ.NEXTVAL, ${debate_no}, '${discuss}')
+  </insert>
+    <update id="debUpdate" parameterType="debate">
+  	UPDATE debate SET debate_topic = '${debate_topic}'
+  	, debate_time = ${debate_time}
+  	, debate_content = '${debate_content}' 
+  	, debate_startdate = TO_DATE('${debate_startDate}','YYYY-MM-DD HH24:MI:SS')
+  	WHERE debate_no = ${debate_no}
+  </update>
+  <update id="ddUpdate" parameterType="debatedetail">
+  	UPDATE debatedetail SET discuss = '${discuss}' WHERE detail_no = ${detail_no}
+  </update>
+  
+   <update id="discussorUpdate" parameterType="debatedetail">
+  	UPDATE debatedetail SET discussor = ${discussor.member_no} WHERE detail_no = ${detail_no}
+  </update>
+     <update id="discussorCancle" parameterType="debatedetail">
+  	UPDATE debatedetail SET discussor = '' WHERE detail_no = ${detail_no}
+  </update>
+  
+	<select id="debSeq" resultType="int">
+	SELECT DEB_SEQ.CURRVAL AS debate FROM DUAL
+	</select>
+	
+  <select id="lastRow" resultType="int">
+   SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM debate ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
+  </select>
+    <select id="searchLastRow" parameterType="string" resultType="int">
+   SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM debate WHERE debate_topic like '%${word}%' OR debate_content like '%${word}%' ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
+  </select>
+
+  <select id="selectAll" parameterType="hashmap" resultMap="debateResultMap">
+SELECT  *
+FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row}
+  </select>
+    <select id="selectWord" parameterType="hashmap" resultMap="debateResultMap">
+SELECT  *
+FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate WHERE debate_topic like '%${word}%' OR debate_content like '%${word}%' ORDER BY DEBATE_NO DESC) deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row} 
+ORDER BY deb.DEBATE_NO DESC
+  </select>
+  <select id="selectByNo" parameterType="int" resultMap="debateResultMap">
+SELECT * FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) deb JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+ WHERE DEBATE_NO = #{no}
+  </select>
+    <select id="ddselectByNo" parameterType="int" resultMap="ddResultMap">
+SELECT * 
+FROM debatedetail dd  FULL OUTER JOIN MEMBER m ON (m.MEMBER_NO=dd.DISCUSSOR)
+ WHERE detail_deb = #{no}
+  </select>
+
+<delete id="debDelete" parameterType="int">
+DELETE debate WHERE debate_no = #{debNo}
+</delete>
+
+</mapper>

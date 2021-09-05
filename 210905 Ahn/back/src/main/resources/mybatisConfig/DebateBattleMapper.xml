@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTDMapper3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talkabout.dto.DebateBattleMapper">	
+	<resultMap id="debateResultMap" type="debate"  autoMapping="true">
+			<association javaType="member" property="debate_writer" autoMapping="true">
+				<result property="member_no" column="debate_writer" />
+			</association>
+	</resultMap>
+	<resultMap id="ddResultMap" type="debatedetail"  autoMapping="true">
+			<association javaType="member" property="discussor" autoMapping="true">
+				<result property="member_no" column="discussor" />
+			</association>
+	</resultMap>
+	<resultMap type="HashMap" id="cntResulMap">
+		<id column="vote" property="vote" />
+		<id column="cnt" property="cnt" />
+	</resultMap>
+	
+	<!-- 
+		Audience
+		- selectAllAud : 전체 리스트 출력
+		- selectByAudNo : selectOne By PK
+		- selectByDeb  : selectOne By 토론번호(deb_no), 회원번호(mem_no)
+		- selectCnt : 해당 토론에 대한 각 투표수 카운트 By 토론번호(deb_no), 투표번호(vote_no) 
+		- insertVote ㅣ 멤버가 처음 토론참여 시 Audience 행 추가 By 토론번호(deb_no), 회원번호(mem_no) / vote default 2 
+		- updateVote : 투표 버튼을 클릭 시 해당 vote 값으로 update By audi_no(PK), vote_no(투표값 / 1 : 주장 A, 2 : 중립, 3 : 주장 B)
+	-->
+	<select id="selectAllAud" resultType="com.talkabout.dto.Audience">
+    	SELECT * 
+    	FROM Audience
+    	ORDER BY audi_no
+	</select>
+	<select id="selectByAudNo" parameterType="int" resultType="com.talkabout.dto.Audience">
+       SELECT * FROM Audience
+       WHERE audi_no = #{audi_no}
+       ORDER BY audi_no
+	</select>
+	<select id="selectByDeb" parameterType="hashmap" resultType="com.talkabout.dto.Audience">
+		SELECT * 
+		FROM Audience
+		WHERE audi_deb = #{deb_no} and audi_mem = #{mem_no}
+		ORDER BY audi_no
+	</select>
+	<select id="selectCnt" parameterType="hashmap" resultMap="cntResulMap">
+		SELECT vote, count(vote) as cnt 
+		FROM audience 
+		where AUDI_DEB = #{deb_no} AND VOTE = #{vote_no}
+		GROUP BY vote
+	</select>
+	<insert id="insertVote" parameterType="hashmap">
+		INSERT INTO AUDIENCE 
+		VALUES (AUDI_SEQ.NEXTVAL, #{deb_no}, #{mem_no}, 2)
+	</insert>
+	<update id="updateVote" parameterType="hashmap">
+		UPDATE AUDIENCE 
+		SET VOTE = #{vote_no} 
+		WHERE AUDI_NO = #{audi_no}
+	</update>
+	
+	<!--
+		Debate
+		- selectAllDeb : 전체 리스트 출력
+		- selectByDebNo : selectOne By 토론번호(debate_no, PK)
+		- updateStatus : 토론 종료 버튼 클릭 시 debate_status update By Debate 객체
+		- updateEndDate : 토론 종료 버튼 클릭 시 debate_enddate update By Debate 객체
+	-->
+	<select id="selectAllDeb" resultMap="debateResultMap">
+    	SELECT  *
+		FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) deb 
+		JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+		WHERE DEBATE_STATUS = '승인'
+	</select>
+	<select id="selectByDebNo" parameterType="int" resultMap="debateResultMap">
+		SELECT  *
+		FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) deb 
+		JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+       	WHERE debate_no = #{deb_no} AND DEBATE_STATUS = '승인'
+       	ORDER BY debate_no
+	</select>
+	<update id="updateStatus" parameterType="com.talkabout.dto.Debate">
+		UPDATE Debate 
+		SET debate_status = #{debate_status} 
+		WHERE debate_no = #{debate_no}
+	</update>
+	<update id="updateEndDate" parameterType="com.talkabout.dto.Debate">
+		UPDATE Debate 
+		SET debate_endDate = TO_DATE(SYSDATE,'YYYY-MM-DD HH24:MI:SS')
+		WHERE debate_no = #{debate_no}
+	</update>
+	
+	<!--
+		DebateDetail 
+		- selectTwoByDeb : 주장 A, B 행 가져오기 By 토론번호(deb_no)
+		- selectByDetailNo : selectOne By 상세번호(detail_no, PK)
+		- selectDetailByDeb : selectOne By 토론번호(deb_no), 토론자(discussor)
+		- updateIntime : 토론실제시작시간 Update By DebateDetail 객체
+		- updateEvidence : 근거 Update By DebateDetail 객체, 근거 번호(evi_no)
+	-->
+	<select id="selectTwoByDeb" parameterType="int" resultMap="ddResultMap">
+		SELECT * 
+		FROM debatedetail dd 
+		JOIN MEMBER m ON (m.MEMBER_NO=dd.DISCUSSOR)
+		WHERE detail_deb = #{deb_no}
+		ORDER BY detail_no
+	</select>
+	<select id="selectByDetailNo" parameterType="int" resultMap="ddResultMap">
+		SELECT * 
+		FROM debatedetail dd 
+		JOIN MEMBER m ON (m.MEMBER_NO=dd.DISCUSSOR)
+       	WHERE detail_no = #{detail_no}
+       	ORDER BY detail_no
+	</select>
+	<select id="selectDetailByDeb" parameterType="hashmap" resultMap="ddResultMap">
+		SELECT * 
+		FROM debatedetail dd 
+		JOIN MEMBER m ON (m.MEMBER_NO=dd.DISCUSSOR)
+		WHERE detail_deb = #{deb_no} and discussor = #{discussor}
+	</select>
+	<update id="updateIntime" parameterType="com.talkabout.dto.DebateDetail">
+		UPDATE DebateDetail 
+		SET in_time = TO_DATE(SYSDATE,'YYYY-MM-DD HH24:MI:SS') 
+		WHERE detail_no = #{detail_no}
+	</update>
+	<update id="updateEvidence" parameterType="hashmap">
+		UPDATE DebateDetail 
+		<set>
+			<if test="evi_no == 1"> evi_one = #{dd.evi_one}</if>
+			<if test="evi_no == 2"> evi_two = #{dd.evi_two}</if>
+			<if test="evi_no == 3"> evi_three = #{dd.evi_three}</if>
+		</set>
+		WHERE detail_no = #{dd.detail_no}
+	</update>
+</mapper>
