@@ -155,6 +155,7 @@ ul.nav li a:hover:before {
  text-align:left;
 }
 #myinfodiv{
+	padding-top:15px;
 	z-index:1;
 	background-color:#FFF;
 }
