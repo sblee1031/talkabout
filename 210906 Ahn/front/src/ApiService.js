@@ -21,10 +21,16 @@ class ApiService {
         return axios.get(AUDIENCE_URL + '/one', params, { withCredentials: true });
     }
 
-    // http://localhost:9999/ta_back/debbattle/audience/two
+    // http://localhost:9999/ta_back/debbattle/audience/two?deb_no=숫자&mem_no=숫자
     // params : "deb_no", "mem_no"
     fetchAudOneByTwo(params) {
-        return axios.get(AUDIENCE_URL + '/one', params, { withCredentials: true });
+        return axios.get(AUDIENCE_URL + `/two?deb_no=${params.deb_no}&mem_no=${params.mem_no}`, { withCredentials: true });
+    }
+
+    // http://localhost:9999/ta_back/debbattle/audience/vote?deb_no=숫자
+    // params : "deb_no"
+    fetchVoteCount(params) {
+        return axios.get(AUDIENCE_URL + `/vote?deb_no=${params.deb_no}`, { withCredentials: true });
     }
 
     // http://localhost:9999/ta_back/debbattle/audience

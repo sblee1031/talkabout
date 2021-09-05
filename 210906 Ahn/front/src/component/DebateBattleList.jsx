@@ -14,7 +14,6 @@ export default function DebateBattleList(props) {
   const [currentPage, setCurpage] = useState(1);
   const [logininfo, setLogininfo] = useState();
 
-
   // 페이징 기능
   const pageSize = 5;
   const pagedDebate = paginate(deblist, currentPage, pageSize);
@@ -58,7 +57,7 @@ export default function DebateBattleList(props) {
   function login() {
     // const mem = { member_social_no: "118153287897731040607" };
     fetch(
-      "http://localhost:9999/ta_back/member/login?socialNo=118153287897731040607",
+      "http://localhost:9999/ta_back/member/login?socialNo=347856298374982379",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -70,7 +69,51 @@ export default function DebateBattleList(props) {
         return res.json();
       })
       .then((data) => {
-        console.log("login--->", data);
+        setLogininfo(data.member);
+        console.log(data.member);
+        console.log("login--->", data.member);
+      });
+  }
+
+  function login2() {
+    // const mem = { member_social_no: "118153287897731040607" };
+    fetch(
+      "http://localhost:9999/ta_back/member/login?socialNo=773598399242",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+
+        credentials: "include",
+      }
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setLogininfo(data.member);
+        console.log(data.member.member_nickName);
+        console.log("login--->", data.member);
+      });
+  }
+  function login3() {
+    // const mem = { member_social_no: "118153287897731040607" };
+    fetch(
+      "http://localhost:9999/ta_back/member/login?socialNo=116094386597148560988",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+
+        credentials: "include",
+      }
+    )
+      .then((res) => {
+        // console.log("로그인 : ", res.json());
+        return res.json();
+      })
+      .then((data) => {
+        setLogininfo(data.member);
+        console.log(data.member.member_nickName);
+        console.log("login--->", data.member);
       });
   }
 
@@ -96,7 +139,9 @@ export default function DebateBattleList(props) {
 
   return (
     <>
-      <button onClick={login}>로긴81</button>
+      <button onClick={login}>토론자 A 로그인</button>
+      <button onClick={login2}>토론자 B 로그인</button>
+      <button onClick={login3}>관중 로그인 </button>
       <button onClick={logout}>로그아웃</button>
       {/* <Alert show={searchAlert} variant="warning">
             <Alert.Heading>검색어를 입력해주세요!</Alert.Heading>
