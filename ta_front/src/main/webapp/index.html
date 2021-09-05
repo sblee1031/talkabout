@@ -14,17 +14,91 @@
       name="google-signin-client_id"
       content="241916072602-heae1rac9sjh4t615b0k7i0iso0m842o.apps.googleusercontent.com"
     />
-      <!--    <script
-      src="https://apis.google.com/js/platform.js?onload=renderButton"
-      async
-      defer
-    ></script> -->
+      
+    <!-- TA로고 -->
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="assets/img/favicon.ico"
+    />
 
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-     <script src="assets/js/admin.js"></script>
+    
 
 </head>
+<style>
+	*
+{
+	margin: 0;
+	padding: 0;
+}
 
+.main-wrapper
+{
+	width: 1500px;
+	margin: auto;
+
+}
+
+.main-header
+{
+	background: linear-gradient(rgba( 0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("image/hero_image.jpg");
+	height: 88.2vh;
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-position: center center;
+	position: relative;
+}
+
+
+.main-logo .TA
+{	
+	margin-top: 20px;
+	width: 100px;
+	float: left;
+	height: auto;
+	color: #56cc9d;
+
+}
+
+.main-welcome-text
+{
+	position: absolute;
+	width: 1000px;
+	height: 300px;
+	margin: 15% 24%;
+	text-align: center;
+}
+
+.main-welcome-text .main-h1
+{
+	text-align: center;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 60px; 
+	font-weight: bolder;
+
+}
+
+.main-welcome-text .main-a
+{
+	border: 1px solid #fff;
+	padding: 10px 25px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 20px;
+	margin-top: 50px;
+	display: inline-block;
+	color: #fff;
+	font-weight: 900;
+}
+
+.main-welcome-text .main-a:hover
+{
+	background: #fff;
+	color: #333;
+}
+</style>
 
 <body>
 
@@ -105,30 +179,39 @@
 
 			</nav>
     </div>
-
-    <div id="container">
-		
-		<section id="section" style="text-align: center; padding-bottom:70px; position:relative; ">
-
-		</section>
-
-	</div>
-
-    <footer id="footer">
+<div id="container" style="padding: 0 0 0 0;">
+	<section id="section" style="text-align: center; padding-bottom:70px; position:relative;">
+		<header class="main-header">
+			<div class="main-wrapper">
+				
+			</div>
+			
+			<div class="main-welcome-text">
+				<h1 class="main-h1">We are Talk About</h1>
+				<a class="main-a" href="https://edu.kosta.or.kr/enroll?courseId=648&year=2021&orderNumber=1" target="_blank"> Contact Us</a>
+			</div>
+	
+	
+		</header>
+	</section>
+</div>
+	    <footer id="footer">
     			<div>
 			<a>Copyright ⓒ </a><a
 				class="navbar-brand text-success logo h1 align-self-center">
 				Talk About </a><br>
 			<a>경기도 성남시 분당구 성남대로 34 하나프라자 6층</a>
 		</div>
+		
     </footer>
-
 </div>
-<script src="ta/js/bootstrap.min.js"></script>
-<script src="assets/js/login1.js"></script>
-<script src="assets/js/index.js"></script>
-	<script src="https://apis.google.com/js/platform.js?onload=init" async
-		defer></script>
-</body>
 
+
+ 
+          <script src="ta/js/bootstrap.min.js"></script>
+          <script src="assets/js/login1.js"></script>
+     <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> 
+ 
+
+</body>
 </html>

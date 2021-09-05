@@ -51,7 +51,7 @@
               checked /></a></label
           >
         </li>
-        <li>
+        <li style="">
           썸네일 이미지
           <input
             type="text"
@@ -60,7 +60,7 @@
             alt="mythumbname"
             hidden
           /><br />
-          <img class="rounded-circle" style="width: 300px;margin-top:20px" id="mythumb_img" src="" />
+          <img class="rounded-circle" style="max-height: 310px;margin-top:20px;margin-left:25px;" id="mythumb_img" src="" />
         </li>
       </ul>
       <button class="update btn btn-primary" onclick="changeNick()">정보변경</button>
@@ -69,7 +69,7 @@
     <!-- 마이페이지 끝 -->
 
     <!-- 회원가입 화면 시작 -->
-    <div class="signup" style="display: none">
+    <div class="signup" style="display: none; padding:50px">
     	<h3>환영합니다. 닉네임과 생년월을 입력해주세요.</h3>
     	<div class="contain">
     	    		<div class="card">
@@ -147,6 +147,7 @@
       </form>
 			</div>
 		</div>
+    </div>
     </div>
     
     <!-- 회원가입 화면 끝 -->

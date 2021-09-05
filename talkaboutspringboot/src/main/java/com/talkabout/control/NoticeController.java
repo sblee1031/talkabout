@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.talkabout.dto.Member;
 import com.talkabout.dto.Notice;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.DeleteException;
@@ -29,7 +32,6 @@ import com.talkabout.exception.ModifyException;
 import com.talkabout.service.NoticeService;
 
 @CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000","http://localhost:9999"})
-//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/notice")
 public class NoticeController {
@@ -39,18 +41,13 @@ public class NoticeController {
 	@Autowired
 	NoticeService noticeService;
 	
-	/*
-	 	https://dsc-sookmyung.tistory.com/36
-		https://victorydntmd.tistory.com/333
-		https://dsc-sookmyung.tistory.com/33
-		https://doublesprogramming.tistory.com/202
-	*/	
-	
-	// http://localhost:9999/back/notice/list
-	// http://localhost:9999/back/notice/list/word
+	// http://localhost:9999/ta_back/notice/list
+	// http://localhost:9999/ta_back/notice/list/word
 	@GetMapping(value = {"/list", "/list/{word}"})
-	public Map<String, Object> list(@PathVariable(name="word") Optional<String> optWord){
+	public Map<String, Object> list(@PathVariable(name="word") Optional<String> optWord, HttpSession session){
 		Map<String, Object> result = new HashMap<String, Object>();
+		Member loginmem = (Member) session.getAttribute("logininfo");
+		
 		List<Notice> list = new ArrayList<Notice>();
 		try {
 			if(optWord.isPresent()) {
@@ -60,14 +57,18 @@ public class NoticeController {
 			}
 			result.put("status", 1);
 			result.put("notices", list);
+			if(loginmem != null) {
+				result.put("loginInfo", loginmem);
+			}
 		}catch(FindException e) {
 			result.put("status", 0);
 			result.put("msg", e.getMessage());
 		}
 		return result;
+		
 	}
 	
-	// http://localhost:9999/back/notice/번호
+	// http://localhost:9999/ta_back/notice/번호
 	@GetMapping("/{notice_no}")
     public Map<String, Object> noticeDetail(@PathVariable int notice_no) {
 		Map<String, Object> result = new HashMap<>();
@@ -84,10 +85,9 @@ public class NoticeController {
         return result;
     }
 	
-	// http://localhost:9999/back/notice
+	// http://localhost:9999/ta_back/notice
     @PostMapping
     public Map<String, Object> insertNotice(@RequestBody Notice notice) {
-    	System.out.println(notice.toString());
     	Map<String, Object> result = new HashMap<>();
     	
     	try {
@@ -101,11 +101,10 @@ public class NoticeController {
     	return result;
     }
        
-    // http://localhost:9999/back/notice/3
-    // 
+    // http://localhost:9999/ta_back/notice/3
     @PutMapping("/{notice_no}")
     public Map<String, Object> updateNotice(@PathVariable int notice_no, @RequestBody Notice notice) {
-//    	System.out.println(notice_no);
+    	
     	Map<String, Object> result = new HashMap<>();
     	try {
     		Notice updateNotice = noticeService.findByNo(notice_no);
@@ -122,7 +121,7 @@ public class NoticeController {
     	return result;
     }
 
-	// http://localhost:9999/back/notice/4
+	// http://localhost:9999/ta_back/notice/4
     @DeleteMapping("/{notice_no}")
     public Map<String, Object> deleteNotice(@PathVariable int notice_no) {
     	Map<String, Object> result = new HashMap<>();

@@ -7,11 +7,22 @@
 		<id column="board_no"	property="board_no"/>
 		<association property="board_member" javaType="member" autoMapping="true">
 		</association>
-
+		<!-- <collection property="comment_list" ofType="boardcomment" autoMapping="true">
+		    <id column="com_no"	property="com_no"/> 
+		 	<association property="com_member" javaType="member" autoMapping="true">
+			</association>
+		</collection> -->
+		<!-- <collection property="like_list" ofType="boardlike" autoMapping="true">
+			<id column="boardlike_no"	property="boardLike_no"/>
+			<association property="boardLike_member" javaType="member" autoMapping="true">
+			    <id column="blm.member_no" property="member_no"/>
+			    <result column="blm.member_nickname" property="member_nickName"/>
+			</association>
+		</collection> -->
 		 
 	</resultMap>
 	<select id="lastRow" resultType="int">
-	 SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM board ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
+		SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM board ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
 	</select>
 	<select id="searchLastRow" parameterType="string" resultType="int">
 		SELECT RNUM FROM (SELECT ROWNUM AS RNUM FROM board WHERE board_type Like '%${word}%' or board_title LIKE '%${word}%' or board_contents LIKE '%${word}%' ORDER BY ROWNUM DESC) WHERE ROWNUM = 1
@@ -20,7 +31,7 @@
 	<!-- 검색기능 -->
 	<select id="selectWord" parameterType = "java.util.HashMap" resultMap="boardResultMap">
 		SELECT * 
-		FROM (SELECT ROWNUM AS RNUM, board.* FROM board WHERE board_type Like '%${word}%' or board_title LIKE '%${word}%' or board_contents LIKE '%${word}%' ORDER BY board_no ASC) BOARD JOIN Member mem ON (board.BOARD_MEM = mem.member_no) 
+		FROM (SELECT ROWNUM AS RNUM, board.* FROM board WHERE board_type Like '%${word}%' or board_title LIKE '%${word}%' or board_contents LIKE '%${word}%' ORDER BY board_no DESC) BOARD JOIN Member mem ON (board.BOARD_MEM = mem.member_no) 
 		WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row}
 		ORDER BY board_no DESC
 	</select>
@@ -28,9 +39,8 @@
 	<!-- 자유게시판 목록 -->
 	<select id="selectAll" parameterType="hashmap" resultMap = "boardResultMap">
 		SELECT * 
-		FROM (SELECT ROWNUM AS RNUM, board.* FROM board ORDER BY board_no ASC) BOARD JOIN Member mem ON (board.BOARD_MEM = mem.member_no) 
+		FROM (SELECT ROWNUM AS RNUM, board.* FROM board ORDER BY board_no DESC) BOARD JOIN Member mem ON (board.BOARD_MEM = mem.member_no) 
 		WHERE RNUM BETWEEN ${num_start_row} AND ${num_end_row}
-		ORDER BY RNUM DESC
 	</select>
 	
 	<!-- 게시글 상세보기 -->

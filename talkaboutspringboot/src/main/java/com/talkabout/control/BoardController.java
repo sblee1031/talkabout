@@ -57,10 +57,11 @@ public class BoardController {
 				list = service.BoardSearch(optWord.get(), startRow, endRow);
 				lastRow = service.searchLastRow(optWord.get());
 				System.out.println(list + "검색 리스트");
+				System.out.println(lastRow);
 			}else {
 				list = service.BoardList(startRow,endRow);
 				lastRow = service.lastRow();
-				System.out.println(lastRow + "검색안했을때 리스트");
+				System.out.println(list + "검색안했을때 리스트");
 			}
 			if(logininfo==null) {
 			result.put("status", 2);

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.talkabout.dto.BoardLike;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.DeleteException;
-
 @Repository
 public class BoardLikeDAOOracle implements BoardLikeDAO{
 	@Autowired

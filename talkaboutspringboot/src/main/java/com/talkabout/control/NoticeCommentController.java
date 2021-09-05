@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.talkabout.dto.Member;
 import com.talkabout.dto.NoticeComment;
 import com.talkabout.exception.AddException;
 import com.talkabout.exception.DeleteException;
@@ -28,7 +31,6 @@ import com.talkabout.exception.ModifyException;
 import com.talkabout.service.NoticeCommentService;
 
 @CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000","http://localhost:9999"})
-//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/noticecomment")
 public class NoticeCommentController {
@@ -38,7 +40,7 @@ public class NoticeCommentController {
 	@Autowired
 	NoticeCommentService service;
 	
-	// http://localhost:9999/back/noticecomment/list/공지번호
+	// http://localhost:9999/ta_back/noticecomment/list/공지번호
 	// 매개변수 - 공지사항 번호
 	// 공지사항 n번에 대한 댓글 목록 출력
 	@GetMapping("/list/{com_notice}")
@@ -56,7 +58,7 @@ public class NoticeCommentController {
 		return result;
 	}
 	
-	// http://localhost:9999/back/noticecomment/one/댓글번호
+	// http://localhost:9999/ta_back/noticecomment/one/댓글번호
 	// 댓글 번호에 의한 리스트 1개 출력
 	@GetMapping("/one/{com_no}")
     public Map<String, Object> selectOneNC(@PathVariable int com_no) {
@@ -73,13 +75,16 @@ public class NoticeCommentController {
         return result;
     }
 	
-	// http://localhost:9999/back/noticecomment
+	// http://localhost:9999/ta_back/noticecomment
     @PostMapping
-    public Map<String, Object> insertNC(@RequestBody NoticeComment noticeComment) throws FindException {
-    	System.out.println(noticeComment.getCom_mem().getMember_no());
+    public Map<String, Object> insertNC(@RequestBody NoticeComment noticeComment, HttpSession session) throws FindException {
+    	Member loginmem = (Member) session.getAttribute("logininfo");
     	Map<String, Object> result = new HashMap<>();
+    	
+    	System.out.println("닉네임 : " + noticeComment.getCom_mem().toString());
     	try {
-    		service.insertNC(noticeComment);
+//    		noticeComment.setCom_mem(loginmem);
+			service.insertNC(noticeComment);
 			result.put("status", 1);
 	    	result.put("msg", "Insert Completed");
 		} catch (AddException e) {
@@ -89,7 +94,7 @@ public class NoticeCommentController {
     	return result;
     }
        
-    // http://localhost:9999/back/noticecomment/com_no
+    // http://localhost:9999/ta_back/noticecomment/com_no
     @PutMapping("/{com_no}")
     public Map<String, Object> updateNC(@PathVariable int com_no, @RequestBody NoticeComment comment) {
     	
@@ -107,9 +112,9 @@ public class NoticeCommentController {
     	return result;
     }
 
-	// http://localhost:9999/back/noticecomment/com_no
+	// http://localhost:9999/ta_back/noticecomment/com_no
     @DeleteMapping("/{com_no}")
-    public Map<String, Object> deleteNC(@PathVariable int com_no) {
+    public Map<String, Object> deleteNC(@PathVariable int com_no, HttpSession session) {
     	Map<String, Object> result = new HashMap<>();
     	try {
 			service.deleteNC(com_no);

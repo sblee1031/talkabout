@@ -69,15 +69,17 @@ nav.nav a.navMain {
   text-decoration: none;
   margin: 20px 50px;
   padding: 5px;
+  margin-left:130px;
 }
 
 nav.nav a.navMain:hover {
   color: #13e443;
-  font-size: 2.8em;
+  font-size: 2.5em;
   text-decoration: none;
   font-weight: 700;
   transition: 1s;
-  opacity: 1.2;
+    padding: 5px;
+  opacity: 1.5;
 }
 ul.nav {
   margin-left: 5%;
@@ -92,7 +94,7 @@ ul.nav {
 }
 ul.nav li {
   list-style: none;
-  margin: 10px 20px;
+  margin: 20px 40px 10px 10px;
   transition: 0.5s;
 }
 ul.nav li a {
@@ -138,7 +140,7 @@ ul.nav li a:hover:before {
   transform: scaleX(1);
 }
 #memberinfo {
-  margin: 10px 5%;
+  margin: 10px 1%;
 }
 /* 마이페이지*/
 .myInfoUl{
@@ -151,6 +153,10 @@ ul.nav li a:hover:before {
  margin: 10px;
  font-size:15pt;
  text-align:left;
+}
+#myinfodiv{
+	z-index:1;
+	background-color:#FFF;
 }
 #myinfodiv .update{
 	margin-right:10px;
@@ -326,6 +332,3 @@ li label input{
   margin-top: -40px;
   transition-delay: 0.3s;
 }
-/* .modal-content, .modal-header, .modal-body, .modal-footer{
-	width:100%
-} */

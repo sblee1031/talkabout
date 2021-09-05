@@ -1,33 +1,29 @@
-<div class= container style= "margin-top:3%">
-	<h2>자유게시판</h2>
-		<div>
+<div class= container style= "margin-top:3%; margin-bottom: 5%;">
+	<h2 style="text-align: center;">자유게시판</h2>
+		<div class="board_info">
 			<table class=table>
+				
 				<tr>
-					<td>
-						<button class="boardlike btn btn-xs btn-success">좋아요</button>
-					</td>
+					<td class="success text-left" width =25%>번호</td>
+					<td	class="board_no" width=25% class=text-left></td>
+					<td class="success text-left" width=25%>작성일</td>
+					<td class="board_date" width=25% class=text-left></td>
 				</tr>
 				<tr>
-					<td class="success text-center" width =25%>번호</td>
-					<td	class="board_no" width=25% class=text-center></td>
-					<td class="success text-center" width=25%>작성일</td>
-					<td class="board_date" width=25% class=text-center></td>
+					<td class="success text-left" width=25%>닉네임</td>
+					<td class="board_mem"width=25% class=text-left></td>
+					<td class="success text-left" width=25%>조회수</td>
+					<td class="board_views"width=25% class=text-left></td>
 				</tr>
 				<tr>
-					<td class="success text-center" width=25%>닉네임</td>
-					<td class="board_mem"width=25% class=text-center></td>
-					<td class="success text-center" width=25%>조회수</td>
-					<td class="board_views"width=25% class=text-center></td>
+					<td class="success text-left" width=25%>타입</td>
+					<td class="board_type"width=25% class=text-left></td>
+					<td class="success text-left" width=25%>좋아요</td>
+					<td class="boardlike" width=25% class=text-left></td>
 				</tr>
 				<tr>
-					<td class="success text-center" width=25%>타입</td>
-					<td class="board_type"width=25% class=text-center></td>
-					<td class="success text-center" width=25%>좋아요</td>
-					<td class="boardlike" width=25% class=text-center></td>
-				</tr>
-				<tr>
-					<td class="success text-center" width=25%>제목</td>
-					<td class="board_title" colspan=3></td>
+					<td class="success text-left" width=25%>제목</td>
+					<td class="board_title text-left" colspan=3></td>
 				</tr>
 				<tr>
 					<td class="board_contents" colspan=4 height=200 valign=top></td>	
@@ -37,13 +33,14 @@
 						<a href="#" class="board_edit btn btn-xs btn-success" style="display: none;">수정</a>
 						<a href="#" class="board_delete btn btn-xs btn-success" style="display: none;">삭제</a>
 						<a href="./board.html" class="btn btn-xs btn-success">목록으로</a>
+						<button class="boardlike btn btn-xs btn-success" style="margin-left: 855px;">좋아요</button>
 					</td>
 				</tr>	
 			</table>
 		</div>
 		
-		<div>
-			<table class="table" id="comment">
+		<div class="comment_info">
+			<table class="table" id="comment" style="position: relative;">
 				<thead>
 					<tr>
 						<th>번호</th>
@@ -58,7 +55,8 @@
 						<td class="com_contents"></td>
 						<td class="com_date"></td>
 						<td class="com_mem"></td>
-						<td class="com_delete"><input type="submit" value="삭제" class="com_delete_button btn btn-xs btn-outline-success" style="display:none;"/></td>
+						<td class="com_delete" style="border-bottom: #fff;"><input type="button" value="삭제" class="com_delete_button btn btn-xs btn-outline-success" style="display:none;"/>
+						</td>
 					</tr>
 				</tbody>
 				
@@ -80,6 +78,22 @@
 			</table>
 		</div>
 </div>
+
+<style>
+	h2{
+		font-weight: 900;
+		margin-bottom: 40px;
+		text-align: center;
+	}
+	.board_info{
+		font-weight: 900;
+		margin: 60px;
+	}
+	.comment_info{
+		font-weight: 700;
+		margin: 60px;
+	}
+</style>
 
 <script>
 $(function(){
@@ -103,6 +117,7 @@ $(function(){
                     var status = responseData.status;
                     if(status==1){
                         alert("댓글 작성 완료");
+                        window.location.href="./board.html";
                     }else{
                         alert("로그인 하고 와라");
                     }
@@ -111,6 +126,7 @@ $(function(){
                     alert(xhr.status);
                 },
         });
+        
         //return false;
     });
     //댓글 작성 끝
@@ -164,6 +180,7 @@ $(function(){
                     var hrmlurl = './boardinfo.html';
                     var backurl = 'http://localhost:9999/ta_back/board/' + board_no;
                     alert("성공이다 쉐리야");
+                    window.location.href="./board.html";
                 }else{
                     alert("로그인해라 쉐리야");
                     window.location.href="./index.html";
@@ -181,21 +198,26 @@ $(function(){
     //좋아요 증가 끝
 /* 	#comment > tbody:nth-child(2) > tr:nth-child(7) > td.com_no */
 	//댓글 삭제
-    $('input.com_delete_button').on('click', function(){
+	//#comment > tbody:nth-child(2) > tr:nth-child(6) > td.com_delete > input
+    $(document).on('click','input.com_delete_button', function(){ 
+    	//alert('삭제버튼');
+    	//e.preventDefault();
+    	//$('#comment > tbody:nth-child(2) > tr:nth-child(6) > td.com_delete > input').click('click', function(){ 
         var com_no = $(this).parents('tr.data2').find('td.com_no').text();
         console.log(com_no);
-        alert(com_no+"댓글 맞제?");
+        alert("댓글 맞제?");
 
-        $.ajax({
+       $.ajax({
             url:'http://localhost:9999/ta_back/boardcomment/' + com_no,
             method:'delete',
             success:function(responseData){
                 var status = responseData.status;
                 if(status==1){
                     alert("성공이다잉");
+                    window.location.herf="./board.html";
                 }else{
                     alert("로그인하고 와라 좀!");
-                    //window.location.href="./index.html";
+                    window.location.href="./index.html";
                 }
             },
             error:function(xhr){
@@ -204,7 +226,7 @@ $(function(){
             xhrFields:{
                 withCredentials:true
             },
-        });
+        }); 
         //return false;
     });
     //댓글 삭제 끝
@@ -221,13 +243,13 @@ $(function(){
 	    console.log(board_contents);
 	    //게시글 수정페이지 'section' 로드
 	    $('.board_edit').on('click', function(){
-	        var htmlurl = './boardedit.html'
+	        var htmlurl = './boardedit.html';
 	        var backurl = 'http://localhost:9999/ta_back/board/'+board_no;
 	        $('section').load(htmlurl, function(){
-	        	$('td input.board_no').val(board_no);
-	            $('td input.board_type').val(board_type);
-	            $('td input.board_title').val(board_title);
-	            $('td textarea.board_contents').val(board_contents);
+	        	$('input.board_no').val(board_no);
+	            $('input.board_type').val(board_type);
+	            $('input.board_title').val(board_title);
+	            $('textarea.board_contents').val(board_contents);
 	        });
 	    });
     });

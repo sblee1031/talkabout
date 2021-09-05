@@ -205,9 +205,9 @@ public class DebateRecruitController {
 	
 	@PutMapping(value="/update")
 	public Map<String, Object> debUpdate( HttpSession session , @RequestBody Map<String, Object> map) throws ModifyException{
-		System.out.println("->"+(int)map.get("discuss1_no"));
-		System.out.println("discuss1->"+(String)map.get("discuss1"));
-		System.out.println("discuss2->"+(String)map.get("discuss2"));
+//		System.out.println("->"+(int)map.get("discuss1_no"));
+//		System.out.println("discuss1->"+(String)map.get("discuss1"));
+//		System.out.println("discuss2->"+(String)map.get("discuss2"));
 		Map<String, Object> result =new HashMap<String, Object>();
 		Member loginmem = (Member) session.getAttribute("logininfo");
 		if(loginmem==null) {
@@ -222,10 +222,10 @@ public class DebateRecruitController {
 		dd2.setDetail_no((int)map.get("discuss2_no"));
 		dd2.setDiscuss((String)map.get("discuss2"));
 		
-		//System.out.println(map.get("debateTime"));
+		System.out.println(Integer.parseInt((String)map.get("debateTime")));
 		deb.setDebate_no((int)map.get("debate_no"));
 		deb.setDebate_writer(loginmem);
-		deb.setDebate_time((int)map.get("debateTime"));
+		deb.setDebate_time(Integer.parseInt((String)map.get("debateTime")));
 		deb.setDebate_topic((String)map.get("debate_topic"));
 		deb.setDebate_content((String)map.get("debate_content"));
 		deb.setDebate_startDate((String)map.get("debateDate"));

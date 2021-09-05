@@ -1,47 +1,124 @@
-<div class = container style="margin-top: 3%">
-	<h2>글 수저하기</h2>
-	<div class = row>
-		<form class="write">
-			<table class = table>
-				<tr>
-					<td width=20% class-right>번호</td>
-					<td width=85%>
-						<input class="board_no input-sm" type = text size=15 class=input-sm name=type id="type" style="cursor: auto">
-					</td>
-				</tr>
-				<tr>
-					<td width=20% class-right>타입</td>
-					<td width=85%>
-						<input class="board_type input-sm" type = text size=15 class=input-sm name=type id="type" style="cursor: auto">
-					</td>
-				</tr>
-				<tr>
-					<td width=20% class-right>제목</td>
-					<td width=85%>
-					<input class="board_title input-sm" type = text size=45 class= input-sm name=title id="title">
-					</td>
-				</tr>
-				<tr>
-					<td width=20% class-right>내용</td>
-					<td width=85%>
-					<textarea class="board_contents" cols=50 rows=10 name=contents style="margin: 0px; width: 640px; height:700px;" id="contents"></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td colspan=2 class=text-center>
-					<!-- <input type=submit class=btn1 btn-md btn-danger value=글쓰기> -->
-					<button class="board_edit btn btn-xs btn-outline-primary">수정</button>
-					<!-- <input type=button class=btn2 btn-md btn-info value=취소> -->
-					<a href=./board.html class="btn btn-xs btn-outline-primary">취소</a>
-					</td>
-				</tr>
-			</table>
-		</form>
-	</div>
-</div>
+<style>
+	*
+	{
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+	}
+	
+	body
+	{
+		/* background: url("../images/home.png") no-repeat top / cover; */
+		height: 700px;
+		font-family: sans-serif;
+		overflow: hideen;
+	}
+	
+	.bg
+	{
+		position: absolute;
+		top: 0;
+		left: 0;
+		/* background-color: rgba(0, 0, 0, .5); */
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+	}
+	
+	form
+	{
+		width: 450px;
+		margin: 150px auto;
+	}
+	
+	input, textarea
+	{
+		color: rgba(0, 0, 0, .5);
+		background-color: transparent;
+		border: 2px solid #1abc9c;
+		box-shadow: inset 0 1px 5px #1abc9c;
+		width: 100%;
+		padding: 15px;
+		font-size: 18px;
+		font-weight: 600;
+		line-height: 25px;
+		border-radius: 7px;
+		margin-bottom: 15px;
+		outline: none;
+		transition: all .3s ease;
+	}
+	.placeholder
+	{
+		color:  rgba(26, 188, 156, .5);
+	}
+	/* form :: placeholder {
+		color: rgba(26, 188, 156, .5);
+	}  */
+	
+	textarea
+	{
+		height: 500px;
+		width: 100%;
+		resize: vertical;
+	}
+	
+	.edit
+	{
+		width: 40%;
+		padding: 10px 0;
+		font-size: 22px;
+		border-radius: 7px;
+		font-weight: 700;
+		border: none;
+		background-color: #fff;
+		color: #1abc9c;
+		text-transform: uppercase;
+		cursor: pointer;
+		transition: all .3s ease;
+		margin-left: 80px;
+	}
+	.edit_cancel
+	{
+		width: 40%;
+		padding: 10px 0;
+		font-size: 22px;
+		border-radius: 7px;
+		font-weight: 700;
+		border: none;
+		background-color: #fff;
+		color: #1abc9c;
+		text-transform: uppercase;
+		cursor: pointer;
+		transition: all .3s ease;
+		
+	}
+	
+	.edit:hover
+	{
+		background-color: rgba(26, 188, 156, .5);
+		color: #fff;
+		box-shadow: none;
+	}
+	.edit_cancel:hover
+	{
+		background-color: rgba(26, 188, 156, .5);
+		color: #fff;
+		box-shadow: none;
+	}
+</style>
+
+	<div class="bg"></div>
+	<form>
+		<input class="board_no" type="text" name="no" style="display: none;"/>
+		<input class="board_type" type="text" name="Type" placeholder="Type"/>
+		<input class="board_title" type="text" name="Title" placeholder="Title"/>
+		<textarea class="board_contents" type="text" name="message" placeholder="Text"></textarea>
+		<input class="edit_cancel" type="submit" value="취소">
+		<input class="edit" type="submit" value="수정">
+	</form>
 
 <script>
-$('button.board_edit').on('click', function(e){
+$('.edit').on('click', function(e){
 	e.preventDefault();
 	var board_no_string= $('.board_no').val();
 	var board_no = parseInt(board_no_string, 10);

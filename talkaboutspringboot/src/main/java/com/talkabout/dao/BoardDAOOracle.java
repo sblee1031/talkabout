@@ -45,10 +45,9 @@ public class BoardDAOOracle implements BoardDAO{
 	public int lastRow() {
 		SqlSession session = null;
 		try {
-//			System.out.println("DAO");
 			session = sqlSessionFactory.openSession();
 			lastrow = session.selectOne("com.talkabout.dto.BoardMapper.lastRow");
-//			System.out.println("lastrow" +lastrow);
+			
 		}catch (Exception e){
 			System.out.println(e.getMessage());
 		}finally {
@@ -56,9 +55,9 @@ public class BoardDAOOracle implements BoardDAO{
 				session.close();
 			}
 		}
+		System.out.println(lastrow + "----------------------------------");
 		return lastrow;
 	}
-	@Override
 	public int searchLastRow(String word) {
 		SqlSession session = null;
 		try {
@@ -105,7 +104,7 @@ public class BoardDAOOracle implements BoardDAO{
 		map.put("num_end_row", endRow);
 		try {
 			session = sqlSessionFactory.openSession();
-		    list = session.selectList("com.talkabout.dto.BoardMapper.selectWord", word);
+		    list = session.selectList("com.talkabout.dto.BoardMapper.selectWord", map);
 		}catch(Exception e) {
 			//throw new FindException(e.getMessage());
 			System.out.println(e.getMessage());

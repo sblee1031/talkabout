@@ -14,8 +14,7 @@ import com.talkabout.exception.AddException;
 import com.talkabout.exception.DeleteException;
 import com.talkabout.exception.FindException;
 import com.talkabout.exception.ModifyException;
-
-
+	
 @Repository
 public class boardCommentDAOOracle implements BoardCommentDAO{
 	
