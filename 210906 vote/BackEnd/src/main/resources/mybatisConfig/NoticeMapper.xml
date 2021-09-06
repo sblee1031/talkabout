@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTDMapper3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.talkabout.dto.NoticeMapper">	
+	<select id="selectList" resultType="com.talkabout.dto.Notice">
+    	SELECT * 
+    	FROM notice
+    	ORDER BY notice_no DESC
+	</select>
+   
+	<select id="selectOne" parameterType="int" resultType="com.talkabout.dto.Notice">
+       SELECT * FROM notice
+       WHERE notice_no = #{notice_no}
+	</select>
+	
+	<select id="selectSearch" parameterType="String" resultType="com.talkabout.dto.Notice">
+		SELECT * 
+		FROM notice
+		WHERE NOTICE_TITLE LIKE '%${word}%' OR NOTICE_CONTENTS LIKE '%${word}%'
+		ORDER BY notice_no
+	</select>
+   
+   	<!-- 
+		INSERT INTO notice(notice_no, notice_type, notice_title, notice_contents, notice_date, notice_views, notice_admin)
+		VALUES (NOTICE_SEQ.NEXTVAL, '공지사항', '테스트 제목 5', '테스트 내용 5', TO_DATE(SYSDATE,'YYYY-MM-DD HH24:MI:SS'), 0, 'ad3'); 
+	-->
+	<insert id="insertNotice" parameterType="com.talkabout.dto.Notice">
+        INSERT INTO notice(notice_no, notice_type, notice_title, notice_contents, notice_date, notice_views, notice_admin)
+		VALUES (NOTICE_SEQ.NEXTVAL, #{notice_type}, #{notice_title}, #{notice_contents}, SYSDATE, 0, #{notice_admin})
+	</insert>
+
+	<update id="updateNotice" parameterType="com.talkabout.dto.Notice">
+		UPDATE notice
+		SET notice_type = #{notice_type}, notice_title = #{notice_title}, notice_contents = #{notice_contents}
+		WHERE notice_no = #{notice_no}
+	</update>
+	<update id="updateViews" parameterType="notice">
+		UPDATE NOTICE SET NOTICE_VIEWS = #{notice_views}+1 WHERE notice_no = #{notice_no}
+	</update>
+	<delete id="deleteNotice" parameterType="int">
+		DELETE FROM notice
+		WHERE notice_no = #{notice_no}
+	</delete>
+</mapper>
