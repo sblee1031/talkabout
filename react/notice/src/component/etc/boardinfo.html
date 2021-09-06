@@ -1,0 +1,221 @@
+<div class= container style= "margin-top:3%">
+	<h2>자유게시판</h2>
+		<div>
+			<table class=table>
+				<tr>
+					<td>
+						<a href=# class="btn btn-xs btn-success">좋아요</a>
+					</td>
+				</tr>
+				<tr>
+					<td class="success text-center" width =25%>번호</td>
+					<td	class="board_no" width=25% class=text-center></td>
+					<td class="success text-center" width=25%>작성일</td>
+					<td class="board_date" width=25% class=text-center></td>
+				</tr>
+				<tr>
+					<td class="success text-center" width=25%>닉네임</td>
+					<td class="board_mem"width=25% class=text-center></td>
+					<td class="success text-center" width=25%>조회수</td>
+					<td class="board_views"width=25% class=text-center></td>
+				</tr>
+				<tr>
+					<td class="success text-center" width=25%>타입</td>
+					<td class="board_type"width=25% class=text-center></td>
+					<td class="success text-center" width=25%>좋아요</td>
+					<td class="boardlike_no" width=25% class=text-center></td>
+				</tr>
+				<tr>
+					<td class="success text-center" width=25%>제목</td>
+					<td class="board_title" colspan=3></td>
+				</tr>
+				<tr>
+					<td class="board_contents" colspan=4 height=200 valign=top></td>	
+				</tr>
+				<tr>
+					<td colspan=4 class=text-right> 
+						<a href="#" class="btn btn-xs btn-success" id="edit">수정</a>
+						<a href="#" class="btn btn-xs btn-success" id="delete">삭제</a>
+						<a href="./board.html" class="btn btn-xs btn-success">목록으로</a>
+					</td>
+				</tr>	
+			</table>
+		</div>
+		
+		<div>
+			<table class="table" id="comment">
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>내용</th>
+						<th>날짜</th>
+						<th>닉네임</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="data2">
+						<td class="com_no"></td>
+						<td class="com_contents"></td>
+						<td class="com_date"></td>
+						<td class="com_mem"></td>
+					</tr>
+					<div id="recomment"></div>
+					<tr class="data3" style="display:none;">
+						<td class="com_no"></td>
+						<td class="com_contents"></td>
+						<td class="com_date"></td>
+						<td class="com_mem"></td>
+					</tr>
+				</tbody>
+				<hr>
+				<tr>
+					<form class="write">
+						<fieldset>
+							<td>
+							</td>
+							<td>
+								<input type=text size=70 class=input-sm id="addcontents"/>
+							</td>
+							<td>
+								<input type=submit id="addcomment" value="작성" name="search"class="btn btn-sm btn-primary" style="text-align:left"/>
+							</td>
+							<td>
+							</td>
+						</fieldset>
+					</form>
+				</tr>
+			</table>
+		</div>
+</div>
+
+<script>
+var board_no; //踰덊샇 �떞�뒗 媛앹껜
+		$('#delete').on('click', function(e){
+			 e.preventDefault();
+			// var board_no = $(this).attr('class');
+			var board_no = $('td.board_no').text();
+			var htmlurl = './board.html';
+			var backurl = '../ta_back/boarddelete';
+			alert("정말로 삭제하시겠습니까?");
+			$.ajax({
+				url:backurl,
+				method:'post',
+				data:{board_no:board_no},
+				susccess:function(responseObj){
+					window.location.href("./board.html");
+				},
+				error: function(xhr){
+					alert(xhr.status);
+				},
+			});
+		});
+		
+		//수정버튼 ajax
+    	$('#edit').on('click', function(){
+    		   var htmlurl = './boardedit.html';
+    		   board_no = $('td.board_no').text();
+    		  // alert(board_no);
+    		  var backurl = '../ta_back/boardinfo';
+    		  	$.ajax({
+    				url: backurl,
+    				method: 'post',
+    				data:{board_no: board_no,
+    				},
+    				success:function(responseObj){
+    				var data = responseObj.boardDetail;
+    		  
+	          $('section').load(htmlurl, function () {
+	        	  $('#type').val(data.board_type);
+	        	  $('#title').val(data.board_title);
+	        	  $('#contents').val(data.board_contents);
+	         		 });
+	          
+    				},
+    		  	});
+    		
+    		});
+		
+
+		
+		/* $('#edit').on('click', function(){
+			console.log("�뿬湲�");
+			var board_no = $('td.board_no').text();
+			var htmlurl = './boardedit.html';
+			var backurl = '../ta_back/boardedit';
+			alert('�젙留먮줈 �닔�젙�븯�떆寃좎뒿�땲源�?');
+			$.ajax({
+				url:backurl,
+				method:'post',
+				data:{board_no:board_no},
+				success:function(responseObj){
+					var data = responseObj.boardDetail;
+					
+					$('section').load(htmlurl, function(){
+						var board_type = data.board_type;
+						var board_title = data.board_title;
+						var board_contents = data.board_contents;
+						
+						$('input#type').html(board_type);
+						$('input#title').html(board_title);
+						$('input#contents').html(board_contents);
+						$('div.boardedit')show();
+					
+					});
+				}
+				
+			});
+		}); */
+		$('#addcomment').on('click', function(){
+			var board_no = $('td.board_no').text();
+			var com_contents = $('#addcontents').val();
+			console.log(com_contents);
+			$.ajax({
+				url:'../ta_back/boardcomwrite',
+				method:'post',
+				data:{
+					com_board : board_no,
+					com_contents : com_contents,
+				},
+				success:function (responseData){
+					var status = responseData.status;
+					if(status==1){
+						
+						$.ajax({
+		            		url: '../ta_back/boardcomlist',
+		            		method: 'post',
+		            	 	data:{board_no : board_no},
+		            	 	success:function(responseObj){
+		            	 		console.log(responseObj);
+		            	 		var div = $('#recomment');
+		            	 		var table=$('#comment');
+		            	 		var $tr20bj = $('tr.data3');
+		            	 		var $tr30bj = $('tr.data2');
+		            	 		$tr30bj.remove();
+		            	 		var lists = responseObj.boardcomlist;
+		            	 		$(lists).each(function(i,e){
+		            	 			var $comcopyObj= $tr20bj.clone();
+		            	 			//console.log($comcopyObj);
+		            	 			//console.log(e.com_no);
+		            	 			//console.log(i);
+		            	 			$comcopyObj.find('td.com_no').html(e.com_no);
+		        					$comcopyObj.find('td.com_contents').html(e.com_contents);
+		        					$comcopyObj.find('td.com_mem').html(e.com_mem);
+		        					$comcopyObj.find('td.com_date').html(e.com_date);
+		        					
+		        					$comcopyObj.show();
+		        					table.append($comcopyObj);
+		            	 		});
+		            	 		
+		            	 	}
+		            	 });
+					}else{
+						alert("로그인 후 이용 바랍니다.");
+					}
+				},
+				error:function(xhr){
+					alert(xhr.status);
+				}
+			});
+		});
+	
+</script>
