@@ -1,28 +1,70 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Table, button, Image } from "react-bootstrap";
 import "./css/battle.css";
 import ApiService from "../ApiService";
 import SockJsClient from "react-stomp";
 
-import { Button, TextField, Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
+import axios from "axios";
+import Timer from "./Timer";
 
 export default function DebateBattleDetail(props) {
-  // console.log("detail-logininfo : ", props.logininfo);
-  const debate = props?.location?.state.debate;
-  const logininfo = props?.location?.state.logininfo;
-  const [debDetail, setDebDetail] = useState();
+  const [debate] = useState(props?.location?.state.debate);
+  const [logininfo] = useState(props?.location?.state.logininfo);
+  const [debateDetail, setdebateDetail] = useState();
 
-  console.log("상속 데이터 : ", props.location.state.debate);
-
-  const [name] = useState(logininfo?.member_nickName); // logininfo?.member_nickName
-  console.log("이름 : ", name);
+  const [name] = useState(logininfo?.member_nickName);
   const [room] = useState(debate.debate_no);
-  const [topics, setTopics] = useState([`/topic/${room}`]);
+  const [topics] = useState([`/topic/${room}`]);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [messages2, setMessages2] = useState([]);
   const [clientRef, setClientRef] = useState();
-  const [inputMessage, setInputMessage] = useState("");
+
+  const [evid_A1, setEvid_A1] = useState("");
+  const [evid_A2, setEvid_A2] = useState("");
+  const [evid_A3, setEvid_A3] = useState("");
+  const [evid_B1, setEvid_B1] = useState("");
+  const [evid_B2, setEvid_B2] = useState("");
+  const [evid_B3, setEvid_B3] = useState("");
+
+  const [audience, setAudience] = useState([]);
+  const [votecnt, setVoteCnt] = useState();
+  const [agree, setAgree] = useState(0);
+  const [disAgree, setDisAgree] = useState(0);
+  const [neutrality, setNeutrality] = useState(0);
+  const [startStatus, setStartState] = useState(false);
+
+  useEffect(() => {
+    ApiService.fetchDiscussors(debate.debate_no).then((res) => {
+      setdebateDetail(res.data.list);
+      setEvid_A1(res.data.list[0].evi_one);
+      setEvid_A2(res.data.list[0].evi_two);
+      setEvid_A3(res.data.list[0].evi_three);
+      setEvid_B1(res.data.list[1].evi_one);
+      setEvid_B2(res.data.list[1].evi_two);
+      setEvid_B3(res.data.list[1].evi_three);
+    });
+  }, []);
+
+  useEffect(() => {
+    const params = {
+      deb_no: debate.debate_no, //
+      mem_no: logininfo?.member_no, //
+    };
+    ApiService.fetchAudOneByTwo(params).then((res) => {
+      if (res.data.audience == null) {
+        ApiService.addVote(params).then(() => {
+          console.log("audience 생성 완료");
+          ApiService.fetchAudOneByTwo(params).then((res) => {
+            setAudience(res.data.audience);
+          });
+        });
+      } else {
+        setAudience(res.data.audience);
+      }
+    });
+  }, []);
 
   const sendMessage = () => {
     clientRef.sendMessage(
@@ -30,19 +72,204 @@ export default function DebateBattleDetail(props) {
       JSON.stringify({
         name: name,
         message: message,
+        votecnt: votecnt,
         server: false,
       })
     );
     setMessage("");
   };
 
-  useEffect(() => {
-    ApiService.fetchDiscussors(debate.debate_no).then((res) => {
-      setDebDetail(res.data.list);
-    });
-  }, []);
+  // 근거 등록
+  const handleChange = (e) => {
+    const btn_no = e.target.className;
+    if (btn_no == "evidence_A1") {
+      setEvid_A1(e.target.value);
+    } else if (btn_no == "evidence_A2") {
+      setEvid_A2(e.target.value);
+    } else if (btn_no == "evidence_A3") {
+      setEvid_A3(e.target.value);
+    } else if (btn_no == "evidence_B1") {
+      setEvid_B1(e.target.value);
+    } else if (btn_no == "evidence_B2") {
+      setEvid_B2(e.target.value);
+    } else if (btn_no == "evidence_B3") {
+      setEvid_B3(e.target.value);
+    }
+  };
 
-  console.log("디테일 : ", debDetail);
+  const btn_a1 = (e) => {
+    if (debateDetail[0].discussor.member_nickName == name) {
+      const params = {
+        detail : debateDetail[0],
+        // detail_no: debateDetail[0].detail_no,
+        word: "evidence",
+        evi_no: 1,
+        setdata: evid_A1,
+      };
+
+      ApiService.editDetail(params);
+
+      alert("수정이 완료되었습니다.");
+    } else {
+      alert("토론자 A만 수정이 가능합니다.");
+    }
+  };
+
+  const btn_a2 = (e) => {
+    if (debateDetail[0].discussor.member_nickName == name) {
+      const params = {
+        detail : debateDetail[0],
+        // detail_no: debateDetail[0].detail_no,
+        word: "evidence",
+        evi_no: 2,
+        setdata: evid_A2,
+      };
+
+      ApiService.editDetail(params);
+
+      alert("수정이 완료되었습니다.");
+    } else {
+      alert("토론자 A만 수정이 가능합니다.");
+    }
+  };
+
+  const btn_a3 = (e) => {
+    if (debateDetail[0].discussor.member_nickName == name) {
+      const params = {
+        detail : debateDetail[0],
+        // detail_no: debateDetail[0].detail_no,
+        word: "evidence",
+        evi_no: 3,
+        setdata: evid_A3,
+      };
+
+      ApiService.editDetail(params);
+
+      alert("수정이 완료되었습니다.");
+    } else {
+      alert("토론자 A만 수정이 가능합니다.");
+    }
+  };
+
+  const btn_b1 = (e) => {
+    if (debateDetail[1].discussor.member_nickName == name) {
+      const params = {
+        detail : debateDetail[1],
+        // detail_no: debateDetail[1].detail_no,
+        word: "evidence",
+        evi_no: 1,
+        setdata: evid_B1,
+      };
+
+      ApiService.editDetail(params);
+
+      alert("수정이 완료되었습니다.");
+    } else {
+      alert("토론자 B만 수정이 가능합니다.");
+    }
+  };
+
+  const btn_b2 = (e) => {
+    if (debateDetail[1].discussor.member_nickName == name) {
+      const params = {
+        detail : debateDetail[1],
+        // detail_no: debateDetail[1].detail_no,
+        word: "evidence",
+        evi_no: 2,
+        setdata: evid_B2,
+      };
+
+      ApiService.editDetail(params);
+
+      alert("수정이 완료되었습니다.");
+    } else {
+      alert("토론자 B만 수정이 가능합니다.");
+    }
+  };
+
+  const btn_b3 = (e) => {
+    if (debateDetail[1].discussor.member_nickName == name) {
+      const params = {
+        detail : debateDetail[1],
+        // detail_no: debateDetail[1].detail_no,
+        word: "evidence",
+        evi_no: 3,
+        setdata: evid_B3,
+      };
+
+      ApiService.editDetail(params);
+
+      alert("수정이 완료되었습니다.");
+    } else {
+      alert("토론자 B만 수정이 가능합니다.");
+    }
+  };
+
+  // 투표 Update
+  const setVote = (e) => {
+    console.log(e.target.value);
+    setMessage("");
+    const params = {
+      audi_no: audience.audi_no,
+      vote_no: e.target.value, //
+    };
+    console.log(params);
+    ApiService.editVote(params)
+      .then((res) => {
+        console.log("투표 수정 완료");
+        clientRef.sendMessage(
+          `/app/sendMessage/${room}`,
+          JSON.stringify({
+            name: name,
+            message: null,
+            votecnt: votecnt,
+          })
+        );
+      });
+  };
+
+  // 시작 버튼 클릭
+  const setStart = (e) => {
+    if (debateDetail[0].discussor.member_nickName == name || debateDetail[1].discussor.member_nickName == name) {
+      // http://localhost:9999/ta_back/debbattle/debatedetail/상세번호
+      // params : "detail_no", "word", "evi_no", "setdata"
+      const params = {
+        detail_no: debateDetail[0].detail_no,
+        word : "intime", //
+      };
+      ApiService.editDetail(params)
+        .then(() => {
+          alert("토론이 시작되었습니다.");
+          // setStartState((startStatus) => !startStatus);
+          setStartState(true);
+        });
+    } else {
+      alert("토론자만 시작 가능합니다.");
+    }
+  };
+
+  // 종료 버튼 클릭
+  const setEnd = (e) => {
+    if (debateDetail[0].discussor.member_nickName == name || debateDetail[1].discussor.member_nickName == name) {
+      const params = {
+        deb_no: debate.debate_no,
+        word : "enddate", 
+      };
+      ApiService.editDebate(params)
+        .then(() => {
+          alert("토론이 종료되었습니다.");
+          const params2 = {
+            deb_no: debate.debate_no,
+            word : "status",
+            setdata : "종료", 
+          };
+          ApiService.editDebate(params2);
+          setStartState(false);
+        });
+    } else {
+      alert("토론자만 종료 가능합니다.");
+    }
+  };
 
   return (
     <>
@@ -55,14 +282,19 @@ export default function DebateBattleDetail(props) {
                   <div>
                     <Image
                       src={
-                        "http://k.kakaocdn.net/dn/E1SPk/btq7PTNrZT0/Kd0PxOFVNqK7F8w6M6wRaK/img_640x640.jpg"
+                        debateDetail
+                          ? debateDetail[0].discussor.member_thumb
+                          : ""
                       }
                       style={{ height: "120px", marginLeft: "20px" }}
                       alt={"썸네일"}
                       roundedCircle
                     />
                     <br></br>
-                    토론자 A : {"앙리"}
+                    토론자 A :{" "}
+                    {debateDetail
+                      ? debateDetail[0].discussor.member_nickName
+                      : ""}
                   </div>
                 </td>
               </tr>
@@ -71,50 +303,83 @@ export default function DebateBattleDetail(props) {
               <tr>
                 <td>근거 1</td>
                 <td>
-                  <button className="btn btn-info">등록</button>
+                  <button
+                    className="btn btn-info"
+                    onClick={() => {
+                      btn_a1();
+                    }}
+                  >
+                    등록
+                  </button>
                 </td>
               </tr>
               <tr>
                 <td className="evidence_A" colSpan="2">
-                  <textarea className="evidence_A1" type="text" />
+                  <textarea
+                    className="evidence_A1"
+                    value={evid_A1}
+                    type="text"
+                    onChange={handleChange}
+                  />
                 </td>
               </tr>
               <tr>
                 <td>근거 2</td>
                 <td>
-                  <button className="btn btn-info btn_evid" value="A2">
+                  <button
+                    className="btn btn-info"
+                    onClick={() => {
+                      btn_a2();
+                    }}
+                  >
                     등록
                   </button>
                 </td>
               </tr>
               <tr>
-                <td className="evidence_A2" colSpan="2">
-                  <textarea className="evidence_A2" type="text" />
+                <td className="evidence_A" colSpan="2">
+                  <textarea
+                    className="evidence_A2"
+                    value={evid_A2}
+                    type="text"
+                    onChange={handleChange}
+                  />
                 </td>
               </tr>
               <tr>
                 <td>근거 3</td>
                 <td>
-                  <button className="btn btn-info btn_evid" value="A3">
+                  <button
+                    className="btn btn-info"
+                    onClick={() => {
+                      btn_a3();
+                    }}
+                  >
                     등록
                   </button>
                 </td>
               </tr>
               <tr>
-                <td className="evidence_A3" colSpan="2">
-                  <textarea className="evidence_A3" type="text" />
+                <td className="evidence_A" colSpan="2">
+                  <textarea
+                    className="evidence_A3"
+                    value={evid_A3}
+                    type="text"
+                    onChange={handleChange}
+                  />
                 </td>
               </tr>
             </tbody>
           </Table>
         </div>
+
         <div className="chatting">
           <Table hover>
             <thead className="table-success">
               <tr>
                 <td colSpan="3">
                   <div id="" className="battle_topic">
-                    호날두 vs 메시
+                    {debate.debate_topic}
                   </div>
                 </td>
               </tr>
@@ -123,14 +388,18 @@ export default function DebateBattleDetail(props) {
               <tr>
                 <td colSpan="3">
                   <div id="" className="battle-timer">
-                    00:00<span className="sec-style">:00</span>
+                    {debate.debate_time}분
+                    <Timer hour={debate.debate_time / 60} min = {debate.debate_time % 60} sec = {0} status = {startStatus}/>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td colSpan="3">
                   <div className="battle_vote">
-                    호날두 XX% / 중립 XX% / 메시 XX%
+                    {/* <div>{messages}</div> */}
+                    {debateDetail ? debateDetail[0].discuss : ""} {agree} 표 /
+                    중립 {neutrality} 표 /{" "}
+                    {debateDetail ? debateDetail[1].discuss : ""} {disAgree}표
                   </div>
                 </td>
               </tr>
@@ -148,8 +417,9 @@ export default function DebateBattleDetail(props) {
                   >
                     <div style={{}}>
                       {messages.map((e, i) => {
-                        return e.name ==
-                          debDetail[0].discussor.member_nickName ? (
+                        return debateDetail &&
+                          e.name ==
+                            debateDetail[0]?.discussor.member_nickName ? (
                           <div className="discussor1message" key={i}>
                             {e.server ? (
                               <Grid
@@ -163,6 +433,19 @@ export default function DebateBattleDetail(props) {
                               >
                                 <Typography style={{ fontWeight: "800" }}>
                                   {e.message}
+                                </Typography>
+                              </Grid>
+                            ) : e.message === null ? (
+                              <Grid
+                                item
+                                style={{
+                                  padding: "10px",
+                                  wordWrap: "break-word",
+                                }}
+                                key={i}
+                              >
+                                <Typography>
+                                  {e.name} 투표되었습니다.
                                 </Typography>
                               </Grid>
                             ) : (
@@ -198,6 +481,19 @@ export default function DebateBattleDetail(props) {
                                   {e.message}
                                 </Typography>
                               </Grid>
+                            ) : e.message === null ? (
+                              <Grid
+                                item
+                                style={{
+                                  padding: "10px",
+                                  wordWrap: "break-word",
+                                }}
+                                key={i}
+                              >
+                                <Typography>
+                                  {e.name} 투표되었습니다.
+                                </Typography>
+                              </Grid>
                             ) : (
                               <Grid
                                 item
@@ -209,7 +505,8 @@ export default function DebateBattleDetail(props) {
                               >
                                 <Typography>
                                   {e.name}
-                                  <br /> {e.message}
+                                  <br />
+                                  {e.message}
                                 </Typography>
                               </Grid>
                             )}
@@ -223,10 +520,10 @@ export default function DebateBattleDetail(props) {
               <tr>
                 <td colSpan="3">
                   <div className="set_time-group">
-                    <button id="start" className="btn btn-primary btn_settime">
+                    <button id="start" className="btn btn-primary btn_settime" onClick={() => {setStart();}}>
                       시작
                     </button>
-                    <button id="end" className="btn btn-secondary btn_settime">
+                    <button id="end" className="btn btn-secondary btn_settime" onClick={() => {setEnd();}}>
                       종료
                     </button>
                   </div>
@@ -266,9 +563,29 @@ export default function DebateBattleDetail(props) {
                                   {e.message}
                                 </Typography>
                               </Grid>
+                            ) : e.message === null ? (
+                              <Grid
+                                item
+                                style={{
+                                  padding: "10px",
+                                  wordWrap: "break-word",
+                                }}
+                                key={i}
+                              >
+                                <Typography>
+                                  {e.name} 투표되었습니다.
+                                </Typography>
+                              </Grid>
                             ) : (
-                              <Grid item style={{ padding: "10px" }} key={i}>
-                                <Typography style={{ wordWrap: "break-word" }}>
+                              <Grid
+                                item
+                                style={{
+                                  padding: "10px",
+                                  wordWrap: "break-word",
+                                }}
+                                key={i}
+                              >
+                                <Typography>
                                   {e.name}
                                   <br />
                                   {e.message}
@@ -285,14 +602,32 @@ export default function DebateBattleDetail(props) {
               <tr>
                 <td colSpan="3">
                   <div className="vote_div_group">
-                    <button className="btn btn-info btn_vote" value="1">
-                      찬성
+                    <button
+                      className="btn btn-info btn_vote"
+                      value="1"
+                      onClick={(e) => {
+                        setVote(e);
+                      }}
+                    >
+                      {debateDetail ? debateDetail[0].discuss : ""}
                     </button>
-                    <button className="btn btn-success btn_vote" value="2">
+                    <button
+                      className="btn btn-success btn_vote"
+                      value="2"
+                      onClick={(e) => {
+                        setVote(e);
+                      }}
+                    >
                       중립
                     </button>
-                    <button className="btn btn-danger btn_vote" value="3">
-                      반대
+                    <button
+                      className="btn btn-danger btn_vote"
+                      value="3"
+                      onClick={(e) => {
+                        setVote(e);
+                      }}
+                    >
+                      {debateDetail ? debateDetail[1].discuss : ""}
                     </button>
                   </div>
                 </td>
@@ -345,6 +680,7 @@ export default function DebateBattleDetail(props) {
             </tbody>
           </Table>
         </div>
+
         <div className="discussor2">
           <Table hover>
             <thead className="table-secondary">
@@ -353,14 +689,19 @@ export default function DebateBattleDetail(props) {
                   <div>
                     <Image
                       src={
-                        "http://k.kakaocdn.net/dn/bqciso/btq4dKTf6Qu/NX3jJ6l74awvHHKr32vCRK/img_640x640.jpg"
+                        debateDetail
+                          ? debateDetail[1].discussor.member_thumb
+                          : ""
                       }
                       style={{ height: "120px", marginLeft: "20px" }}
                       alt={"썸네일"}
                       roundedCircle
                     />
                     <br></br>
-                    토론자 B : {"앙리"}
+                    토론자 A :{" "}
+                    {debateDetail
+                      ? debateDetail[1].discussor.member_nickName
+                      : ""}
                   </div>
                 </td>
               </tr>
@@ -369,38 +710,70 @@ export default function DebateBattleDetail(props) {
               <tr>
                 <td>근거 1</td>
                 <td>
-                  <button className="btn btn-secondary">등록</button>
+                  <button
+                    className="btn btn-info"
+                    onClick={() => {
+                      btn_b1();
+                    }}
+                  >
+                    등록
+                  </button>
                 </td>
               </tr>
               <tr>
-                <td className="evidence_A" colSpan="2">
-                  <textarea className="evidence_A1" type="text" />
+                <td className="evidence_B" colSpan="2">
+                  <textarea
+                    className="evidence_B1"
+                    value={evid_B1}
+                    type="text"
+                    onChange={handleChange}
+                  />
                 </td>
               </tr>
               <tr>
                 <td>근거 2</td>
                 <td>
-                  <button className="btn btn-secondary btn_evid" value="A2">
+                  <button
+                    className="btn btn-info"
+                    onClick={() => {
+                      btn_b2();
+                    }}
+                  >
                     등록
                   </button>
                 </td>
               </tr>
               <tr>
-                <td className="evidence_A2" colSpan="2">
-                  <textarea className="evidence_A2" type="text" />
+                <td className="evidence_B" colSpan="2">
+                  <textarea
+                    className="evidence_B2"
+                    value={evid_B2}
+                    type="text"
+                    onChange={handleChange}
+                  />
                 </td>
               </tr>
               <tr>
                 <td>근거 3</td>
                 <td>
-                  <button className="btn btn-secondary btn_evid" value="A3">
+                  <button
+                    className="btn btn-info"
+                    onClick={() => {
+                      btn_b3();
+                    }}
+                  >
                     등록
                   </button>
                 </td>
               </tr>
               <tr>
-                <td className="evidence_A3" colSpan="2">
-                  <textarea className="evidence_A3" type="text" />
+                <td className="evidence_B" colSpan="2">
+                  <textarea
+                    className="evidence_B3"
+                    value={evid_B3}
+                    type="text"
+                    onChange={handleChange}
+                  />
                 </td>
               </tr>
             </tbody>
@@ -417,6 +790,7 @@ export default function DebateBattleDetail(props) {
             JSON.stringify({
               name: name,
               message: name + " has connected!",
+              votecnt: votecnt,
               server: true,
             })
           );
@@ -425,11 +799,17 @@ export default function DebateBattleDetail(props) {
           console.log("disconnected");
         }}
         onMessage={(e) => {
-          // console.log(e)
+          console.log("e", e);
+          //투표 반영
+          if (e.votecnt) {
+            setAgree(e.votecnt.agree);
+            setNeutrality(e.votecnt.neutrality);
+            setDisAgree(e.votecnt.disagree);
+          }
           // 토론자일 경우
           if (
-            name == debDetail[0].discussor.member_nickName ||
-            name == debDetail[1].discussor.member_nickName
+            e.name == debateDetail[0].discussor.member_nickName ||
+            e.name == debateDetail[1].discussor.member_nickName
           ) {
             const temp = [...messages];
             temp.push(e);

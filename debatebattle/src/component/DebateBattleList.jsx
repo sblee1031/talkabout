@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { InputGroup, FormControl } from "react-bootstrap";
@@ -13,7 +13,7 @@ export default function DebateBattleList(props) {
   const [word, setWord] = useState();
   const [currentPage, setCurpage] = useState(1);
   const [logininfo, setLogininfo] = useState();
-
+  const [searchAlert, setSearchAlert] = useState(false);
   // 페이징 기능
   const pageSize = 5;
   const pagedDebate = paginate(deblist, currentPage, pageSize);
@@ -57,7 +57,7 @@ export default function DebateBattleList(props) {
   function login() {
     // const mem = { member_social_no: "118153287897731040607" };
     fetch(
-      "http://localhost:9999/ta_back/member/login?socialNo=1775421132_112",
+      "http://localhost:9999/ta_back/member/login?socialNo=347856298374982379",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,11 +66,47 @@ export default function DebateBattleList(props) {
       }
     )
       .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setLogininfo(data.member);
+        console.log(data.member);
+        console.log("login--->", data.member);
+      });
+  }
+
+  function login2() {
+    // const mem = { member_social_no: "118153287897731040607" };
+    fetch("http://localhost:9999/ta_back/member/login?socialNo=773598399242", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+
+      credentials: "include",
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setLogininfo(data.member);
+        console.log(data.member.member_nickName);
+        console.log("login--->", data.member);
+      });
+  }
+  function login3() {
+    // const mem = { member_social_no: "118153287897731040607" };
+    fetch("http://localhost:9999/ta_back/member/login?socialNo=1800199288", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+
+      credentials: "include",
+    })
+      .then((res) => {
         // console.log("로그인 : ", res.json());
         return res.json();
       })
       .then((data) => {
         setLogininfo(data.member);
+        console.log(data.member.member_nickName);
         console.log("login--->", data.member);
       });
   }
@@ -97,23 +133,25 @@ export default function DebateBattleList(props) {
 
   return (
     <>
-      <button onClick={login}>로긴81</button>
+      <button onClick={login}>토론자 A 로그인</button>
+      <button onClick={login2}>토론자 B 로그인</button>
+      <button onClick={login3}>관중 로그인 </button>
       <button onClick={logout}>로그아웃</button>
-      {/* <Alert show={searchAlert} variant="warning">
-            <Alert.Heading>검색어를 입력해주세요!</Alert.Heading>
-            <p>검색어는 필수 입니다 ^__^</p>
-            <div className="d-flex justify-content-end">
-              {
-                <Button
-                  onClick={() => setSearchAlert(false)}
-                  variant="outline-danger"
-                  style={{ border: "none" }}
-                >
-                  Close
-                </Button>
-              }
-            </div>
-          </Alert> */}
+      <Alert show={searchAlert} variant="danger">
+        <Alert.Heading>로그인 후 입장하실 수 있습니다!</Alert.Heading>
+        <p>건전한 토론을 위해 소셜 로그인을 해주세요 ^__^</p>
+        <div className="d-flex justify-content-end">
+          {
+            <Button
+              onClick={() => setSearchAlert(false)}
+              variant="outline-dark"
+              style={{ border: "none" }}
+            >
+              Close
+            </Button>
+          }
+        </div>
+      </Alert>
       <h2 style={{ display: "flex", justifyContent: "center" }}>토론 배틀</h2>
       <div
         style={{
@@ -131,7 +169,7 @@ export default function DebateBattleList(props) {
             <FormControl
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
-              placeholder="검색할 단어를 입력하세요"
+              placeholder="검색할 단어를 입력"
               onChange={search}
             />
           </InputGroup>
@@ -166,6 +204,13 @@ export default function DebateBattleList(props) {
                   to={{
                     pathname: `/ta_front/debbattle/${debate.debate_no}`,
                     state: { debate: debate, logininfo: logininfo }, //
+                  }}
+                  onClick={(e) => {
+                    if (logininfo == null) {
+                      e.preventDefault();
+                      setSearchAlert(true);
+                      // alert("로그인 후 이용 가능합니다.");
+                    }
                   }}
                 >
                   {debate.debate_topic}
