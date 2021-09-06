@@ -86,7 +86,8 @@
 	</update>
 	<update id="updateEndDate" parameterType="com.talkabout.dto.Debate">
 		UPDATE Debate 
-		SET debate_endDate = TO_DATE(SYSDATE,'YYYY-MM-DD HH24:MI:SS')
+		SET debate_endDate = SYSDATE
+		<!-- SET debate_endDate = TO_DATE(SYSDATE,'YYYY-MM-DD HH24:MI:SS') -->
 		WHERE debate_no = #{debate_no}
 	</update>
 	
@@ -120,7 +121,8 @@
 	</select>
 	<update id="updateIntime" parameterType="com.talkabout.dto.DebateDetail">
 		UPDATE DebateDetail 
-		SET in_time = TO_DATE(SYSDATE,'YYYY-MM-DD HH24:MI:SS') 
+		SET in_time = SYSDATE
+		<!-- SET in_time = TO_DATE(SYSDATE,'YYYY-MM-DD HH24:MI:SS') --> 
 		WHERE detail_no = #{detail_no}
 	</update>
 	<update id="updateEvidence" parameterType="hashmap">
