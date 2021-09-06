@@ -2,7 +2,9 @@ package com.talkabout.control;
 
 import static java.lang.String.format;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
+import com.talkabout.dto.DebateDetail;
 import com.talkabout.dto.MessageBean;
 import com.talkabout.dto.VoteCnt;
 import com.talkabout.exception.FindException;
@@ -29,6 +32,7 @@ public class SocketController {
 	
 	@MessageMapping("/sendMessage/{room}")
     public void sendToAll(@DestinationVariable String room, @Payload MessageBean message) {
+
 		Map<String, String> voteOne = new HashMap<String, String>();
 		Map<String, String> voteTwo = new HashMap<String, String>();
 		Map<String, String> voteThree = new HashMap<String, String>();
@@ -61,8 +65,17 @@ public class SocketController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 
-		
+//		System.out.println("채팅 근거 조회 시작");
+		List<DebateDetail> ddList = new ArrayList<>();
+		try {
+			ddList= service.findTwoByDebNo(Integer.parseInt(room));
+			message.setDdList(ddList);
+		} catch (NumberFormatException | FindException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		System.out.println("ddList"+ddList.toString());
+//		System.out.println("채팅 근거 조회 끝");
         messagingTemplate.convertAndSend(format("/topic/%s", room), message);
     }
 	
@@ -109,6 +122,14 @@ public class SocketController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		List<DebateDetail> ddList = new ArrayList<>();
+//		try {
+//			ddList= service.findTwoByDebNo(Integer.parseInt(room));
+//			message.setDdList(ddList);
+//		} catch (NumberFormatException | FindException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
         headerAccessor.getSessionAttributes().put("name", message.getName());
         messagingTemplate.convertAndSend(format("/topic/%s", room), message);
     }

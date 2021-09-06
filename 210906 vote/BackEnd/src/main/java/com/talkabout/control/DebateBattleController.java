@@ -274,7 +274,7 @@ public class DebateBattleController {
     @PutMapping("/debatedetail/{detail_no}")
     public Map<String, Object> updateDetail(@PathVariable int detail_no, @RequestBody Map<String, Object> map) {
     	Map<String, Object> result = new HashMap<>();
-    	
+    	System.out.println("근거 업데이트");
     	try {
     		DebateDetail detailObj = service.findOneByPK(detail_no);
     		String word = (String) map.get("word"); // intime or evidence
@@ -295,7 +295,8 @@ public class DebateBattleController {
 			}
     		result.put("status", 1);
 	    	result.put("msg", "Update Completed");
-		} catch (FindException | ModifyException e) {
+	    	System.out.println("근거 업데이트끝");
+		} catch ( FindException |ModifyException e) {
 			result.put("status", 0);
 	    	result.put("msg", e.getMessage());
 		}

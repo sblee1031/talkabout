@@ -104,11 +104,11 @@ export default function DebateBattleDetail(props) {
       };
 
       ApiService.editDetail(params);
-
       alert("수정이 완료되었습니다.");
     } else {
       alert("토론자 A만 수정이 가능합니다.");
     }
+    updateEvi(e);
   };
 
   const btn_a2 = (e) => {
@@ -121,7 +121,7 @@ export default function DebateBattleDetail(props) {
       };
 
       ApiService.editDetail(params);
-
+      updateEvi(e);
       alert("수정이 완료되었습니다.");
     } else {
       alert("토론자 A만 수정이 가능합니다.");
@@ -138,7 +138,7 @@ export default function DebateBattleDetail(props) {
       };
 
       ApiService.editDetail(params);
-
+      updateEvi(e);
       alert("수정이 완료되었습니다.");
     } else {
       alert("토론자 A만 수정이 가능합니다.");
@@ -155,7 +155,7 @@ export default function DebateBattleDetail(props) {
       };
 
       ApiService.editDetail(params);
-
+      updateEvi(e);
       alert("수정이 완료되었습니다.");
     } else {
       alert("토론자 B만 수정이 가능합니다.");
@@ -172,7 +172,7 @@ export default function DebateBattleDetail(props) {
       };
 
       ApiService.editDetail(params);
-
+      updateEvi(e);
       alert("수정이 완료되었습니다.");
     } else {
       alert("토론자 B만 수정이 가능합니다.");
@@ -189,7 +189,7 @@ export default function DebateBattleDetail(props) {
       };
 
       ApiService.editDetail(params);
-
+      updateEvi(e);
       alert("수정이 완료되었습니다.");
     } else {
       alert("토론자 B만 수정이 가능합니다.");
@@ -207,18 +207,31 @@ export default function DebateBattleDetail(props) {
     console.log(params);
     ApiService.editVote(params).then((res) => {
       console.log("투표 수정 완료");
-      clientRef.sendMessage(
-        `/app/sendMessage/${room}`,
-        JSON.stringify({
-          name: name,
-          message: null,
-          votecnt: votecnt,
-        })
-      );
+      // clientRef.sendMessage(
+      //   `/app/sendMessage/${room}`,
+      //   JSON.stringify({
+      //     message: null,
+      //     votecnt: votecnt,
+      //   })
+      // );
+      updateEvi(e);
+      alert("투표되었습니다.");
     });
   };
 
-  console.log("Audience : ", audience);
+  const updateEvi = (e) => {
+    setTimeout(() => {
+      clientRef.sendMessage(
+        `/app/sendMessage/${room}`,
+        JSON.stringify({
+          name: null,
+          message: null,
+        })
+      );
+    }, 1000);
+  };
+
+  // console.log("Audience : ", audience);
 
   return (
     <>
@@ -383,19 +396,6 @@ export default function DebateBattleDetail(props) {
                                   {e.message}
                                 </Typography>
                               </Grid>
-                            ) : e.message === null ? (
-                              <Grid
-                                item
-                                style={{
-                                  padding: "10px",
-                                  wordWrap: "break-word",
-                                }}
-                                key={i}
-                              >
-                                <Typography>
-                                  {e.name} 투표되었습니다.
-                                </Typography>
-                              </Grid>
                             ) : (
                               <Grid
                                 item
@@ -427,19 +427,6 @@ export default function DebateBattleDetail(props) {
                               >
                                 <Typography style={{ fontWeight: "800" }}>
                                   {e.message}
-                                </Typography>
-                              </Grid>
-                            ) : e.message === null ? (
-                              <Grid
-                                item
-                                style={{
-                                  padding: "10px",
-                                  wordWrap: "break-word",
-                                }}
-                                key={i}
-                              >
-                                <Typography>
-                                  {e.name} 투표되었습니다.
                                 </Typography>
                               </Grid>
                             ) : (
@@ -509,19 +496,6 @@ export default function DebateBattleDetail(props) {
                                   }}
                                 >
                                   {e.message}
-                                </Typography>
-                              </Grid>
-                            ) : e.message === null ? (
-                              <Grid
-                                item
-                                style={{
-                                  padding: "10px",
-                                  wordWrap: "break-word",
-                                }}
-                                key={i}
-                              >
-                                <Typography>
-                                  {e.name} 투표되었습니다.
                                 </Typography>
                               </Grid>
                             ) : (
@@ -753,9 +727,25 @@ export default function DebateBattleDetail(props) {
             setAgree(e.votecnt.agree);
             setNeutrality(e.votecnt.neutrality);
             setDisAgree(e.votecnt.disagree);
+            // setEvid_A1(e.ddList[0].evi_one);
+            // setEvid_A2(e.ddList[0].evi_two);
+            // setEvid_A3(e.ddList[0].evi_three);
+            // setEvid_B1(e.ddList[1].evi_one);
+            // setEvid_B2(e.ddList[1].evi_two);
+            // setEvid_B3(e.ddList[1].evi_three);
           }
-          // 토론자일 경우
-          if (
+          //근거 업데이트
+          if (e.name == null) {
+            console.log("name null");
+            console.log("e ddlist:", e.ddList);
+            setEvid_A1(e.ddList[0].evi_one);
+            setEvid_A2(e.ddList[0].evi_two);
+            setEvid_A3(e.ddList[0].evi_three);
+            setEvid_B1(e.ddList[1].evi_one);
+            setEvid_B2(e.ddList[1].evi_two);
+            setEvid_B3(e.ddList[1].evi_three);
+          } // 토론자일 경우
+          else if (
             e.name == debateDetail[0].discussor.member_nickName ||
             e.name == debateDetail[1].discussor.member_nickName
           ) {
@@ -771,6 +761,7 @@ export default function DebateBattleDetail(props) {
           }
         }}
         ref={(client) => {
+          console.log("client", client);
           setClientRef(client);
         }}
       />

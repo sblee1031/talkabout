@@ -1,11 +1,25 @@
 package com.talkabout.dto;
 
+import java.util.List;
+
 public class MessageBean {
     private String name;
     private String message;
     private VoteCnt votecnt;
     private Boolean server;
+	private List<DebateDetail> ddList;
+	
+	
+    public List<DebateDetail> getDdList() {
+		return ddList;
+	}
 
+	public void setDdList(List<DebateDetail> ddList) {
+		this.ddList = ddList;
+	}
+
+
+    
     public VoteCnt getVotecnt() {
 		return votecnt;
 	}
