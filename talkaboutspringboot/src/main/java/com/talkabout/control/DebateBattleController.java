@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.talkabout.dto.Audience;
@@ -57,14 +58,14 @@ public class DebateBattleController {
 		return result;
 	}
 	
-	// http://localhost:9999/ta_back/debbattle/audience/one
+	// http://localhost:9999/ta_back/debbattle/audience/one?audi_no=숫자
 	@GetMapping("audience/one")
-    public Map<String, Object> audienceOne(@RequestBody Map<String, Object> map) {
+    public Map<String, Object> audienceOne(@RequestParam("audi_no") int audi_no) {
 		Map<String, Object> result = new HashMap<>();
 		Audience audience = new Audience();
 		
 		try {
-			audience = service.findByAudNo((int) map.get("audi_no"));
+			audience = service.findByAudNo(audi_no);
 			result.put("status", 1);
 			result.put("audience", audience);
 		} catch (FindException e) {
@@ -74,14 +75,14 @@ public class DebateBattleController {
         return result;
     }
 	
-	// http://localhost:9999/ta_back/debbattle/audience/two
+	// http://localhost:9999/ta_back/debbattle/audience/two?deb_no=숫자&mem_no=숫자
 	@GetMapping("/audience/two")
-    public Map<String, Object> audienceByTwo(@RequestBody Map<String, Object> map) {
+    public Map<String, Object> audienceByTwo(@RequestParam("deb_no") int deb_no, @RequestParam("mem_no") int mem_no) {
 		Map<String, Object> result = new HashMap<>();
 		Audience audience = new Audience();
 		
 		try {
-			audience = service.findByDeb((int) map.get("deb_no"), (int) map.get("mem_no"));
+			audience = service.findByDeb(deb_no, mem_no);
 			result.put("status", 1);
 			result.put("audience", audience);
 		} catch (FindException e) {
@@ -91,7 +92,42 @@ public class DebateBattleController {
         return result;
     }
 	
-	// http://localhost:9999/ta_back/debbattle/aud
+	// http://localhost:9999/ta_back/debbattle/audience/vote?deb_no=숫자
+	@GetMapping("/audience/vote")
+    public Map<String, Object> voteCount(@RequestParam("deb_no") int deb_no) {
+		Map<String, Object> result = new HashMap<>();
+		Map<String, String> voteOne = new HashMap<String, String>();
+		Map<String, String> voteTwo = new HashMap<String, String>();
+		Map<String, String> voteThree = new HashMap<String, String>();
+		
+		try {
+			voteOne = service.voteCnt(deb_no, 1);
+			voteTwo = service.voteCnt(deb_no, 2);
+			voteThree = service.voteCnt(deb_no, 3);
+			result.put("status", 1);
+			if(voteOne == null) {
+				result.put("num1", 0);
+			} else {
+				result.put("num1", voteOne.get("cnt"));
+			}
+			if(voteTwo == null) {
+				result.put("num2", 0);
+			} else {
+				result.put("num2", voteTwo.get("cnt"));
+			}
+			if(voteThree == null) {
+				result.put("num3", 0);
+			} else {
+				result.put("num3", voteThree.get("cnt"));
+			}
+		} catch (FindException e) {
+			result.put("status", 0);
+			result.put("msg", e.getMessage());
+		}
+        return result;
+    }
+	
+	// http://localhost:9999/ta_back/debbattle/audience
     @PostMapping(value = {"/audience"})
     public Map<String, Object> insertVote(@RequestBody Map<String, Object> map) {
     	Map<String, Object> result = new HashMap<>();
@@ -110,13 +146,14 @@ public class DebateBattleController {
     	return result;
     }
        
-    // http://localhost:9999/ta_back/debbattle/aud/관중번호
+    // http://localhost:9999/ta_back/debbattle/audience/관중번호
     @PutMapping("/audience/{audi_no}")
-    public Map<String, Object> updateVote(@PathVariable int audi_no, @RequestBody int vote_no) {
+    public Map<String, Object> updateVote(@PathVariable int audi_no, @RequestBody Map<String, Object> map) {
     	Map<String, Object> result = new HashMap<>();
     	
     	try {
-    		service.setVote(audi_no, vote_no);
+    		service.setVote(audi_no, Integer.parseInt(String.valueOf(map.get("vote_no"))));
+    		// service.setVote(audi_no, (int) map.get("vote_no"));
 			result.put("status", 1);
 	    	result.put("msg", "Update Completed");
 		} catch (ModifyException e) {
@@ -215,14 +252,14 @@ public class DebateBattleController {
    		return result;
    	}
    	
-	// http://localhost:9999/ta_back/debbattle/debatedetail/one
+	// http://localhost:9999/ta_back/debbattle/debatedetail/one?deb_no=숫자&discussor=숫자
 	@GetMapping("/debatedetail/one")
-	public Map<String, Object> detailOne(@RequestBody Map<String, Object> map) {
+	public Map<String, Object> detailOne(@RequestParam("deb_no") int deb_no, @RequestParam("discussor") int discussor) {
 		Map<String, Object> result = new HashMap<>();
 		DebateDetail detailObj = new DebateDetail();
 		
 		try {
-			detailObj = service.findOneByTwo((int) map.get("deb_no"), (int) map.get("discussor"));
+			detailObj = service.findOneByTwo(deb_no, discussor);
 			result.put("status", 1);
 			result.put("detail", detailObj);
 		} catch (FindException e) {
@@ -237,7 +274,7 @@ public class DebateBattleController {
     @PutMapping("/debatedetail/{detail_no}")
     public Map<String, Object> updateDetail(@PathVariable int detail_no, @RequestBody Map<String, Object> map) {
     	Map<String, Object> result = new HashMap<>();
-    	
+    	System.out.println("근거 업데이트");
     	try {
     		DebateDetail detailObj = service.findOneByPK(detail_no);
     		String word = (String) map.get("word"); // intime or evidence
@@ -258,7 +295,8 @@ public class DebateBattleController {
 			}
     		result.put("status", 1);
 	    	result.put("msg", "Update Completed");
-		} catch (FindException | ModifyException e) {
+	    	System.out.println("근거 업데이트끝");
+		} catch ( FindException |ModifyException e) {
 			result.put("status", 0);
 	    	result.put("msg", e.getMessage());
 		}

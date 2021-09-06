@@ -154,6 +154,11 @@ ul.nav li a:hover:before {
  font-size:15pt;
  text-align:left;
 }
+#myinfodiv{
+	padding-top:15px;
+	z-index:1;
+	background-color:#FFF;
+}
 #myinfodiv .update{
 	margin-right:10px;
 }

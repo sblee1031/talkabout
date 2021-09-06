@@ -4,11 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.talkabout.dto.DebateBattleMapper">	
 	<resultMap id="debateResultMap" type="debate"  autoMapping="true">
-			<association javaType="member" property="debate_writer" autoMapping="true"></association>
+			<association javaType="member" property="debate_writer" autoMapping="true">
+				<result property="member_no" column="debate_writer" />
+			</association>
 	</resultMap>
 	<resultMap id="ddResultMap" type="debatedetail"  autoMapping="true">
 			<association javaType="member" property="discussor" autoMapping="true">
-				
+				<result property="member_no" column="discussor" />
 			</association>
 	</resultMap>
 	<resultMap type="HashMap" id="cntResulMap">
@@ -65,14 +67,16 @@
 		- updateEndDate : 토론 종료 버튼 클릭 시 debate_enddate update By Debate 객체
 	-->
 	<select id="selectAllDeb" resultMap="debateResultMap">
-    	SELECT * 
-    	FROM Debate
-    	ORDER BY debate_no
+    	SELECT  *
+		FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) deb 
+		JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+		WHERE DEBATE_STATUS = '승인'
 	</select>
 	<select id="selectByDebNo" parameterType="int" resultMap="debateResultMap">
-		SELECT * 
-		FROM Debate
-       	WHERE debate_no = #{deb_no}
+		SELECT  *
+		FROM ( SELECT ROWNUM AS RNUM, debate.* FROM debate ORDER BY DEBATE_NO DESC) deb 
+		JOIN Member mem ON(deb.DEBATE_WRITER = mem.member_no)
+       	WHERE debate_no = #{deb_no} AND DEBATE_STATUS = '승인'
        	ORDER BY debate_no
 	</select>
 	<update id="updateStatus" parameterType="com.talkabout.dto.Debate">
@@ -96,13 +100,15 @@
 	-->
 	<select id="selectTwoByDeb" parameterType="int" resultMap="ddResultMap">
 		SELECT * 
-		FROM DebateDetail
+		FROM debatedetail dd 
+		JOIN MEMBER m ON (m.MEMBER_NO=dd.DISCUSSOR)
 		WHERE detail_deb = #{deb_no}
 		ORDER BY detail_no
 	</select>
 	<select id="selectByDetailNo" parameterType="int" resultMap="ddResultMap">
 		SELECT * 
-		FROM DebateDetail
+		FROM debatedetail dd 
+		JOIN MEMBER m ON (m.MEMBER_NO=dd.DISCUSSOR)
        	WHERE detail_no = #{detail_no}
        	ORDER BY detail_no
 	</select>
@@ -127,6 +133,3 @@
 		WHERE detail_no = #{dd.detail_no}
 	</update>
 </mapper>
-
-
-

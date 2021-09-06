@@ -9,24 +9,96 @@
 
 <!--jquery 스크립트-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
        <!-- 로그인 js 시작 -->
     <meta
       name="google-signin-client_id"
       content="241916072602-heae1rac9sjh4t615b0k7i0iso0m842o.apps.googleusercontent.com"
     />
-    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-
-<!-- TA로고 -->
+    <!-- TA로고 -->
     <link
       rel="shortcut icon"
       type="image/x-icon"
       href="assets/img/favicon.ico"
     />
+      
+
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 
 </head>
 
+<style>
+	*
+{
+	margin: 0;
+	padding: 0;
+}
+
+.main-wrapper
+{
+	width: 1500px;
+	margin: auto;
+
+}
+
+.main-header
+{
+	background: linear-gradient(rgba( 0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("image/hero_image.jpg");
+	height: 100vh;
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-position: center center;
+	position: relative;
+}
+
+
+.main-logo .TA
+{	
+	margin-top: 20px;
+	width: 100px;
+	float: left;
+	height: auto;
+	color: #56cc9d;
+
+}
+
+.main-welcome-text
+{
+	position: absolute;
+	width: 1000px;
+	height: 300px;
+	margin: 20% 29%;
+	text-align: center;
+}
+
+.main-welcome-text .main-h1
+{
+	text-align: center;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 60px;
+	font-weight: bolder;
+
+}
+
+.main-welcome-text a
+{
+	border: 1px solid #fff;
+	padding: 10px 25px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 14px;
+	margin-top: 20px;
+	display: inline-block;
+	color: #fff;
+}
+
+.welcome-text a:hover
+{
+	background: #fff;
+	color: #333;
+}
+</style>
 
 <body>
 
@@ -108,17 +180,14 @@
 			</nav>
     </div>
 
-    <div id="container">
-		
-		<section id="section" style="text-align: center; padding-bottom:70px; position:relative; ">
 
+
+		<section id="section" style="overflow-y: auto; min-height: 100%; display: block;">
 			<div class= "container" style="margin-top:3%; margin-bottom: 5%;">
 				<h2 style="text-align: center;">자유게시판</h2>
 					<div style="overflow-y:auto;">
 					<!-- href = "./boardwrite.html"  -->
-					<div style="text-align:right">
-					<a  class="board_write btn btn-sm btn-outline-primary" style="position: relative; ">글쓰기</a>
-					</div>
+					<a  class="board_write btn btn-sm btn-outline-primary" style="position: relative; right: -1180px">글쓰기</a>
 						<table class="table table-hover" style="text-align:center; margin-top: 10px">
 							<thead>
 								<tr class="table-primary">
@@ -155,7 +224,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<input type=text size=15 class="board_search_contents input-sm" name="contents" style="margin-left: -435px;"/>
+						<input type=text size=15 class="board_search_contents input-sm" name="contents" style="margin-left: 100px;"/>
 						<input type=submit value="검색" name="search" class="board_search btn btn-sm btn-primary" style="text-align:left"/>
 						<div style="display: inline-block; margin-left: 240px">
 						<div style="padding: 10px 45px;"id="paging"></div>
@@ -163,12 +232,8 @@
 						</div>
 					</div>
 			</div>
-
 		</section>
-
-	</div>
-
-    <footer id="footer">
+	    <footer id="footer">
     			<div>
 			<a>Copyright ⓒ </a><a
 				class="navbar-brand text-success logo h1 align-self-center">
@@ -177,8 +242,7 @@
 		</div>
     </footer>
 
-</div>
- <script>
+     <script>
      var totalData;    // 총 데이터 수
      var dataPerPage = 5;    // 한 페이지에 나타낼 데이터 수
      var pageCount = 5;        // 한 화면에 나타낼 페이지 수
@@ -447,7 +511,7 @@
             $('table.table').on('click', 'td.board_title', function(){
                 var board_no = $(this).parent().find("td.board_no").html();
                 var com_board = board_no;
-                //게시글 번호 확인 alert => alert("board_no = " + board_no);
+                alert("board_no = " + board_no);
                 var htmlurl = './boardinfo.html';
     			      var backurl = 'http://localhost:9999/ta_back/board/'+ board_no;
 
@@ -527,7 +591,48 @@
                 //return false;
                 //게시글 상세보기 ajax 끝
 
+                //게시글 댓글 목록
                 
+                //var com_board = $(this).parent().find("td.board_no").html();
+                
+                /* $.ajax({
+                    url:'http://localhost:9999/ta_back/boardcomment/list/' + com_board,
+                    method: 'get',
+                    success: function(responseObj){
+                        var comlists = responseObj.boardcommentlist;
+                        var memberlist = responseObj.memberlist;
+                        var table = $('#comment');
+                        var $tr20bj = $('tr.data2');
+                        console.log(comlists);
+                        
+                        console.log(memberlist); 
+                        $(comlists).each(function(i,e){
+                        	var $comcopyObj = $tr20bj.clone();
+                        	
+                        	$comcopyObj.find('td.com_no').html(e.com_no);
+                            $comcopyObj.find('td.com_contents').html(e.com_contents);
+                            $comcopyObj.find('td.com_mem').html(e.com_member.member_nickName);
+                            $comcopyObj.find('td.com_date').html(e.com_date);
+                         	if(memberlist == null){
+   	                            console.log(e.com_member.member_nickName);
+   	                            $comcopyObj.find('td input.com_delete_button').hide();
+                        	} else if(memberlist.member_nickName != e.com_member.member_nickName){
+                        		console.log(e.com_member.member_nickName);
+                        		$comcopyObj.find('td input.com_delete_button').hide();
+                        	} else if(memberlist.member_nickName == e.com_member.member_nickName){
+                        		$comcopyObj.find('td input.com_delete_button').show();
+                        	}
+                         	$comcopyObj.show();
+                         	table.append($comcopyObj);
+                        	
+                        });
+                    },
+                    xhrFields:{
+                        withCredentials:true
+                    },
+                }); */
+                //return false;
+                //상세보기 게시글 댓글 목록 ajax 끝
                 
                 //조회수 증가 ajax
                 var board_no = $(this).parent().find("td.board_no").html();
@@ -598,15 +703,16 @@
            $('.board_write').on('click', function(){
         	   var html = './boardwrite.html';
         	   $('section').load(html, function(){
+        		  alert("글작성"); 
         	   });
         	   
            });
          });
      </script>
-<script src="ta/js/bootstrap.min.js"></script>
-<script src="assets/js/login1.js"></script>
-	<script src="https://apis.google.com/js/platform.js?onload=init" async
-		defer></script>
-</body>
+          <script src="ta/js/bootstrap.min.js"></script>
+          <script src="assets/js/login1.js"></script>
+     <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script> 
+ 
 
+</body>
 </html>

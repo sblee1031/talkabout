@@ -14,7 +14,8 @@
       name="google-signin-client_id"
       content="241916072602-heae1rac9sjh4t615b0k7i0iso0m842o.apps.googleusercontent.com"
     />
-<!-- TA로고 -->
+      
+    <!-- TA로고 -->
     <link
       rel="shortcut icon"
       type="image/x-icon"
@@ -22,7 +23,7 @@
     />
 
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-     <script src="assets/js/debaterecruit.js"></script>
+    
 
 </head>
 <style>
@@ -34,15 +35,16 @@
 
 .main-wrapper
 {
-	width: 1500px;
-	margin: auto;
+	width: 100%;
+	/* margin: auto; */
 
 }
 
 .main-header
 {
 	background: linear-gradient(rgba( 0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("image/hero_image.jpg");
-	height: 88.3vh;
+	height:755px;
+	/* height: 88.2vh; */
 	-webkit-background-size: cover;
 	background-size: cover;
 	background-position: center center;
@@ -50,7 +52,7 @@
 }
 
 
-.main-logo .TA
+/* .main-logo .TA
 {	
 	margin-top: 20px;
 	width: 100px;
@@ -58,14 +60,14 @@
 	height: auto;
 	color: #56cc9d;
 
-}
+} */
 
 .main-welcome-text
 {
 	position: absolute;
 	width: 1000px;
 	height: 300px;
-	margin: 20% 25%;
+	margin: 15% 24%;
 	text-align: center;
 }
 
@@ -74,7 +76,7 @@
 	text-align: center;
 	color: #fff;
 	text-transform: uppercase;
-	font-size: 60px;
+	font-size: 60px; 
 	font-weight: bolder;
 
 }
@@ -85,10 +87,11 @@
 	padding: 10px 25px;
 	text-decoration: none;
 	text-transform: uppercase;
-	font-size: 14px;
-	margin-top: 20px;
+	font-size: 20px;
+	margin-top: 50px;
 	display: inline-block;
 	color: #fff;
+	font-weight: 900;
 }
 
 .main-welcome-text .main-a:hover
@@ -177,22 +180,23 @@
 
 			</nav>
     </div>
-
-<section id="section" style="overflow-y: auto; min-height: 100%; display: block;">
-	<header class="main-header">
-		<div class="main-wrapper">
+<div id="container" style="padding: 0 0 0 0;">
+	<section id="section" style="text-align: center; padding-bottom:70px; position:relative;">
+		<header class="main-header">
+			<div class="main-wrapper">
+				
+			</div>
 			
-		</div>
-		
-		<div class="main-welcome-text">
-			<h1 class="main-h1">We are Talk About</h1>
-			<a class="main-a" href="#"> Contact Us</a>
-		</div>
-
-
-	</header>
-</section>
-	    <footer id="footer" style="background-color: rgba(0, 0, 0, 0.1);">
+			<div class="main-welcome-text">
+				<h1 class="main-h1">We are Talk About</h1>
+				<a class="main-a" href="https://edu.kosta.or.kr/enroll?courseId=648&year=2021&orderNumber=1" target="_blank"> Contact Us</a>
+			</div>
+	
+	
+		</header>
+	</section>
+</div>
+	    <footer id="footer">
     			<div>
 			<a>Copyright ⓒ </a><a
 				class="navbar-brand text-success logo h1 align-self-center">
@@ -201,6 +205,7 @@
 		</div>
 		
     </footer>
+</div>
 
 
  

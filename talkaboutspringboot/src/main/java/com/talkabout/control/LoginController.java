@@ -23,7 +23,7 @@ import com.talkabout.exception.AddException;
 import com.talkabout.exception.FindException;
 import com.talkabout.service.MemberService;
 
-@CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000"})
+@CrossOrigin(allowCredentials = "true", origins = {"http://localhost:8888","http://localhost:3000","http://172.30.1.42:3000"})
 //@CrossOrigin("*")
 @RequestMapping("/member/**")
 @RestController
