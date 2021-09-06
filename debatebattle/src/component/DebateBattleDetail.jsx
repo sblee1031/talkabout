@@ -5,7 +5,6 @@ import ApiService from "../ApiService";
 import SockJsClient from "react-stomp";
 
 import { Grid, Typography } from "@material-ui/core";
-import axios from "axios";
 import Timer from "./Timer";
 
 export default function DebateBattleDetail(props) {
@@ -100,8 +99,7 @@ export default function DebateBattleDetail(props) {
   const btn_a1 = (e) => {
     if (debateDetail[0].discussor.member_nickName == name) {
       const params = {
-        detail : debateDetail[0],
-        // detail_no: debateDetail[0].detail_no,
+        detail_no: debateDetail[0].detail_no,
         word: "evidence",
         evi_no: 1,
         setdata: evid_A1,
@@ -113,13 +111,13 @@ export default function DebateBattleDetail(props) {
     } else {
       alert("토론자 A만 수정이 가능합니다.");
     }
+    updateEvi(e);
   };
 
   const btn_a2 = (e) => {
     if (debateDetail[0].discussor.member_nickName == name) {
       const params = {
-        detail : debateDetail[0],
-        // detail_no: debateDetail[0].detail_no,
+        detail_no: debateDetail[0].detail_no,
         word: "evidence",
         evi_no: 2,
         setdata: evid_A2,
@@ -131,13 +129,13 @@ export default function DebateBattleDetail(props) {
     } else {
       alert("토론자 A만 수정이 가능합니다.");
     }
+    updateEvi(e);
   };
 
   const btn_a3 = (e) => {
     if (debateDetail[0].discussor.member_nickName == name) {
       const params = {
-        detail : debateDetail[0],
-        // detail_no: debateDetail[0].detail_no,
+        detail_no: debateDetail[0].detail_no,
         word: "evidence",
         evi_no: 3,
         setdata: evid_A3,
@@ -149,13 +147,13 @@ export default function DebateBattleDetail(props) {
     } else {
       alert("토론자 A만 수정이 가능합니다.");
     }
+    updateEvi(e);
   };
 
   const btn_b1 = (e) => {
     if (debateDetail[1].discussor.member_nickName == name) {
       const params = {
-        detail : debateDetail[1],
-        // detail_no: debateDetail[1].detail_no,
+        detail_no: debateDetail[1].detail_no,
         word: "evidence",
         evi_no: 1,
         setdata: evid_B1,
@@ -167,13 +165,13 @@ export default function DebateBattleDetail(props) {
     } else {
       alert("토론자 B만 수정이 가능합니다.");
     }
+    updateEvi(e);
   };
 
   const btn_b2 = (e) => {
     if (debateDetail[1].discussor.member_nickName == name) {
       const params = {
-        detail : debateDetail[1],
-        // detail_no: debateDetail[1].detail_no,
+        detail_no: debateDetail[1].detail_no,
         word: "evidence",
         evi_no: 2,
         setdata: evid_B2,
@@ -185,13 +183,13 @@ export default function DebateBattleDetail(props) {
     } else {
       alert("토론자 B만 수정이 가능합니다.");
     }
+    updateEvi(e);
   };
 
   const btn_b3 = (e) => {
     if (debateDetail[1].discussor.member_nickName == name) {
       const params = {
-        detail : debateDetail[1],
-        // detail_no: debateDetail[1].detail_no,
+        detail_no: debateDetail[1].detail_no,
         word: "evidence",
         evi_no: 3,
         setdata: evid_B3,
@@ -203,6 +201,7 @@ export default function DebateBattleDetail(props) {
     } else {
       alert("토론자 B만 수정이 가능합니다.");
     }
+    updateEvi(e);
   };
 
   // 투표 Update
@@ -214,18 +213,23 @@ export default function DebateBattleDetail(props) {
       vote_no: e.target.value, //
     };
     console.log(params);
-    ApiService.editVote(params)
-      .then((res) => {
+    ApiService.editVote(params).then((res) => {
         console.log("투표 수정 완료");
-        clientRef.sendMessage(
-          `/app/sendMessage/${room}`,
-          JSON.stringify({
-            name: name,
-            message: null,
-            votecnt: votecnt,
-          })
-        );
+      updateEvi(e);
+      alert("투표되었습니다.");
       });
+  };
+
+  const updateEvi = (e) => {
+    setTimeout(() => {
+      clientRef.sendMessage(
+        `/app/sendMessage/${room}`,
+        JSON.stringify({
+          name: null,
+          message: null,
+        })
+      );
+    }, 1000);
   };
 
   // 시작 버튼 클릭
@@ -435,19 +439,6 @@ export default function DebateBattleDetail(props) {
                                   {e.message}
                                 </Typography>
                               </Grid>
-                            ) : e.message === null ? (
-                              <Grid
-                                item
-                                style={{
-                                  padding: "10px",
-                                  wordWrap: "break-word",
-                                }}
-                                key={i}
-                              >
-                                <Typography>
-                                  {e.name} 투표되었습니다.
-                                </Typography>
-                              </Grid>
                             ) : (
                               <Grid
                                 item
@@ -479,19 +470,6 @@ export default function DebateBattleDetail(props) {
                               >
                                 <Typography style={{ fontWeight: "800" }}>
                                   {e.message}
-                                </Typography>
-                              </Grid>
-                            ) : e.message === null ? (
-                              <Grid
-                                item
-                                style={{
-                                  padding: "10px",
-                                  wordWrap: "break-word",
-                                }}
-                                key={i}
-                              >
-                                <Typography>
-                                  {e.name} 투표되었습니다.
                                 </Typography>
                               </Grid>
                             ) : (
@@ -561,19 +539,6 @@ export default function DebateBattleDetail(props) {
                                   }}
                                 >
                                   {e.message}
-                                </Typography>
-                              </Grid>
-                            ) : e.message === null ? (
-                              <Grid
-                                item
-                                style={{
-                                  padding: "10px",
-                                  wordWrap: "break-word",
-                                }}
-                                key={i}
-                              >
-                                <Typography>
-                                  {e.name} 투표되었습니다.
                                 </Typography>
                               </Grid>
                             ) : (
@@ -806,8 +771,18 @@ export default function DebateBattleDetail(props) {
             setNeutrality(e.votecnt.neutrality);
             setDisAgree(e.votecnt.disagree);
           }
-          // 토론자일 경우
-          if (
+          //근거 업데이트
+          if (e.name == null) {
+            console.log("name null");
+            console.log("e ddlist:", e.ddList);
+            setEvid_A1(e.ddList[0].evi_one);
+            setEvid_A2(e.ddList[0].evi_two);
+            setEvid_A3(e.ddList[0].evi_three);
+            setEvid_B1(e.ddList[1].evi_one);
+            setEvid_B2(e.ddList[1].evi_two);
+            setEvid_B3(e.ddList[1].evi_three);
+          } // 토론자일 경우
+          else if (
             e.name == debateDetail[0].discussor.member_nickName ||
             e.name == debateDetail[1].discussor.member_nickName
           ) {

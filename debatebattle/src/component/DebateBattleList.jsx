@@ -133,10 +133,10 @@ export default function DebateBattleList(props) {
 
   return (
     <>
-      <button onClick={login}>토론자 A 로그인</button>
+      {/* <button onClick={login}>토론자 A 로그인</button>
       <button onClick={login2}>토론자 B 로그인</button>
       <button onClick={login3}>관중 로그인 </button>
-      <button onClick={logout}>로그아웃</button>
+      <button onClick={logout}>로그아웃</button> */}
       <Alert show={searchAlert} variant="danger">
         <Alert.Heading>로그인 후 입장하실 수 있습니다!</Alert.Heading>
         <p>건전한 토론을 위해 소셜 로그인을 해주세요 ^__^</p>
