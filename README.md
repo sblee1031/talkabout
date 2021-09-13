@@ -83,8 +83,8 @@
 
 
 ## 실행 화면
-<img src="./TA_ETC/capture/main.png" height="300px" alt="Main"></img>
-<img src="./TA_ETC/capture/login.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/main.png" width="500px" alt="Main"></img>
+<img src="./TA_ETC/capture/login.png" width="300px" alt="Main"></img>
 <img src="./TA_ETC/capture/signup.png" height="300px" alt="Main"></img>
 <img src="./TA_ETC/capture/notice.png" height="300px" alt="Main"></img>
 <img src="./TA_ETC/capture/freeboard.png" height="300px" alt="Main"></img>
