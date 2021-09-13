@@ -4,7 +4,7 @@
 
 **참여 인원 4명, 제작기간 5주 소요 되었습니다.**   
 
-참고 사이트 : [디베이팅데이](https://debatingday.com/)
+* 참고 사이트 : [디베이팅데이](https://debatingday.com/)
 
 ## 사용기술
 ### * Back-End : JDK 1.8, SpringBoot(2.5.3), Eclipse, Maven, Mybatis, OracleDB 11g, WebSocket
