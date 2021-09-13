@@ -28,21 +28,27 @@
   * 프로젝트 PM
   
   ### 소셜 로그인 
+  
     * 카카오, 구글 API를 사용하여, 회원 가입 및 인증
   
   ### 토론 모집 게시판
+  
     * CRUD (토론 주제 제안, 토론일자, 토론시간, 토론내용)
     * 토론참여 및 참여취소
     * 토론 승인 요청 메일 발송
     * React-DatePicker를 사용한 날짜 및 시간 선택
     * CKEditor5를 사용하여, 에디터 기능 및 외부링크(URL첨부, YouTube영상 첨부)
+    
   ### 토론 배틀
+  
     * WebSocket을 사용한 실시간 채팅 및 근거 등록 기능.
     * 토론자1, 토론자2 경우 토론자 영역에서 채팅.
     * 토론자가 아닐 경우 관중 영역에서 채팅.
     * 주제에 뒷받침 되는 근거1, 근거2, 근거3을 WebSocket을 사용하여 참여한 인원 전부에게 표시.
     * 해당 주제에 대한 실시간 투표.
+    
   ### 관리자 페이지
+  
     1. 공지사항 게시판 
        * CRUD (공지사항 작성, 수정, 삭제)
        * 공지사항 댓글 삭제
@@ -59,9 +65,14 @@
 ### 토론Process
 #### 로그인 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]()  토론 주제 작성 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 토론자1, 토론자2 선정 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 관리자 토론 승인 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]()토론배틀(채팅, 투표) [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 토론 종료 후 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 토론결과
 
+
 ----
+
+
 ### 세부 기능
+
 1. 로그인
+
    * 구글, 카카오 로그인을 통한 회원 가입
    * 신규 회원의 경우 닉네임, 생년월일, 성별 값을 입력 받음.
    * 기존 회원의 경우 DB에 저장되어있는 닉네임 값으로 로그인.
