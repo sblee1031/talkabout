@@ -4,7 +4,7 @@
 ### * Back-End : JDK 1.8, SpringBoot(2.5.3), Eclipse, Maven, Mybatis, OracleDB 11g, WebSocket
 ### * Front-End :  Ajax, Jquery, BootStrap4, React
 ### * 버전관리 : SourceTree, GitHub
-### * 추가 오픈소스 : javax.mail(1.6.2), React DatePicker, CKEditor5
+### * 추가 오픈소스 : javax.mail(1.6.2), React-DatePicker, CKEditor5
 
 ## 프로젝트 일정
 [프로젝트 기간]
@@ -17,6 +17,7 @@
 |      개발      | 08/14 ~ 08/22 |               DTO 설계 및 RESTful API 설계                 |  Back-End  |
 |            | 08/23 ~ 08/31 | Front-End 제작, React사용 | React 및 JS |
 | 수정/보완/발표 | 09/01 ~ 09/06 |           코드 정리, 수정, 보완 & 결과 보고서 작성           |     오류 수정      |
+
 ## 나의 역할
   * 프로젝트 PM
   
@@ -50,7 +51,7 @@
  
 ## 주요 기능
 ### 토론Process
-#### 로그인 -> 토론 주제 작성 -> 토론자1, 토론자2 -> 관리자 토론 승인 -> 토론배틀(채팅, 투표) -> 토론 종료 후 -> 토론결과
+#### 로그인 -> <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Accenture</title><path d="M23.297 14.74L.434 24v-5.263L16.8 12.11l6.497 2.631zm.27-5.371L.433 0v5.263l23.132 9.368V9.37z"/></svg>토론 주제 작성 -> 토론자1, 토론자2 선정 -> 관리자 토론 승인 -> 토론배틀(채팅, 투표) -> 토론 종료 후 -> 토론결과
 
 
 ## 이슈사항
