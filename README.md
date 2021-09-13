@@ -54,13 +54,13 @@
 #### 로그인 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]()  토론 주제 작성 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 토론자1, 토론자2 선정 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 관리자 토론 승인 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]()토론배틀(채팅, 투표) [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 토론 종료 후 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 토론결과
 
 1. 로그인
-   * 구글, 카카오 로그인을 통한 회원 가입
+  * 구글, 카카오 로그인을 통한 회원 가입
   * 신규 회원의 경우 닉네임, 생년월일, 성별 값을 입력 받음.
- * 기존 회원의 경우 DB에 저장되어있는 닉네임 값으로 로그인.
- * 비회원일 경우 모든 게시판 읽기만 가능.
+  * 기존 회원의 경우 DB에 저장되어있는 닉네임 값으로 로그인.
+  * 비회원일 경우 모든 게시판 읽기만 가능.
  
 2. 공지사항
- * 공지정보, 업데이트, 이벤트 등 게시물 확인.
+  * 공지정보, 업데이트, 이벤트 등 게시물 확인.
  * 게시글 댓글 작성
  
 3. 자유게시판
