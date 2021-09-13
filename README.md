@@ -56,7 +56,7 @@
 #### 로그인 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]()  토론 주제 작성 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 토론자1, 토론자2 선정 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 관리자 토론 승인 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]()토론배틀(채팅, 투표) [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 토론 종료 후 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=blue)]() 토론결과
 
 ----
-###
+### 세부 기능
 1. 로그인
    * 구글, 카카오 로그인을 통한 회원 가입
    * 신규 회원의 경우 닉네임, 생년월일, 성별 값을 입력 받음.
