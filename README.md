@@ -51,7 +51,7 @@
  
 ## 주요 기능
 ### 토론Process
-#### 로그인 [![화살표](https://img.shields.io/static/?style=flat-square&logo=appveyor&label=&message=-->&color=red)]()  토론 주제 작성 -> 토론자1, 토론자2 선정 -> 관리자 토론 승인 -> 토론배틀(채팅, 투표) -> 토론 종료 후 -> 토론결과
+#### 로그인 [![화살표](https://img.shields.io/static/v1?label=&message=-->&color=red)]()  토론 주제 작성 -> 토론자1, 토론자2 선정 -> 관리자 토론 승인 -> 토론배틀(채팅, 투표) -> 토론 종료 후 -> 토론결과
 
 
 ## 이슈사항
