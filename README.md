@@ -82,7 +82,24 @@
    * 중복 투표 불가.
 
 
-## 작동 화면
-
+## 실행 화면
+<img src="./TA_ETC/capture/main.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/login.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/signup.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/notice.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/freeboard.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/recruit.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/recruit_write.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/recruit_datepicker.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/recruit_alert.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/recruit_mail.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/in_discussor.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/approve_mail.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/debbattle.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/deb_result.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/deb_result_detail.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/admin_notice.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/admin_reply.png" height="300px" alt="Main"></img>
+<img src="./TA_ETC/capture/debate_manage.png" height="300px" alt="Main"></img>
 
 ## 이슈사항
